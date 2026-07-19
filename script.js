@@ -669,6 +669,53 @@ const categories = [
     },
 ];
 
+// ========== Projects DATA ==========
+const projects = [
+    {
+        id: 'cnc-horizontal-lathe',
+        img: '/images/prj-1.webp',
+        titleEn: 'CNC Horizontal Lathe',
+        titleAr: 'مخرطة أفقية CNC',
+        descEn: 'High-precision CNC horizontal lathe available for rental, ideal for machining shafts, cylinders, and precision metal components.',
+        descAr: 'مخرطة أفقية CNC عالية الدقة متاحة للإيجار، مثالية لتشغيل الأعمدة والأسطوانات والقطع المعدنية الدقيقة.'
+    },
+    {
+        id: 'cnc-turning-center',
+        img: '/images/prj-2.webp',
+        titleEn: 'CNC Turning Center',
+        titleAr: 'مركز خراطة CNC',
+        descEn: 'Advanced CNC turning center designed for complex turning operations with exceptional accuracy and productivity.',
+        descAr: 'مركز خراطة CNC متطور متاح للإيجار لتنفيذ عمليات الخراطة المعقدة بدقة وكفاءة عالية.'
+    },
+    {
+        id: 'cnc-vertical-milling-machine',
+        img: '/images/prj-3.webp',
+        titleEn: 'CNC Vertical Milling Machine',
+        titleAr: 'فريزة رأسية CNC',
+        descEn: 'Professional CNC vertical milling machine for precision milling, drilling, and machining of various metal parts.',
+        descAr: 'فريزة رأسية CNC احترافية متاحة للإيجار لتنفيذ عمليات التفريز والثقب وتشغيل المعادن بدقة عالية.'
+    },
+    {
+        id: 'cnc-boring-machine',
+        img: '/images/prj-4.webp',
+        titleEn: 'CNC Boring Machine',
+        titleAr: 'فريزة بورينج CNC',
+        descEn: 'Heavy-duty CNC boring machine suitable for large-scale precision boring and machining applications.',
+        descAr: 'فريزة بورينج CNC متاحة للإيجار، مناسبة لعمليات التجويف وتشغيل القطع الكبيرة بأعلى مستويات الدقة.'
+    }
+];
+
+// ========== Clients DATA ==========
+const clients = [
+    { name: 'Client 1', logo: '/images/prt-1.webp' },
+    { name: 'Client 2', logo: '/images/prt-2.webp' },
+    { name: 'Client 3', logo: '/images/prt-3.webp' },
+    { name: 'Client 4', logo: '/images/prt-4.webp' },
+    { name: 'Client 5', logo: '/images/prt-5.webp' },
+    { name: 'Client 6', logo: '/images/prt-6.webp' },
+    { name: 'Client 7', logo: '/images/prt-7.webp' },
+];
+
 // ========== UTILITY FUNCTIONS ==========
 
 /**
@@ -1409,7 +1456,7 @@ function loadProductsPage() {
             <div class="container py-5">
                 <div class="section-title text-center mb-5">
                     <div class="sub-style">
-                        <h5 class="sub-title text-primary px-3">${getLabel('CHECK OUR PRODUCTS', 'اكتشف المنتجات')}</h5>
+                        <h5 class="sub-title px-3">${getLabel('CHECK OUR PRODUCTS', 'اكتشف المنتجات')}</h5>
                     </div>
                     <h1 class="display-5 mb-4">${getLabel('Offer Tailor Made Products', 'منتجات مخصصة حسب احتياجاتك')}</h1>
                     <p class="mb-0">${getLabel('Discover our wide range of high-quality products', 'استكشف مجموعة واسعة من المنتجات عالية الجودة')}</p>
@@ -1457,22 +1504,22 @@ function loadProjectsPage() {
 
     container.innerHTML = `
         ${createBanner(getLabel('Projects', 'المشاريع'))}
-        <div class="container-fluid training overflow-hidden py-5">
+        <div class="container-fluid  overflow-hidden py-5">
             <div class="container py-5">
                 <div class="section-title text-left mb-5">
                     <div class="sub-style">
-                        <h5 class="sub-title text-primary px-3">${getLabel('Our Projects', 'مشاريعنا')}</h5>
+                        <h5 class="sub-title px-3">${getLabel('Our Projects', 'مشاريعنا')}</h5>
                     </div>
                     <h1 class="display-5 mb-4">${getLabel('Projects that demonstrate our professionalism', 'مشاريع تثبت مستوى احترافيتنا')}</h1>
                     <p class="mb-0">${getLabel('This page showcases our latest projects', 'تعرض هذه الصفحة أحدث مشاريعنا')}</p>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-6 col-xl-4">
-                        <div class="training-item">
-                            <div class="training-inner" style="height: 32rem;">
+                        <div class="">
+                            <div  style="height: 32rem;">
                                 <img src="/images/pro-1.jpg" class="img-fluid w-100 rounded" alt="Project">
                             </div>
-                            <div class="training-content bg-secondary rounded-bottom p-4">
+                            <div class=" bg-secondary rounded-bottom p-4">
                                 <h4 class="text-white">${getLabel('Project 1', 'المشروع 1')}</h4>
                                 <p class="text-white-50">Lorem ipsum dolor sit amet consectetur</p>
                                 <a href="#" class="btn btn-secondary rounded-pill text-white p-0">
@@ -1496,7 +1543,7 @@ function loadNewsPage() {
 
     container.innerHTML = `
         ${createBanner(getLabel('News', 'الأخبار'))}
-        <div class="container-fluid training overflow-hidden py-5">
+        <div class="container-fluid  overflow-hidden py-5">
             <div class="container py-5">
                 <div class="section-title text-left mb-5">
                     <div class="sub-style">
@@ -1506,11 +1553,11 @@ function loadNewsPage() {
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-6 col-xl-6">
-                        <div class="training-item">
-                            <div class="training-inner" style="height: 24rem;">
+                        <div class="">
+                            <div  style="height: 24rem;">
                                 <img src="/images/news-1.webp" class="img-fluid w-100 rounded" alt="News">
                             </div>
-                            <div class="training-content bg-secondary rounded-bottom p-4">
+                            <div class="bg-secondary rounded-bottom p-4">
                                 <h4 class="text-white">${getLabel('Latest News', 'أحدث الأخبار')}</h4>
                                 <p class="text-white-50">Lorem ipsum dolor sit amet</p>
                                 <a href="#" class="btn btn-secondary rounded-pill text-white p-0">
@@ -1534,10 +1581,10 @@ function loadVideosPage() {
 
     container.innerHTML = `
         ${createBanner(getLabel('Video Library', 'معرض الفيديوهات'))}
-        <div class="container-fluid training overflow-hidden py-5">
+        <div class="container-fluid  overflow-hidden py-5">
             <div class="container py-5">
                 <div class="section-title text-center mb-5">
-                    <h5 class="sub-title text-primary px-3">${getLabel('Video Gallery', 'معرض الفيديو')}</h5>
+                    <h5 class="sub-title px-3">${getLabel('Video Gallery', 'معرض الفيديو')}</h5>
                     <h1 class="display-5 mb-4">${getLabel('Explore Our Visual Content', 'استكشف محتوانا المرئي')}</h1>
                 </div>
                 <div class="row g-5">
@@ -1566,7 +1613,7 @@ function loadContactPage() {
             <div class="container py-5">
                 <div class="row g-5 mb-5">
                     <div class="col-lg-6">
-                        <h5 class="sub-title text-primary p-3">${getLabel('Quick Contact', 'اتصل بنا')}</h5>
+                        <h5 class="sub-title p-3">${getLabel('Quick Contact', 'اتصل بنا')}</h5>
                         <h1 class="display-5 mb-4">${getLabel('Have Questions?', 'هل لديك أسئلة؟')}</h1>
                         <div class="d-flex border-bottom mb-4 pb-4">
                             <i class="fas fa-map-marked-alt fa-4x text-primary px-3 rounded"></i>
@@ -1589,7 +1636,7 @@ function loadContactPage() {
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <h5 class="sub-title text-primary p-3">${getLabel('Let\'s Connect', 'لنتواصل')}</h5>
+                        <h5 class="sub-title p-3">${getLabel('Let\'s Connect', 'لنتواصل')}</h5>
                         <form>
                             <div class="row g-4">
                                 <div class="col-12">
@@ -1654,33 +1701,19 @@ function initializeHomePageSections() {
                                 ${getLabel('At KADER, we pride ourselves on decades of expertise and innovation in manufacturing. As a trusted factory affiliated with the Authority of Organization and Inspection (AOI), we are committed to delivering high-quality products and solutions that meet global standards. Our dedication to excellence and customer satisfaction has made us a leader in our industry.', 'في شركة كادر، نفخر بخبرتنا الممتدة لعقود في مجال التصنيع وابتكاراتنا. وبصفتنا مصنعًا موثوقًا به تابعًا للهيئة العربية للتصنيع، فإننا ملتزمون بتقديم منتجات وحلول عالية الجودة تلبي المعايير العالمية. وقد جعلنا تفانينا في التميز ورضا العملاء روادًا في صناعتنا.')}
                                 <br/>
                                 <br/>
-                                <a class="btn-white" href="/#about" data-discover="true" ;">
+                                <a class="btn btn-white ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
                                  ${getLabel('Read More', 'اقرأ المزيد')} 
-                                 <i class="fa ${appState.language === 'ar' ? 'fa-arrow-left' : 'fa-arrow-right'} px-1"></i>
                                 </a>
                             </p>
-                            <div class="row gy-4 align-items-center d-none d-md-flex">
-                                <div class="col-4 col-md-3">
-                                    <div class="bg-light text-center rounded p-3">
-                                        <div class="mb-2">
-                                            <i class="fas fa-ticket-alt fa-4x text-primary"></i>
-                                        </div>
-                                        <h1 class="display-5 fw-bold mb-2 text-dark">70+</h1>
-                                        <p class="text-muted mb-0">${getLabel('Years of Experience', 'سنوات من الخبرة')}</p>
-                                    </div>
-                                </div>
+
                                 <div class="col-8 col-md-9">
                                     <div class="d-flex flex-wrap">
-                                        <div class="d-flex align-items-center justify-content-center m-4">
-                                            <i class="fa fa-phone-alt text-primary fa-3x"></i>
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <span class="text-primary">${getLabel('Have any questions?', 'هل لديك أي أسئلة؟')}</span>
-                                            <span class="text-secondary fw-bold fs-5">call: <span dir="ltr">+0123 456 7890</span></span>
-                                        </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                    <span class="text-primary">${getLabel('Have any questions?', 'هل لديك أي أسئلة؟')}</span>
+                                    <span class="text-secondary fw-bold fs-5">Contact US</span>
+                                    </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1717,7 +1750,7 @@ function initializeHomePageSections() {
         categorySection.innerHTML = `
         <div class="container-fluid service overflow-hidden py-5 bg-white">
         <div class="section-title container mb-0">
-            <h5 class="sub-title text-primary px-3">${getLabel('Our Categories', 'الأقسام')}</h5>
+            <h5 class="sub-title px-3">${getLabel('Our Categories', 'الأقسام')}</h5>
         </div>
             <div class="container bg-white p-0 rounded-3">
                 <div class="swiper categoriesSwiper">
@@ -1767,10 +1800,10 @@ function initializeHomePageSections() {
     const productSection = document.getElementById('productSection');
     if (productSection) {
         productSection.innerHTML = `
-        <div class="container-fluid products overflow-hidden pb-5 bg-white">
-            <div class="container py-5">
+        <div class="container-fluid products overflow-hidden bg-white">
+            <div class="container py-5 pb-3">
                 <div class="section-title text-center d-flex align-items-center justify-content-between">
-                    <h5 class="sub-title text-primary px-3">${getLabel('Products', 'المنتجات')}</h5>
+                    <h5 class="sub-title px-3">${getLabel('Products', 'المنتجات')}</h5>
                     <span class="text-black-50 small border border-opacity-25 border-secondary border-1 p-2" id="productCount"></span>
                     </div>
                     
@@ -1861,15 +1894,15 @@ function initializeHomePageSections() {
             window.filterChipsSwiperInstance.destroy(true, true);
         }
 
-    window.filterChipsSwiperInstance = new Swiper('.filterChipsSwiper', {
-        slidesPerView: 'auto',
-        spaceBetween: 10,
-        freeMode: true,
-        rtl: document.documentElement.dir === 'rtl',
-        grabCursor: true,
-        simulateTouch: true,
-        touchStartPreventDefault: false
-    });
+        window.filterChipsSwiperInstance = new Swiper('.filterChipsSwiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+            freeMode: true,
+            rtl: document.documentElement.dir === 'rtl',
+            grabCursor: true,
+            simulateTouch: true,
+            touchStartPreventDefault: false
+        });
     }
 
     /**
@@ -1911,9 +1944,9 @@ function initializeHomePageSections() {
                     <div class="card-body">
                         <div class="price-section mt-3">
                             ${product.oldPrice
-                            ? `<span class="discount-badge">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
-                            : ""
-                            }
+                ? `<span class="discount-badge">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
+                : ""
+            }
         
                         <div class="price-row">
                             <span class="current-price">
@@ -1943,19 +1976,19 @@ function initializeHomePageSections() {
     const newsSection = document.getElementById('newsSection');
     if (newsSection) {
         newsSection.innerHTML = `
-            <div class="container-fluid training overflow-hidden pb-5">
+            <div class="container-fluid  overflow-hidden pb-5">
                 <div class="container py-5">
                     <div class="section-title text-center mb-5">
-                        <h5 class="sub-title text-primary px-3">${getLabel('News', 'الأخبار')}</h5>
+                        <h5 class="sub-title px-3">${getLabel('News', 'الأخبار')}</h5>
                         <h1 class="display-5 mb-4">${getLabel('Here Is Our Latest News', 'إليكم أحدث أخبارنا')}</h1>
                     </div>
                     <div class="row g-4">
                         <div class="col-lg-6 col-xl-4">
-                            <div class="training-item">
-                                <div class="training-inner" style="height: 18rem;">
+                            <div class="">
+                                <div style="height: 18rem;">
                                     <img src="/images/news-1.webp" class="img-fluid w-100 rounded" alt="News">
                                 </div>
-                                <div class="training-content bg-secondary rounded-bottom p-4">
+                                <div class=" bg-secondary rounded-bottom p-4">
                                     <h4 class="text-white">${getLabel('Latest News', 'أحدث خبر')}</h4>
                                     <p class="text-white-50">Lorem ipsum dolor sit amet</p>
                                     <a href="#" class="btn btn-secondary rounded-pill text-white p-0" onclick="setCurrentPage('news')">
@@ -1975,145 +2008,181 @@ function initializeHomePageSections() {
         `;
     }
 
-const projectsSection = document.getElementById('projectsSection');
-if (projectsSection) {
+    // Initialize Project Section
+    const projectsSection = document.getElementById('projectsSection');
+    if (projectsSection) {
 
-const projects = [
-    {
-        id: 'project-1',
-        img: '/images/pro-1.jpg',
-        titleEn: 'Project 1',
-        titleAr: 'المشروع 1',
-        descEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        descAr: 'نص تجريبي عربي يوضح تفاصيل المشروع الأول.'
-    },
-    {
-        id: 'project-2',
-        img: '/images/pro-2.jpg',
-        titleEn: 'Project 2',
-        titleAr: 'المشروع 2',
-        descEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        descAr: 'نص تجريبي عربي يوضح تفاصيل المشروع الثاني.'
-    },
-    {
-        id: 'project-3',
-        img: '/images/pro-3.jpg',
-        titleEn: 'Project 3',
-        titleAr: 'المشروع 3',
-        descEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        descAr: 'نص تجريبي عربي يوضح تفاصيل المشروع الثالث.'
-    }
-];
+        projectsSection.innerHTML = `
+    <div class="container overflow-hidden p-5 position-relative my-5" id="projectsBgWrapper">
 
-    const projectSlidesHtml = projects.map(proj => `
-        <div class="swiper-slide">
-            <div class="training-item">
-                <div class="training-inner" style="height: 32rem;">
-                    <img src="${proj.img}" class="img-fluid w-100 h-100 rounded" style="object-fit: cover;" alt="${getLabel(proj.titleEn, proj.titleAr)}">
-                </div>
+        <!-- Background image layer -->
+        <div class="projects-bg-image" id="projectsBgImage" style="background-image: url('${projects[0].img}');"></div>
 
-            </div>
-        </div>
-    `).join('');
+        <!-- Dark overlay for readability -->
+        <div class="projects-bg-overlay"></div>
 
-projectsSection.innerHTML = `
-<div class="container-fluid training overflow-hidden py-5 bg-light">
-    <div class="container py-5">
-    <h5 class="sub-title text-primary px-3 pb-5">${getLabel('Our Projects', 'مشاريعنا')}</h5>
-        <div class="row g-5 align-items-stretch flex-column-reverse flex-lg-row">
+        <!-- Content -->
+        <div class="container projects-container position-relative py-5">
+            <h5 class="sub-title px-3 pb-5">${getLabel('Machinery', 'الآلات')}</h5>
 
-            <!-- Left: Sub-title (static) + Active project title/desc (dynamic) + Nav -->
-            <div class="col-lg-4 d-flex">
-                <div class="d-flex flex-column h-25 w-100">
-                    <div class="section-title text-startflex-grow-1">
-                        <h1 class="display-5" id="activeProjectTitle">${getLabel(projects[0].titleEn, projects[0].titleAr)}</h1>
-                        <p class="text-muted mb-0" id="activeProjectDesc">${getLabel(projects[0].descEn, projects[0].descAr)}</p>
-                    </div>
-                    <div>
-                        <a href="#" class="btn btn-white border-secondary rounded-0 ps-0 py-0 mb-4" id="activeProjectLink" onclick="setCurrentPage('projects', '${projects[0].id}')">
-                            ${getLabel('Read More', 'اقرأ المزيد')}
-                        </a>
-                        <div class="d-flex gap-3">
-                            <div class="projects-button-prev nav-btn-custom">
-                                <i class="fas fa-arrow-left"></i>
-                            </div>
-                            <div class="projects-button-next nav-btn-custom">
-                                <i class="fas fa-arrow-right"></i>
+            <div class="row g-5 align-items-stretch flex-column-reverse flex-lg-row">
+
+                <div class="col-lg-4 d-flex">
+                    <div class="d-flex flex-column justify-content-center h-100 w-100">
+                        <div class="section-title text-start flex-grow-1">
+                            <h1 class="display-5 text-white" id="activeProjectTitle">${getLabel(projects[0].titleEn, projects[0].titleAr)}</h1>
+                            <p class="text-white-50 mb-0" id="activeProjectDesc">${getLabel(projects[0].descEn, projects[0].descAr)}</p>
+                        </div>
+                        <div>
+                            <a href="#" class="btn btn-white text-primary border-secondary rounded-0 ps-0 py-0 mb-4" id="activeProjectLink" onclick="setCurrentPage('projects', '${projects[0].id}')">
+                                ${getLabel('Read More', 'اقرأ المزيد')}
+                            </a>
+                            <div class="d-flex gap-3">
+                                <div class="projects-button-prev nav-btn-custom">
+                                    <i class="fas fa-arrow-left"></i>
+                                </div>
+                                <div class="projects-button-next nav-btn-custom">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Right: Swiper Slider, one card per slide -->
-            <div class="col-lg-8">
-                <div class="swiper projectsSwiper">
-                    <div class="swiper-wrapper">
-                        ${projectSlidesHtml}
-                    </div>
-                </div>
-            </div>
+                <div class="col-lg-8"></div>
 
+            </div>
         </div>
 
-        <!-- Pagination -->
-        <div class="projects-pagination text-center mt-4"></div>
+        <!-- Pagination: pinned to bottom of the whole section -->
+        <div class="projects-pagination"></div>
 
     </div>
-</div>
 `;
 
-    // Destroy old instance if it exists
-    if (window.projectsSwiperInstance) {
-        window.projectsSwiperInstance.destroy(true, true);
+        let activeIndex = 0;
+
+        function updateActiveProject(index) {
+            activeIndex = index;
+            const activeProject = projects[index];
+
+            const titleEl = document.getElementById('activeProjectTitle');
+            const descEl = document.getElementById('activeProjectDesc');
+            const linkEl = document.getElementById('activeProjectLink');
+
+            // Swap background image
+            document.getElementById('projectsBgImage').style.backgroundImage = `url('${activeProject.img}')`;
+
+            // Update text content
+            titleEl.textContent = getLabel(activeProject.titleEn, activeProject.titleAr);
+            descEl.textContent = getLabel(activeProject.descEn, activeProject.descAr);
+            linkEl.setAttribute('onclick', `setCurrentPage('projects', '${activeProject.id}')`);
+
+            // Retrigger slide-in animation
+            [titleEl, descEl, linkEl].forEach(el => {
+                el.classList.remove('slide-in-active');
+                void el.offsetWidth;
+                el.classList.add('slide-in-active');
+            });
+
+            renderDots();
+        }
+
+        function renderDots() {
+            const pag = document.querySelector('.projects-pagination');
+            pag.innerHTML = projects.map((_, i) => `
+            <span class="stack-dot ${i === activeIndex ? 'active' : ''}" data-index="${i}"></span>
+        `).join('');
+            pag.querySelectorAll('.stack-dot').forEach(dot => {
+                dot.addEventListener('click', () => updateActiveProject(parseInt(dot.dataset.index, 10)));
+            });
+        }
+
+        document.querySelector('.projects-button-next').addEventListener('click', () => {
+            updateActiveProject((activeIndex + 1) % projects.length);
+        });
+
+        document.querySelector('.projects-button-prev').addEventListener('click', () => {
+            updateActiveProject((activeIndex - 1 + projects.length) % projects.length);
+        });
+
+        renderDots();
     }
-
-    window.projectsSwiperInstance = new Swiper('.projectsSwiper', {
-        slidesPerView: 1,
-        spaceBetween: 24,
-        loop: true,
-        rtl: document.documentElement.dir === 'rtl',
-        navigation: {
-            nextEl: '.projects-button-next',
-            prevEl: '.projects-button-prev',
-        },
-        pagination: {
-            el: '.projects-pagination',
-            clickable: true,
-        },
-on: {
-slideChange: function () {
-    const titleEl = document.getElementById('activeProjectTitle');
-    const descEl = document.getElementById('activeProjectDesc');
-    const linkEl = document.getElementById('activeProjectLink');
-    const activeProject = projects[this.realIndex];
-
-    // Update content immediately
-    titleEl.textContent = getLabel(activeProject.titleEn, activeProject.titleAr);
-    descEl.textContent = getLabel(activeProject.descEn, activeProject.descAr);
-
-    // Remove animation class, force reflow, then re-add it (needed to retrigger the same animation)
-    [titleEl, descEl, linkEl].forEach(el => {
-        el.classList.remove('slide-in-active');
-        void el.offsetWidth; // forces browser reflow so the animation restarts
-        el.classList.add('slide-in-active');
-    });
-
-    setTimeout(() => {
-        titleEl.textContent = getLabel(activeProject.titleEn, activeProject.titleAr);
-        descEl.textContent = getLabel(activeProject.descEn, activeProject.descAr);
-
-        titleEl.style.transform = 'translateX(0)';
-        descEl.style.transform = 'translateX(0)';
-        linkEl.style.transform = 'translateX(0)';
-        titleEl.style.opacity = 1;
-        descEl.style.opacity = 1;
-        linkEl.style.opacity = 1;
-    }, 200);
 }
+
+// Intialize Trusted Section
+const trustedSection = document.getElementById('trustedSection');
+if (trustedSection) {
+
+    const stats = [
+        { value: '70+', labelEn: 'Years of Experience', labelAr: 'سنوات من الخبرة' },
+        { value: '10K+', labelEn: 'Products Manufactured', labelAr: 'منتج تم تصنيعه' },
+        { value: '30+', labelEn: 'Machines Available', labelAr: 'ماكينة متاحة' },
+        { value: '100+', labelEn: 'Industrial Partners', labelAr: 'شريك صناعي' }
+    ];
+
+    const logoCardsHtml = clients.map(c => `
+        <div class="col-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="trust-logo-card d-flex align-items-center justify-content-center m-1">
+                <img src="${c.logo}" alt="${c.name}" class="img-fluid" loading="lazy">
+            </div>
+        </div>
+    `).join('');
+
+    const statsHtml = stats.map(s => `
+        <div class="col-6 col-lg-3 d-flex g-2 m-0">
+            <div class="trust-stat-card text-center bg-white rounded-3 shadow-sm py-4 h-100 my-1">
+                <h5 class="text-primary fw-bold mb-3">${s.value}</h5>
+                <p class="text-muted mb-0">${getLabel(s.labelEn, s.labelAr)}</p>
+            </div>
+        </div>
+    `).join('');
+
+    trustedSection.innerHTML = `
+        <div class="container-fluid trust overflow-hidden py-0 bg-white">
+            <div class="container py-5 d-flex flex-wrap align-items-start gap-4 border-bottom flex-lg-nowrap">
+
+                <!-- Header -->
+                <div class="section-title text-center mb-5 trust-header-block">
+                    <h5 class="sub-title px-3">${getLabel('TRUSTED BY', 'موثوق به من قبل')}</h5>
+                    <h1 class="display-5 mb-4">${getLabel('Trusted by Leading Organizations', 'موثوق به من قبل المؤسسات الرائدة')}</h1>
+                    <p class="text-muted" style="max-width: 700px;">
+                        ${getLabel(
+        'We proudly serve government entities, industrial companies, and leading organizations with reliable manufacturing and machinery rental solutions.',
+        'نفتخر بخدمة الجهات الحكومية والشركات الصناعية والمؤسسات الرائدة بحلول موثوقة في التصنيع وتأجير المعدات.'
+    )}
+                    </p>
+                </div>
+
+                <!-- Client Logos -->
+                <div class="d-flex flex-wrap mb-5 trust-logos-block">
+                    ${logoCardsHtml}
+                </div>
+
+                <div class="text-center trust-stats-block">
+                    <!-- Stats -->
+                    <div class="row g-0 mb-5">
+                        ${statsHtml}
+                    </div>
+
+                    <!-- CTA -->
+                    <h4 class="mb-4">
+                        ${getLabel(
+        'Looking for reliable industrial manufacturing or machinery rental?',
+        'تبحث عن حلول موثوقة في التصنيع الصناعي أو تأجير المعدات؟'
+    )}
+                    </h4>
+                    <a href="#" class="btn btn-primary border-secondary rounded-0 py-3 px-5" onclick="setCurrentPage('contact')">
+                        ${getLabel('Request a Quote', 'اطلب عرض سعر')}
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    `;
 }
-    });
-}}
+
+
 /**
  * Initialize the application
  */

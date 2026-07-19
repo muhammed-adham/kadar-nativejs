@@ -377,7 +377,7 @@ p {
   background-color: var(--secondary);
   border-color: var(--secondary);
   /* color: var(--primary) !important; */
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
 }
 
 .btn-secondary {
@@ -450,7 +450,7 @@ p {
 .card {
   background-color: var(--white);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 0.2rem !important;
   transition: var(--transition);
 }
 
@@ -480,7 +480,7 @@ p {
 }
 
 .category-card {
-  border-radius: 0.4rem;
+  border-radius: 0.2rem;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease all;
@@ -799,36 +799,182 @@ p {
 } */
 
 @keyframes slideInText {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .slide-in-active {
-  animation: slideInText 0.4s ease forwards;
+    animation: slideInText 0.4s ease forwards;
 }
 
 #activeProjectTitle {
-  min-height: 3.5rem; /* reserve space for up to ~1 line at display-5 size, adjust to your font */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-word;
+    min-height: 3.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+.projects-container h5{
+  color: var(--primary) !important;
+}
+.projects-container h5::after{
+  background: var(--primary) !important;
 }
 
 #activeProjectDesc {
-  min-height: 3rem; /* reserve space for ~2 lines of body text */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+    min-height: 3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
+
+#projectsBgWrapper {
+    position: relative;
+    height: 32rem;
+    display: flex;
+    align-items: center;
+}
+
+.projects-bg-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.projects-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.75) 20%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.15) 100%);
+}
+
+[dir="rtl"] .projects-bg-overlay {
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0.75) 20%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.15) 100%);
+}
+
+.nav-btn-custom {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.nav-btn-custom:hover {
+    background: #fff;
+    color: #000;
+}
+
+.projects-pagination {
+    position: relative;
+}
+
+.stack-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #afafaf;
+    cursor: pointer;
+    margin: 0 4px;
+    transition: background 0.3s ease;
+}
+
+.stack-dot.active {
+    background: var(--primary);
+}
+
+.projects-pagination {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* ========== Trusted Section Styles ========== */
+.trust-logo-card {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: .4rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+  padding: 1.5rem 1rem;
+  height: 96px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.trust-logo-card img {
+  max-height: 42px;
+  filter: grayscale(100%) opacity(0.6);
+  transition: filter 0.3s ease;
+}
+
+.trust-logo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.trust-logo-card:hover img {
+  filter: grayscale(0%) opacity(1);
+}
+
+.trust-stat-card {
+  width: 12rem !important;
+  height: 8rem !important;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+  font-weight: 700;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.trust-stat-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Mobile: each block full width, stacks in DOM order (header -> logos -> stats/cta) */
+.trust-header-block,
+.trust-logos-block,
+.trust-stats-block {
+  width: 100%;
+}
+
+/* Desktop: restore your original side-by-side proportions */
+@media (min-width: 992px) {
+  .trust-header-block {
+    width: auto;
+    border-inline-end: 1px solid #dee2e6;
+    padding-inline-end: 1.5rem;
+  }
+
+  .trust-logos-block {
+    width: 50%;
+    border-inline-end: 1px solid #dee2e6;
+    padding-inline-end: 1.5rem;
+  }
+
+  .trust-stats-block {
+    width: 75%;
+  }
+}
+
 
 /* ========== Counter Styles ========== */
 .counter-facts {
@@ -881,7 +1027,7 @@ p {
 }
 
 /* ========== Form Styles ========== */
-.form-floating > label {
+.form-floating>label {
   color: var(--text-secondary);
 }
 
@@ -994,7 +1140,7 @@ p {
   background: #fff;
   color: #495057;
   padding: 0.5rem 1.25rem;
-  border-radius: 0.3rem;
+  border-radius: 0.2rem;
   font-size: 0.9rem;
   white-space: nowrap;
   transition: all 0.2s ease;
@@ -1019,6 +1165,7 @@ p {
 }
 
 .product-card {
+  border: 0.2rem;
   transition: all 0.2s ease;
   height: 32rem !important;
   background-color: var(--white);
@@ -1311,7 +1458,7 @@ footer a:hover {
 /* ========== Responsive Design ========== */
 
 @media (min-width: 992px) {
-  .navbar .dropdown:hover > .dropdown-menu {
+  .navbar .dropdown:hover>.dropdown-menu {
     display: block;
     margin-top: 0;
     opacity: 1;
@@ -1379,11 +1526,13 @@ footer a:hover {
   }
 
   #activeProjectTitle {
-    min-height: fit-content; /* reserve space for up to ~1 line at display-5 size, adjust to your font */
+    min-height: fit-content;
+    /* reserve space for up to ~1 line at display-5 size, adjust to your font */
   }
 
   #activeProjectDesc {
-    min-height: fit-content; /* reserve space for ~2 lines of body text */
+    min-height: fit-content;
+    /* reserve space for ~2 lines of body text */
   }
 
   .image-thumbnails {
@@ -1449,6 +1598,7 @@ footer a:hover {
 
 /* ========== Print Styles ========== */
 @media print {
+
   nav,
   footer,
   .btn,
@@ -1603,7 +1753,7 @@ footer a:hover {
   padding: 1.25rem;
 }
 
-.mega-section + .mega-section {
+.mega-section+.mega-section {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1639,6 +1789,7 @@ footer a:hover {
 }
 
 @media (min-width: 992px) {
+
   #mobileTopBar,
   #mobileMenu,
   #megaMenuOverlay {
