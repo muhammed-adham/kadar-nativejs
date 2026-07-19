@@ -1690,7 +1690,7 @@ function initializeHomePageSections() {
                 <div class="container">
                     <div class="row g-4">
                         <div class="col-xl-5 order-2 order-md-1 wow fadeInLeft" data-wow-delay="0.1s">
-                            <div class="bg-light h-100">
+                            <div class="bg-light h-100 rounded-2 overflow-hidden">
                                 <img src="/images/about.webp" class="img-fluid about-img w-100"  alt="About">
                             </div>
                         </div>
@@ -2013,7 +2013,7 @@ function initializeHomePageSections() {
     if (projectsSection) {
 
         projectsSection.innerHTML = `
-    <div class="container overflow-hidden p-5 position-relative my-5" id="projectsBgWrapper">
+    <div class="container overflow-hidden rounded-2 p-5 position-relative my-5" id="projectsBgWrapper">
 
         <!-- Background image layer -->
         <div class="projects-bg-image" id="projectsBgImage" style="background-image: url('${projects[0].img}');"></div>
@@ -2131,7 +2131,7 @@ if (trustedSection) {
 
     const statsHtml = stats.map(s => `
         <div class="col-6 col-lg-3 d-flex g-2 m-0">
-            <div class="trust-stat-card text-center bg-white rounded-3 shadow-sm py-4 h-100 my-1">
+            <div class="trust-stat-card text-center bg-white rounded-2 shadow-sm py-4 h-100 my-1">
                 <h5 class="text-primary fw-bold mb-3">${s.value}</h5>
                 <p class="text-muted mb-0">${getLabel(s.labelEn, s.labelAr)}</p>
             </div>
