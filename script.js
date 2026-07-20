@@ -1679,6 +1679,7 @@ function loadContactPage() {
  * Initialize home page sections
  */
 function initializeHomePageSections() {
+
     // Initialize About Section
     const aboutSection = document.getElementById('aboutSection');
     if (aboutSection) {
@@ -2258,149 +2259,117 @@ function initializeHomePageSections() {
 
         renderDots();
     }
-}
-
-// Intialize Trusted Section
-const trustedSection = document.getElementById('trustedSection');
-if (trustedSection) {
-
-    const stats = [
-        { value: '70+', labelEn: 'Years of Experience', labelAr: 'سنوات من الخبرة' },
-        { value: '10K+', labelEn: 'Products Manufactured', labelAr: 'منتج تم تصنيعه' },
-        { value: '30+', labelEn: 'Machines Available', labelAr: 'ماكينة متاحة' },
-        { value: '100+', labelEn: 'Industrial Partners', labelAr: 'شريك صناعي' }
-    ];
-
-    const logoCardsHtml = clients.map(c => `
-        <div class="col-6 col-md-4 col-lg-4 col-xl-4">
-            <div class="trust-logo-card d-flex align-items-center justify-content-center m-1">
-                <img src="${c.logo}" alt="${c.name}" class="img-fluid" loading="lazy">
+    
+    // Intialize Trusted Section
+    const trustedSection = document.getElementById('trustedSection');
+    if (trustedSection) {
+    
+        const stats = [
+            { value: '70+', labelEn: 'Years of Experience', labelAr: 'سنوات من الخبرة' },
+            { value: '10K+', labelEn: 'Products Manufactured', labelAr: 'منتج تم تصنيعه' },
+            { value: '30+', labelEn: 'Machines Available', labelAr: 'ماكينة متاحة' },
+            { value: '100+', labelEn: 'Industrial Partners', labelAr: 'شريك صناعي' }
+        ];
+    
+        const logoCardsHtml = clients.map(c => `
+            <div class="col-6 col-md-4 col-lg-4 col-xl-4">
+                <div class="trust-logo-card d-flex align-items-center justify-content-center m-1">
+                    <img src="${c.logo}" alt="${c.name}" class="img-fluid" loading="lazy">
+                </div>
             </div>
-        </div>
-    `).join('');
-
-    const statsHtml = stats.map(s => `
-        <div class="col-6 col-lg-3 d-flex g-2 m-0">
-            <div class="trust-stat-card text-center bg-white rounded-2 shadow-sm py-4 h-100 my-1">
-                <h5 class="text-primary fw-bold mb-3">${s.value}</h5>
-                <p class="text-muted mb-0">${getLabel(s.labelEn, s.labelAr)}</p>
+        `).join('');
+    
+        const statsHtml = stats.map(s => `
+            <div class="col-6 col-lg-3 d-flex g-2 m-0">
+                <div class="trust-stat-card text-center bg-white rounded-2 shadow-sm py-4 h-100 my-1">
+                    <h5 class="text-primary fw-bold mb-3">${s.value}</h5>
+                    <p class="text-muted mb-0">${getLabel(s.labelEn, s.labelAr)}</p>
+                </div>
             </div>
-        </div>
-    `).join('');
-
-    trustedSection.innerHTML = `
-        <div class="container-fluid trust overflow-hidden py-0 bg-light">
-            <div class="container py-5 d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap">
-
-                <!-- Header -->
-                <div class="section-title text-center mb-5 trust-header-block">
-                    <h5 class="sub-title px-3">${getLabel('TRUSTED BY', 'موثوق به من قبل')}</h5>
-                    <h1 class="display-5 mb-4">${getLabel('Trusted by Leading Organizations', 'موثوق به من قبل المؤسسات الرائدة')}</h1>
-                    <p class="text-muted" style="max-width: 700px;">
+        `).join('');
+    
+        trustedSection.innerHTML = `
+            <div class="container-fluid trust overflow-hidden py-0 bg-light">
+                <div class="container py-5 d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap">
+    
+                    <!-- Header -->
+                    <div class="section-title text-center mb-5 trust-header-block">
+                        <h5 class="sub-title px-3">${getLabel('TRUSTED BY', 'موثوق به من قبل')}</h5>
+                        <h1 class="display-5 mb-4">${getLabel('Trusted by Leading Organizations', 'موثوق به من قبل المؤسسات الرائدة')}</h1>
+                        <p class="text-muted" style="max-width: 700px;">
+                            ${getLabel(
+            'We proudly serve government entities, industrial companies, and leading organizations with reliable manufacturing and machinery rental solutions.',
+            'نفتخر بخدمة الجهات الحكومية والشركات الصناعية والمؤسسات الرائدة بحلول موثوقة في التصنيع وتأجير المعدات.'
+        )}
+                        </p>
+                    </div>
+    
+                    <!-- Client Logos -->
+                    <div class="d-flex flex-wrap mb-5 trust-logos-block">
+                        ${logoCardsHtml}
+                    </div>
+    
+                    <div class="text-center trust-stats-block">
+                        <!-- Stats -->
+                        <div class="row g-0 mb-5">
+                            ${statsHtml}
+                        </div>
+    
+                        <!-- CTA -->
+                        <h4 class="mb-4">
+                            ${getLabel(
+            'Looking for reliable industrial manufacturing or machinery rental?',
+            'تبحث عن حلول موثوقة في التصنيع الصناعي أو تأجير المعدات؟'
+        )}
+                        </h4>
+                        <a href="#" class="btn btn-primary border-secondary rounded-0 py-3 px-5" onclick="setCurrentPage('contact')">
+                            ${getLabel('Request a Quote', 'اطلب عرض سعر')}
+                        </a>
+                    </div>
+    
+                </div>
+            </div>
+        `;
+    }
+    
+    // Initialize Social Section
+    const trustSocialSection = document.getElementById('socialSection');
+    if (trustSocialSection) {
+    
+        const socialLinks = [
+            { icon: 'fab fa-facebook-f', url: 'https://facebook.com/yourpage', label: 'Facebook' },
+            { icon: 'fab fa-instagram', url: 'https://instagram.com/yourpage', label: 'Instagram' },
+            { icon: 'fab fa-youtube', url: 'https://youtube.com/yourchannel', label: 'YouTube' }
+        ];
+    
+        const socialHtml = socialLinks.map(s => `
+            <a href="${s.url}" target="_blank" rel="noopener noreferrer"
+            class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center p-0"
+            style="width: 52px; height: 52px;" aria-label="${s.label}">
+                <i class="${s.icon} fs-4"></i>
+            </a>
+        `).join('');
+    
+        trustSocialSection.innerHTML = `
+            <div class="container-fluid overflow-hidden py-5">
+                <div class="container text-center social-section py-5">
+                <img src="./images/logo-kader-white.png" style="height:4rem;" class="position-relative z-3 pb-2"/>
+                    <h2 class="text-primary fw-bolder position-relative z-3">${getLabel('Get in Touch', 'تواصل معنا')}</h2>
+                    <p class="mx-auto text-white-50 position-relative z-3" style="max-width: 500px;">
                         ${getLabel(
-        'We proudly serve government entities, industrial companies, and leading organizations with reliable manufacturing and machinery rental solutions.',
-        'نفتخر بخدمة الجهات الحكومية والشركات الصناعية والمؤسسات الرائدة بحلول موثوقة في التصنيع وتأجير المعدات.'
-    )}
+                            'Follow us on social media for updates, news, and behind-the-scenes moments.',
+                            'تابعنا على مواقع التواصل الاجتماعي للاطلاع على آخر الأخبار والتحديثات.'
+                        )}
                     </p>
-                </div>
-
-                <!-- Client Logos -->
-                <div class="d-flex flex-wrap mb-5 trust-logos-block">
-                    ${logoCardsHtml}
-                </div>
-
-                <div class="text-center trust-stats-block">
-                    <!-- Stats -->
-                    <div class="row g-0 mb-5">
-                        ${statsHtml}
+                    <div class="d-flex gap-2 justify-content-center position-relative z-3">
+                        ${socialHtml}
                     </div>
-
-                    <!-- CTA -->
-                    <h4 class="mb-4">
-                        ${getLabel(
-        'Looking for reliable industrial manufacturing or machinery rental?',
-        'تبحث عن حلول موثوقة في التصنيع الصناعي أو تأجير المعدات؟'
-    )}
-                    </h4>
-                    <a href="#" class="btn btn-primary border-secondary rounded-0 py-3 px-5" onclick="setCurrentPage('contact')">
-                        ${getLabel('Request a Quote', 'اطلب عرض سعر')}
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    `;
-}
-
-// Intialize Social Section
-const trustSocialSection = document.getElementById('socialSection');
-if (trustSocialSection) {
-
-    const socialLinks = [
-        { icon: 'fab fa-facebook-f', url: 'https://facebook.com/yourpage', label: 'Facebook' },
-        { icon: 'fab fa-instagram', url: 'https://instagram.com/yourpage', label: 'Instagram' },
-        { icon: 'fab fa-youtube', url: 'https://youtube.com/yourchannel', label: 'YouTube' }
-    ];
-
-    const paymentMethods = [
-        { img: '/images/pay-1-white.svg', labelEn: 'Cash', labelAr: 'نقداً' },
-        { img: '/images/pay-3.svg', labelEn: 'Visa', labelAr: 'فيزا' },
-        { img: '/images/pay-4.svg', labelEn: 'Mastercard', labelAr: 'ماستركارد' },
-        { img: '/images/pay-2-white.svg', labelEn: 'Mada', labelAr: 'مدي' }
-    ];
-
-    const socialHtml = socialLinks.map(s => `
-        <a href="${s.url}" target="_blank" rel="noopener noreferrer"
-           class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center p-0"
-           style="width: 44px; height: 44px;" aria-label="${s.label}">
-            <i class="${s.icon}"></i>
-        </a>
-    `).join('');
-
-    const paymentHtml = paymentMethods.map(p => `
-        <div class=" bg-none" style="width:4rem; height:2rem;">
-            <img src="${p.img}" class="text-primary fs-5 w-100 h-100" />
-        </div>
-    `).join('');
-
-    trustSocialSection.innerHTML = `
-        <div class="container-fluid overflow-hidden bg-white border-bottom">
-            <div class="container border-top pt-2">
-                <div class="row g-4 align-items-center justify-content-between py-5">
-
-                    <!-- Social Media -->
-                    <div class="col-12 col-lg-4 text-center text-lg-start">
-                        <h6 class="text-uppercase text-muted small fw-semibold mb-3">${getLabel('Follow Us', 'تابعنا')}</h6>
-                        <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
-                            ${socialHtml}
-                        </div>
-                    </div>
-
-                    <!-- Payment Methods -->
-                    <div class="col-12 col-lg-4 text-center">
-                        <h6 class="text-uppercase text-muted small fw-semibold mb-3">${getLabel('We Accept', 'وسائل الدفع')}</h6>
-                        <div class="d-flex gap-3 justify-content-center flex-wrap">
-                            ${paymentHtml}
-                        </div>
-                    </div>
-
-                    <!-- VAT / Tax Registration -->
-                    <div class="col-12 col-lg-4 text-center text-lg-end">
-                        <h6 class="text-uppercase text-muted small fw-semibold mb-3">${getLabel('Registered & Compliant', 'مسجل ومعتمد')}</h6>
-                        <div class="d-inline-flex align-items-center gap-2 border rounded-3 bg-white px-3 py-2">
-                            <img src="/images/vat.svg" class="fas fa-file-invoice text-primary fs-4"/>
-                            <div class="text-start">
-                                <div class="fw-semibold small">${getLabel('VAT Registered', 'مسجل ضريبة القيمة المضافة')}</div>
-                                <div class="text-muted small">${getLabel('Tax No. 100284523', 'الرقم الضريبي 100284523')}</div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-        </div>
-    `;
+        `;
+    }
 }
+
 
 
 /**
