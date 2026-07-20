@@ -1673,9 +1673,6 @@ function loadContactPage() {
     `;
 }
 
-
-
-
 /*========================================================================================================*/
 
 /**
@@ -1706,14 +1703,7 @@ function initializeHomePageSections() {
                                 </a>
                             </p>
 
-                                <div class="col-8 col-md-9">
-                                    <div class="d-flex flex-wrap">
-                                    <div class="d-flex flex-column justify-content-center">
-                                    <span class="text-primary">${getLabel('Have any questions?', 'هل لديك أي أسئلة؟')}</span>
-                                    <span class="text-secondary fw-bold fs-5">Contact US</span>
-                                    </div>
-                                    </div>
-                                </div>
+
                         </div>
                     </div>
                 </div>
@@ -1794,6 +1784,7 @@ function initializeHomePageSections() {
     }
 
     // Initialize Products Section
+
     // Products Section state
     let activeProductCategory = 'all';
 
@@ -1975,37 +1966,196 @@ function initializeHomePageSections() {
     // Initialize News Section
     const newsSection = document.getElementById('newsSection');
     if (newsSection) {
-        newsSection.innerHTML = `
-            <div class="container-fluid  overflow-hidden pb-5">
-                <div class="container py-5">
-                    <div class="section-title text-center mb-5">
-                        <h5 class="sub-title px-3">${getLabel('News', 'الأخبار')}</h5>
-                        <h1 class="display-5 mb-4">${getLabel('Here Is Our Latest News', 'إليكم أحدث أخبارنا')}</h1>
+
+        const newsItems = [
+            {
+                id: 'news-1',
+                img: '/images/news-1.webp',
+                dateRaw: '2026-07-12',
+                dateEn: 'July 12, 2026',
+                dateAr: '12 يوليو 2026',
+                titleEn: 'Latest News',
+                titleAr: 'أحدث خبر',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر الأول مع شرح موجز عن الموضوع.'
+            },
+            {
+                id: 'news-2',
+                img: '/images/news-2.webp',
+                dateRaw: '2026-07-08',
+                dateEn: 'July 8, 2026',
+                dateAr: '8 يوليو 2026',
+                titleEn: 'Company Update',
+                titleAr: 'تحديث الشركة',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر الثاني مع شرح موجز عن الموضوع.'
+            },
+            {
+                id: 'news-3',
+                img: '/images/news-3.webp',
+                dateRaw: '2026-07-02',
+                dateEn: 'July 2, 2026',
+                dateAr: '2 يوليو 2026',
+                titleEn: 'New Partnership',
+                titleAr: 'شراكة جديدة',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر الثالث مع شرح موجز عن الموضوع.'
+            },
+            {
+                id: 'news-4',
+                img: '/images/news-4.webp',
+                dateRaw: '2026-06-25',
+                dateEn: 'June 25, 2026',
+                dateAr: '25 يونيو 2026',
+                titleEn: 'Facility Expansion',
+                titleAr: 'توسعة المنشأة',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر الرابع مع شرح موجز عن الموضوع.'
+            },
+            {
+                id: 'news-5',
+                img: '/images/news-5.webp',
+                dateRaw: '2026-06-18',
+                dateEn: 'June 18, 2026',
+                dateAr: '18 يونيو 2026',
+                titleEn: 'New Product Line Launch',
+                titleAr: 'إطلاق خط إنتاج جديد',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر الخامس مع شرح موجز عن الموضوع.'
+            },
+            {
+                id: 'news-6',
+                img: '/images/news-6.webp',
+                dateRaw: '2026-06-10',
+                dateEn: 'June 10, 2026',
+                dateAr: '10 يونيو 2026',
+                titleEn: 'Safety Certification Achieved',
+                titleAr: 'الحصول على شهادة السلامة',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر السادس مع شرح موجز عن الموضوع.'
+            },
+            {
+                id: 'news-7',
+                img: '/images/news-7.webp',
+                dateRaw: '2026-05-30',
+                dateEn: 'May 30, 2026',
+                dateAr: '30 مايو 2026',
+                titleEn: 'Regional Expo Participation',
+                titleAr: 'المشاركة في المعرض الإقليمي',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر السابع مع شرح موجز عن الموضوع.'
+            },
+            {
+                id: 'news-8',
+                img: '/images/news-8.webp',
+                dateRaw: '2026-05-20',
+                dateEn: 'May 20, 2026',
+                dateAr: '20 مايو 2026',
+                titleEn: 'Sustainability Initiative',
+                titleAr: 'مبادرة الاستدامة',
+                excerptEn: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+                excerptAr: 'نص تجريبي عربي يوضح تفاصيل الخبر الثامن مع شرح موجز عن الموضوع.'
+            }
+            // ...add as many news items as you need
+        ];
+
+        const sortedNews = [...newsItems].sort((a, b) => new Date(b.dateRaw) - new Date(a.dateRaw));
+
+        const newsSlidesHtml = sortedNews.map(item => `
+        <div class="swiper-slide">
+            <div class="card card-news border-0 overflow-hidden h-100 m-1 shadow-sm">
+                <div class="row g-0 align-items-stretch h-100">
+                    <div class="col-md-4">
+                        <img src="${item.img}" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 220px;" alt="${getLabel(item.titleEn, item.titleAr)}">
                     </div>
-                    <div class="row g-4">
-                        <div class="col-lg-6 col-xl-4">
-                            <div class="">
-                                <div style="height: 18rem;">
-                                    <img src="/images/news-1.webp" class="img-fluid w-100 rounded" alt="News">
-                                </div>
-                                <div class=" bg-secondary rounded-bottom p-4">
-                                    <h4 class="text-white">${getLabel('Latest News', 'أحدث خبر')}</h4>
-                                    <p class="text-white-50">Lorem ipsum dolor sit amet</p>
-                                    <a href="#" class="btn btn-secondary rounded-pill text-white p-0" onclick="setCurrentPage('news')">
-                                        ${getLabel('Read More', 'اقرأ المزيد')} <i class="fas fa-arrow-right px-1"></i>
-                                    </a>
-                                </div>
-                            </div>
+                    <div class="col-md-8">
+                        <div class="card-body h-100 d-flex flex-column justify-content-center align-items-start">
+                            <span class="text-muted small fw-semibold">
+                                <i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}
+                            </span>
+                            <h6 class="card-title">${getLabel(item.titleEn, item.titleAr)}</h6>
+                            <p class="card-text text-muted">${getLabel(item.excerptEn, item.excerptAr)}</p>
+                            <a href="#" class="btn btn-white small p-0 pe-4" onclick="setCurrentPage('news', '${item.id}')">
+                                ${getLabel('Read More', 'اقرأ المزيد')}
+                            </a>
                         </div>
-                    </div>
-                    <div class="col-12 text-center pt-5">
-                        <a class="btn btn-primary border-secondary rounded-0 py-3 px-5" href="#" onclick="setCurrentPage('news')">
-                            ${getLabel('View All', 'عرض الكل')}
-                        </a>
                     </div>
                 </div>
             </div>
-        `;
+        </div>
+    `).join('');
+
+        newsSection.innerHTML = `
+        <div class="container-fluid overflow-hidden bg-white">
+            <div class="container py-4 border-top">
+
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="section-title mb-0">
+                        <h5 class="sub-title mb-0">${getLabel('Latest News', 'الأخبار')}</h5>
+                    </div>
+                    <div class="d-flex gap-3">
+                        <div class="news-button-prev nav-btn-custom">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        <div class="news-button-next nav-btn-custom">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper newsSwiper">
+                    <div class="swiper-wrapper">
+                        ${newsSlidesHtml}
+                    </div>
+                </div>
+
+                <div class="news-pagination text-center mt-4"></div>
+
+                <div class="text-end">
+                    <a class="btn btn-white p-0 pe-4" href="#" onclick="setCurrentPage('news')">
+                        ${getLabel('View All', 'عرض الكل')}
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+        // Destroy old instance if it exists
+        if (window.newsSwiperInstance) {
+            window.newsSwiperInstance.destroy(true, true);
+        }
+
+        window.newsSwiperInstance = new Swiper('.newsSwiper', {
+            slidesPerView: 1,
+            grid: {
+                rows: 2,
+                fill: 'row'
+            },
+            spaceBetween: 20,
+            loop: true,
+            rtl: document.documentElement.dir === 'rtl',
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+            navigation: {
+                nextEl: '.news-button-next',
+                prevEl: '.news-button-prev',
+            },
+            pagination: {
+                el: '.news-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                320: { slidesPerView: 1, grid: { rows: 1 } },
+                420: { slidesPerView: 1, grid: { rows: 1 } },
+                576: { slidesPerView: 1, grid: { rows: 1 } },
+                992: { slidesPerView: 2, grid: { rows: 1 } },
+                1200: { slidesPerView: 2, grid: { rows: 2 } }
+            }
+        });
     }
 
     // Initialize Project Section
@@ -2139,8 +2289,8 @@ if (trustedSection) {
     `).join('');
 
     trustedSection.innerHTML = `
-        <div class="container-fluid trust overflow-hidden py-0 bg-white">
-            <div class="container py-5 d-flex flex-wrap align-items-start gap-4 border-bottom flex-lg-nowrap">
+        <div class="container-fluid trust overflow-hidden py-0 bg-light">
+            <div class="container py-5 d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap">
 
                 <!-- Header -->
                 <div class="section-title text-center mb-5 trust-header-block">
@@ -2177,6 +2327,76 @@ if (trustedSection) {
                     </a>
                 </div>
 
+            </div>
+        </div>
+    `;
+}
+
+// Intialize Social Section
+const trustSocialSection = document.getElementById('socialSection');
+if (trustSocialSection) {
+
+    const socialLinks = [
+        { icon: 'fab fa-facebook-f', url: 'https://facebook.com/yourpage', label: 'Facebook' },
+        { icon: 'fab fa-instagram', url: 'https://instagram.com/yourpage', label: 'Instagram' },
+        { icon: 'fab fa-youtube', url: 'https://youtube.com/yourchannel', label: 'YouTube' }
+    ];
+
+    const paymentMethods = [
+        { img: '/images/pay-1-white.svg', labelEn: 'Cash', labelAr: 'نقداً' },
+        { img: '/images/pay-3.svg', labelEn: 'Visa', labelAr: 'فيزا' },
+        { img: '/images/pay-4.svg', labelEn: 'Mastercard', labelAr: 'ماستركارد' },
+        { img: '/images/pay-2-white.svg', labelEn: 'Mada', labelAr: 'مدي' }
+    ];
+
+    const socialHtml = socialLinks.map(s => `
+        <a href="${s.url}" target="_blank" rel="noopener noreferrer"
+           class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center p-0"
+           style="width: 44px; height: 44px;" aria-label="${s.label}">
+            <i class="${s.icon}"></i>
+        </a>
+    `).join('');
+
+    const paymentHtml = paymentMethods.map(p => `
+        <div class=" bg-none" style="width:4rem; height:2rem;">
+            <img src="${p.img}" class="text-primary fs-5 w-100 h-100" />
+        </div>
+    `).join('');
+
+    trustSocialSection.innerHTML = `
+        <div class="container-fluid overflow-hidden bg-white border-bottom">
+            <div class="container border-top pt-2">
+                <div class="row g-4 align-items-center justify-content-between py-5">
+
+                    <!-- Social Media -->
+                    <div class="col-12 col-lg-4 text-center text-lg-start">
+                        <h6 class="text-uppercase text-muted small fw-semibold mb-3">${getLabel('Follow Us', 'تابعنا')}</h6>
+                        <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                            ${socialHtml}
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div class="col-12 col-lg-4 text-center">
+                        <h6 class="text-uppercase text-muted small fw-semibold mb-3">${getLabel('We Accept', 'وسائل الدفع')}</h6>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            ${paymentHtml}
+                        </div>
+                    </div>
+
+                    <!-- VAT / Tax Registration -->
+                    <div class="col-12 col-lg-4 text-center text-lg-end">
+                        <h6 class="text-uppercase text-muted small fw-semibold mb-3">${getLabel('Registered & Compliant', 'مسجل ومعتمد')}</h6>
+                        <div class="d-inline-flex align-items-center gap-2 border rounded-3 bg-white px-3 py-2">
+                            <img src="/images/vat.svg" class="fas fa-file-invoice text-primary fs-4"/>
+                            <div class="text-start">
+                                <div class="fw-semibold small">${getLabel('VAT Registered', 'مسجل ضريبة القيمة المضافة')}</div>
+                                <div class="text-muted small">${getLabel('Tax No. 100284523', 'الرقم الضريبي 100284523')}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     `;
