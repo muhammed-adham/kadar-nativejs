@@ -1327,11 +1327,11 @@ function initializeFooter() {
                             <a href="tel:+201030009248"><i class="fa fa-phone m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
                             <a href="https://wa.me/201030009248" target="_blank"><i class="fa fa-comment m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
                             
-                            <div class="d-flex align-items-center gap-3 justify-content-start justify-content-lg-start ps-2 pt-2 border-top border-white border-opacity-25">
+                            <div class="d-flex align-items-center gap-3 justify-content-start justify-content-lg-start ps-2 py-3 border-top border-white border-opacity-25">
                                 ${paymentIconsHtml}
                             </div>
                             
-                        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-end">
+                        <div class="d-flex align-items-center gap-3 justify-content-start justify-content-lg-start ps-2 pt-3 border-top border-white border-opacity-25">
                             <i class="fas fa-file-invoice text-primary fs-3"></i>
                             <div class="text-start">
                                 <div class="fw-semibold text-white small">${getLabel("VAT Registered", "مسجل ضريبة القيمة المضافة")}</div>
@@ -1344,7 +1344,7 @@ function initializeFooter() {
 
             </div>
         </div>
-        <div class="container-fluid copyright py-4 bg-secondary">
+        <div class="container-fluid copyright py-5 bg-secondary">
             <div class="container">
                 <div class="row g-4 text-center">
                     <div class="col-12">
