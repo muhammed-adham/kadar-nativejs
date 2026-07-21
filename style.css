@@ -1302,13 +1302,22 @@ p {
 }
 
 /* ========== Payment Section Styles ========== */
+.payment-logo {
+    height: 100%;
+    width:100%;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.6);
+    transition: filter 0.3s ease;
+}
 
+.payment-logo:hover {
+    filter: grayscale(0%) opacity(1);
+}
 
 /* ========== Footer Styles ========== */
 footer {
-  background-color: #003049 !important;
+  background-color: var(secondary) !important;
   color: var(--white);
-  padding: 40px 0 0 0;
 }
 
 footer a {
@@ -1318,12 +1327,9 @@ footer a {
 }
 
 footer a:hover {
-  color: #ffcc00;
+  color: var(--primary);
 }
 
-.footer-item {
-  margin-bottom: 30px;
-}
 
 .footer-item h4 {
   color: var(--white);
@@ -1341,7 +1347,7 @@ footer a:hover {
   background-color: var(--white) !important;
   color: var(--text-primary);
   padding: 20px 0;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .copyright a {
@@ -1558,10 +1564,6 @@ footer a:hover {
 
   .image-thumbnails {
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-  }
-
-  .footer-item {
-    margin-bottom: 20px;
   }
 
   .section-title {
