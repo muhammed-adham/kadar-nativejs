@@ -1264,33 +1264,39 @@ function initializeFooter() {
     )
     .join("");
 
-  footer.innerHTML = `
-        <div class="container-fluid footer bg-secondary py-5">
-            <div class="container py-5">
-
-                <!-- Row 1: Payment methods (left) | Newsletter (middle) | VAT (right) -->
-                <div class="row g-4 align-items-center pb-4 mb-4 border-bottom border-light border-opacity-25">
-
-                    <h2 class="col-lg-3 text-white mb-3">${getLabel("Stay connected", "كن أول المطلعين على المنتجات الجديدة")}</h2>
-
-                    <div class="col-lg-9">
-                        <div class="footer-item text-center">
-                            <div class="input-group rounded-2 mx-auto" >
-                                <input type="email" class="form-control" placeholder="${getLabel("Enter your email", "ادخل بريدك الالكتروني")}">
-                                <button class="btn btn-primary rounded-right-1">
-                                    ${getLabel("Subscribe", "اشتراك")}
-                                </button>
-                            </div>
+ footer.innerHTML = `
+    <div class="container-fluid footer bg-secondary pt-5">
+        <div class="container pt-5">
+            <!-- Row 1: Newsletter -->
+            <div class="row g-4 align-items-center pb-4 mb-4 border-bottom border-light border-opacity-25">
+                <div class="col-lg-3">
+                    <h2 class="text-primary mb-3">${getLabel("Stay Updated", "ابق على تواصل")}</h2>
+                    <p class="mb-3">${getLabel("Get the latest updates on our newest products and manufacturing solutions.", "تابع أحدث منتجاتنا وحلولنا الصناعية أولاً بأول")}</p>
+                </div>
+                <div class="col-lg-9">
+                    <div class="footer-item text-center">
+                        <div class="input-group rounded-2 mx-auto">
+                            <input type="email" class="form-control" placeholder="${getLabel("Enter your email", "ادخل بريدك الالكتروني")}">
+                            <button class="btn btn-primary btn-primary-ondark rounded-right-1">
+                                ${getLabel("Subscribe", "اشتراك")}
+                            </button>
                         </div>
                     </div>
-
                 </div>
+            </div>
 
-                <!-- Row 2: Contact | Explore | Services | Legal -->
-                <div class="row g-5">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="footer-item d-flex flex-column">
-                            <h4 class="text-primary mb-4">${getLabel("Explore", "استكشف")}</h4>
+            <!-- Row 2: Accordion on mobile, static columns on desktop -->
+            <div class="row g-0 g-lg-5">
+
+                <div class="col-12 col-lg-3 footer-accordion-item">
+                    <button class="footer-accordion-toggle d-flex d-lg-none align-items-center justify-content-between w-100 bg-transparent border-0 text-primary py-3"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#footerExplore">
+                        <h4 class="text-primary mb-0">${getLabel("Explore", "استكشف")}</h4>
+                        <i class="fas fa-chevron-down footer-chevron"></i>
+                    </button>
+                    <h4 class="text-primary mb-4 d-none d-lg-block">${getLabel("Explore", "استكشف")}</h4>
+                    <div class="collapse footer-collapse" id="footerExplore">
+                        <div class="footer-item d-flex flex-column pb-4 pb-lg-0">
                             ${navigationLinks
                               .map((link) =>
                                 !link.dropdown
@@ -1304,61 +1310,98 @@ function initializeFooter() {
                               .join("")}
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="footer-item d-flex flex-column">
-                            <h4 class="text-primary mb-4">${getLabel("Our Services", "الأقسام")}</h4>
-                            <a href="#products"> ${getLabel("Products", "المنتجات")}</a>
-                            <a href="#projects"> ${getLabel("Projects", "المشاريع")}</a>
-                            <a href="#news"> ${getLabel("News", "الأخبار")}</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="footer-item d-flex flex-column">
-                            <h4 class="text-primary mb-4">${getLabel("Legal", "قانوني")}</h4>
-                            <a href="#" onclick="setCurrentPage('privacy-policy')"> ${getLabel("Privacy Policy", "سياسة الخصوصية")}</a>
-                            <a href="#" onclick="setCurrentPage('terms-of-service')"> ${getLabel("Terms of Service", "الشروط والأحكام")}</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="footer-item d-flex flex-column">
-                            <h4 class="text-primary mb-4">${getLabel("Contact Info", "تواصل معنا")}</h4>
-                            <a href=""><i class="fa fa-map-marker-alt m-2"></i> ${getLabel("2 El Tayaran St, Nasr City", "2 ش الطيران، مدينة نصر")}</a>
-                            <a href="mailto:marketing@kader-factory.com"><i class="fa fa-envelope m-2"></i> marketing@kader-factory</a>
-                            <a href="tel:+201030009248"><i class="fa fa-phone m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
-                            <a href="https://wa.me/201030009248" target="_blank"><i class="fa fa-comment m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
-                            
-                            <div class="d-flex align-items-center gap-3 justify-content-start justify-content-lg-start ps-2 py-3 border-top border-white border-opacity-25">
-                                ${paymentIconsHtml}
-                            </div>
-                            
-                        <div class="d-flex align-items-center gap-3 justify-content-start justify-content-lg-start ps-2 pt-3 border-top border-white border-opacity-25">
-                            <i class="fas fa-file-invoice text-primary fs-3"></i>
-                            <div class="text-start">
-                                <div class="fw-semibold text-white small">${getLabel("VAT Registered", "مسجل ضريبة القيمة المضافة")}</div>
-                                <div class="text-white-50" style="font-size: 0.8rem;">${getLabel("Tax No. 300-XXXXXXX-0003", "الرقم الضريبي 300-XXXXXXX-0003")}</div>
-                        </div>
-                    </div>
+                </div>
+
+                <div class="col-12 col-lg-3 footer-accordion-item">
+                    <button class="footer-accordion-toggle d-flex d-lg-none align-items-center justify-content-between w-100 bg-transparent border-0 text-primary py-3"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#footerServices">
+                        <h4 class="text-primary mb-0">${getLabel("Our Services", "الأقسام")}</h4>
+                        <i class="fas fa-chevron-down footer-chevron"></i>
+                    </button>
+                    <h4 class="text-primary mb-4 d-none d-lg-block">${getLabel("Our Services", "الأقسام")}</h4>
+                    <div class="collapse footer-collapse" id="footerServices">
+                        <div class="footer-item d-flex flex-column pb-4 pb-lg-0">
+                            <a href="#products">${getLabel("Products", "المنتجات")}</a>
+                            <a href="#projects">${getLabel("Projects", "المشاريع")}</a>
+                            <a href="#news">${getLabel("News", "الأخبار")}</a>
                         </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
-        <div class="container-fluid copyright py-5 bg-secondary">
-            <div class="container">
-                <div class="row g-4 text-center">
-                    <div class="col-12">
-                        <span class="text-light">
-                            ${getLabel(
-                              "Copyright © Kader Factory for Advanced Industries, 2026. All rights reserved",
-                              "حقوق النشر © مصنع قادر للصناعات المتطورة، 2026. جميع الحقوق محفوظة",
-                            )}
-                        </span>
+                <div class="col-12 col-lg-3 footer-accordion-item">
+                    <button class="footer-accordion-toggle d-flex d-lg-none align-items-center justify-content-between w-100 bg-transparent border-0 text-primary py-3"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#footerLegal">
+                        <h4 class="text-primary mb-0">${getLabel("Legal", "قانوني")}</h4>
+                        <i class="fas fa-chevron-down footer-chevron"></i>
+                    </button>
+                    <h4 class="text-primary mb-4 d-none d-lg-block">${getLabel("Legal", "قانوني")}</h4>
+                    <div class="collapse footer-collapse" id="footerLegal">
+                        <div class="footer-item d-flex flex-column pb-4 pb-lg-0">
+                            <a href="#" onclick="setCurrentPage('privacy-policy')">${getLabel("Privacy Policy", "سياسة الخصوصية")}</a>
+                            <a href="#" onclick="setCurrentPage('terms-of-service')">${getLabel("Terms of Service", "الشروط والأحكام")}</a>
+                        </div>
                     </div>
+                </div>
+
+                <div class="col-12 col-lg-3 footer-accordion-item footer-accordion-item-last">
+                    <button class="footer-accordion-toggle d-flex d-lg-none align-items-center justify-content-between w-100 bg-transparent border-0 text-primary py-3"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#footerContact">
+                        <h4 class="text-primary mb-0">${getLabel("Contact Info", "تواصل معنا")}</h4>
+                        <i class="fas fa-chevron-down footer-chevron"></i>
+                    </button>
+                    <h4 class="text-primary mb-4 d-none d-lg-block">${getLabel("Contact Info", "تواصل معنا")}</h4>
+                    <div class="collapse footer-collapse" id="footerContact">
+                        <div class="footer-item d-flex flex-column pb-4 pb-lg-0">
+                            <a href=""><i class="fa fa-map-marker-alt m-2"></i> ${getLabel("2 El Tayaran St, Nasr City", "2 ش الطيران، مدينة نصر")}</a>
+                            <a href="mailto:marketing@kader-factory.com"><i class="fa fa-envelope m-2"></i> marketing@kader-factory</a>
+                            <a href="tel:+201030009248"><i class="fa fa-phone m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
+                            <a href="https://wa.me/201030009248" target="_blank"><i class="fa fa-comment m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
+
+                            <div class="d-flex align-items-center gap-3 justify-content-start ps-2 py-3 border-top border-white border-opacity-25">
+                                ${paymentIconsHtml}
+                            </div>
+
+                            <div class="d-flex align-items-center gap-3 justify-content-start ps-2 pt-3 border-top border-white border-opacity-25">
+                                <a class="d-flex align-items-center gap-3 cursor-pointer">
+                                    <i class="fas fa-file-invoice text-primary fs-3"></i>
+                                    <div class="text-start">
+                                        <div class="fw-semibold text-primary small">${getLabel("VAT Registered", "مسجل ضريبة القيمة المضافة")}</div>
+                                        <div class="text-white" style="font-size: 0.8rem;">${getLabel("Tax No. 300-XXXXXXX-0003", "الرقم الضريبي 300-XXXXXXX-0003")}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <div class="container-fluid copyright py-5 bg-secondary">
+        <div class="container pt-5 copy-rights">
+            <div class="row g-4 text-center">
+                <div class="col-12">
+                    <span class="text-primary opacity-75">
+                        ${getLabel(
+                          "Copyright © Kader Factory for Advanced Industries, 2026. All rights reserved",
+                          "حقوق النشر © مصنع قادر للصناعات المتطورة، 2026. جميع الحقوق محفوظة",
+                        )}
+                    </span>
                 </div>
             </div>
         </div>
-    `;
+    </div>
+`;
+
+  // Rotate chevron icon on expand/collapse
+  footer.querySelectorAll('.footer-accordion-toggle').forEach(btn => {
+    const targetId = btn.getAttribute('data-bs-target');
+    const target = footer.querySelector(targetId);
+
+    target.addEventListener('show.bs.collapse', () => {
+      btn.querySelector('.footer-chevron').classList.add('rotated');
+    });
+    target.addEventListener('hide.bs.collapse', () => {
+      btn.querySelector('.footer-chevron').classList.remove('rotated');
+    });
+  });
 }
 /**
  * Create banner component
