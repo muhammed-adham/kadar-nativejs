@@ -147,14 +147,27 @@ const navigationLinks = [
           },
         ],
       },
+
+      {
+        title_en: "All",
+        title_ar: "الكل",
+
+        items: [
+          {
+            label_en: "View All Products",
+            label_ar: "جميع المنتجات",
+            path: "#products",
+          },
+        ],
+      },
     ],
   },
 
   {
-    id: "projects",
-    label_en: "Projects",
+    id: "machinery",
+    label_en: "Machinery",
     label_ar: "المشاريع",
-    path: "#projects",
+    path: "#machinery",
   },
 
   {
@@ -1033,7 +1046,7 @@ function initializeNavigation() {
   /* ======================================================================
        MOBILE MENU OVERLAY — main nav links
        ====================================================================== */
-  function initializeMobileMenu() {
+ function initializeMobileMenu() {
     const mount = document.getElementById("mobileMenu");
     if (!mount) return;
 
@@ -1044,6 +1057,15 @@ function initializeNavigation() {
                 <button class="overlay-icon-btn" id="closeMobileMenuBtn" aria-label="Close menu">
                     <i class="fas fa-xmark"></i>
                 </button>
+            </div>
+
+            <!-- Mobile search -->
+            <div class="overlay-search px-3 pt-2 pb-3" id="mobileSearchWrapper">
+                <input type="text"
+                       class="form-control"
+                       id="mobileSearchInput"
+                       placeholder="${getLabel('Search...', 'ابحث...')}">
+                <div class="list-group d-none" id="mobileSearchDropdown"></div>
             </div>
 
             <div class="overlay-body">
@@ -1066,6 +1088,33 @@ function initializeNavigation() {
                   })
                   .join("")}
             </div>
+
+            <div class="d d-flex py-5 justify-content-center align-items-center bg-light">
+
+                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="${appState.user ? '/profile' : '/login'}">
+                    <i class="fas fa-user"></i>
+                    ${appState.user ? appState.user.name : getLabel("Login / Register", "تسجيل الدخول / تسجيل جديد")}
+                </a>
+
+                <a href="#" class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" id="mobileThemeToggle">
+                    <i class="fas fa-${appState.theme === "dark" ? "sun" : "moon"}"></i>
+                    ${appState.theme === "dark" ? getLabel("Light Mode", "الوضع الفاتح") : getLabel("Dark ", " داكن")}
+                </a>
+
+                <a href="#" class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" id="mobileLangToggle">
+                    <i class="fas fa-globe"></i>
+                    ${appState.language === "ar" ? "English" : "العربية"}
+                </a>
+
+                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="/cart" id="mobileCartBtn">
+                    <i class="fas fa-shopping-cart"></i>
+                    ${getLabel("Cart", "السلة")}
+                    <span class="badge bg-primary rounded-pill" id="mobileCartCount">
+                        ${appState.cartCount || 0}
+                    </span>
+                </a>
+
+            </div>
         </div>
     `;
 
@@ -1073,7 +1122,7 @@ function initializeNavigation() {
       .getElementById("closeMobileMenuBtn")
       .addEventListener("click", closeMobileMenu);
 
-    // Wire up any link that opens a mega menu (e.g. "Products")
+    // Mega menu triggers
     mount.querySelectorAll("[data-mega-trigger]").forEach((el) => {
       el.addEventListener("click", (e) => {
         e.preventDefault();
@@ -1083,7 +1132,48 @@ function initializeNavigation() {
         if (link) openMegaMenu(link);
       });
     });
-  }
+
+    // Mobile search
+    const mobileSearchInput = document.getElementById("mobileSearchInput");
+    const mobileSearchDropdown = document.getElementById("mobileSearchDropdown");
+
+    mobileSearchInput.addEventListener("input", function () {
+        const query = this.value.trim();
+
+        if (query.length === 0) {
+            mobileSearchDropdown.classList.add("d-none");
+            mobileSearchDropdown.innerHTML = "";
+            return;
+        }
+
+        const allItems = window.appState?.products || [];
+        const results = allItems
+            .filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
+            .slice(0, 8)
+            .map((p) => ({ label: p.name, url: `/product/${p.id}` }));
+
+        if (results.length === 0) {
+            mobileSearchDropdown.innerHTML = `<div class="list-group-item text-muted">${getLabel("No results found", "لا توجد نتائج")}</div>`;
+        } else {
+            mobileSearchDropdown.innerHTML = results
+                .map((item) => `<a href="${item.url}" class="list-group-item list-group-item-action">${item.label}</a>`)
+                .join("");
+        }
+
+        mobileSearchDropdown.classList.remove("d-none");
+    });
+
+    // Theme / language toggles
+    document.getElementById("mobileThemeToggle").addEventListener("click", (e) => {
+        e.preventDefault();
+        if (typeof toggleTheme === "function") toggleTheme();
+    });
+
+    document.getElementById("mobileLangToggle").addEventListener("click", (e) => {
+        e.preventDefault();
+        if (typeof toggleLanguage === "function") toggleLanguage();
+    });
+}
 
   function openMobileMenu() {
     document.getElementById("mobileMenuPanel").classList.add("is-open");
@@ -1249,9 +1339,9 @@ function initializeFooter() {
   if (!footer) return;
 
   const paymentIcons = [
-      { img: "./images/pay-3.svg", label: "Visa" },
-      { img: "./images/pay-4.svg", label: "Mastercard" },
-      { img: "./images/pay-2-white.svg", label: "Mada" },
+    { img: "./images/pay-3.svg", label: "Visa" },
+    { img: "./images/pay-4.svg", label: "Mastercard" },
+    { img: "./images/pay-2-white.svg", label: "Mada" },
   ];
 
   const paymentIconsHtml = paymentIcons
@@ -1264,7 +1354,7 @@ function initializeFooter() {
     )
     .join("");
 
- footer.innerHTML = `
+  footer.innerHTML = `
     <div class="container-fluid footer bg-secondary pt-5">
         <div class="container pt-5">
             <!-- Row 1: Newsletter -->
@@ -1277,7 +1367,7 @@ function initializeFooter() {
                     <div class="footer-item text-center">
                         <div class="input-group rounded-2 mx-auto">
                             <input type="email" class="form-control" placeholder="${getLabel("Enter your email", "ادخل بريدك الالكتروني")}">
-                            <button class="btn btn-primary btn-primary-ondark rounded-right-1">
+                            <button class="btn btn-primary rounded-right-1">
                                 ${getLabel("Subscribe", "اشتراك")}
                             </button>
                         </div>
@@ -1322,7 +1412,7 @@ function initializeFooter() {
                     <div class="collapse footer-collapse" id="footerServices">
                         <div class="footer-item d-flex flex-column pb-4 pb-lg-0">
                             <a href="#products">${getLabel("Products", "المنتجات")}</a>
-                            <a href="#projects">${getLabel("Projects", "المشاريع")}</a>
+                            <a href="#machinery">${getLabel("Machinery", "المشاريع")}</a>
                             <a href="#news">${getLabel("News", "الأخبار")}</a>
                         </div>
                     </div>
@@ -1391,15 +1481,15 @@ function initializeFooter() {
 `;
 
   // Rotate chevron icon on expand/collapse
-  footer.querySelectorAll('.footer-accordion-toggle').forEach(btn => {
-    const targetId = btn.getAttribute('data-bs-target');
+  footer.querySelectorAll(".footer-accordion-toggle").forEach((btn) => {
+    const targetId = btn.getAttribute("data-bs-target");
     const target = footer.querySelector(targetId);
 
-    target.addEventListener('show.bs.collapse', () => {
-      btn.querySelector('.footer-chevron').classList.add('rotated');
+    target.addEventListener("show.bs.collapse", () => {
+      btn.querySelector(".footer-chevron").classList.add("rotated");
     });
-    target.addEventListener('hide.bs.collapse', () => {
-      btn.querySelector('.footer-chevron').classList.remove('rotated');
+    target.addEventListener("hide.bs.collapse", () => {
+      btn.querySelector(".footer-chevron").classList.remove("rotated");
     });
   });
 }
@@ -1503,12 +1593,17 @@ function setCurrentPage(pageId) {
     const activeLink = document.getElementById(`nav-${pageId}`);
     if (activeLink) activeLink.classList.add("active");
 
+        document.getElementById("mobileMenuPanel").classList.remove("is-open");
+    closeMegaMenu();
+    document.body.style.overflow = "";
+
     // Scroll to top
     window.scrollTo(0, 0);
 
     // Load page-specific content if needed
     loadPageContent(pageId);
   }
+  
 }
 
 /**
@@ -1522,7 +1617,7 @@ function loadPageContent(pageId) {
     case "products":
       loadProductsPage();
       break;
-    case "projects":
+    case "machinery":
       loadProjectsPage();
       break;
     case "news":
@@ -1843,7 +1938,7 @@ function initializeHomePageSections() {
                                 ${getLabel("At KADER, we pride ourselves on decades of expertise and innovation in manufacturing. As a trusted factory affiliated with the Authority of Organization and Inspection (AOI), we are committed to delivering high-quality products and solutions that meet global standards. Our dedication to excellence and customer satisfaction has made us a leader in our industry.", "في شركة كادر، نفخر بخبرتنا الممتدة لعقود في مجال التصنيع وابتكاراتنا. وبصفتنا مصنعًا موثوقًا به تابعًا للهيئة العربية للتصنيع، فإننا ملتزمون بتقديم منتجات وحلول عالية الجودة تلبي المعايير العالمية. وقد جعلنا تفانينا في التميز ورضا العملاء روادًا في صناعتنا.")}
                                 <br/>
                                 <br/>
-                                <a class="btn btn-white ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
+                                <a class="btn btn-link ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
                                  ${getLabel("Read More", "اقرأ المزيد")} 
                                 </a>
                             </p>
@@ -1959,7 +2054,7 @@ function initializeHomePageSections() {
                     <div class="row g-4" id="productsGrid"></div>
                     
                     <div class="col-12 text-end p-2">
-                        <a class="btn btn-white border-secondary rounded-0" href="#" onclick="setCurrentPage('products')">
+                        <a class="btn btn-link border-secondary rounded-0" href="#" onclick="setCurrentPage('products')">
                             ${getLabel("View All", "عرض الكل")}
                         </a>
                     </div>
@@ -2253,7 +2348,7 @@ function initializeHomePageSections() {
                             </span>
                             <h6 class="card-title">${getLabel(item.titleEn, item.titleAr)}</h6>
                             <p class="card-text text-muted">${getLabel(item.excerptEn, item.excerptAr)}</p>
-                            <a href="#" class="btn btn-white small p-0 pe-4" onclick="setCurrentPage('news', '${item.id}')">
+                            <a href="#" class="btn btn-link small " onclick="setCurrentPage('news', '${item.id}')">
                                 ${getLabel("Read More", "اقرأ المزيد")}
                             </a>
                         </div>
@@ -2292,7 +2387,7 @@ function initializeHomePageSections() {
                 <div class="news-pagination text-center mt-4"></div>
 
                 <div class="text-end">
-                    <a class="btn btn-white p-0 pe-4" href="#" onclick="setCurrentPage('news')">
+                    <a class="btn btn-link " href="#" onclick="setCurrentPage('news')">
                         ${getLabel("View All", "عرض الكل")}
                     </a>
                 </div>
@@ -2363,7 +2458,7 @@ function initializeHomePageSections() {
                             <p class="text-white-50 mb-0" id="activeProjectDesc">${getLabel(projects[0].descEn, projects[0].descAr)}</p>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-white text-primary border-secondary rounded-0 ps-0 py-0 mb-4" id="activeProjectLink" onclick="setCurrentPage('projects', '${projects[0].id}')">
+                            <a href="#" class="btn btn-link text-primary border-secondary rounded-0 ps-0 py-0 mb-4" id="activeProjectLink" onclick="setCurrentPage('projects', '${projects[0].id}')">
                                 ${getLabel("Read More", "اقرأ المزيد")}
                             </a>
                             <div class="d-flex gap-3">

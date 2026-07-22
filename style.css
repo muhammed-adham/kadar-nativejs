@@ -383,10 +383,6 @@ p {
   /* transform: translateY(-2px); */
 }
 
-.btn-primary-ondark {
-  box-shadow: 0 0px 4px rgba(255, 255, 255, 0.5);
-}
-
 .btn-secondary {
   background-color: var(--secondary);
   color: var(--white);
@@ -398,14 +394,17 @@ p {
   border-color: #151520;
 }
 
-.btn-white {
+.btn-link {
   color: var(--secondary);
   transition: var(--transition);
   text-decoration: none;
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.btn-white:hover {
+.btn-link:hover {
   /* background-color: var(--light); */
   /* border-color: var(--light); */
   color: var(--text-primary);
@@ -415,20 +414,24 @@ p {
   gap: 0.5rem;
 }
 
-.btn-white::after {
+.btn-link::after {
   content: "→";
   position: absolute;
   font-size: 1rem;
-  transition: transform 0.3s ease;
-  right: 0;
+  right: -0.2rem;
+  transition: all 0.3s ease;
 }
 
-.btn-white:hover {
+.btn-link:hover {
   color: var(--text-primary);
 }
 
-.btn-white:hover::after {
+.btn-link:hover::after {
   transform: translateX(4px);
+}
+
+.btn-white:hover{
+color: var(--primary);
 }
 
 .btn-outline-primary {
@@ -1593,7 +1596,7 @@ footer a:hover {
   .copy-rights {
     border-top: 0px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   .service-item,
   .project-item {
     margin-bottom: 20px;
