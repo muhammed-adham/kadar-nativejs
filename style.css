@@ -289,7 +289,10 @@ a {
 
 /* ========== Banner Styles ========== */
 .bg-breadcrumb {
-  background: linear-gradient(135deg, var(--primary) 0%, #0073b3 100%);
+  /* background: linear-gradient(135deg, var(--primary) 0%, #0073b3 100%); */
+  background-image: url(./images/b-page.webp);
+  background-position: center;
+  background-size: cover;
   padding: 60px 0;
 }
 
@@ -298,13 +301,21 @@ a {
   padding: 0;
 }
 
+.bg-breadcrumb h3 {
+  color: var(--primary) !important;
+}
+
 .breadcrumb-item a {
-  color: var(--secondary);
+  color: var(--text-white) !important;
   text-decoration: none;
 }
 
+.breadcrumb-item a:hover {
+  color: var(--primary) !important;
+}
+
 .breadcrumb-item.active {
-  color: var(--secondary);
+  color: var(--text-secondary) !important;
 }
 
 /* ========== Typography ========== */
@@ -430,8 +441,8 @@ p {
   transform: translateX(4px);
 }
 
-.btn-white:hover{
-color: var(--primary);
+.btn-white:hover {
+  color: var(--primary);
 }
 
 .btn-outline-primary {
@@ -441,6 +452,10 @@ color: var(--primary);
 .btn-outline-primary:hover {
   /* color: var(--secondary); */
   background-color: var(--primary);
+}
+
+.btn-show {
+  border: 1px solid black;
 }
 
 /* ========== Container Styles ========== */
@@ -1074,6 +1089,48 @@ color: var(--primary);
   color: var(--white);
 }
 
+/* ========== SignUp Styles ========== */
+.signup-visual-panel {
+  background-image: url("/images/b-9.webp");
+  background-size: 150%;
+  background-position: center;
+}
+
+.signup-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(15, 27, 42, 0.9) 0%,
+    rgba(15, 27, 42, 0.6) 100%
+  );
+}
+
+.signup-divider {
+  position: relative;
+}
+
+.signup-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #dee2e6;
+  z-index: 0;
+}
+
+.signup-divider span {
+  position: relative;
+  z-index: 1;
+}
+
+#signupForm .form-control:focus {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.2rem rgba(0, 145, 219, 0.15);
+}
+
 /* ========== Form Styles ========== */
 .form-floating > label {
   color: var(--text-secondary);
@@ -1531,7 +1588,7 @@ footer a:hover {
 /* ========== Responsive Design ========== */
 
 @media (min-width: 992px) {
-  .navbar .dropdown:hover > .dropdown-menu {
+  .dropdown:hover > .dropdown-menu {
     display: block;
     margin-top: 0;
     opacity: 1;

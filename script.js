@@ -383,7 +383,7 @@ const productsData = {
       title: "Mobile Tech Unit",
       desc: "Self-contained mobile lab for on-site technical work.",
       url: "/images/prd-5.webp",
-      category: "tech-centers",
+      category: "vehicle-Conversions",
       sub_category: "Mobile Labs",
       price: 68000,
       oldPrice: 79000,
@@ -392,7 +392,7 @@ const productsData = {
       title: "Communication Center Vehicle",
       desc: "Mobile unit outfitted for field communications and networking.",
       url: "/images/prd-6.webp",
-      category: "tech-centers",
+      category: "vehicle-Conversions",
       sub_category: "Comm Units",
       price: 71000,
       // oldPrice: 84000,
@@ -544,7 +544,7 @@ const productsData = {
       title: "وحدة تقنية متنقلة",
       desc: "معمل متنقل ذاتي الاحتواء للعمل التقني الميداني.",
       url: "/images/prd-5.webp",
-      category: "tech-centers",
+      category: "vehicle-Conversions",
       sub_category: "معامل متنقلة",
       price: 68000,
       oldPrice: 79000,
@@ -553,7 +553,7 @@ const productsData = {
       title: "مركبة مركز اتصالات",
       desc: "وحدة متنقلة مجهزة للاتصالات والشبكات الميدانية.",
       url: "/images/prd-6.webp",
-      category: "tech-centers",
+      category: "vehicle-Conversions",
       sub_category: "وحدات اتصال",
       price: 71000,
       // oldPrice: 84000,
@@ -650,12 +650,12 @@ const categories = [
   },
   {
     img: "/images/cat-9.webp",
-    nameEn: "Tech Centers",
+    nameEn: "Vehicle Conversions",
     nameAr: "مراكز تقنية",
     variantsEn: ["Mobile Labs", "Comm Units", "Server Cabins"],
     variantsAr: ["معامل متنقلة", "وحدات اتصال", "غرف سيرفرات"],
     page: "products",
-    categoryId: "tech-centers",
+    categoryId: "vehicle-Conversions",
   },
   {
     img: "/images/cat-4.webp",
@@ -982,8 +982,8 @@ function initializeNavigation() {
                 <a class="dropdown-item" onclick="logout()">${getLabel("Logout", "تسجيل الخروج")}</a>
             `
                 : `
-                <a class="dropdown-item" href="/login">${getLabel("Login", "تسجيل الدخول")}</a>
-                <a class="dropdown-item" href="/register">${getLabel("Register", "تسجيل جديد")}</a>
+                <a class="dropdown-item" href="/#login">${getLabel("Login", "تسجيل الدخول")}</a>
+                <a class="dropdown-item"  onclick="setCurrentPage('register')" href="/#register">${getLabel("Register", "تسجيل جديد")}</a>
             `
             }
         </div>
@@ -1089,9 +1089,9 @@ function initializeNavigation() {
                   .join("")}
             </div>
 
-            <div class="d d-flex py-5 justify-content-center align-items-center bg-light">
+            <div class="d d-flex py-5 justify-content-center align-items-center bg-light px-3">
 
-                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="${appState.user ? '/profile' : '/login'}">
+                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="${appState.user ? '/profile' : '/#register'}">
                     <i class="fas fa-user"></i>
                     ${appState.user ? appState.user.name : getLabel("Login / Register", "تسجيل الدخول / تسجيل جديد")}
                 </a>
@@ -1106,7 +1106,7 @@ function initializeNavigation() {
                     ${appState.language === "ar" ? "English" : "العربية"}
                 </a>
 
-                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="/cart" id="mobileCartBtn">
+                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 h-100" href="/cart" id="mobileCartBtn">
                     <i class="fas fa-shopping-cart"></i>
                     ${getLabel("Cart", "السلة")}
                     <span class="badge bg-primary rounded-pill" id="mobileCartCount">
@@ -1593,17 +1593,34 @@ function setCurrentPage(pageId) {
     const activeLink = document.getElementById(`nav-${pageId}`);
     if (activeLink) activeLink.classList.add("active");
 
-        document.getElementById("mobileMenuPanel").classList.remove("is-open");
-    closeMegaMenu();
+    //Close Mobile Menu
+    document.getElementById("mobileMenuPanel").classList.remove("is-open");
+    const panel = document.getElementById("megaMenuPanel");
+    if (panel) panel.classList.remove("is-open");
     document.body.style.overflow = "";
 
     // Scroll to top
     window.scrollTo(0, 0);
 
+    // Show/hide nav and footer for chrome-free pages (e.g. auth pages)
+    const pagesWithoutChrome = ["register", "login"];
+    const mainNav = document.getElementById("mainNav");
+    const mainFooter = document.getElementById("mainFooter");
+    const mainHeader = document.getElementById("navLinksRow");
+
+    if (pagesWithoutChrome.includes(pageId)) {
+      if (mainNav) mainNav.style.display = "none";
+      if (mainFooter) mainFooter.style.display = "none";
+      if (mainHeader) mainHeader.style.display = "none";
+    } else {
+      if (mainNav) mainNav.style.display = "";
+      if (mainFooter) mainFooter.style.display = "";
+      if (mainHeader) mainHeader.style.display = "";
+    }
+
     // Load page-specific content if needed
     loadPageContent(pageId);
   }
-  
 }
 
 /**
@@ -1629,6 +1646,15 @@ function loadPageContent(pageId) {
     case "contact":
       loadContactPage();
       break;
+    case "register":
+      loadRegisterPage();
+      break;
+    case "login":
+      loadLoginPage();
+      break;
+    case "contact":
+      loadContactPage();
+      break;
   }
 }
 
@@ -1636,53 +1662,152 @@ function loadPageContent(pageId) {
  * Load about page
  */
 function loadAboutPage() {
-  const container = document.getElementById("aboutPageContent");
-  if (!container) return;
+    const container = document.getElementById("aboutPageContent");
+    if (!container) return;
 
-  container.innerHTML = `
+    const values = [
+        { icon: 'fas fa-shield-alt', titleEn: 'Integrity', titleAr: 'النزاهة' },
+        { icon: 'fas fa-cogs', titleEn: 'Precision', titleAr: 'الدقة' },
+        { icon: 'fas fa-users', titleEn: 'Reliability', titleAr: 'الموثوقية' },
+        { icon: 'fas fa-lightbulb', titleEn: 'Innovation', titleAr: 'الابتكار' }
+    ];
+
+    container.innerHTML = `
         ${createBanner(getLabel("About Us", "من نحن"))}
+
+        <!-- Who We Are: Full-width intro with large stat overlay -->
         <div class="container-fluid overflow-hidden py-5 bg-white">
             <div class="container py-5">
-                <div class="row g-5">
-                    <div class="col-xl-5 wow fadeInRight" data-wow-delay="0.1s">
-                        <div class="bg-light rounded" style="height: 100%; width: 100%;">
-                            <img src="/images/about.webp" class="img-fluid w-100" style="width: 100%; height: 100%; object-fit: cover;" alt="About">
-                        </div>
-                    </div>
-                    <div class="col-xl-7 wow fadeInRight" data-wow-delay="0.3s">
-                        <h5 class="sub-title p-3">${getLabel("About KADER", "عن مصنع قادر")}</h5>
+                <div class="row justify-content-center text-center mb-5">
+                    <div class="col-lg-8">
+                        <h5 class="sub-title text-primary px-3">${getLabel("Who We Are", "من نحن")}</h5>
                         <h1 class="display-5 mb-4">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به ومعتمد من الهيئة العربية للتصنيع")}</h1>
-                        <p class="mb-4">${getLabel("At KADER, we pride ourselves on decades of expertise and innovation in manufacturing.", "في مصنع قادر، نفخر بعقود من الخبرة والابتكار في مجال التصنيع.")}</p>
-                        <div class="row gy-4 align-items-center">
-                            <div class="col-4 col-md-3">
-                                <div class="bg-light text-center rounded p-3">
-                                    <div class="mb-2">
-                                        <i class="fas fa-ticket-alt fa-4x text-primary"></i>
-                                    </div>
-                                    <h1 class="display-5 fw-bold mb-2 text-dark">70+</h1>
-                                    <p class="text-muted mb-0">${getLabel("Years of Experience", "سنوات من الخبرة")}</p>
-                                </div>
-                            </div>
-                            <div class="col-8 col-md-9">
-                                <div class="d-flex flex-wrap">
-                                    <div class="d-flex align-items-center justify-content-center m-4">
-                                        <i class="fa fa-phone-alt text-primary fa-3x"></i>
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <span class="text-primary">${getLabel("Have any questions?", "هل لديك أي أسئلة؟")}</span>
-                                        <span class="text-secondary fw-bold fs-5">call: <span dir="ltr">+0123 456 7890</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="text-muted mb-0">
+                            ${getLabel(
+                                "At KADER, we pride ourselves on decades of expertise and innovation in manufacturing. From our origins as a small industrial workshop to becoming a trusted name affiliated with the Arab Organization for Industrialization, our commitment to quality, precision, and reliability has never wavered.",
+                                "في مصنع قادر، نفخر بعقود من الخبرة والابتكار في مجال التصنيع. من ورشة صناعية صغيرة إلى اسم موثوق معتمد من الهيئة العربية للتصنيع، لم يتزعزع التزامنا بالجودة والدقة والموثوقية."
+                            )}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="position-relative about-hero-image rounded-4 overflow-hidden">
+                    <img src="/images/about.webp" class="img-fluid w-100" style="height: 420px; object-fit: cover;" alt="About">
+                    <div class="about-hero-stat">
+                        <h1 class="display-3 fw-bold text-white mb-0">70+</h1>
+                        <span class="text-white-50">${getLabel("Years of Experience", "سنوات من الخبرة")}</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Our Story: image left, text right -->
+        <div class="container-fluid overflow-hidden py-5 bg-light">
+            <div class="container py-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6">
+                        <img src="/images/about-story.webp" class="img-fluid rounded-4 w-100" style="height: 380px; object-fit: cover;" alt="Our Story">
+                    </div>
+                    <div class="col-lg-6">
+                        <h5 class="sub-title text-primary px-3">${getLabel("Our Journey", "مسيرتنا")}</h5>
+                        <h2 class="fw-bold mb-4">${getLabel("Our Story", "قصتنا")}</h2>
+                        <p class="text-muted mb-4">
+                            ${getLabel(
+                                "What began as a small industrial workshop decades ago has grown into one of the region's most trusted manufacturing facilities. Through steady investment in technology, people, and process, KADER earned its place as an officially affiliated factory under the Arab Organization for Industrialization — a milestone that reflects our unwavering commitment to quality and national industrial development.",
+                                "ما بدأ كورشة صناعية صغيرة منذ عقود نما ليصبح أحد أكثر منشآت التصنيع الموثوقة في المنطقة. من خلال الاستثمار المستمر في التكنولوجيا والأفراد والعمليات، اكتسب مصنع قادر مكانته كمصنع معتمد رسمياً تحت مظلة الهيئة العربية للتصنيع — وهو إنجاز يعكس التزامنا الثابت بالجودة والتنمية الصناعية الوطنية."
+                            )}
+                        </p>
+                        <a href="#" class="btn btn-primary rounded-0 py-3 px-5" onclick="setCurrentPage('news')">
+                            ${getLabel("Read Our Milestones", "اقرأ أبرز محطاتنا")}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Mission: text left, image right -->
+        <div class="container-fluid overflow-hidden py-5 bg-white">
+            <div class="container py-5">
+                <div class="row g-5 align-items-center flex-lg-row-reverse">
+                    <div class="col-lg-6">
+                        <img src="/images/about-mission.webp" class="img-fluid rounded-4 w-100" style="height: 380px; object-fit: cover;" alt="Our Mission">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 mb-3" style="width: 64px; height: 64px;">
+                            <i class="fas fa-bullseye fa-2x text-primary"></i>
+                        </div>
+                        <h5 class="sub-title text-primary px-3">${getLabel("Why We Exist", "لماذا نحن هنا")}</h5>
+                        <h2 class="fw-bold mb-4">${getLabel("Our Mission", "مهمتنا")}</h2>
+                        <p class="text-muted mb-0">
+                            ${getLabel(
+                                "To deliver reliable, high-quality manufacturing and machinery rental solutions that empower government entities and industrial partners to operate with confidence and efficiency, every single day.",
+                                "تقديم حلول تصنيع وتأجير معدات موثوقة وعالية الجودة تمكّن الجهات الحكومية والشركاء الصناعيين من العمل بثقة وكفاءة، كل يوم."
+                            )}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Vision: text left, image right, dark band -->
+        <div class="container-fluid overflow-hidden py-5 about-vision-band">
+            <div class="container py-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-25 mb-3" style="width: 64px; height: 64px;">
+                            <i class="fas fa-eye fa-2x text-primary"></i>
+                        </div>
+                        <h5 class="sub-title text-primary px-3">${getLabel("Where We're Headed", "إلى أين نتجه")}</h5>
+                        <h2 class="fw-bold mb-4 text-white">${getLabel("Our Vision", "رؤيتنا")}</h2>
+                        <p class="text-white-50 mb-0">
+                            ${getLabel(
+                                "To be the leading name in industrial manufacturing across the region, recognized for precision, innovation, and unwavering reliability — a factory that governments and industries alike can build their future on.",
+                                "أن نكون الاسم الرائد في التصنيع الصناعي على مستوى المنطقة، معروفين بالدقة والابتكار والموثوقية التي لا تتزعزع — مصنع يمكن للحكومات والصناعات على حد سواء بناء مستقبلها عليه."
+                            )}
+                        </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="/images/about-vision.webp" class="img-fluid rounded-4 w-100" style="height: 380px; object-fit: cover;" alt="Our Vision">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Values: horizontal icon strip -->
+        <div class="container-fluid overflow-hidden py-5 bg-light">
+            <div class="container py-5">
+                <div class="section-title text-center mb-5">
+                    <h5 class="sub-title text-primary px-3">${getLabel("What Drives Us", "ما يحركنا")}</h5>
+                    <h1 class="display-5">${getLabel("Our Values", "قيمنا")}</h1>
+                </div>
+
+                <div class="row g-0 values-strip text-center">
+                    ${values.map((v, i) => `
+                        <div class="col-6 col-lg-3 values-strip-item ${i !== 0 ? 'values-strip-border' : ''}">
+                            <i class="${v.icon} fa-3x text-primary mb-3"></i>
+                            <h5 class="fw-bold mb-0">${getLabel(v.titleEn, v.titleAr)}</h5>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+
         ${createCounterSection()}
+
+        <!-- CTA -->
+        <div class="container-fluid overflow-hidden py-5 bg-light text-center">
+            <div class="container py-4">
+                <h2 class="text-white mb-3">${getLabel("Let's Build Something Reliable Together", "لنبنِ شيئاً موثوقاً معاً")}</h2>
+                <p class="text-white-50 mb-4 mx-auto" style="max-width: 600px;">
+                    ${getLabel("Whether you need manufacturing solutions or machinery rental, our team is ready to help.", "سواء كنت بحاجة إلى حلول تصنيع أو تأجير معدات، فريقنا جاهز لمساعدتك.")}
+                </p>
+                <a href="#" class="btn btn-primary rounded-0 py-3 px-5" onclick="setCurrentPage('contact')">
+                    ${getLabel("Contact Us", "تواصل معنا")}
+                </a>
+            </div>
+        </div>
     `;
 }
-
 /**
  * Load products page
  */
@@ -1911,6 +2036,384 @@ function loadContactPage() {
             </div>
         </div>
     `;
+}
+
+/**
+ * Initialize Sign Up Page
+ */
+function loadRegisterPage() {
+    const container = document.getElementById('registerPageContent');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="container-fluid p-0">
+            <div class="row g-0">
+
+                <!-- Left: Branded visual panel -->
+                <div class="col-lg-4 d-none d-lg-flex signup-visual-panel position-relative vh-100">
+                    <div class="signup-visual-overlay"></div>
+                    <div class="position-relative d-flex align-items-start flex-column justify-content-between p-5">
+
+                    <a href="/#home" >
+                    <img src="/images/logo-kader-white.png" alt="KADER" style="max-height: 3.2rem; object-fit:contain;">
+                    </a>
+
+                        <div >
+                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel('Join Our Network', 'انضم إلى شبكتنا')}</h2>
+                            <p class="text-white-50 mb-4" style="max-width: 400px;">
+                                ${getLabel(
+                                    'Create an account to access exclusive pricing, track orders, and manage your industrial equipment needs in one place.',
+                                    'أنشئ حساباً للوصول إلى أسعار حصرية، وتتبع الطلبات، وإدارة احتياجاتك من المعدات الصناعية في مكان واحد.'
+                                )}
+                            </p>
+                            <div class="d-flex gap-4">
+                                <div>
+                                    <h4 class="fw-bold mb-0">70+</h4>
+                                    <span class="text-white-50 small">${getLabel('Years Experience', 'سنوات خبرة')}</span>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0">100+</h4>
+                                    <span class="text-white-50 small">${getLabel('Industrial Partners', 'شريك صناعي')}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="text-white-50 small">${getLabel('© 2026 Kader Factory for Advanced Industries', '© 2026 مصنع قادر للصناعات المتطورة')}</span>
+                    </div>
+                </div>
+
+                <!-- Right: Sign up form -->
+                <div class="col-lg-8 d-flex align-items-center justify-content-center py-5">
+                    <div class="w-100 px-4 px-md-5" style="max-width: 480px;">
+
+                        <div class="text-center text-lg-start mb-2">
+                            <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel('GET STARTED', 'ابدأ الآن')}</h5>
+                            <h2 class="fw-bold mb-2">${getLabel('Create Your Account', 'أنشئ حسابك')}</h2>
+                            <p class="text-muted mb-0">
+                                ${getLabel('Already have an account?', 'لديك حساب بالفعل؟')}
+                                <a href="#login" class="fw-semibold text-primary text-decoration-none" onclick="setCurrentPage('login')">
+                                    ${getLabel('Sign In', 'تسجيل الدخول')}
+                                </a>
+                            </p>
+                        </div>
+
+                        <form id="signupForm" novalidate>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold" for="firstName">${getLabel('First Name', 'الاسم الأول')}</label>
+                                    <input type="text" class="form-control py-2" id="firstName" required>
+                                    <div class="invalid-feedback" id="firstName-error"></div>
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold" for="lastName">${getLabel('Last Name', 'اسم العائلة')}</label>
+                                    <input type="text" class="form-control py-2" id="lastName" required>
+                                    <div class="invalid-feedback" id="lastName-error"></div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold" for="signupEmail">${getLabel('Email Address', 'البريد الإلكتروني')}</label>
+                                <input type="email" class="form-control py-2" id="signupEmail" required>
+                                <div class="invalid-feedback" id="signupEmail-error"></div>
+
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold" for="signupPhone">${getLabel('Phone Number', 'رقم الهاتف')}</label>
+                                <input type="tel" class="form-control py-2" id="signupPhone" dir="ltr" required>
+                                <div class="invalid-feedback" id="signupPhone-error"></div>
+
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold" for="signupPassword">${getLabel('Password', 'كلمة المرور')}</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control py-2" id="signupPassword" required>
+                                    <div class="invalid-feedback" id="signupPassword-error"></div>
+                                    
+                                    <button class="btn btn-outline-primary position-absolute end-0"  type="button" id="togglePassword">
+                                    <i class="far fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-semibold" for="confirmPassword">${getLabel('Confirm Password', 'تأكيد كلمة المرور')}</label>
+                                <input type="password" class="form-control py-2" id="confirmPassword" required>
+                                <div class="invalid-feedback" id="confirmPassword-error"></div>
+
+
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                <label class="form-check-label small text-muted" for="agreeTerms">
+                                    ${getLabel('I agree to the', 'أوافق على')}
+                                    <a href="#" onclick="setCurrentPage('terms-of-service')">${getLabel('Terms of Service', 'الشروط والأحكام')}</a>
+                                    ${getLabel('and', 'و')}
+                                    <a href="#" onclick="setCurrentPage('privacy-policy')">${getLabel('Privacy Policy', 'سياسة الخصوصية')}</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-3 rounded-0 fw-semibold">
+                                ${getLabel('Create Account', 'إنشاء الحساب')}
+                            </button>
+
+                            <div class="text-center my-4 signup-divider">
+                                <span class="bg-white px-3 text-muted small">${getLabel('OR', 'أو')}</span>
+                            </div>
+
+                            <button type="button" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fab fa-google"></i>
+                                ${getLabel('Continue with Google', 'المتابعة عبر جوجل')}
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+    // Toggle password visibility
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('signupPassword');
+    toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        toggleBtn.querySelector('i').className = isPassword ? 'far fa-eye-slash' : 'far fa-eye';
+    });
+
+    // Basic client-side validation feedback
+    const form = document.getElementById('signupForm');
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        validateSignupForm()
+
+        // Hook your actual signup/API call here
+        console.log('Signup submitted');
+    });
+
+    
+    // Validations
+    function validateSignupForm() {
+    let isValid = true;
+
+    const fields = {
+        firstName: document.getElementById('firstName'),
+        lastName: document.getElementById('lastName'),
+        signupEmail: document.getElementById('signupEmail'),
+        signupPhone: document.getElementById('signupPhone'),
+        signupPassword: document.getElementById('signupPassword'),
+        confirmPassword: document.getElementById('confirmPassword'),
+        agreeTerms: document.getElementById('agreeTerms')
+    };
+
+    function showError(field, message) {
+        field.classList.add('is-invalid');
+        const errorEl = document.getElementById(`${field.id}-error`);
+        if (errorEl) errorEl.textContent = message;
+        isValid = false;
+    }
+
+    function clearError(field) {
+        field.classList.remove('is-invalid');
+        const errorEl = document.getElementById(`${field.id}-error`);
+        if (errorEl) errorEl.textContent = '';
+    }
+
+    // Reset all first
+    Object.values(fields).forEach(f => f && clearError(f));
+
+    // First / Last name — required, letters only (basic check)
+    if (!fields.firstName.value.trim()) {
+        showError(fields.firstName, getLabel('First name is required', 'الاسم الأول مطلوب'));
+    }
+    if (!fields.lastName.value.trim()) {
+        showError(fields.lastName, getLabel('Last name is required', 'اسم العائلة مطلوب'));
+    }
+
+    // Email — required + valid format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!fields.signupEmail.value.trim()) {
+        showError(fields.signupEmail, getLabel('Email is required', 'البريد الإلكتروني مطلوب'));
+    } else if (!emailRegex.test(fields.signupEmail.value.trim())) {
+        showError(fields.signupEmail, getLabel('Enter a valid email address', 'أدخل بريداً إلكترونياً صحيحاً'));
+    }
+
+    // Phone — required, digits only, reasonable length
+    const phoneDigits = fields.signupPhone.value.replace(/\D/g, '');
+    if (!phoneDigits) {
+        showError(fields.signupPhone, getLabel('Phone number is required', 'رقم الهاتف مطلوب'));
+    } else if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+        showError(fields.signupPhone, getLabel('Enter a valid phone number', 'أدخل رقم هاتف صحيح'));
+    }
+
+    // Password — required, min length, at least one number
+    const password = fields.signupPassword.value;
+    if (!password) {
+        showError(fields.signupPassword, getLabel('Password is required', 'كلمة المرور مطلوبة'));
+    } else if (password.length < 8) {
+        showError(fields.signupPassword, getLabel('Password must be at least 8 characters', 'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل'));
+    } else if (!/\d/.test(password)) {
+        showError(fields.signupPassword, getLabel('Password must include at least one number', 'يجب أن تحتوي كلمة المرور على رقم واحد على الأقل'));
+    }
+
+    // Confirm password — must match
+    if (!fields.confirmPassword.value) {
+        showError(fields.confirmPassword, getLabel('Please confirm your password', 'يرجى تأكيد كلمة المرور'));
+    } else if (fields.confirmPassword.value !== password) {
+        showError(fields.confirmPassword, getLabel('Passwords do not match', 'كلمتا المرور غير متطابقتين'));
+    }
+
+    // Terms checkbox — must be checked
+    if (!fields.agreeTerms.checked) {
+        fields.agreeTerms.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        fields.agreeTerms.classList.remove('is-invalid');
+    }
+
+    return isValid;
+}
+}
+
+/**
+ * Initialize Sign In Page
+ */
+function loadLoginPage() {
+    const loginPage = document.getElementById('loginPageContent');
+    if (!loginPage) return;
+
+    loginPage.innerHTML = `
+        <div class="container-fluid p-0">
+            <div class="row g-0 min-vh-100">
+
+                <!-- Left: Branded visual panel -->
+                <div class="col-lg-4 d-none d-lg-flex signup-visual-panel position-relative v-100">
+                    <div class="signup-visual-overlay"></div>
+                    <div class="position-relative d-flex align-items-start flex-column justify-content-between p-5">
+
+                    <a href="/#home" >
+                    <img src="/images/logo-kader-white.png" alt="KADER" style="max-height: 3.2rem; object-fit:contain;">
+                    </a>
+
+                        <div>
+                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel('Welcome Back', 'مرحباً بعودتك')}</h2>
+                            <p class="text-white-50 mb-4" style="max-width: 400px;">
+                                ${getLabel(
+                                    'Sign in to access your account, track orders, and manage your industrial equipment needs.',
+                                    'سجل الدخول للوصول إلى حسابك، وتتبع طلباتك، وإدارة احتياجاتك من المعدات الصناعية.'
+                                )}
+                            </p>
+                            <div class="d-flex gap-4">
+                                <div>
+                                    <h4 class="fw-bold mb-0">70+</h4>
+                                    <span class="text-white-50 small">${getLabel('Years Experience', 'سنوات خبرة')}</span>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0">100+</h4>
+                                    <span class="text-white-50 small">${getLabel('Industrial Partners', 'شريك صناعي')}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="text-white-50 small">${getLabel('© 2026 Kader Factory for Advanced Industries', '© 2026 مصنع قادر للصناعات المتطورة')}</span>
+                    </div>
+                </div>
+
+                <!-- Right: Sign in form -->
+                <div class="col-lg-8 d-flex align-items-center justify-content-center py-5">
+                    <div class="w-100 px-4 px-md-5" style="max-width: 440px;">
+
+                        <div class="text-center text-lg-start mb-5">
+                            <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel('WELCOME BACK', 'مرحباً بعودتك')}</h5>
+                            <h2 class="fw-bold mb-2">${getLabel('Sign In to Your Account', 'تسجيل الدخول إلى حسابك')}</h2>
+                            <p class="text-muted mb-0">
+                                ${getLabel("Don't have an account?", 'ليس لديك حساب؟')}
+                                <a href="#register" class="fw-semibold text-primary text-decoration-none" onclick="setCurrentPage('register')">
+                                    ${getLabel('Create One', 'أنشئ حساباً')}
+                                </a>
+                            </p>
+                        </div>
+
+                        <form id="loginForm" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold" for="loginEmail">${getLabel('Email Address', 'البريد الإلكتروني')}</label>
+                                <input type="email" class="form-control py-2" id="loginEmail" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="form-label small fw-semibold" for="loginPassword">${getLabel('Password', 'كلمة المرور')}</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control py-2" id="loginPassword" required>
+                                    <button class="btn btn-outline-primary position-absolute end-0"  type="button" id="toggleLoginPassword">
+
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label small text-muted" for="rememberMe">
+                                        ${getLabel('Remember me', 'تذكرني')}
+                                    </label>
+                                </div>
+                                <a href="#" class="small text-primary text-decoration-none" onclick="setCurrentPage('forgot-password')">
+                                    ${getLabel('Forgot Password?', 'نسيت كلمة المرور؟')}
+                                </a>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-3 rounded-0 fw-semibold">
+                                ${getLabel('Sign In', 'تسجيل الدخول')}
+                            </button>
+
+                            <div class="text-center my-4 signup-divider">
+                                <span class="bg-white px-3 text-muted small">${getLabel('OR', 'أو')}</span>
+                            </div>
+
+                            <button type="button" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
+                                <i class="fab fa-google"></i>
+                                ${getLabel('Continue with Google', 'المتابعة عبر جوجل')}
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+    // Toggle password visibility
+    const toggleBtn = document.getElementById('toggleLoginPassword');
+    const passwordInput = document.getElementById('loginPassword');
+    toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        toggleBtn.querySelector('i').className = isPassword ? 'far fa-eye-slash' : 'far fa-eye';
+    });
+
+    // Form submit
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        // Hook your actual login/API call here
+        console.log('Login submitted', { email, password });
+    });
 }
 
 /*========================================================================================================*/
