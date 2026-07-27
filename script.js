@@ -1775,12 +1775,52 @@ function loadAboutPage() {
                 ar: 'ونسعى من خلال هذه القيم إلى بناء شراكات قوية ومستدامة مع عملائنا، وتقديم منتجات وحلول صناعية عالية الجودة تسهم في دعم التنمية وخدمة المجتمع.'
             }
         ],
-        items: [
-            { icon: 'fas fa-shield-alt', title: { en: 'Integrity', ar: 'النزاهة' } },
-            { icon: 'fas fa-lightbulb', title: { en: 'Innovation', ar: 'الابتكار' } },
-            { icon: 'fas fa-medal', title: { en: 'Excellence in Performance', ar: 'التميز في الأداء' } },
-            { icon: 'fas fa-users', title: { en: 'Teamwork', ar: 'العمل بروح الفريق' } }
-        ]
+items: [
+    {
+        icon: 'fas fa-ranking-star',
+        title: {
+            en: 'Quality',
+            ar: 'الجودة'
+        },
+        text: {
+            en: 'Delivering products that meet the highest standards of quality, precision, and durability.',
+            ar: 'نلتزم بتقديم منتجات بأعلى معايير الجودة والدقة والمتانة.'
+        }
+    },
+    {
+        icon: 'fas fa-lightbulb',
+        title: {
+            en: 'Innovation',
+            ar: 'الابتكار'
+        },
+        text: {
+            en: 'Embracing advanced technologies and innovative solutions to drive continuous improvement.',
+            ar: 'نعتمد أحدث التقنيات والحلول المبتكرة لتحقيق التطوير المستمر.'
+        }
+    },
+    {
+        icon: 'fas fa-shield',
+        title: {
+            en: 'Reliability',
+            ar: 'الاعتمادية'
+        },
+        text: {
+            en: 'Providing dependable products and services our customers can trust with confidence.',
+            ar: 'نوفر منتجات وخدمات موثوقة تلبي احتياجات عملائنا بثقة واستمرارية.'
+        }
+    },
+    {
+        icon: 'fas fa-medal',
+        title: {
+            en: 'Excellence',
+            ar: 'التميز'
+        },
+        text: {
+            en: 'Pursuing excellence through skilled craftsmanship, operational efficiency, and continuous growth.',
+            ar: 'نسعى للتميز من خلال الكفاءة التشغيلية، والحرفية العالية، والتطوير المستمر.'
+        }
+    }
+]
     };
 
     // ===== Render =====
@@ -1838,8 +1878,8 @@ function loadAboutPage() {
                 
                     <div class="col-lg-6">
                         <div class="sector-card sector-card-civilian h-100 rounded-1 p-4 p-lg-5 bg-white shadow-sm">
-                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 mb-4" style="width: 64px; height: 64px;">
-                                <i class="fas fa-handshake fa-2x text-dark"></i>
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-secondary bg-opacity-10 mb-4" style="width: 64px; height: 64px;">
+                                <i class="fas fa-handshake fa-2x text-white"></i>
                             </div>
                             <h3 class="fw-bold mb-3">${getLabel(sectorsContent.civilian.title.en, sectorsContent.civilian.title.ar)}</h3>
                             <ul class="list-unstyled mb-0">
@@ -1851,7 +1891,7 @@ function loadAboutPage() {
                     <div class="col-lg-6">
                         <div class="sector-card sector-card-defense h-100 rounded-1 p-4 p-lg-5">
                             <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 mb-4" style="width: 64px; height: 64px;">
-                                <i class="fas fa-landmark-flag fa-2x text-dark"></i>
+                                <i class="fas fa-landmark-flag fa-2x text-secondary"></i>
                             </div>
                             <h3 class="text-white fw-bold mb-3">${getLabel(sectorsContent.defense.title.en, sectorsContent.defense.title.ar)}</h3>
                             <ul class="list-unstyled mb-0">
@@ -1900,18 +1940,25 @@ function loadAboutPage() {
         </div>
 
         <!-- Our Values: full paragraphs + stacked feature rows -->
-        <div class="container-fluid overflow-hidden pb-5 bg-white">
+        <div class="container-fluid overflow-hidden bg-white">
             <div class="container py-5">
-                <div class="row g-5">
-                    <div class="col-lg-8">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="col-12 col-lg-4 pb-4">
                         <h1 class="display-5 text-secondary mb-3">${getLabel(valuesContent.title.en, valuesContent.title.ar)}</h1>
                         ${paragraphsHtml(valuesContent.paragraphs)}
                     </div>
-                    <div class="col-lg-4">
+                    <div class="row col-lg-8">
                         ${valuesContent.items.map((v, i) => `
-                            <div class="value-row d-flex align-items-center gap-4 py-4 ${i !== valuesContent.items.length - 1 ? 'border-bottom' : ''}">
-                                <i class="${v.icon} fa-2x text-secondary value-row-icon"></i>
-                                <h5 class="fw-bold mb-0">${getLabel(v.title.en, v.title.ar)}</h5>
+                            <div class="col-12 col-lg-6 p-4 border bg-secondary rounded-1">
+                                <div class="d-flex">
+                                  <i class="${v.icon} fa-2x text-primary value-row-icon"></i>
+                                  <div>
+                                    <h5 class="text-white fw-bold mb-0">${getLabel(v.title.en, v.title.ar)}</h5>
+                                     <p class="text-white-50 mb-4 mx-auto" >
+                                       ${getLabel("Whether you need manufacturing solutions or machinery rental, our team is ready to help.", "سواء كنت بحاجة إلى حلول تصنيع أو تأجير معدات، فريقنا جاهز لمساعدتك.")}
+                                      </p>
+                                  </div>
+                                </div>
                             </div>
                         `).join('')}
                     </div>
