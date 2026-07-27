@@ -275,16 +275,68 @@ a {
 }
 
 /* ========== About Section Styles ========== */
-.material-symbols-outlined.large {
-  font-size: 3rem;
-  color: var(--primary);
+
+/* Founded year overlay badge */
+.about-founded-badge {
+    position: absolute;
+    bottom: 0;
+    background: var(--white);
+    padding: 1rem 2rem;
+    backdrop-filter: blur(4px);
 }
 
-.about-img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  object-position: center;
+/* Sector cards (What We Manufacture — unchanged) */
+.sector-card-defense {
+    background: linear-gradient(135deg, var(--secondary) 0%, #1a2a3d 100%);
+}
+
+/* Vision & Mission tab switcher */
+.vm-tabs-nav {
+    background: var(--border-color);
+}
+
+.vm-tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 1.25rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-bottom: 3px solid var(--border-color);
+}
+
+.vm-tab-btn:hover {
+    color: var(--secondary);
+    background: #fff;
+    border-bottom-color: var(--border-color);
+}
+
+.vm-tab-btn.active {
+    color: var(--white);
+    background: var(--secondary);
+    border-bottom-color: var(--secondary);
+}
+
+.vm-tab-pane {
+    display: none;
+    animation: fadeInTab 0.4s ease;
+}
+
+.vm-tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Values: stacked feature rows */
+.value-row-icon {
+    flex-shrink: 0;
+    width: 56px;
 }
 
 /* ========== Banner Styles ========== */

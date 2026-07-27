@@ -1665,149 +1665,288 @@ function loadAboutPage() {
     const container = document.getElementById("aboutPageContent");
     if (!container) return;
 
-    const values = [
-        { icon: 'fas fa-shield-alt', titleEn: 'Integrity', titleAr: 'النزاهة' },
-        { icon: 'fas fa-cogs', titleEn: 'Precision', titleAr: 'الدقة' },
-        { icon: 'fas fa-users', titleEn: 'Reliability', titleAr: 'الموثوقية' },
-        { icon: 'fas fa-lightbulb', titleEn: 'Innovation', titleAr: 'الابتكار' }
-    ];
+    // ===== Content Data (full text, all paragraphs) =====
+
+    const aboutContent = {
+        subtitle: { en: 'About KADER', ar: 'عن مصنع قادر' },
+        title: { en: 'Who We Are', ar: 'من نحن' },
+        founded: { en: 'Founded', ar: 'تأسس عام' },
+        foundedYear: '1949',
+        paragraphs: [
+            {
+                en: 'Kader Factory for Advanced Industries is one of the major industrial entities affiliated with the Arab Organization for Industrialization (AOI) in Egypt. Established in 1949, it is considered one of the oldest and most prominent engineering manufacturing facilities in Egypt and the Middle East.',
+                ar: 'يعد مصنع قادر للصناعات المتطورة أحد الصروح الصناعية التابعة لـ الهيئة العربية للتصنيع في مصر، وقد تأسس عام 1949 ليكون من أقدم وأهم المصانع الهندسية في مصر والشرق الأوسط.'
+            },
+            {
+                en: 'With more than seven decades of experience in advanced engineering industries, the factory manufactures a wide range of products serving both defense and civilian sectors. These include armored vehicles, firefighting and rescue vehicles, cash-in-transit vehicles, specialized vehicle outfitting, and mobile technological centers.',
+                ar: 'يمتلك المصنع خبرة ممتدة لأكثر من سبعين عاماً في مجال الصناعات الهندسية المتطورة، حيث يقوم بتصنيع مجموعة واسعة من المنتجات التي تخدم القطاعات الدفاعية والمدنية، من بينها العربات المدرعة، سيارات الإطفاء والإنقاذ، عربات نقل الأموال، تجهيزات المركبات والمراكز التكنولوجية المتنقلة.'
+            },
+            {
+                en: 'In addition, the factory supports the civilian market by producing light and electric transportation solutions, such as electric scooters and e-bikes, as well as home, office, and hotel furniture, along with various equipment manufactured according to the highest standards of quality and modern technology.',
+                ar: 'كما يساهم المصنع في دعم السوق المدني من خلال إنتاج وسائل النقل الخفيف والكهربائي مثل السكوترات و الدراجات الكهربائية، بالإضافة إلى الأثاث المنزلي والمكتبي والفندقي والتجهيزات المختلفة، وفق أعلى معايير الجودة والتكنولوجيا الحديثة.'
+            },
+            {
+                en: 'Kader Factory continues to play a key role in localizing industry and technology in Egypt by expanding its production capabilities and delivering innovative products that meet the needs of both local and regional markets, strengthening its position as one of the leading pillars of national industry.',
+                ar: 'ويواصل المصنع جهوده في توطين الصناعة والتكنولوجيا في مصر، من خلال تطوير قدراته الإنتاجية وتقديم منتجات مبتكرة تلبي احتياجات السوق المحلي والإقليمي، بما يعزز من مكانته كأحد أهم قلاع الصناعة الوطنية.'
+            }
+        ],
+        stats: [
+            { value: '70+', label: { en: 'Years of Experience', ar: 'سنوات من الخبرة' } },
+            { value: 'AOI', label: { en: 'Officially Affiliated', ar: 'معتمد رسمياً' } }
+        ]
+    };
+
+    const sectorsContent = {
+        subtitle: { en: 'Engineering Excellence Across Civilian & Military Industries', ar: 'ريادة هندسية في الصناعات المدنية والعسكرية' },
+        title: { en: 'Our Manufacturing Capabilities', ar: 'قدراتنا التصنيعية' },
+        defense: {
+            title: { en: 'Defense & Government', ar: 'القطاع الدفاعي والحكومي' },
+            items: [
+                { en: 'Armored Vehicles', ar: 'العربات المدرعة' },
+                { en: 'Firefighting & Rescue Vehicles', ar: 'سيارات الإطفاء والإنقاذ' },
+                { en: 'Cash-in-Transit Vehicles', ar: 'عربات نقل الأموال' },
+                { en: 'Specialized Vehicle Outfitting', ar: 'تجهيزات المركبات' },
+                { en: 'Mobile Technological Centers', ar: 'المراكز التكنولوجية المتنقلة' }
+            ]
+        },
+        civilian: {
+            title: { en: 'Civilian & Commercial', ar: 'القطاع المدني والتجاري' },
+            items: [
+                { en: 'Electric Scooters & E-Bikes', ar: 'السكوترات والدراجات الكهربائية' },
+                { en: 'Home Furniture', ar: 'الأثاث المنزلي' },
+                { en: 'Office Furniture', ar: 'الأثاث المكتبي' },
+                { en: 'Hotel Furniture & Equipment', ar: 'الأثاث والتجهيزات الفندقية' },
+                { en: 'Plastic Products', ar: 'المنتجات البلاستيكية' },
+            ]
+        }
+    };
+
+    const visionMissionContent = {
+        vision: {
+            tabLabel: { en: 'Our Vision', ar: 'رؤيتنا' },
+            eyebrow: { en: "Where We're Headed", ar: 'إلى أين نتجه' },
+            icon: 'fas fa-eye',
+            paragraphs: [
+                {
+                    en: 'The vision of Kader Factory for Advanced Industries, affiliated with the Arab Organization for Industrialization, is to strengthen its position as a global leader in industrial and technological innovation by developing advanced products and solutions that meet the latest international standards.',
+                    ar: 'تتمثل رؤية مصنع قادر للصناعات المتطورة، التابع لـ الهيئة العربية للتصنيع، في ترسيخ مكانته كأحد الرواد عالمياً في مجالات الابتكار الصناعي والتكنولوجي من خلال تطوير منتجات وحلول متقدمة تواكب أحدث المعايير العالمية.'
+                },
+                {
+                    en: "We aspire to become a leading industrial model that actively contributes to sustainable development, providing innovative industrial technologies and solutions that help build a more advanced future for Egypt while enhancing its industrial presence in regional and global markets.",
+                    ar: 'ونسعى إلى أن نكون نموذجاً صناعياً رائداً يسهم بفاعلية في دعم التنمية المستدامة، وتقديم تقنيات وحلول صناعية مبتكرة تسهم في بناء مستقبل أكثر تطوراً لمصر، وتعزز حضورها الصناعي في الأسواق الإقليمية والعالمية.'
+                },
+                {
+                    en: 'We continuously leverage our accumulated expertise and modern technologies to develop high-quality products that enhance industrial competitiveness and address both present needs and future aspirations.',
+                    ar: 'كما نعمل باستمرار على توظيف الخبرات المتراكمة والتكنولوجيا الحديثة لابتكار منتجات عالية الجودة تدعم التنافسية الصناعية وتلبي احتياجات الحاضر وتطلعات المستقبل.'
+                }
+            ]
+        },
+        mission: {
+            tabLabel: { en: 'Our Mission', ar: 'هدفنا' },
+            eyebrow: { en: 'Why We Exist', ar: 'لماذا نحن هنا' },
+            icon: 'fas fa-bullseye',
+            paragraphs: [
+                {
+                    en: 'Kader Factory for Advanced Industries aims to lead excellence and innovation in engineering and technological manufacturing by delivering advanced industrial solutions and high-quality products that meet the needs of our customers and partners across various sectors.',
+                    ar: 'يسعى مصنع قادر للصناعات المتطورة، التابع لـ الهيئة العربية للتصنيع، إلى قيادة مسيرة التميز والابتكار في مجالات التصنيع الهندسي والتكنولوجي، من خلال تقديم حلول صناعية متطورة ومنتجات عالية الجودة تلبي احتياجات عملائنا وشركائنا في مختلف القطاعات.'
+                },
+                {
+                    en: 'We strive to exceed customer expectations by utilizing our extensive experience and adopting the latest industrial technologies, while maintaining the highest standards of quality and efficiency throughout all stages of design, manufacturing, and implementation.',
+                    ar: 'ونعمل على تجاوز توقعات العملاء عبر توظيف خبراتنا المتراكمة، والاستفادة من أحدث التقنيات الصناعية، مع الالتزام بأعلى معايير الجودة والكفاءة في جميع مراحل التصميم والتصنيع والتنفيذ.'
+                },
+                {
+                    en: 'We are also committed to fostering a culture of continuous innovation and development to ensure that our products and services deliver real value to our customers and support the growth of industrial and economic development.',
+                    ar: 'كما نحرص على ترسيخ ثقافة الابتكار المستمر والتطوير الدائم لضمان تقديم منتجات وخدمات تضيف قيمة حقيقية لعملائنا، ويدعم مسيرة التنمية الصناعية والاقتصادية.'
+                }
+            ]
+        }
+    };
+
+    const valuesContent = {
+        subtitle: { en: 'What Guides Our Work', ar: 'ما يوجه أعمالنا' },
+        title: { en: 'Our Values', ar: 'قيمنا' },
+        paragraphs: [
+            {
+                en: 'At Kader Factory for Advanced Industries, part of the Arab Organization for Industrialization, we are guided by a set of core values that shape all our operations. These include integrity, innovation, excellence in performance, and teamwork.',
+                ar: 'في مصنع قادر للصناعات المتطورة التابع لـ الهيئة العربية للتصنيع، نلتزم بمجموعة من القيم التي توجه جميع أعمالنا، وفي مقدمتها النزاهة، والابتكار، والتميز في الأداء، والعمل بروح الفريق.'
+            },
+            {
+                en: 'Through these values, we aim to build strong and sustainable partnerships with our customers, while delivering high-quality industrial products and solutions that contribute to development and serve the community.',
+                ar: 'ونسعى من خلال هذه القيم إلى بناء شراكات قوية ومستدامة مع عملائنا، وتقديم منتجات وحلول صناعية عالية الجودة تسهم في دعم التنمية وخدمة المجتمع.'
+            }
+        ],
+        items: [
+            { icon: 'fas fa-shield-alt', title: { en: 'Integrity', ar: 'النزاهة' } },
+            { icon: 'fas fa-lightbulb', title: { en: 'Innovation', ar: 'الابتكار' } },
+            { icon: 'fas fa-medal', title: { en: 'Excellence in Performance', ar: 'التميز في الأداء' } },
+            { icon: 'fas fa-users', title: { en: 'Teamwork', ar: 'العمل بروح الفريق' } }
+        ]
+    };
+
+    // ===== Render =====
+
+    const sectorItemsHtml = (items, textClass, borderClass) => items.map(item => `
+        <li class="d-flex align-items-center ${textClass} py-2 ${borderClass}">
+            <i class="fas fa-angle-right text-primary me-2"></i> ${getLabel(item.en, item.ar)}
+        </li>
+    `).join('');
+
+    const paragraphsHtml = (paragraphs, extraClass = '') => paragraphs.map((p, i) => `
+        <p class="text-muted ${i === paragraphs.length - 1 ? 'mb-0' : 'mb-3'} ${extraClass}">${getLabel(p.en, p.ar)}</p>
+    `).join('');
 
     container.innerHTML = `
         ${createBanner(getLabel("About Us", "من نحن"))}
 
-        <!-- Who We Are: Full-width intro with large stat overlay -->
+        <!-- Who We Are -->
         <div class="container-fluid overflow-hidden py-5 bg-white">
             <div class="container py-5">
-                <div class="row justify-content-center text-center mb-5">
-                    <div class="col-lg-8">
-                        <h5 class="sub-title text-primary px-3">${getLabel("Who We Are", "من نحن")}</h5>
-                        <h1 class="display-5 mb-4">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به ومعتمد من الهيئة العربية للتصنيع")}</h1>
-                        <p class="text-muted mb-0">
-                            ${getLabel(
-                                "At KADER, we pride ourselves on decades of expertise and innovation in manufacturing. From our origins as a small industrial workshop to becoming a trusted name affiliated with the Arab Organization for Industrialization, our commitment to quality, precision, and reliability has never wavered.",
-                                "في مصنع قادر، نفخر بعقود من الخبرة والابتكار في مجال التصنيع. من ورشة صناعية صغيرة إلى اسم موثوق معتمد من الهيئة العربية للتصنيع، لم يتزعزع التزامنا بالجودة والدقة والموثوقية."
-                            )}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="position-relative about-hero-image rounded-4 overflow-hidden">
-                    <img src="/images/about.webp" class="img-fluid w-100" style="height: 420px; object-fit: cover;" alt="About">
-                    <div class="about-hero-stat">
-                        <h1 class="display-3 fw-bold text-white mb-0">70+</h1>
-                        <span class="text-white-50">${getLabel("Years of Experience", "سنوات من الخبرة")}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Our Story: image left, text right -->
-        <div class="container-fluid overflow-hidden py-5 bg-light">
-            <div class="container py-5">
                 <div class="row g-5 align-items-center">
-                    <div class="col-lg-6">
-                        <img src="/images/about-story.webp" class="img-fluid rounded-4 w-100" style="height: 380px; object-fit: cover;" alt="Our Story">
-                    </div>
-                    <div class="col-lg-6">
-                        <h5 class="sub-title text-primary px-3">${getLabel("Our Journey", "مسيرتنا")}</h5>
-                        <h2 class="fw-bold mb-4">${getLabel("Our Story", "قصتنا")}</h2>
-                        <p class="text-muted mb-4">
-                            ${getLabel(
-                                "What began as a small industrial workshop decades ago has grown into one of the region's most trusted manufacturing facilities. Through steady investment in technology, people, and process, KADER earned its place as an officially affiliated factory under the Arab Organization for Industrialization — a milestone that reflects our unwavering commitment to quality and national industrial development.",
-                                "ما بدأ كورشة صناعية صغيرة منذ عقود نما ليصبح أحد أكثر منشآت التصنيع الموثوقة في المنطقة. من خلال الاستثمار المستمر في التكنولوجيا والأفراد والعمليات، اكتسب مصنع قادر مكانته كمصنع معتمد رسمياً تحت مظلة الهيئة العربية للتصنيع — وهو إنجاز يعكس التزامنا الثابت بالجودة والتنمية الصناعية الوطنية."
-                            )}
-                        </p>
-                        <a href="#" class="btn btn-primary rounded-0 py-3 px-5" onclick="setCurrentPage('news')">
-                            ${getLabel("Read Our Milestones", "اقرأ أبرز محطاتنا")}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Our Mission: text left, image right -->
-        <div class="container-fluid overflow-hidden py-5 bg-white">
-            <div class="container py-5">
-                <div class="row g-5 align-items-center flex-lg-row-reverse">
-                    <div class="col-lg-6">
-                        <img src="/images/about-mission.webp" class="img-fluid rounded-4 w-100" style="height: 380px; object-fit: cover;" alt="Our Mission">
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 mb-3" style="width: 64px; height: 64px;">
-                            <i class="fas fa-bullseye fa-2x text-primary"></i>
+                    <div class="col-lg-6 position-relative">
+                        <img src="/images/_about.webp" class="img-fluid rounded-2 w-100" style="height: 48rem; object-fit: cover;" alt="Who We Are">
+                        <div class="about-founded-badge text-center">
+                            <span class="d-block small text-uppercase text-secondary">${getLabel(aboutContent.founded.en, aboutContent.founded.ar)}</span>
+                            <h2 class="text-secondary fw-bold mb-0">${aboutContent.foundedYear}</h2>
                         </div>
-                        <h5 class="sub-title text-primary px-3">${getLabel("Why We Exist", "لماذا نحن هنا")}</h5>
-                        <h2 class="fw-bold mb-4">${getLabel("Our Mission", "مهمتنا")}</h2>
-                        <p class="text-muted mb-0">
-                            ${getLabel(
-                                "To deliver reliable, high-quality manufacturing and machinery rental solutions that empower government entities and industrial partners to operate with confidence and efficiency, every single day.",
-                                "تقديم حلول تصنيع وتأجير معدات موثوقة وعالية الجودة تمكّن الجهات الحكومية والشركاء الصناعيين من العمل بثقة وكفاءة، كل يوم."
-                            )}
-                        </p>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Our Vision: text left, image right, dark band -->
-        <div class="container-fluid overflow-hidden py-5 about-vision-band">
-            <div class="container py-5">
-                <div class="row g-5 align-items-center">
                     <div class="col-lg-6">
-                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-25 mb-3" style="width: 64px; height: 64px;">
-                            <i class="fas fa-eye fa-2x text-primary"></i>
+                        <h5 class="sub-title text-primary px-3">${getLabel(aboutContent.subtitle.en, aboutContent.subtitle.ar)}</h5>
+                        <h1 class="display-5 fw-bold mb-4">${getLabel(aboutContent.title.en, aboutContent.title.ar)}</h1>
+                        ${paragraphsHtml(aboutContent.paragraphs)}
+                        <div class="d-flex align-items-center gap-4 mt-4">
+                            ${aboutContent.stats.map((s, i) => `
+                                ${i !== 0 ? '<div class="vr"></div>' : ''}
+                                <div>
+                                    <h2 class="text-primary fw-bold mb-0">${s.value}</h2>
+                                    <span class="text-muted small">${getLabel(s.label.en, s.label.ar)}</span>
+                                </div>
+                            `).join('')}
                         </div>
-                        <h5 class="sub-title text-primary px-3">${getLabel("Where We're Headed", "إلى أين نتجه")}</h5>
-                        <h2 class="fw-bold mb-4 text-white">${getLabel("Our Vision", "رؤيتنا")}</h2>
-                        <p class="text-white-50 mb-0">
-                            ${getLabel(
-                                "To be the leading name in industrial manufacturing across the region, recognized for precision, innovation, and unwavering reliability — a factory that governments and industries alike can build their future on.",
-                                "أن نكون الاسم الرائد في التصنيع الصناعي على مستوى المنطقة، معروفين بالدقة والابتكار والموثوقية التي لا تتزعزع — مصنع يمكن للحكومات والصناعات على حد سواء بناء مستقبلها عليه."
-                            )}
-                        </p>
-                    </div>
-                    <div class="col-lg-6">
-                        <img src="/images/about-vision.webp" class="img-fluid rounded-4 w-100" style="height: 380px; object-fit: cover;" alt="Our Vision">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Our Values: horizontal icon strip -->
-        <div class="container-fluid overflow-hidden py-5 bg-light">
-            <div class="container py-5">
+        <!-- What We Manufacture -->
+        <div class="container-fluid overflow-hidden bg-white">
+            <div class="container py-5 border-top border-black border-opacity-25">
                 <div class="section-title text-center mb-5">
-                    <h5 class="sub-title text-primary px-3">${getLabel("What Drives Us", "ما يحركنا")}</h5>
-                    <h1 class="display-5">${getLabel("Our Values", "قيمنا")}</h1>
+                    <h1 class="display-5">${getLabel(sectorsContent.title.en, sectorsContent.title.ar)}</h1>
                 </div>
 
-                <div class="row g-0 values-strip text-center">
-                    ${values.map((v, i) => `
-                        <div class="col-6 col-lg-3 values-strip-item ${i !== 0 ? 'values-strip-border' : ''}">
-                            <i class="${v.icon} fa-3x text-primary mb-3"></i>
-                            <h5 class="fw-bold mb-0">${getLabel(v.titleEn, v.titleAr)}</h5>
+                <div class="row g-4">
+                
+                    <div class="col-lg-6">
+                        <div class="sector-card sector-card-civilian h-100 rounded-1 p-4 p-lg-5 bg-white shadow-sm">
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 mb-4" style="width: 64px; height: 64px;">
+                                <i class="fas fa-handshake fa-2x text-dark"></i>
+                            </div>
+                            <h3 class="fw-bold mb-3">${getLabel(sectorsContent.civilian.title.en, sectorsContent.civilian.title.ar)}</h3>
+                            <ul class="list-unstyled mb-0">
+                                ${sectorItemsHtml(sectorsContent.civilian.items, 'text-muted', 'border-bottom')}
+                            </ul>
                         </div>
-                    `).join('')}
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="sector-card sector-card-defense h-100 rounded-1 p-4 p-lg-5">
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-10 mb-4" style="width: 64px; height: 64px;">
+                                <i class="fas fa-landmark-flag fa-2x text-dark"></i>
+                            </div>
+                            <h3 class="text-white fw-bold mb-3">${getLabel(sectorsContent.defense.title.en, sectorsContent.defense.title.ar)}</h3>
+                            <ul class="list-unstyled mb-0">
+                                ${sectorItemsHtml(sectorsContent.defense.items, 'text-white-50', 'border-bottom border-white border-opacity-10')}
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-        ${createCounterSection()}
+        <!-- Vision & Mission: tab switcher, full paragraphs -->
+        <div class="container-fluid overflow-hidden bg-white">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="vm-tabs-wrapper rounded-1 overflow-hidden shadow-sm">
+
+                            <div class="d-flex vm-tabs-nav">
+                                <button class="vm-tab-btn active" data-vm-tab="vision">
+                                    <i class="${visionMissionContent.vision.icon} me-2"></i>
+                                    ${getLabel(visionMissionContent.vision.tabLabel.en, visionMissionContent.vision.tabLabel.ar)}
+                                </button>
+                                <button class="vm-tab-btn" data-vm-tab="mission">
+                                    <i class="${visionMissionContent.mission.icon} me-2"></i>
+                                    ${getLabel(visionMissionContent.mission.tabLabel.en, visionMissionContent.mission.tabLabel.ar)}
+                                </button>
+                            </div>
+
+                            <div class="vm-tab-content p-4 p-lg-5 bg-white">
+                                <div class="vm-tab-pane active" data-vm-pane="vision">
+                                    <h5 class="sub-title text-primary px-0">${getLabel(visionMissionContent.vision.eyebrow.en, visionMissionContent.vision.eyebrow.ar)}</h5>
+                                    ${paragraphsHtml(visionMissionContent.vision.paragraphs, 'fs-5')}
+                                </div>
+                                <div class="vm-tab-pane" data-vm-pane="mission">
+                                    <h5 class="sub-title text-primary px-0">${getLabel(visionMissionContent.mission.eyebrow.en, visionMissionContent.mission.eyebrow.ar)}</h5>
+                                    ${paragraphsHtml(visionMissionContent.mission.paragraphs, 'fs-5')}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Values: full paragraphs + stacked feature rows -->
+        <div class="container-fluid overflow-hidden pb-5 bg-white">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-8">
+                        <h1 class="display-5 text-secondary mb-3">${getLabel(valuesContent.title.en, valuesContent.title.ar)}</h1>
+                        ${paragraphsHtml(valuesContent.paragraphs)}
+                    </div>
+                    <div class="col-lg-4">
+                        ${valuesContent.items.map((v, i) => `
+                            <div class="value-row d-flex align-items-center gap-4 py-4 ${i !== valuesContent.items.length - 1 ? 'border-bottom' : ''}">
+                                <i class="${v.icon} fa-2x text-secondary value-row-icon"></i>
+                                <h5 class="fw-bold mb-0">${getLabel(v.title.en, v.title.ar)}</h5>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- CTA -->
-        <div class="container-fluid overflow-hidden py-5 bg-light text-center">
-            <div class="container py-4">
-                <h2 class="text-white mb-3">${getLabel("Let's Build Something Reliable Together", "لنبنِ شيئاً موثوقاً معاً")}</h2>
-                <p class="text-white-50 mb-4 mx-auto" style="max-width: 600px;">
-                    ${getLabel("Whether you need manufacturing solutions or machinery rental, our team is ready to help.", "سواء كنت بحاجة إلى حلول تصنيع أو تأجير معدات، فريقنا جاهز لمساعدتك.")}
+        <div class="container-fluid overflow-hidden py-5 bg-white text-center">
+            <div class="container py-4 d-flex flex-wrap justify-content-between align-items-center gap-2 border-top">
+            <div class="text-start col-12 col-lg-8">
+             <h2 class="display-5 fw-bolder mb-3">${getLabel("Manufacturing Excellence Starts Here", "لنبنِ شيئاً موثوقاً معاً")}</h2>
+             <p class="text-black-50 mb-4 mx-auto" >
+              ${getLabel("Whether you need manufacturing solutions or machinery rental, our team is ready to help.", "سواء كنت بحاجة إلى حلول تصنيع أو تأجير معدات، فريقنا جاهز لمساعدتك.")}
                 </p>
-                <a href="#" class="btn btn-primary rounded-0 py-3 px-5" onclick="setCurrentPage('contact')">
+            </div>
+                <a href="#" class="col-12 col-lg-3 btn btn-primary rounded-0 py-3 px-5" onclick="setCurrentPage('contact')">
                     ${getLabel("Contact Us", "تواصل معنا")}
                 </a>
             </div>
         </div>
     `;
+
+    // Vision/Mission tab switching
+    container.querySelectorAll('.vm-tab-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const target = this.dataset.vmTab;
+            container.querySelectorAll('.vm-tab-btn').forEach(b => b.classList.remove('active'));
+            container.querySelectorAll('.vm-tab-pane').forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            container.querySelector(`.vm-tab-pane[data-vm-pane="${target}"]`).classList.add('active');
+        });
+    });
 }
+
 /**
  * Load products page
  */
@@ -3291,7 +3430,7 @@ function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("home");
+  setCurrentPage("about");
 }
 
 /**
