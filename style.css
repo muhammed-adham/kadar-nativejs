@@ -2,13 +2,13 @@
 :root {
   --primary: #ff6600;
   --secondary: #003049;
-  --light: #ececec;
+  --light: #F4F8FB;
   --dark: #2c2c3c;
   --text-primary: #333333;
   --text-secondary: #666666;
   --white: #ffffff;
   --white-transparent: #ffffffe7;
-  --border-color: #e0e0e0;
+  --border-color: #EEF3F7;
   --transition: all 0.3s ease;
 }
 
@@ -234,6 +234,11 @@ a {
   background: var(--primary) !important;
 }
 
+html[dir="rtl"] .swiper-button-next,
+html[dir="rtl"] .swiper-button-prev {
+    transform: scaleX(-1);
+}
+
 .carousel-caption {
   position: absolute;
   top: 0;
@@ -358,7 +363,6 @@ a {
 }
 
 .breadcrumb-item a {
-  color: var(--text-white) !important;
   text-decoration: none;
 }
 
@@ -367,7 +371,7 @@ a {
 }
 
 .breadcrumb-item.active {
-  color: var(--text-secondary) !important;
+  color: var(--text-white) !important;
 }
 
 /* ========== Typography ========== */
@@ -978,6 +982,10 @@ p {
   background: var(--primary);
   color: #fff;
   opacity: 1;
+}
+
+html[dir="rtl"] .nav-btn-custom{
+    transform: scaleX(-1);
 }
 
 .projects-pagination {

@@ -233,18 +233,18 @@ const sliderData = {
   ],
   ar: [
     {
-      title: "AOI",
-      subTitle: "صناعات متنوعة، تميز موحد",
-      text: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
+      title: "",
+      subTitle: "",
+      text: "",
       url: "/images/b-0.png",
       cta: "",
-      path: "/",
+      path: "",
     },
     {
       title: "مراكز التكنولوجيا",
       subTitle: "صناعات متنوعة، تميز موحد",
       text: "اكتشف مراكز التكنولوجيا الحديثة لدينا والمجهزة بأحدث الأدوات والابتكارات.",
-      url: "/images/b-1.png",
+      url: "/images/cat-9.webp",
       cta: "",
       path: "/",
     },
@@ -252,23 +252,23 @@ const sliderData = {
       title: "المركبات الإلكترونية",
       subTitle: "صناعات متنوعة، تميز موحد",
       text: "اكتشف مجموعة المركبات الإلكترونية الصديقة للبيئة.",
-      url: "/images/cat-7.webp",
+      url: "/images/b-1.webp",
       cta: "",
       path: "/",
     },
     {
-      title: "أثاث المنزل",
+      title: "أثاث مكتبي",
       subTitle: "صناعات متنوعة، تميز موحد",
       text: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
-      url: "/images/b-3.jpg",
+      url: "/images/b-3.webp",
       cta: "",
       path: "/",
     },
     {
-      title: "أثاث المنزل",
+      title: "مبادرة البنك الأهلي المصري",
       subTitle: "صناعات متنوعة، تميز موحد",
       text: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
-      url: "/images/b-3.jpg",
+      url: "/images/b-3.webp",
       cta: "",
       path: "",
     },
@@ -607,8 +607,8 @@ const categories = [
     img: "/images/cat-7.webp",
     nameEn: "Electric Transport",
     nameAr: "نقل كهربائي",
-    variantsEn: ["Electric Buses", "Electric Vans", "Charging Units"],
-    variantsAr: ["حافلات كهربائية", "فانات كهربائية", "وحدات شحن"],
+    variantsEn: ["Electric Scooters", "Electric Golf Cars", "Electric Bicycles", "Bicycles"],
+    variantsAr: [  "سكوتر كهربائي","عربات جولف كهربائية","دراجات هوائية كهرباء","دراجات هوائية"],
     page: "products",
     categoryId: "electric-transport",
   },
@@ -616,8 +616,8 @@ const categories = [
     img: "/images/cat-11.webp",
     nameEn: "Furnish Home",
     nameAr: "افرش بيتك",
-    variantsEn: ["Living Room Sets", "Bedroom Sets", "Kitchen Packages"],
-    variantsAr: ["طقم صالة", "طقم غرفة نوم", "باقات مطبخ"],
+    variantsEn: ["Living Room Sets", "Bedroom Sets", "Diningroom Sets"],
+    variantsAr: ["طقم صالة", "طقم غرفة نوم", "طقم غرفة طعام"],
     page: "products",
     categoryId: "furnish-home",
   },
@@ -685,6 +685,32 @@ const categories = [
     categoryId: "ambulance",
   },
   {
+    img: "/images/cat-12.webp",
+    nameEn: "Agricultural Tractor",
+    nameAr: "جرارات زراعية",
+    variantsEn: [
+      "Utility Tractors",
+      "Field Tractors",
+      "Agricultural Attachments",
+    ],
+    variantsAr: ["جرارات متعددة الاستخدام", "جرارات الحقول", "ملحقات زراعية"],
+    page: "products",
+    categoryId: "agricultural-tractor",
+  },
+  {
+    img: "/images/cat-13.webp",
+    nameEn: "Axle Flatbed Semi-Trailer",
+    nameAr: "مقطورات نصف نقل مسطحة",
+    variantsEn: ["2-Axle Flatbed", "3-Axle Flatbed", "Heavy-Duty Flatbed"],
+    variantsAr: [
+      "مقطورة مسطحة بمحورين",
+      "مقطورة مسطحة بثلاثة محاور",
+      "مقطورة مسطحة للخدمة الشاقة",
+    ],
+    page: "products",
+    categoryId: "axle-flatbed-semi-trailer",
+  },
+  {
     img: "/images/cat-10.webp",
     nameEn: "Military",
     nameAr: "عسكري",
@@ -749,6 +775,61 @@ const clients = [
   { name: "Client 6", logo: "/images/prt-6.webp" },
   { name: "Client 7", logo: "/images/prt-7.webp" },
 ];
+
+// ========== AboutUs DATA ==========
+const aboutContent = {
+  subtitle: { en: "About KADER", ar: "عن مصنع قادر" },
+  title: { en: "Who We Are", ar: "من نحن" },
+  founded: { en: "Founded", ar: "تأسس عام" },
+  foundedYear: "1949",
+  paragraphs: [
+    {
+      en: "Kader Factory for Advanced Industries is one of the major industrial entities affiliated with the Arab Organization for Industrialization (AOI) in Egypt. Established in 1949, it is considered one of the oldest and most prominent engineering manufacturing facilities in Egypt and the Middle East.",
+      ar: "يعد مصنع قادر للصناعات المتطورة أحد الصروح الصناعية التابعة لـ الهيئة العربية للتصنيع في مصر، وقد تأسس عام 1949 ليكون من أقدم وأهم المصانع الهندسية في مصر والشرق الأوسط.",
+    },
+    {
+      en: "With more than seven decades of experience in advanced engineering industries, the factory manufactures a wide range of products serving both defense and civilian sectors. These include armored vehicles, firefighting and rescue vehicles, cash-in-transit vehicles, specialized vehicle outfitting, and mobile technological centers.",
+      ar: "يمتلك المصنع خبرة ممتدة لأكثر من سبعين عاماً في مجال الصناعات الهندسية المتطورة، حيث يقوم بتصنيع مجموعة واسعة من المنتجات التي تخدم القطاعات الدفاعية والمدنية، من بينها العربات المدرعة، سيارات الإطفاء والإنقاذ، عربات نقل الأموال، تجهيزات المركبات والمراكز التكنولوجية المتنقلة.",
+    },
+    {
+      en: "In addition, the factory supports the civilian market by producing light and electric transportation solutions, such as electric scooters and e-bikes, as well as home, office, and hotel furniture, along with various equipment manufactured according to the highest standards of quality and modern technology.",
+      ar: "كما يساهم المصنع في دعم السوق المدني من خلال إنتاج وسائل النقل الخفيف والكهربائي مثل السكوترات و الدراجات الكهربائية، بالإضافة إلى الأثاث المنزلي والمكتبي والفندقي والتجهيزات المختلفة، وفق أعلى معايير الجودة والتكنولوجيا الحديثة.",
+    },
+    {
+      en: "Kader Factory continues to play a key role in localizing industry and technology in Egypt by expanding its production capabilities and delivering innovative products that meet the needs of both local and regional markets, strengthening its position as one of the leading pillars of national industry.",
+      ar: "ويواصل المصنع جهوده في توطين الصناعة والتكنولوجيا في مصر، من خلال تطوير قدراته الإنتاجية وتقديم منتجات مبتكرة تلبي احتياجات السوق المحلي والإقليمي، بما يعزز من مكانته كأحد أهم قلاع الصناعة الوطنية.",
+    },
+  ],
+  stats: [
+    {
+      value: "70+",
+      label: { en: "Years of Experience", ar: "سنوات من الخبرة" },
+    },
+    {
+      value: "AOI",
+      label: { en: "Officially Affiliated", ar: "معتمد رسمياً" },
+    },
+  ],
+};
+
+// ========== Social Links ==========
+    const socialLinks = [
+      {
+        icon: "fab fa-facebook-f",
+        url: "https://facebook.com/yourpage",
+        label: "Facebook",
+      },
+      {
+        icon: "fab fa-instagram",
+        url: "https://instagram.com/yourpage",
+        label: "Instagram",
+      },
+      {
+        icon: "fab fa-youtube",
+        url: "https://youtube.com/yourchannel",
+        label: "YouTube",
+      },
+    ];
 
 // ========== UTILITY FUNCTIONS ==========
 
@@ -1046,7 +1127,7 @@ function initializeNavigation() {
   /* ======================================================================
        MOBILE MENU OVERLAY — main nav links
        ====================================================================== */
- function initializeMobileMenu() {
+  function initializeMobileMenu() {
     const mount = document.getElementById("mobileMenu");
     if (!mount) return;
 
@@ -1064,7 +1145,7 @@ function initializeNavigation() {
                 <input type="text"
                        class="form-control"
                        id="mobileSearchInput"
-                       placeholder="${getLabel('Search...', 'ابحث...')}">
+                       placeholder="${getLabel("Search...", "ابحث...")}">
                 <div class="list-group d-none" id="mobileSearchDropdown"></div>
             </div>
 
@@ -1091,7 +1172,7 @@ function initializeNavigation() {
 
             <div class="d d-flex py-5 justify-content-center align-items-center bg-light px-3">
 
-                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="${appState.user ? '/profile' : '/#register'}">
+                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="${appState.user ? "/profile" : "/#register"}">
                     <i class="fas fa-user"></i>
                     ${appState.user ? appState.user.name : getLabel("Login / Register", "تسجيل الدخول / تسجيل جديد")}
                 </a>
@@ -1135,45 +1216,54 @@ function initializeNavigation() {
 
     // Mobile search
     const mobileSearchInput = document.getElementById("mobileSearchInput");
-    const mobileSearchDropdown = document.getElementById("mobileSearchDropdown");
+    const mobileSearchDropdown = document.getElementById(
+      "mobileSearchDropdown",
+    );
 
     mobileSearchInput.addEventListener("input", function () {
-        const query = this.value.trim();
+      const query = this.value.trim();
 
-        if (query.length === 0) {
-            mobileSearchDropdown.classList.add("d-none");
-            mobileSearchDropdown.innerHTML = "";
-            return;
-        }
+      if (query.length === 0) {
+        mobileSearchDropdown.classList.add("d-none");
+        mobileSearchDropdown.innerHTML = "";
+        return;
+      }
 
-        const allItems = window.appState?.products || [];
-        const results = allItems
-            .filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
-            .slice(0, 8)
-            .map((p) => ({ label: p.name, url: `/product/${p.id}` }));
+      const allItems = window.appState?.products || [];
+      const results = allItems
+        .filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
+        .slice(0, 8)
+        .map((p) => ({ label: p.name, url: `/product/${p.id}` }));
 
-        if (results.length === 0) {
-            mobileSearchDropdown.innerHTML = `<div class="list-group-item text-muted">${getLabel("No results found", "لا توجد نتائج")}</div>`;
-        } else {
-            mobileSearchDropdown.innerHTML = results
-                .map((item) => `<a href="${item.url}" class="list-group-item list-group-item-action">${item.label}</a>`)
-                .join("");
-        }
+      if (results.length === 0) {
+        mobileSearchDropdown.innerHTML = `<div class="list-group-item text-muted">${getLabel("No results found", "لا توجد نتائج")}</div>`;
+      } else {
+        mobileSearchDropdown.innerHTML = results
+          .map(
+            (item) =>
+              `<a href="${item.url}" class="list-group-item list-group-item-action">${item.label}</a>`,
+          )
+          .join("");
+      }
 
-        mobileSearchDropdown.classList.remove("d-none");
+      mobileSearchDropdown.classList.remove("d-none");
     });
 
     // Theme / language toggles
-    document.getElementById("mobileThemeToggle").addEventListener("click", (e) => {
+    document
+      .getElementById("mobileThemeToggle")
+      .addEventListener("click", (e) => {
         e.preventDefault();
         if (typeof toggleTheme === "function") toggleTheme();
-    });
+      });
 
-    document.getElementById("mobileLangToggle").addEventListener("click", (e) => {
+    document
+      .getElementById("mobileLangToggle")
+      .addEventListener("click", (e) => {
         e.preventDefault();
         if (typeof toggleLanguage === "function") toggleLanguage();
-    });
-}
+      });
+  }
 
   function openMobileMenu() {
     document.getElementById("mobileMenuPanel").classList.add("is-open");
@@ -1282,7 +1372,7 @@ function initializeSlider() {
             <div class="carousel-caption align-items-center justify-content-center d-flex flex-column ${hasContent ? "" : "no-overlay"}"">
                 <div">
                     <h4 class="text-white text-uppercase fw-bold wow fadeInUp">${slide.subTitle}</h4>
-                    <h1 class="display-1 text-white wow fadeInUp text-capitalize">${slide.title}</h1>
+                    <h1 class="display-1 text-white wow fadeInUp text-capitalize ${getDirectionClass("pb-0","pb-3")}">${slide.title}</h1>
                     <p class="text-white mx-auto fs-5 wow fadeInUp" style="max-width:36rem;">${slide.text}</p>
                     ${
                       slide.path
@@ -1503,10 +1593,10 @@ function createBanner(title) {
                 <h3 class="text-white display-3 mb-4 text-capitalize">${title}</h3>
                 <ol class="breadcrumb justify-content-center text-white mb-0">
                     <li class="breadcrumb-item">
-                        <a href="#" class="text-white" onclick="setCurrentPage('home')">${getLabel("Home", "الرئيسية")}</a>
+                        <a href="#" class="text-white-50" onclick="setCurrentPage('home')">${getLabel("Home", "الرئيسية")}</a>
                     </li>
                     <span class="px-2" style="opacity: 0.3;">|</span>
-                    <li class="breadcrumb-item active text-secondary text-capitalize">${title}</li>
+                    <li class="breadcrumb-item active text-white text-capitalize">${title}</li>
                 </ol>
             </div>
         </div>
@@ -1662,205 +1752,195 @@ function loadPageContent(pageId) {
  * Load about page
  */
 function loadAboutPage() {
-    const container = document.getElementById("aboutPageContent");
-    if (!container) return;
+  const container = document.getElementById("aboutPageContent");
+  if (!container) return;
 
-    // ===== Content Data (full text, all paragraphs) =====
+  // ===== Content Data (full text, all paragraphs) =====
 
-    const aboutContent = {
-        subtitle: { en: 'About KADER', ar: 'عن مصنع قادر' },
-        title: { en: 'Who We Are', ar: 'من نحن' },
-        founded: { en: 'Founded', ar: 'تأسس عام' },
-        foundedYear: '1949',
-        paragraphs: [
-            {
-                en: 'Kader Factory for Advanced Industries is one of the major industrial entities affiliated with the Arab Organization for Industrialization (AOI) in Egypt. Established in 1949, it is considered one of the oldest and most prominent engineering manufacturing facilities in Egypt and the Middle East.',
-                ar: 'يعد مصنع قادر للصناعات المتطورة أحد الصروح الصناعية التابعة لـ الهيئة العربية للتصنيع في مصر، وقد تأسس عام 1949 ليكون من أقدم وأهم المصانع الهندسية في مصر والشرق الأوسط.'
-            },
-            {
-                en: 'With more than seven decades of experience in advanced engineering industries, the factory manufactures a wide range of products serving both defense and civilian sectors. These include armored vehicles, firefighting and rescue vehicles, cash-in-transit vehicles, specialized vehicle outfitting, and mobile technological centers.',
-                ar: 'يمتلك المصنع خبرة ممتدة لأكثر من سبعين عاماً في مجال الصناعات الهندسية المتطورة، حيث يقوم بتصنيع مجموعة واسعة من المنتجات التي تخدم القطاعات الدفاعية والمدنية، من بينها العربات المدرعة، سيارات الإطفاء والإنقاذ، عربات نقل الأموال، تجهيزات المركبات والمراكز التكنولوجية المتنقلة.'
-            },
-            {
-                en: 'In addition, the factory supports the civilian market by producing light and electric transportation solutions, such as electric scooters and e-bikes, as well as home, office, and hotel furniture, along with various equipment manufactured according to the highest standards of quality and modern technology.',
-                ar: 'كما يساهم المصنع في دعم السوق المدني من خلال إنتاج وسائل النقل الخفيف والكهربائي مثل السكوترات و الدراجات الكهربائية، بالإضافة إلى الأثاث المنزلي والمكتبي والفندقي والتجهيزات المختلفة، وفق أعلى معايير الجودة والتكنولوجيا الحديثة.'
-            },
-            {
-                en: 'Kader Factory continues to play a key role in localizing industry and technology in Egypt by expanding its production capabilities and delivering innovative products that meet the needs of both local and regional markets, strengthening its position as one of the leading pillars of national industry.',
-                ar: 'ويواصل المصنع جهوده في توطين الصناعة والتكنولوجيا في مصر، من خلال تطوير قدراته الإنتاجية وتقديم منتجات مبتكرة تلبي احتياجات السوق المحلي والإقليمي، بما يعزز من مكانته كأحد أهم قلاع الصناعة الوطنية.'
-            }
-        ],
-        stats: [
-            { value: '70+', label: { en: 'Years of Experience', ar: 'سنوات من الخبرة' } },
-            { value: 'AOI', label: { en: 'Officially Affiliated', ar: 'معتمد رسمياً' } }
-        ]
-    };
-
-    const sectorsContent = {
-        subtitle: { en: 'Engineering Excellence Across Civilian & Military Industries', ar: 'ريادة هندسية في الصناعات المدنية والعسكرية' },
-        title: { en: 'Our Manufacturing Capabilities', ar: 'قدراتنا التصنيعية' },
-        defense: {
-            title: { en: 'Defense & Government', ar: 'القطاع الدفاعي والحكومي' },
-            items: [
-                { en: 'Armored Vehicles', ar: 'العربات المدرعة' },
-                { en: 'Firefighting & Rescue Vehicles', ar: 'سيارات الإطفاء والإنقاذ' },
-                { en: 'Cash-in-Transit Vehicles', ar: 'عربات نقل الأموال' },
-                { en: 'Specialized Vehicle Outfitting', ar: 'تجهيزات المركبات' },
-                { en: 'Mobile Technological Centers', ar: 'المراكز التكنولوجية المتنقلة' }
-            ]
-        },
-        civilian: {
-            title: { en: 'Civilian & Commercial', ar: 'القطاع المدني والتجاري' },
-            items: [
-                { en: 'Electric Scooters & E-Bikes', ar: 'السكوترات والدراجات الكهربائية' },
-                { en: 'Home Furniture', ar: 'الأثاث المنزلي' },
-                { en: 'Office Furniture', ar: 'الأثاث المكتبي' },
-                { en: 'Hotel Furniture & Equipment', ar: 'الأثاث والتجهيزات الفندقية' },
-                { en: 'Plastic Products', ar: 'المنتجات البلاستيكية' },
-            ]
-        }
-    };
-
-    const visionMissionContent = {
-        vision: {
-            tabLabel: { en: 'Our Vision', ar: 'رؤيتنا' },
-            eyebrow: { en: "Where We're Headed", ar: 'إلى أين نتجه' },
-            icon: 'fas fa-eye',
-            paragraphs: [
-                {
-                    en: 'The vision of Kader Factory for Advanced Industries, affiliated with the Arab Organization for Industrialization, is to strengthen its position as a global leader in industrial and technological innovation by developing advanced products and solutions that meet the latest international standards.',
-                    ar: 'تتمثل رؤية مصنع قادر للصناعات المتطورة، التابع لـ الهيئة العربية للتصنيع، في ترسيخ مكانته كأحد الرواد عالمياً في مجالات الابتكار الصناعي والتكنولوجي من خلال تطوير منتجات وحلول متقدمة تواكب أحدث المعايير العالمية.'
-                },
-                {
-                    en: "We aspire to become a leading industrial model that actively contributes to sustainable development, providing innovative industrial technologies and solutions that help build a more advanced future for Egypt while enhancing its industrial presence in regional and global markets.",
-                    ar: 'ونسعى إلى أن نكون نموذجاً صناعياً رائداً يسهم بفاعلية في دعم التنمية المستدامة، وتقديم تقنيات وحلول صناعية مبتكرة تسهم في بناء مستقبل أكثر تطوراً لمصر، وتعزز حضورها الصناعي في الأسواق الإقليمية والعالمية.'
-                },
-                {
-                    en: 'We continuously leverage our accumulated expertise and modern technologies to develop high-quality products that enhance industrial competitiveness and address both present needs and future aspirations.',
-                    ar: 'كما نعمل باستمرار على توظيف الخبرات المتراكمة والتكنولوجيا الحديثة لابتكار منتجات عالية الجودة تدعم التنافسية الصناعية وتلبي احتياجات الحاضر وتطلعات المستقبل.'
-                }
-            ]
-        },
-        mission: {
-            tabLabel: { en: 'Our Mission', ar: 'هدفنا' },
-            eyebrow: { en: 'Why We Exist', ar: 'لماذا نحن هنا' },
-            icon: 'fas fa-bullseye',
-            paragraphs: [
-                {
-                    en: 'Kader Factory for Advanced Industries aims to lead excellence and innovation in engineering and technological manufacturing by delivering advanced industrial solutions and high-quality products that meet the needs of our customers and partners across various sectors.',
-                    ar: 'يسعى مصنع قادر للصناعات المتطورة، التابع لـ الهيئة العربية للتصنيع، إلى قيادة مسيرة التميز والابتكار في مجالات التصنيع الهندسي والتكنولوجي، من خلال تقديم حلول صناعية متطورة ومنتجات عالية الجودة تلبي احتياجات عملائنا وشركائنا في مختلف القطاعات.'
-                },
-                {
-                    en: 'We strive to exceed customer expectations by utilizing our extensive experience and adopting the latest industrial technologies, while maintaining the highest standards of quality and efficiency throughout all stages of design, manufacturing, and implementation.',
-                    ar: 'ونعمل على تجاوز توقعات العملاء عبر توظيف خبراتنا المتراكمة، والاستفادة من أحدث التقنيات الصناعية، مع الالتزام بأعلى معايير الجودة والكفاءة في جميع مراحل التصميم والتصنيع والتنفيذ.'
-                },
-                {
-                    en: 'We are also committed to fostering a culture of continuous innovation and development to ensure that our products and services deliver real value to our customers and support the growth of industrial and economic development.',
-                    ar: 'كما نحرص على ترسيخ ثقافة الابتكار المستمر والتطوير الدائم لضمان تقديم منتجات وخدمات تضيف قيمة حقيقية لعملائنا، ويدعم مسيرة التنمية الصناعية والاقتصادية.'
-                }
-            ]
-        }
-    };
-
-    const valuesContent = {
-        subtitle: { en: 'What Guides Our Work', ar: 'ما يوجه أعمالنا' },
-        title: { en: 'Our Values', ar: 'قيمنا' },
-        paragraphs: [
-            {
-                en: 'At Kader Factory for Advanced Industries, part of the Arab Organization for Industrialization, we are guided by a set of core values that shape all our operations. These include integrity, innovation, excellence in performance, and teamwork.',
-                ar: 'في مصنع قادر للصناعات المتطورة التابع لـ الهيئة العربية للتصنيع، نلتزم بمجموعة من القيم التي توجه جميع أعمالنا، وفي مقدمتها النزاهة، والابتكار، والتميز في الأداء، والعمل بروح الفريق.'
-            },
-            {
-                en: 'Through these values, we aim to build strong and sustainable partnerships with our customers, while delivering high-quality industrial products and solutions that contribute to development and serve the community.',
-                ar: 'ونسعى من خلال هذه القيم إلى بناء شراكات قوية ومستدامة مع عملائنا، وتقديم منتجات وحلول صناعية عالية الجودة تسهم في دعم التنمية وخدمة المجتمع.'
-            }
-        ],
-items: [
-    {
-        icon: 'fas fa-ranking-star',
-        title: {
-            en: 'Quality',
-            ar: 'الجودة'
-        },
-        text: {
-            en: 'Delivering products that meet the highest standards of quality, precision, and durability.',
-            ar: 'نلتزم بتقديم منتجات بأعلى معايير الجودة والدقة والمتانة.'
-        }
+  const sectorsContent = {
+    subtitle: {
+      en: "Engineering Excellence Across Civilian & Military Industries",
+      ar: "ريادة هندسية في الصناعات المدنية والعسكرية",
     },
-    {
-        icon: 'fas fa-lightbulb',
-        title: {
-            en: 'Innovation',
-            ar: 'الابتكار'
+    title: { en: "Our Manufacturing Capabilities", ar: "قدراتنا التصنيعية" },
+    defense: {
+      title: { en: "Defense & Government", ar: "القطاع الدفاعي والحكومي" },
+      items: [
+        { en: "Armored Vehicles", ar: "العربات المدرعة" },
+        { en: "Firefighting & Rescue Vehicles", ar: "سيارات الإطفاء والإنقاذ" },
+        { en: "Cash-in-Transit Vehicles", ar: "عربات نقل الأموال" },
+        { en: "Specialized Vehicle Outfitting", ar: "تجهيزات المركبات" },
+        {
+          en: "Mobile Technological Centers",
+          ar: "المراكز التكنولوجية المتنقلة",
         },
-        text: {
-            en: 'Embracing advanced technologies and innovative solutions to drive continuous improvement.',
-            ar: 'نعتمد أحدث التقنيات والحلول المبتكرة لتحقيق التطوير المستمر.'
-        }
+      ],
     },
-    {
-        icon: 'fas fa-shield',
-        title: {
-            en: 'Reliability',
-            ar: 'الاعتمادية'
+    civilian: {
+      title: { en: "Civilian & Commercial", ar: "القطاع المدني والتجاري" },
+      items: [
+        {
+          en: "Electric Scooters & E-Bikes",
+          ar: "السكوترات والدراجات الكهربائية",
         },
-        text: {
-            en: 'Providing dependable products and services our customers can trust with confidence.',
-            ar: 'نوفر منتجات وخدمات موثوقة تلبي احتياجات عملائنا بثقة واستمرارية.'
-        }
+        { en: "Home Furniture", ar: "الأثاث المنزلي" },
+        { en: "Office Furniture", ar: "الأثاث المكتبي" },
+        { en: "Hotel Furniture & Equipment", ar: "الأثاث والتجهيزات الفندقية" },
+        { en: "Plastic Products", ar: "المنتجات البلاستيكية" },
+      ],
     },
-    {
-        icon: 'fas fa-medal',
+  };
+
+  const visionMissionContent = {
+    vision: {
+      tabLabel: { en: "Our Vision", ar: "رؤيتنا" },
+      eyebrow: { en: "Where We're Headed", ar: "إلى أين نتجه" },
+      icon: "fas fa-eye",
+      paragraphs: [
+        {
+          en: "The vision of Kader Factory for Advanced Industries, affiliated with the Arab Organization for Industrialization, is to strengthen its position as a global leader in industrial and technological innovation by developing advanced products and solutions that meet the latest international standards.",
+          ar: "تتمثل رؤية مصنع قادر للصناعات المتطورة، التابع لـ الهيئة العربية للتصنيع، في ترسيخ مكانته كأحد الرواد عالمياً في مجالات الابتكار الصناعي والتكنولوجي من خلال تطوير منتجات وحلول متقدمة تواكب أحدث المعايير العالمية.",
+        },
+        {
+          en: "We aspire to become a leading industrial model that actively contributes to sustainable development, providing innovative industrial technologies and solutions that help build a more advanced future for Egypt while enhancing its industrial presence in regional and global markets.",
+          ar: "ونسعى إلى أن نكون نموذجاً صناعياً رائداً يسهم بفاعلية في دعم التنمية المستدامة، وتقديم تقنيات وحلول صناعية مبتكرة تسهم في بناء مستقبل أكثر تطوراً لمصر، وتعزز حضورها الصناعي في الأسواق الإقليمية والعالمية.",
+        },
+        {
+          en: "We continuously leverage our accumulated expertise and modern technologies to develop high-quality products that enhance industrial competitiveness and address both present needs and future aspirations.",
+          ar: "كما نعمل باستمرار على توظيف الخبرات المتراكمة والتكنولوجيا الحديثة لابتكار منتجات عالية الجودة تدعم التنافسية الصناعية وتلبي احتياجات الحاضر وتطلعات المستقبل.",
+        },
+      ],
+    },
+    mission: {
+      tabLabel: { en: "Our Mission", ar: "هدفنا" },
+      eyebrow: { en: "Why We Exist", ar: "لماذا نحن هنا" },
+      icon: "fas fa-bullseye",
+      paragraphs: [
+        {
+          en: "Kader Factory for Advanced Industries aims to lead excellence and innovation in engineering and technological manufacturing by delivering advanced industrial solutions and high-quality products that meet the needs of our customers and partners across various sectors.",
+          ar: "يسعى مصنع قادر للصناعات المتطورة، التابع لـ الهيئة العربية للتصنيع، إلى قيادة مسيرة التميز والابتكار في مجالات التصنيع الهندسي والتكنولوجي، من خلال تقديم حلول صناعية متطورة ومنتجات عالية الجودة تلبي احتياجات عملائنا وشركائنا في مختلف القطاعات.",
+        },
+        {
+          en: "We strive to exceed customer expectations by utilizing our extensive experience and adopting the latest industrial technologies, while maintaining the highest standards of quality and efficiency throughout all stages of design, manufacturing, and implementation.",
+          ar: "ونعمل على تجاوز توقعات العملاء عبر توظيف خبراتنا المتراكمة، والاستفادة من أحدث التقنيات الصناعية، مع الالتزام بأعلى معايير الجودة والكفاءة في جميع مراحل التصميم والتصنيع والتنفيذ.",
+        },
+        {
+          en: "We are also committed to fostering a culture of continuous innovation and development to ensure that our products and services deliver real value to our customers and support the growth of industrial and economic development.",
+          ar: "كما نحرص على ترسيخ ثقافة الابتكار المستمر والتطوير الدائم لضمان تقديم منتجات وخدمات تضيف قيمة حقيقية لعملائنا، ويدعم مسيرة التنمية الصناعية والاقتصادية.",
+        },
+      ],
+    },
+  };
+
+  const valuesContent = {
+    subtitle: { en: "What Guides Our Work", ar: "ما يوجه أعمالنا" },
+    title: { en: "Our Values", ar: "قيمنا" },
+    paragraphs: [
+      {
+        en: "At Kader Factory for Advanced Industries, part of the Arab Organization for Industrialization, we are guided by a set of core values that shape all our operations. These include integrity, innovation, excellence in performance, and teamwork.",
+        ar: "في مصنع قادر للصناعات المتطورة التابع لـ الهيئة العربية للتصنيع، نلتزم بمجموعة من القيم التي توجه جميع أعمالنا، وفي مقدمتها النزاهة، والابتكار، والتميز في الأداء، والعمل بروح الفريق.",
+      },
+      {
+        en: "Through these values, we aim to build strong and sustainable partnerships with our customers, while delivering high-quality industrial products and solutions that contribute to development and serve the community.",
+        ar: "ونسعى من خلال هذه القيم إلى بناء شراكات قوية ومستدامة مع عملائنا، وتقديم منتجات وحلول صناعية عالية الجودة تسهم في دعم التنمية وخدمة المجتمع.",
+      },
+    ],
+    items: [
+      {
+        icon: "fas fa-ranking-star",
         title: {
-            en: 'Excellence',
-            ar: 'التميز'
+          en: "Quality",
+          ar: "الجودة",
         },
         text: {
-            en: 'Pursuing excellence through skilled craftsmanship, operational efficiency, and continuous growth.',
-            ar: 'نسعى للتميز من خلال الكفاءة التشغيلية، والحرفية العالية، والتطوير المستمر.'
-        }
-    }
-]
-    };
+          en: "Delivering products that meet the highest standards of quality, precision, and durability.",
+          ar: "نلتزم بتقديم منتجات بأعلى معايير الجودة والدقة والمتانة.",
+        },
+      },
+      {
+        icon: "fas fa-rocket",
+        title: {
+          en: "Innovation",
+          ar: "الابتكار",
+        },
+        text: {
+          en: "Embracing advanced technologies and innovative solutions to drive continuous improvement.",
+          ar: "نعتمد أحدث التقنيات والحلول المبتكرة لتحقيق التطوير المستمر.",
+        },
+      },
+      {
+        icon: "fas fa-user-shield",
+        title: {
+          en: "Reliability",
+          ar: "الاعتمادية",
+        },
+        text: {
+          en: "Providing dependable products and services our customers can trust with confidence.",
+          ar: "نوفر منتجات وخدمات موثوقة تلبي احتياجات عملائنا بثقة واستمرارية.",
+        },
+      },
+      {
+        icon: "fas fa-medal",
+        title: {
+          en: "Excellence",
+          ar: "التميز",
+        },
+        text: {
+          en: "Pursuing excellence through skilled craftsmanship, operational efficiency, and continuous growth.",
+          ar: "نسعى للتميز من خلال الكفاءة التشغيلية، والحرفية العالية، والتطوير المستمر.",
+        },
+      },
+    ],
+  };
 
-    // ===== Render =====
+  // ===== Render =====
 
-    const sectorItemsHtml = (items, textClass, borderClass) => items.map(item => `
+  const sectorItemsHtml = (items, textClass, borderClass) =>
+    items
+      .map(
+        (item) => `
         <li class="d-flex align-items-center ${textClass} py-2 ${borderClass}">
-            <i class="fas fa-angle-right text-primary me-2"></i> ${getLabel(item.en, item.ar)}
+            <i class="fas fa-angle-${getDirectionClass("right", "left")} text-primary ${getDirectionClass("me-2", "ms-2")}"></i> ${getLabel(item.en, item.ar)}
         </li>
-    `).join('');
+    `,
+      )
+      .join("");
 
-    const paragraphsHtml = (paragraphs, extraClass = '') => paragraphs.map((p, i) => `
-        <p class="text-muted ${i === paragraphs.length - 1 ? 'mb-0' : 'mb-3'} ${extraClass}">${getLabel(p.en, p.ar)}</p>
-    `).join('');
+  const paragraphsHtml = (paragraphs, extraClass = "") =>
+    paragraphs
+      .map(
+        (p, i) => `
+        <p class="text-muted ${i === paragraphs.length - 1 ? "mb-0" : "mb-3"} ${extraClass}">${getLabel(p.en, p.ar)}</p>
+    `,
+      )
+      .join("");
 
-    container.innerHTML = `
+  container.innerHTML = `
         ${createBanner(getLabel("About Us", "من نحن"))}
 
         <!-- Who We Are -->
-        <div class="container-fluid overflow-hidden py-5 bg-white">
+        <div class="container-fluid overflow-hidden py-2 bg-white">
             <div class="container py-5">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6 position-relative">
                         <img src="/images/_about.webp" class="img-fluid rounded-2 w-100" style="height: 48rem; object-fit: cover;" alt="Who We Are">
-                        <div class="about-founded-badge text-center">
-                            <span class="d-block small text-uppercase text-secondary">${getLabel(aboutContent.founded.en, aboutContent.founded.ar)}</span>
-                            <h2 class="text-secondary fw-bold mb-0">${aboutContent.foundedYear}</h2>
-                        </div>
                     </div>
                     <div class="col-lg-6">
                         <h5 class="sub-title text-primary px-3">${getLabel(aboutContent.subtitle.en, aboutContent.subtitle.ar)}</h5>
                         <h1 class="display-5 fw-bold mb-4">${getLabel(aboutContent.title.en, aboutContent.title.ar)}</h1>
                         ${paragraphsHtml(aboutContent.paragraphs)}
                         <div class="d-flex align-items-center gap-4 mt-4">
-                            ${aboutContent.stats.map((s, i) => `
-                                ${i !== 0 ? '<div class="vr"></div>' : ''}
+                            ${aboutContent.stats
+                              .map(
+                                (s, i) => `
+                                ${i !== 0 ? '<div class="vr"></div>' : ""}
                                 <div>
-                                    <h2 class="text-primary fw-bold mb-0">${s.value}</h2>
+                                    <h2 class="text-secondary fw-bold mb-0">${s.value}</h2>
                                     <span class="text-muted small">${getLabel(s.label.en, s.label.ar)}</span>
                                 </div>
-                            `).join('')}
+                            `,
+                              )
+                              .join("")}
                         </div>
                     </div>
                 </div>
@@ -1868,10 +1948,10 @@ items: [
         </div>
 
         <!-- What We Manufacture -->
-        <div class="container-fluid overflow-hidden bg-white">
-            <div class="container py-5 border-top border-black border-opacity-25">
-                <div class="section-title text-center mb-5">
-                    <h1 class="display-5">${getLabel(sectorsContent.title.en, sectorsContent.title.ar)}</h1>
+        <div class="container-fluid overflow-hidden bg-light border-top border-gray border-opacity-25">
+            <div class="container py-5">
+                <div class="section-title text-center">
+                    <h5 class="sub-title">${getLabel(sectorsContent.title.en, sectorsContent.title.ar)}</h5>
                 </div>
 
                 <div class="row g-4">
@@ -1883,7 +1963,7 @@ items: [
                             </div>
                             <h3 class="fw-bold mb-3">${getLabel(sectorsContent.civilian.title.en, sectorsContent.civilian.title.ar)}</h3>
                             <ul class="list-unstyled mb-0">
-                                ${sectorItemsHtml(sectorsContent.civilian.items, 'text-muted', 'border-bottom')}
+                                ${sectorItemsHtml(sectorsContent.civilian.items, "text-muted", "border-bottom")}
                             </ul>
                         </div>
                     </div>
@@ -1895,7 +1975,7 @@ items: [
                             </div>
                             <h3 class="text-white fw-bold mb-3">${getLabel(sectorsContent.defense.title.en, sectorsContent.defense.title.ar)}</h3>
                             <ul class="list-unstyled mb-0">
-                                ${sectorItemsHtml(sectorsContent.defense.items, 'text-white-50', 'border-bottom border-white border-opacity-10')}
+                                ${sectorItemsHtml(sectorsContent.defense.items, "text-white-50", "border-bottom border-white border-opacity-10")}
                             </ul>
                         </div>
                     </div>
@@ -1905,8 +1985,8 @@ items: [
         </div>
 
         <!-- Vision & Mission: tab switcher, full paragraphs -->
-        <div class="container-fluid overflow-hidden bg-white">
-            <div class="container py-5">
+        <div class="container-fluid overflow-hidden bg-light">
+            <div class="container pb-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="vm-tabs-wrapper rounded-1 overflow-hidden shadow-sm">
@@ -1925,11 +2005,11 @@ items: [
                             <div class="vm-tab-content p-4 p-lg-5 bg-white">
                                 <div class="vm-tab-pane active" data-vm-pane="vision">
                                     <h5 class="sub-title text-primary px-0">${getLabel(visionMissionContent.vision.eyebrow.en, visionMissionContent.vision.eyebrow.ar)}</h5>
-                                    ${paragraphsHtml(visionMissionContent.vision.paragraphs, 'fs-5')}
+                                    ${paragraphsHtml(visionMissionContent.vision.paragraphs, "fs-5")}
                                 </div>
                                 <div class="vm-tab-pane" data-vm-pane="mission">
                                     <h5 class="sub-title text-primary px-0">${getLabel(visionMissionContent.mission.eyebrow.en, visionMissionContent.mission.eyebrow.ar)}</h5>
-                                    ${paragraphsHtml(visionMissionContent.mission.paragraphs, 'fs-5')}
+                                    ${paragraphsHtml(visionMissionContent.mission.paragraphs, "fs-5")}
                                 </div>
                             </div>
 
@@ -1940,37 +2020,41 @@ items: [
         </div>
 
         <!-- Our Values: full paragraphs + stacked feature rows -->
-        <div class="container-fluid overflow-hidden bg-white">
-            <div class="container py-5">
+        <div class="container-fluid overflow-hidden bg-light border-bottom border-gray border-opacity-25">
+            <div class="container pb-5">
                 <div class="d-flex justify-content-between flex-wrap">
                     <div class="col-12 col-lg-4 pb-4">
-                        <h1 class="display-5 text-secondary mb-3">${getLabel(valuesContent.title.en, valuesContent.title.ar)}</h1>
+                        <h5 class="sub-title text-secondary">${getLabel(valuesContent.title.en, valuesContent.title.ar)}</h5>
                         ${paragraphsHtml(valuesContent.paragraphs)}
                     </div>
                     <div class="row col-lg-8">
-                        ${valuesContent.items.map((v, i) => `
-                            <div class="col-12 col-lg-6 p-4 border bg-secondary rounded-1">
+                        ${valuesContent.items
+                          .map(
+                            (v, i) => `
+                            <div class="col-12 col-lg-6 p-4 border bg-white rounded-1 shadow-sm">
                                 <div class="d-flex">
-                                  <i class="${v.icon} fa-2x text-primary value-row-icon"></i>
+                                  <i class="${v.icon} fa-2x text-secondary value-row-icon"></i>
                                   <div>
-                                    <h5 class="text-white fw-bold mb-0">${getLabel(v.title.en, v.title.ar)}</h5>
-                                     <p class="text-white-50 mb-4 mx-auto" >
-                                       ${getLabel("Whether you need manufacturing solutions or machinery rental, our team is ready to help.", "سواء كنت بحاجة إلى حلول تصنيع أو تأجير معدات، فريقنا جاهز لمساعدتك.")}
+                                    <h5 class="fw-bold mb-0">${getLabel(v.title.en, v.title.ar)}</h5>
+                                     <p class="text-black-50 mb-4 mx-auto" >
+                                       ${getLabel(v.text.en, v.text.ar)}
                                       </p>
                                   </div>
                                 </div>
                             </div>
-                        `).join('')}
+                        `,
+                          )
+                          .join("")}
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- CTA -->
-        <div class="container-fluid overflow-hidden py-5 bg-white text-center">
-            <div class="container py-4 d-flex flex-wrap justify-content-between align-items-center gap-2 border-top">
-            <div class="text-start col-12 col-lg-8">
-             <h2 class="display-5 fw-bolder mb-3">${getLabel("Manufacturing Excellence Starts Here", "لنبنِ شيئاً موثوقاً معاً")}</h2>
+        <div class="container-fluid overflow-hidden pt-5 bg-white text-center">
+            <div class="container py-4 d-flex flex-wrap justify-content-between align-items-center">
+            <div class="${getDirectionClass("text-start", "text-end")} col-12 col-lg-8">
+             <h2 class="display-5 fw-bolder mb-3">${getLabel("Manufacturing Excellence Starts Here", "الصناعة المتميزة تبدأ من هنا")}</h2>
              <p class="text-black-50 mb-4 mx-auto" >
               ${getLabel("Whether you need manufacturing solutions or machinery rental, our team is ready to help.", "سواء كنت بحاجة إلى حلول تصنيع أو تأجير معدات، فريقنا جاهز لمساعدتك.")}
                 </p>
@@ -1982,16 +2066,22 @@ items: [
         </div>
     `;
 
-    // Vision/Mission tab switching
-    container.querySelectorAll('.vm-tab-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const target = this.dataset.vmTab;
-            container.querySelectorAll('.vm-tab-btn').forEach(b => b.classList.remove('active'));
-            container.querySelectorAll('.vm-tab-pane').forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            container.querySelector(`.vm-tab-pane[data-vm-pane="${target}"]`).classList.add('active');
-        });
+  // Vision/Mission tab switching
+  container.querySelectorAll(".vm-tab-btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const target = this.dataset.vmTab;
+      container
+        .querySelectorAll(".vm-tab-btn")
+        .forEach((b) => b.classList.remove("active"));
+      container
+        .querySelectorAll(".vm-tab-pane")
+        .forEach((p) => p.classList.remove("active"));
+      this.classList.add("active");
+      container
+        .querySelector(`.vm-tab-pane[data-vm-pane="${target}"]`)
+        .classList.add("active");
     });
+  });
 }
 
 /**
@@ -2158,49 +2248,66 @@ function loadContactPage() {
   const container = document.getElementById("contactPageContent");
   if (!container) return;
 
+      const socialHtml = socialLinks
+      .map(
+        (s) => `
+            <a href="${s.url}" target="_blank" rel="noopener noreferrer"
+            class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 52px; height: 52px;" aria-label="${s.label}">
+                <i class="${s.icon}"></i>
+            </a>
+        `,
+      )
+      .join("");
+
   container.innerHTML = `
         ${createBanner(getLabel("Contact Us", "اتصل بنا"))}
-        <div class="container-fluid contact overflow-hidden py-5">
+        <div class="container-fluid contact overflow-hidden py-5 bg-light">
             <div class="container py-5">
                 <div class="row g-5 mb-5">
                     <div class="col-lg-6">
                         <h5 class="sub-title p-3">${getLabel("Quick Contact", "اتصل بنا")}</h5>
-                        <h1 class="display-5 mb-4">${getLabel("Have Questions?", "هل لديك أسئلة؟")}</h1>
-                        <div class="d-flex border-bottom mb-4 pb-4">
-                            <i class="fas fa-map-marked-alt fa-4x text-primary px-3 rounded"></i>
-                            <div class="ps-3">
-                                <h5>${getLabel("Location", "الموقع")}</h5>
-                                <p>${getLabel("2 El Tayaran St, Al Golf, Nasr City", "2 شارع الطياران، الجولف، مدينة نصر")}</p>
-                            </div>
-                        </div>
                         <div class="row g-3">
                             <div class="col-xl-6">
                                 <div class="d-flex">
-                                    <i class="fas fa-tty fa-3x text-primary px-3"></i>
                                     <div class="ps-3">
-                                        <h5>${getLabel("Quick Contact", "اتصل بنا")}</h5>
-                                        <p><strong>${getLabel("Phone", "الهاتف")}:</strong> <a href="tel:+201030009248" dir="ltr">+2010 3000 9248</a></p>
-                                        <p><strong>${getLabel("Email", "البريد")}:</strong> <a href="mailto:marketing@kader-factory.com">marketing@kader-factory.com</a></p>
+                                    <h5 class="fw-bolder pb-2">${getLabel("Phone", "الهاتف")}:
+                                    <br>
+                                    <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://wa.me/201556336160" target="_blank" dir="ltr">+20 15 56336160</a></h5>
+                                    <h5 class="fw-bolder pb-2">${getLabel("Email", "البريد")}:
+                                    <br>
+                                    <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="mailto:kaderfactory38@gmail.com" target="_blank">kaderfactory38@gmail.com</a></h5>
+                                    <h5 class="fw-bolder pb-2">${getLabel("Location", "الموقع")}
+                                    <br>
+                                    <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://www.google.com/maps/search/?api=1&query=Kader+Factory+For+Developed+Industries" target="_blank">
+                                    ${getLabel("2 El Tayaran St, Al Golf, Nasr City", "2 شارع الطياران، الجولف، مدينة نصر")}
+                                    </a>
+                                    </h5>
+                                    <h5 class="fw-bolder pb-2">${getLabel("Social Media", "مواقع التواصل الأجتماعي")}:
+                                    <div class="row gap-2 p-2">
+                                    ${socialHtml}
+                                    </div>
+                                    </h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 bg-white p-5 shadow-sm rounded-1">
                         <h5 class="sub-title p-3">${getLabel("Let's Connect", "لنتواصل")}</h5>
                         <form>
                             <div class="row g-4">
                                 <div class="col-12">
-                                    <input type="text" class="form-control" placeholder="${getLabel("Your Name", "اسمك")}">
+                                    <input type="text" class="form-control bg-light" placeholder="${getLabel("Your Name", "اسمك")}">
                                 </div>
                                 <div class="col-12">
-                                    <input type="email" class="form-control" placeholder="${getLabel("Your Email", "بريدك الإلكتروني")}">
+                                    <input type="email" class="form-control bg-light" placeholder="${getLabel("Your Email", "بريدك الإلكتروني")}">
                                 </div>
                                 <div class="col-12">
-                                    <input type="text" class="form-control" placeholder="${getLabel("Subject", "الموضوع")}">
+                                    <input type="text" class="form-control bg-light" placeholder="${getLabel("Subject", "الموضوع")}">
                                 </div>
                                 <div class="col-12">
-                                    <textarea class="form-control" rows="5" placeholder="${getLabel("Message", "الرسالة")}"></textarea>
+                                    <textarea class="form-control bg-light" rows="5" placeholder="${getLabel("Message", "الرسالة")}"></textarea>
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary w-100 py-3 rounded-0">
@@ -2228,10 +2335,10 @@ function loadContactPage() {
  * Initialize Sign Up Page
  */
 function loadRegisterPage() {
-    const container = document.getElementById('registerPageContent');
-    if (!container) return;
+  const container = document.getElementById("registerPageContent");
+  if (!container) return;
 
-    container.innerHTML = `
+  container.innerHTML = `
         <div class="container-fluid p-0">
             <div class="row g-0">
 
@@ -2245,26 +2352,26 @@ function loadRegisterPage() {
                     </a>
 
                         <div >
-                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel('Join Our Network', 'انضم إلى شبكتنا')}</h2>
+                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel("Join Our Network", "انضم إلى شبكتنا")}</h2>
                             <p class="text-white-50 mb-4" style="max-width: 400px;">
                                 ${getLabel(
-                                    'Create an account to access exclusive pricing, track orders, and manage your industrial equipment needs in one place.',
-                                    'أنشئ حساباً للوصول إلى أسعار حصرية، وتتبع الطلبات، وإدارة احتياجاتك من المعدات الصناعية في مكان واحد.'
+                                  "Create an account to access exclusive pricing, track orders, and manage your industrial equipment needs in one place.",
+                                  "أنشئ حساباً للوصول إلى أسعار حصرية، وتتبع الطلبات، وإدارة احتياجاتك من المعدات الصناعية في مكان واحد.",
                                 )}
                             </p>
                             <div class="d-flex gap-4">
                                 <div>
                                     <h4 class="fw-bold mb-0">70+</h4>
-                                    <span class="text-white-50 small">${getLabel('Years Experience', 'سنوات خبرة')}</span>
+                                    <span class="text-white-50 small">${getLabel("Years Experience", "سنوات خبرة")}</span>
                                 </div>
                                 <div>
                                     <h4 class="fw-bold mb-0">100+</h4>
-                                    <span class="text-white-50 small">${getLabel('Industrial Partners', 'شريك صناعي')}</span>
+                                    <span class="text-white-50 small">${getLabel("Industrial Partners", "شريك صناعي")}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <span class="text-white-50 small">${getLabel('© 2026 Kader Factory for Advanced Industries', '© 2026 مصنع قادر للصناعات المتطورة')}</span>
+                        <span class="text-white-50 small">${getLabel("© 2026 Kader Factory for Advanced Industries", "© 2026 مصنع قادر للصناعات المتطورة")}</span>
                     </div>
                 </div>
 
@@ -2273,12 +2380,12 @@ function loadRegisterPage() {
                     <div class="w-100 px-4 px-md-5" style="max-width: 480px;">
 
                         <div class="text-center text-lg-start mb-2">
-                            <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel('GET STARTED', 'ابدأ الآن')}</h5>
-                            <h2 class="fw-bold mb-2">${getLabel('Create Your Account', 'أنشئ حسابك')}</h2>
+                            <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel("GET STARTED", "ابدأ الآن")}</h5>
+                            <h2 class="fw-bold mb-2">${getLabel("Create Your Account", "أنشئ حسابك")}</h2>
                             <p class="text-muted mb-0">
-                                ${getLabel('Already have an account?', 'لديك حساب بالفعل؟')}
+                                ${getLabel("Already have an account?", "لديك حساب بالفعل؟")}
                                 <a href="#login" class="fw-semibold text-primary text-decoration-none" onclick="setCurrentPage('login')">
-                                    ${getLabel('Sign In', 'تسجيل الدخول')}
+                                    ${getLabel("Sign In", "تسجيل الدخول")}
                                 </a>
                             </p>
                         </div>
@@ -2286,14 +2393,14 @@ function loadRegisterPage() {
                         <form id="signupForm" novalidate>
                             <div class="row g-3 mb-3">
                                 <div class="col-md-6">
-                                    <label class="form-label small fw-semibold" for="firstName">${getLabel('First Name', 'الاسم الأول')}</label>
+                                    <label class="form-label small fw-semibold" for="firstName">${getLabel("First Name", "الاسم الأول")}</label>
                                     <input type="text" class="form-control py-2" id="firstName" required>
                                     <div class="invalid-feedback" id="firstName-error"></div>
 
 
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label small fw-semibold" for="lastName">${getLabel('Last Name', 'اسم العائلة')}</label>
+                                    <label class="form-label small fw-semibold" for="lastName">${getLabel("Last Name", "اسم العائلة")}</label>
                                     <input type="text" class="form-control py-2" id="lastName" required>
                                     <div class="invalid-feedback" id="lastName-error"></div>
 
@@ -2302,7 +2409,7 @@ function loadRegisterPage() {
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label small fw-semibold" for="signupEmail">${getLabel('Email Address', 'البريد الإلكتروني')}</label>
+                                <label class="form-label small fw-semibold" for="signupEmail">${getLabel("Email Address", "البريد الإلكتروني")}</label>
                                 <input type="email" class="form-control py-2" id="signupEmail" required>
                                 <div class="invalid-feedback" id="signupEmail-error"></div>
 
@@ -2310,7 +2417,7 @@ function loadRegisterPage() {
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label small fw-semibold" for="signupPhone">${getLabel('Phone Number', 'رقم الهاتف')}</label>
+                                <label class="form-label small fw-semibold" for="signupPhone">${getLabel("Phone Number", "رقم الهاتف")}</label>
                                 <input type="tel" class="form-control py-2" id="signupPhone" dir="ltr" required>
                                 <div class="invalid-feedback" id="signupPhone-error"></div>
 
@@ -2318,7 +2425,7 @@ function loadRegisterPage() {
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label small fw-semibold" for="signupPassword">${getLabel('Password', 'كلمة المرور')}</label>
+                                <label class="form-label small fw-semibold" for="signupPassword">${getLabel("Password", "كلمة المرور")}</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control py-2" id="signupPassword" required>
                                     <div class="invalid-feedback" id="signupPassword-error"></div>
@@ -2330,7 +2437,7 @@ function loadRegisterPage() {
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label small fw-semibold" for="confirmPassword">${getLabel('Confirm Password', 'تأكيد كلمة المرور')}</label>
+                                <label class="form-label small fw-semibold" for="confirmPassword">${getLabel("Confirm Password", "تأكيد كلمة المرور")}</label>
                                 <input type="password" class="form-control py-2" id="confirmPassword" required>
                                 <div class="invalid-feedback" id="confirmPassword-error"></div>
 
@@ -2340,24 +2447,24 @@ function loadRegisterPage() {
                             <div class="form-check mb-4">
                                 <input class="form-check-input" type="checkbox" id="agreeTerms" required>
                                 <label class="form-check-label small text-muted" for="agreeTerms">
-                                    ${getLabel('I agree to the', 'أوافق على')}
-                                    <a href="#" onclick="setCurrentPage('terms-of-service')">${getLabel('Terms of Service', 'الشروط والأحكام')}</a>
-                                    ${getLabel('and', 'و')}
-                                    <a href="#" onclick="setCurrentPage('privacy-policy')">${getLabel('Privacy Policy', 'سياسة الخصوصية')}</a>
+                                    ${getLabel("I agree to the", "أوافق على")}
+                                    <a href="#" onclick="setCurrentPage('terms-of-service')">${getLabel("Terms of Service", "الشروط والأحكام")}</a>
+                                    ${getLabel("and", "و")}
+                                    <a href="#" onclick="setCurrentPage('privacy-policy')">${getLabel("Privacy Policy", "سياسة الخصوصية")}</a>
                                 </label>
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100 py-3 rounded-0 fw-semibold">
-                                ${getLabel('Create Account', 'إنشاء الحساب')}
+                                ${getLabel("Create Account", "إنشاء الحساب")}
                             </button>
 
                             <div class="text-center my-4 signup-divider">
-                                <span class="bg-white px-3 text-muted small">${getLabel('OR', 'أو')}</span>
+                                <span class="bg-white px-3 text-muted small">${getLabel("OR", "أو")}</span>
                             </div>
 
                             <button type="button" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
                                 <i class="fab fa-google"></i>
-                                ${getLabel('Continue with Google', 'المتابعة عبر جوجل')}
+                                ${getLabel("Continue with Google", "المتابعة عبر جوجل")}
                             </button>
                         </form>
 
@@ -2368,117 +2475,160 @@ function loadRegisterPage() {
         </div>
     `;
 
-    // Toggle password visibility
-    const toggleBtn = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('signupPassword');
-    toggleBtn.addEventListener('click', () => {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
-        toggleBtn.querySelector('i').className = isPassword ? 'far fa-eye-slash' : 'far fa-eye';
-    });
+  // Toggle password visibility
+  const toggleBtn = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("signupPassword");
+  toggleBtn.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password";
+    passwordInput.type = isPassword ? "text" : "password";
+    toggleBtn.querySelector("i").className = isPassword
+      ? "far fa-eye-slash"
+      : "far fa-eye";
+  });
 
-    // Basic client-side validation feedback
-    const form = document.getElementById('signupForm');
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        validateSignupForm()
+  // Basic client-side validation feedback
+  const form = document.getElementById("signupForm");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    validateSignupForm();
 
-        // Hook your actual signup/API call here
-        console.log('Signup submitted');
-    });
+    // Hook your actual signup/API call here
+    console.log("Signup submitted");
+  });
 
-    
-    // Validations
-    function validateSignupForm() {
+  // Validations
+  function validateSignupForm() {
     let isValid = true;
 
     const fields = {
-        firstName: document.getElementById('firstName'),
-        lastName: document.getElementById('lastName'),
-        signupEmail: document.getElementById('signupEmail'),
-        signupPhone: document.getElementById('signupPhone'),
-        signupPassword: document.getElementById('signupPassword'),
-        confirmPassword: document.getElementById('confirmPassword'),
-        agreeTerms: document.getElementById('agreeTerms')
+      firstName: document.getElementById("firstName"),
+      lastName: document.getElementById("lastName"),
+      signupEmail: document.getElementById("signupEmail"),
+      signupPhone: document.getElementById("signupPhone"),
+      signupPassword: document.getElementById("signupPassword"),
+      confirmPassword: document.getElementById("confirmPassword"),
+      agreeTerms: document.getElementById("agreeTerms"),
     };
 
     function showError(field, message) {
-        field.classList.add('is-invalid');
-        const errorEl = document.getElementById(`${field.id}-error`);
-        if (errorEl) errorEl.textContent = message;
-        isValid = false;
+      field.classList.add("is-invalid");
+      const errorEl = document.getElementById(`${field.id}-error`);
+      if (errorEl) errorEl.textContent = message;
+      isValid = false;
     }
 
     function clearError(field) {
-        field.classList.remove('is-invalid');
-        const errorEl = document.getElementById(`${field.id}-error`);
-        if (errorEl) errorEl.textContent = '';
+      field.classList.remove("is-invalid");
+      const errorEl = document.getElementById(`${field.id}-error`);
+      if (errorEl) errorEl.textContent = "";
     }
 
     // Reset all first
-    Object.values(fields).forEach(f => f && clearError(f));
+    Object.values(fields).forEach((f) => f && clearError(f));
 
     // First / Last name — required, letters only (basic check)
     if (!fields.firstName.value.trim()) {
-        showError(fields.firstName, getLabel('First name is required', 'الاسم الأول مطلوب'));
+      showError(
+        fields.firstName,
+        getLabel("First name is required", "الاسم الأول مطلوب"),
+      );
     }
     if (!fields.lastName.value.trim()) {
-        showError(fields.lastName, getLabel('Last name is required', 'اسم العائلة مطلوب'));
+      showError(
+        fields.lastName,
+        getLabel("Last name is required", "اسم العائلة مطلوب"),
+      );
     }
 
     // Email — required + valid format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!fields.signupEmail.value.trim()) {
-        showError(fields.signupEmail, getLabel('Email is required', 'البريد الإلكتروني مطلوب'));
+      showError(
+        fields.signupEmail,
+        getLabel("Email is required", "البريد الإلكتروني مطلوب"),
+      );
     } else if (!emailRegex.test(fields.signupEmail.value.trim())) {
-        showError(fields.signupEmail, getLabel('Enter a valid email address', 'أدخل بريداً إلكترونياً صحيحاً'));
+      showError(
+        fields.signupEmail,
+        getLabel(
+          "Enter a valid email address",
+          "أدخل بريداً إلكترونياً صحيحاً",
+        ),
+      );
     }
 
     // Phone — required, digits only, reasonable length
-    const phoneDigits = fields.signupPhone.value.replace(/\D/g, '');
+    const phoneDigits = fields.signupPhone.value.replace(/\D/g, "");
     if (!phoneDigits) {
-        showError(fields.signupPhone, getLabel('Phone number is required', 'رقم الهاتف مطلوب'));
+      showError(
+        fields.signupPhone,
+        getLabel("Phone number is required", "رقم الهاتف مطلوب"),
+      );
     } else if (phoneDigits.length < 10 || phoneDigits.length > 15) {
-        showError(fields.signupPhone, getLabel('Enter a valid phone number', 'أدخل رقم هاتف صحيح'));
+      showError(
+        fields.signupPhone,
+        getLabel("Enter a valid phone number", "أدخل رقم هاتف صحيح"),
+      );
     }
 
     // Password — required, min length, at least one number
     const password = fields.signupPassword.value;
     if (!password) {
-        showError(fields.signupPassword, getLabel('Password is required', 'كلمة المرور مطلوبة'));
+      showError(
+        fields.signupPassword,
+        getLabel("Password is required", "كلمة المرور مطلوبة"),
+      );
     } else if (password.length < 8) {
-        showError(fields.signupPassword, getLabel('Password must be at least 8 characters', 'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل'));
+      showError(
+        fields.signupPassword,
+        getLabel(
+          "Password must be at least 8 characters",
+          "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+        ),
+      );
     } else if (!/\d/.test(password)) {
-        showError(fields.signupPassword, getLabel('Password must include at least one number', 'يجب أن تحتوي كلمة المرور على رقم واحد على الأقل'));
+      showError(
+        fields.signupPassword,
+        getLabel(
+          "Password must include at least one number",
+          "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل",
+        ),
+      );
     }
 
     // Confirm password — must match
     if (!fields.confirmPassword.value) {
-        showError(fields.confirmPassword, getLabel('Please confirm your password', 'يرجى تأكيد كلمة المرور'));
+      showError(
+        fields.confirmPassword,
+        getLabel("Please confirm your password", "يرجى تأكيد كلمة المرور"),
+      );
     } else if (fields.confirmPassword.value !== password) {
-        showError(fields.confirmPassword, getLabel('Passwords do not match', 'كلمتا المرور غير متطابقتين'));
+      showError(
+        fields.confirmPassword,
+        getLabel("Passwords do not match", "كلمتا المرور غير متطابقتين"),
+      );
     }
 
     // Terms checkbox — must be checked
     if (!fields.agreeTerms.checked) {
-        fields.agreeTerms.classList.add('is-invalid');
-        isValid = false;
+      fields.agreeTerms.classList.add("is-invalid");
+      isValid = false;
     } else {
-        fields.agreeTerms.classList.remove('is-invalid');
+      fields.agreeTerms.classList.remove("is-invalid");
     }
 
     return isValid;
-}
+  }
 }
 
 /**
  * Initialize Sign In Page
  */
 function loadLoginPage() {
-    const loginPage = document.getElementById('loginPageContent');
-    if (!loginPage) return;
+  const loginPage = document.getElementById("loginPageContent");
+  if (!loginPage) return;
 
-    loginPage.innerHTML = `
+  loginPage.innerHTML = `
         <div class="container-fluid p-0">
             <div class="row g-0 min-vh-100">
 
@@ -2492,26 +2642,26 @@ function loadLoginPage() {
                     </a>
 
                         <div>
-                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel('Welcome Back', 'مرحباً بعودتك')}</h2>
+                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel("Welcome Back", "مرحباً بعودتك")}</h2>
                             <p class="text-white-50 mb-4" style="max-width: 400px;">
                                 ${getLabel(
-                                    'Sign in to access your account, track orders, and manage your industrial equipment needs.',
-                                    'سجل الدخول للوصول إلى حسابك، وتتبع طلباتك، وإدارة احتياجاتك من المعدات الصناعية.'
+                                  "Sign in to access your account, track orders, and manage your industrial equipment needs.",
+                                  "سجل الدخول للوصول إلى حسابك، وتتبع طلباتك، وإدارة احتياجاتك من المعدات الصناعية.",
                                 )}
                             </p>
                             <div class="d-flex gap-4">
                                 <div>
                                     <h4 class="fw-bold mb-0">70+</h4>
-                                    <span class="text-white-50 small">${getLabel('Years Experience', 'سنوات خبرة')}</span>
+                                    <span class="text-white-50 small">${getLabel("Years Experience", "سنوات خبرة")}</span>
                                 </div>
                                 <div>
                                     <h4 class="fw-bold mb-0">100+</h4>
-                                    <span class="text-white-50 small">${getLabel('Industrial Partners', 'شريك صناعي')}</span>
+                                    <span class="text-white-50 small">${getLabel("Industrial Partners", "شريك صناعي")}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <span class="text-white-50 small">${getLabel('© 2026 Kader Factory for Advanced Industries', '© 2026 مصنع قادر للصناعات المتطورة')}</span>
+                        <span class="text-white-50 small">${getLabel("© 2026 Kader Factory for Advanced Industries", "© 2026 مصنع قادر للصناعات المتطورة")}</span>
                     </div>
                 </div>
 
@@ -2520,24 +2670,24 @@ function loadLoginPage() {
                     <div class="w-100 px-4 px-md-5" style="max-width: 440px;">
 
                         <div class="text-center text-lg-start mb-5">
-                            <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel('WELCOME BACK', 'مرحباً بعودتك')}</h5>
-                            <h2 class="fw-bold mb-2">${getLabel('Sign In to Your Account', 'تسجيل الدخول إلى حسابك')}</h2>
+                            <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel("WELCOME BACK", "مرحباً بعودتك")}</h5>
+                            <h2 class="fw-bold mb-2">${getLabel("Sign In to Your Account", "تسجيل الدخول إلى حسابك")}</h2>
                             <p class="text-muted mb-0">
-                                ${getLabel("Don't have an account?", 'ليس لديك حساب؟')}
+                                ${getLabel("Don't have an account?", "ليس لديك حساب؟")}
                                 <a href="#register" class="fw-semibold text-primary text-decoration-none" onclick="setCurrentPage('register')">
-                                    ${getLabel('Create One', 'أنشئ حساباً')}
+                                    ${getLabel("Create One", "أنشئ حساباً")}
                                 </a>
                             </p>
                         </div>
 
                         <form id="loginForm" novalidate>
                             <div class="mb-3">
-                                <label class="form-label small fw-semibold" for="loginEmail">${getLabel('Email Address', 'البريد الإلكتروني')}</label>
+                                <label class="form-label small fw-semibold" for="loginEmail">${getLabel("Email Address", "البريد الإلكتروني")}</label>
                                 <input type="email" class="form-control py-2" id="loginEmail" required>
                             </div>
 
                             <div class="mb-2">
-                                <label class="form-label small fw-semibold" for="loginPassword">${getLabel('Password', 'كلمة المرور')}</label>
+                                <label class="form-label small fw-semibold" for="loginPassword">${getLabel("Password", "كلمة المرور")}</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control py-2" id="loginPassword" required>
                                     <button class="btn btn-outline-primary position-absolute end-0"  type="button" id="toggleLoginPassword">
@@ -2551,25 +2701,25 @@ function loadLoginPage() {
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="rememberMe">
                                     <label class="form-check-label small text-muted" for="rememberMe">
-                                        ${getLabel('Remember me', 'تذكرني')}
+                                        ${getLabel("Remember me", "تذكرني")}
                                     </label>
                                 </div>
                                 <a href="#" class="small text-primary text-decoration-none" onclick="setCurrentPage('forgot-password')">
-                                    ${getLabel('Forgot Password?', 'نسيت كلمة المرور؟')}
+                                    ${getLabel("Forgot Password?", "نسيت كلمة المرور؟")}
                                 </a>
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100 py-3 rounded-0 fw-semibold">
-                                ${getLabel('Sign In', 'تسجيل الدخول')}
+                                ${getLabel("Sign In", "تسجيل الدخول")}
                             </button>
 
                             <div class="text-center my-4 signup-divider">
-                                <span class="bg-white px-3 text-muted small">${getLabel('OR', 'أو')}</span>
+                                <span class="bg-white px-3 text-muted small">${getLabel("OR", "أو")}</span>
                             </div>
 
                             <button type="button" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
                                 <i class="fab fa-google"></i>
-                                ${getLabel('Continue with Google', 'المتابعة عبر جوجل')}
+                                ${getLabel("Continue with Google", "المتابعة عبر جوجل")}
                             </button>
                         </form>
 
@@ -2580,26 +2730,28 @@ function loadLoginPage() {
         </div>
     `;
 
-    // Toggle password visibility
-    const toggleBtn = document.getElementById('toggleLoginPassword');
-    const passwordInput = document.getElementById('loginPassword');
-    toggleBtn.addEventListener('click', () => {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
-        toggleBtn.querySelector('i').className = isPassword ? 'far fa-eye-slash' : 'far fa-eye';
-    });
+  // Toggle password visibility
+  const toggleBtn = document.getElementById("toggleLoginPassword");
+  const passwordInput = document.getElementById("loginPassword");
+  toggleBtn.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password";
+    passwordInput.type = isPassword ? "text" : "password";
+    toggleBtn.querySelector("i").className = isPassword
+      ? "far fa-eye-slash"
+      : "far fa-eye";
+  });
 
-    // Form submit
-    const form = document.getElementById('loginForm');
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
+  // Form submit
+  const form = document.getElementById("loginForm");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
 
-        // Hook your actual login/API call here
-        console.log('Login submitted', { email, password });
-    });
+    // Hook your actual login/API call here
+    console.log("Login submitted", { email, password });
+  });
 }
 
 /*========================================================================================================*/
@@ -2617,14 +2769,14 @@ function initializeHomePageSections() {
                     <div class="row g-4">
                         <div class="col-xl-5 order-2 order-md-1 wow fadeInLeft" data-wow-delay="0.1s">
                             <div class="bg-light h-100 rounded-2 overflow-hidden">
-                                <img src="/images/about.webp" class="img-fluid about-img w-100"  alt="About">
+                                <img src="/images/about.webp" class="img-fluid about-img w-100 h-100" style="object-fit:cover;"  alt="About">
                             </div>
                         </div>
                         <div class="col-xl-7 order-1 order-md-2 wow fadeInRight" data-wow-delay="0.3s">
                             <h5 class="sub-title py-3">${getLabel("About KADER", "عن مصنع قادر")}</h5>
                             <h1 class="display-5 mb-3">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به")}</h1>
                             <p class="mb-4">
-                                ${getLabel("At KADER, we pride ourselves on decades of expertise and innovation in manufacturing. As a trusted factory affiliated with the Authority of Organization and Inspection (AOI), we are committed to delivering high-quality products and solutions that meet global standards. Our dedication to excellence and customer satisfaction has made us a leader in our industry.", "في شركة كادر، نفخر بخبرتنا الممتدة لعقود في مجال التصنيع وابتكاراتنا. وبصفتنا مصنعًا موثوقًا به تابعًا للهيئة العربية للتصنيع، فإننا ملتزمون بتقديم منتجات وحلول عالية الجودة تلبي المعايير العالمية. وقد جعلنا تفانينا في التميز ورضا العملاء روادًا في صناعتنا.")}
+                                ${getLabel(aboutContent.paragraphs[0].en, aboutContent.paragraphs[0].ar)}
                                 <br/>
                                 <br/>
                                 <a class="btn btn-link ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
@@ -2711,8 +2863,8 @@ function initializeHomePageSections() {
         320: { slidesPerView: 2, grid: { rows: 6 } },
         420: { slidesPerView: 2, grid: { rows: 6 } },
         576: { slidesPerView: 3, grid: { rows: 4 } },
-        992: { slidesPerView: 5, grid: { rows: 2 } },
-        1200: { slidesPerView: 5, grid: { rows: 2 } },
+        992: { slidesPerView: 6, grid: { rows: 2 } },
+        1200: { slidesPerView: 6, grid: { rows: 2 } },
       },
     });
   }
@@ -3285,7 +3437,7 @@ function initializeHomePageSections() {
       .join("");
 
     trustedSection.innerHTML = `
-            <div class="container-fluid trust overflow-hidden py-0 bg-light">
+            <div class="container-fluid trust overflow-hidden py-0 bg-light border-top border-bottom border-black-25">
                 <div class="container py-5 d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap">
     
                     <!-- Header -->
@@ -3331,23 +3483,6 @@ function initializeHomePageSections() {
   // Initialize Social Section
   const trustSocialSection = document.getElementById("socialSection");
   if (trustSocialSection) {
-    const socialLinks = [
-      {
-        icon: "fab fa-facebook-f",
-        url: "https://facebook.com/yourpage",
-        label: "Facebook",
-      },
-      {
-        icon: "fab fa-instagram",
-        url: "https://instagram.com/yourpage",
-        label: "Instagram",
-      },
-      {
-        icon: "fab fa-youtube",
-        url: "https://youtube.com/yourchannel",
-        label: "YouTube",
-      },
-    ];
 
     const socialHtml = socialLinks
       .map(
@@ -3477,7 +3612,7 @@ function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("about");
+  setCurrentPage("contact");
 }
 
 /**
