@@ -2245,70 +2245,127 @@ function loadVideosPage() {
  * Load contact page
  */
 function loadContactPage() {
-  const container = document.getElementById("contactPageContent");
-  if (!container) return;
+    const container = document.getElementById("contactPageContent");
+    if (!container) return;
 
-      const socialHtml = socialLinks
-      .map(
-        (s) => `
-            <a href="${s.url}" target="_blank" rel="noopener noreferrer"
-            class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center"
-            style="width: 52px; height: 52px;" aria-label="${s.label}">
-                <i class="${s.icon}"></i>
-            </a>
-        `,
-      )
-      .join("");
+    // ===== Data =====
 
-  container.innerHTML = `
+    const socialHtml = socialLinks.map(s => `
+        <a href="${s.url}" target="_blank" rel="noopener noreferrer"
+           class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center"
+           style="width: 52px; height: 52px;" aria-label="${s.label}">
+            <i class="${s.icon}"></i>
+        </a>
+    `).join('');
+
+    const supportInfoContent = {
+        subtitle: { en: 'Here to Help', ar: 'هنا لمساعدتك' },
+        title: { en: 'Support & Assistance', ar: 'الدعم والمساعدة' },
+        items: [
+            {
+                icon: 'fas fa-clock',
+                title: { en: 'Working Hours', ar: 'ساعات العمل' },
+                lines: [
+                    { en: 'Sunday – Thursday: 9:00 AM – 5:00 PM', ar: 'الأحد – الخميس: 9:00 ص – 5:00 م' },
+                    { en: 'Friday – Saturday: Closed', ar: 'الجمعة – السبت: مغلق' }
+                ]
+            },
+            {
+                icon: 'fas fa-bolt',
+                title: { en: 'Response Time', ar: 'وقت الاستجابة' },
+                lines: [
+                    { en: 'We respond to all inquiries within 24 hours.', ar: 'نرد على جميع الاستفسارات خلال 24 ساعة.' },
+                ]
+            },
+            {
+                icon: 'fas fa-lock',
+                title: { en: 'Secured Payment', ar: 'دفع آمن' },
+                lines: [
+                    { en: 'Your data and payment details are always kept safe.', ar: 'بياناتك وتفاصيل الدفع محمية دائماً.' }
+                ]
+            }
+        ]
+    };
+
+    const supportItemsHtml = supportInfoContent.items.map(item => `
+        <div class="col-md-6 col-lg-4">
+            <div class="support-info-card bg-white rounded-1 shadow-sm p-4 h-100">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-opacity-10 mb-3" style="width: 24px; height: 24px;">
+                    <i class="${item.icon} text-secondary fs-4"></i>
+                </div>
+                <p class="fw-bold mb-3">${getLabel(item.title.en, item.title.ar)}</p>
+                ${item.lines.map(line => `
+                    <p class="text-muted small mb-1">${getLabel(line.en, line.ar)}</p>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+
+    // ===== Render =====
+
+    container.innerHTML = `
         ${createBanner(getLabel("Contact Us", "اتصل بنا"))}
-        <div class="container-fluid contact overflow-hidden py-5 bg-light">
+
+        <!-- Quick Contact + Form -->
+        <div class="container-fluid contact overflow-hidden pt-5 bg-light">
             <div class="container py-5 px-5">
                 <div class="row g-5 mb-5">
+
+                    <!-- Left: Quick Contact Info -->
                     <div class="col-lg-6">
                         <h5 class="sub-title px-3 py-0">${getLabel("Quick Contact", "اتصل بنا")}</h5>
-                        <p class="ps-3 pb-3 w-75">${getLabel("We are here to help! Whether you have a quesation, feedback, or need support, our team is ready to assist you.","")}</p>
-                        <div class="row g-3">
-                            <div class="col-xl-6">
-                                <div class="d-flex">
-                                    <div class="ps-3">
-                                    <h5 class="fw-bolder pb-2">${getLabel("Phone", "الهاتف")}:
-                                    <br>
-                                    <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://wa.me/201556336160" target="_blank" dir="ltr">+20 15 56336160</a></h5>
-                                    <h5 class="fw-bolder pb-2">${getLabel("Email", "البريد")}:
-                                    <br>
-                                    <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="mailto:kaderfactory38@gmail.com" target="_blank">kaderfactory38@gmail.com</a></h5>
-                                    <h5 class="fw-bolder pb-2">${getLabel("Location", "الموقع")}
-                                    <br>
-                                    <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://www.google.com/maps/search/?api=1&query=Kader+Factory+For+Developed+Industries" target="_blank">
+                        <p class="ps-3 pb-3 w-75">
+                            ${getLabel(
+                                "We are here to help! Whether you have a question, feedback, or need support, our team is ready to assist you.",
+                                "نحن هنا لمساعدتك! سواء كان لديك سؤال، أو ملاحظات، أو تحتاج إلى دعم، فإن فريقنا مستعد لتقديم المساعدة لك."
+                            )}
+                        </p>
+
+                        <div class="ps-3">
+                            <h5 class="fw-bolder pb-2">
+                                ${getLabel("Phone", "الهاتف")}:<br>
+                                <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://wa.me/201556336160" target="_blank" dir="ltr">+20 15 56336160</a>
+                            </h5>
+
+                            <h5 class="fw-bolder pb-2">
+                                ${getLabel("Email", "البريد")}:<br>
+                                <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="mailto:kaderfactory38@gmail.com" target="_blank">kaderfactory38@gmail.com</a>
+                            </h5>
+
+                            <h5 class="fw-bolder pb-2">
+                                ${getLabel("Location", "الموقع")}:<br>
+                                <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://www.google.com/maps/search/?api=1&query=Kader+Factory+For+Developed+Industries" target="_blank">
                                     ${getLabel("2 El Tayaran St, Al Golf, Nasr City", "2 شارع الطياران، الجولف، مدينة نصر")}
-                                    </a>
-                                    </h5>
-                                    <h5 class="fw-bolder pb-2">${getLabel("Follow us", "تابعنا")}:
-                                    <div class="row gap-2 p-2">
+                                </a>
+                            </h5>
+
+                            <h5 class="fw-bolder pb-2">
+                                ${getLabel("Follow us", "تابعنا")}:
+                                <div class="d-flex gap-2 p-2">
                                     ${socialHtml}
-                                    </div>
-                                    </h5>
-                                    </div>
                                 </div>
-                            </div>
+                            </h5>
+
+
                         </div>
                     </div>
+
+                    <!-- Right: Contact Form -->
                     <div class="col-lg-6 bg-white p-5 shadow-sm rounded-1">
                         <h5 class="sub-title p-3">${getLabel("Get in touch", "تواصل معنا")}</h5>
-                        <form>
+                        <form id="contactForm">
                             <div class="row g-4">
                                 <div class="col-12">
-                                    <input type="text" class="form-control bg-light" placeholder="${getLabel("Your Name", "اسمك")}">
+                                    <input type="text" class="form-control bg-light" id="contactName" placeholder="${getLabel("Your Name", "اسمك")}">
                                 </div>
                                 <div class="col-12">
-                                    <input type="email" class="form-control bg-light" placeholder="${getLabel("Your Email", "بريدك الإلكتروني")}">
+                                    <input type="email" class="form-control bg-light" id="contactEmail" placeholder="${getLabel("Your Email", "البريد الألكتروني")}">
                                 </div>
                                 <div class="col-12">
-                                    <input type="text" class="form-control bg-light" placeholder="${getLabel("Subject", "الموضوع")}">
+                                    <input type="text" class="form-control bg-light" id="contactSubject" placeholder="${getLabel("Subject", "الموضوع")}">
                                 </div>
                                 <div class="col-12">
-                                    <textarea class="form-control bg-light" rows="5" placeholder="${getLabel("Message", "الرسالة")}"></textarea>
+                                    <textarea class="form-control bg-light" id="contactMessage" rows="5" placeholder="${getLabel("Message", "الرسالة")}"></textarea>
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary w-100 py-3 rounded-0">
@@ -2318,37 +2375,37 @@ function loadContactPage() {
                             </div>
                         </form>
                     </div>
+
+                    <!-- Support Info: Working Hours / Response Time / Support & Assistance -->
+                    <div class=" bg-light px-0">
+                        <div class="">
+                                <h5 class="sub-title fw-bolder">${getLabel(supportInfoContent.title.en, supportInfoContent.title.ar)}</h5>
+                            <div class="row g-4">
+                                ${supportItemsHtml}
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
-                            
-            <!-- Banner -->
-            <div class="container overflow-hidden rounded-1 position-relative"">
 
-              <!-- Background image layer -->
-              <div class="h-100 w-100 position-absolute right-0 top-0" style="background-image: url('./images/b-10.webp'); background-size:cover; background-position:center;"></div>
-
-              <!-- Dark overlay for readability -->
-              <div class="projects-bg-overlay"></div>
-              <div class="projects-bg-overlay"></div>
-
-              <!-- Content -->
-              <div class="container projects-container position-relative py-5">
-                  <div class="row g-5 align-items-stretch flex-column-reverse flex-lg-row">
-                      <div class="col-lg-6 d-flex">
-                          <div class="d-flex flex-column justify-content-center h-100 w-100">
-                              <div class="section-title text-start flex-grow-1">
-                                  <h1 class="display-5 text-primary" id="activeProjectTitle">${getLabel("Commitment to", projects[0].titleAr)}</h1>
-                                  <p class="fs-2 mb-0 text-white" id="activeProjectDesc">${getLabel("innovation, steadfastness <br> and growth", projects[0].descAr)}</p>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              
-        </div>
     `;
-}
 
+    // Contact form submit handler
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+
+            // Hook your actual contact/API call here
+            console.log('Contact form submitted', { name, email, subject, message });
+        });
+    }
+}
 /**
  * Initialize Sign Up Page
  */
