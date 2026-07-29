@@ -2263,10 +2263,11 @@ function loadContactPage() {
   container.innerHTML = `
         ${createBanner(getLabel("Contact Us", "اتصل بنا"))}
         <div class="container-fluid contact overflow-hidden py-5 bg-light">
-            <div class="container py-5">
+            <div class="container py-5 px-5">
                 <div class="row g-5 mb-5">
                     <div class="col-lg-6">
-                        <h5 class="sub-title p-3">${getLabel("Quick Contact", "اتصل بنا")}</h5>
+                        <h5 class="sub-title px-3 py-0">${getLabel("Quick Contact", "اتصل بنا")}</h5>
+                        <p class="ps-3 pb-3 w-75">${getLabel("We are here to help! Whether you have a quesation, feedback, or need support, our team is ready to assist you.","")}</p>
                         <div class="row g-3">
                             <div class="col-xl-6">
                                 <div class="d-flex">
@@ -2283,7 +2284,7 @@ function loadContactPage() {
                                     ${getLabel("2 El Tayaran St, Al Golf, Nasr City", "2 شارع الطياران، الجولف، مدينة نصر")}
                                     </a>
                                     </h5>
-                                    <h5 class="fw-bolder pb-2">${getLabel("Social Media", "مواقع التواصل الأجتماعي")}:
+                                    <h5 class="fw-bolder pb-2">${getLabel("Follow us", "تابعنا")}:
                                     <div class="row gap-2 p-2">
                                     ${socialHtml}
                                     </div>
@@ -2294,7 +2295,7 @@ function loadContactPage() {
                         </div>
                     </div>
                     <div class="col-lg-6 bg-white p-5 shadow-sm rounded-1">
-                        <h5 class="sub-title p-3">${getLabel("Let's Connect", "لنتواصل")}</h5>
+                        <h5 class="sub-title p-3">${getLabel("Get in touch", "تواصل معنا")}</h5>
                         <form>
                             <div class="row g-4">
                                 <div class="col-12">
@@ -2318,15 +2319,32 @@ function loadContactPage() {
                         </form>
                     </div>
                 </div>
-                <div class="office pt-5">
-                    <div class="row g-4 justify-content-center">
-                        <div class="col-12 pt-5">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1726.2533249816152!2d31.31804038889666!3d30.07967296942901!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583f17819003bd%3A0x5788391b0502453f!2sKader%20Factory" 
-                                class="rounded w-100" style="height: 500px;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
-                    </div>
-                </div>
             </div>
+                            
+            <!-- Banner -->
+            <div class="container overflow-hidden rounded-1 position-relative"">
+
+              <!-- Background image layer -->
+              <div class="h-100 w-100 position-absolute right-0 top-0" style="background-image: url('./images/b-10.webp'); background-size:cover; background-position:center;"></div>
+
+              <!-- Dark overlay for readability -->
+              <div class="projects-bg-overlay"></div>
+              <div class="projects-bg-overlay"></div>
+
+              <!-- Content -->
+              <div class="container projects-container position-relative py-5">
+                  <div class="row g-5 align-items-stretch flex-column-reverse flex-lg-row">
+                      <div class="col-lg-6 d-flex">
+                          <div class="d-flex flex-column justify-content-center h-100 w-100">
+                              <div class="section-title text-start flex-grow-1">
+                                  <h1 class="display-5 text-primary" id="activeProjectTitle">${getLabel("Commitment to", projects[0].titleAr)}</h1>
+                                  <p class="fs-2 mb-0 text-white" id="activeProjectDesc">${getLabel("innovation, steadfastness <br> and growth", projects[0].descAr)}</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
         </div>
     `;
 }
