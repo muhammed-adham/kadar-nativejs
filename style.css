@@ -180,20 +180,20 @@ a {
 
 .swiper .swiper-button-prev,
 .swiper .swiper-button-next {
-  background: rgba(0, 0, 0, 0.2);
-  width: 44px;
-  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   color: var(--primary);
   border: 1px solid var(--primary);
-  transition: background 0.3s;
+  transition: ease all 0.25s;
 }
 
 .swiper .swiper-button-prev:hover,
 .swiper .swiper-button-next:hover {
   background: var(--primary);
-  color: #fff;
-  /* background: rgba(0, 0, 0, 0.7); */
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+  color: var(--white);
 }
 
 /* Remove Swiper's default arrow icon and use Font Awesome instead */
@@ -346,20 +346,11 @@ html[dir="rtl"] .swiper-button-prev {
 
 /* ========== Banner Styles ========== */
 .bg-breadcrumb {
-  /* background: linear-gradient(135deg, var(--primary) 0%, #0073b3 100%); */
-  background-image: url(./images/b-page.webp);
-  background-position: center;
-  background-size: cover;
-  padding: 60px 0;
+  height: fit-content;
 }
 
 .breadcrumb {
-  background: transparent;
   padding: 0;
-}
-
-.bg-breadcrumb h3 {
-  color: var(--primary) !important;
 }
 
 .breadcrumb-item a {
@@ -367,11 +358,12 @@ html[dir="rtl"] .swiper-button-prev {
 }
 
 .breadcrumb-item a:hover {
-  color: var(--primary) !important;
+  color: var(--text-light) !important;
+  text-decoration: underline;
 }
 
 .breadcrumb-item.active {
-  color: var(--text-white) !important;
+  color: var(--text-light) !important;
 }
 
 /* ========== Typography ========== */
@@ -825,68 +817,6 @@ p {
 }
 
 /* ========== project Item Styles ========== */
-/* .project-item {
-  background-color: var(--white);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: var(--transition);
-}
-
-.project-item:hover {
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-  transform: translateY(-10px);
-}
-
-.project-inner {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--light);
-}
-
-.project-inner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition);
-}
-
-.project-item:hover .project-inner img {
-  transform: scale(1.1);
-}
-
-.project-title-name {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-  padding: 20px;
-  color: var(--white);
-}
-
-.project-title-name a {
-  color: var(--white);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.project-content {
-  padding: 20px;
-}
-
-.project-content a {
-  text-decoration: none;
-}
-
-.project-content h4 {
-  color: var(--white);
-  margin-bottom: 10px;
-}
-
-.project-content p {
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 15px;
-} */
 
 @keyframes slideInText {
   from {
@@ -964,24 +894,24 @@ p {
 }
 
 .nav-btn-custom {
-  width: 44px;
-  height: 44px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 1px solid var(--primary);
-  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border: 1px solid var(--primary);
   transition: all 0.25s ease;
   position: relative;
-  opacity: 0.8;
+  background: transparent;
+  color: var(--primary);
 }
 
 .nav-btn-custom:hover {
   background: var(--primary);
-  color: #fff;
-  opacity: 1;
+  color: var(--white);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 html[dir="rtl"] .nav-btn-custom{
@@ -1450,6 +1380,213 @@ html[dir="rtl"] .nav-btn-custom{
 
 .payment-logo:hover {
   filter: grayscale(0%) opacity(1);
+}
+
+/* ========== Single Product Page Styles ========== */
+.product-main-image {
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    position: relative;
+}
+
+.product-main-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.product-zoom-btn {
+    position: absolute;
+    bottom: 12px;
+    inset-inline-end: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.product-zoom-btn:hover {
+    background: var(--bs-primary);
+    color: #fff;
+}
+
+.product-thumbs-row {
+    overflow-x: auto;
+}
+
+.product-thumb {
+    width: 72px;
+    height: 72px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.2s ease;
+}
+
+.product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-thumb.active,
+.product-thumb:hover {
+    border-color: var(--bs-primary);
+}
+
+/* Color / Size selectors */
+.color-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #dee2e6;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.color-swatch.active {
+    border-color: var(--bs-primary);
+    transform: scale(1.1);
+}
+
+.size-option {
+    border: 1px solid #dee2e6;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.size-option.active {
+    border-color: var(--bs-primary);
+    background: var(--bs-primary);
+    color: #fff;
+}
+
+.buy-box {
+    position: sticky;
+    top: 90px;
+    background: #fff;
+}
+
+/* Spec groups accordion */
+.spec-chevron {
+    transition: transform 0.3s ease;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.spec-chevron.rotated {
+    transform: rotate(180deg);
+}
+
+.spec-group-toggle h6 {
+    color: #212529;
+}
+
+/* Related products */
+.product-related-card {
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Fullscreen Gallery Overlay */
+.product-gallery-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-overlay-close {
+    position: absolute;
+    top: 24px;
+    inset-inline-end: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.galleryOverlaySwiper {
+    width: 100%;
+    max-width: 900px;
+}
+
+.galleryOverlaySwiper .swiper-button-next,
+.galleryOverlaySwiper .swiper-button-prev {
+    color: #fff;
+}
+
+.galleryOverlaySwiper .swiper-pagination-bullet {
+    background: #fff;
+}
+
+/* Reservation Modal */
+.reservation-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.reservation-modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.reservation-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    inset-inline-end: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f1f3f5;
+    cursor: pointer;
 }
 
 /* ========== Footer Styles ========== */

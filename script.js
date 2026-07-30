@@ -607,8 +607,18 @@ const categories = [
     img: "/images/cat-7.webp",
     nameEn: "Electric Transport",
     nameAr: "نقل كهربائي",
-    variantsEn: ["Electric Scooters", "Electric Golf Cars", "Electric Bicycles", "Bicycles"],
-    variantsAr: [  "سكوتر كهربائي","عربات جولف كهربائية","دراجات هوائية كهرباء","دراجات هوائية"],
+    variantsEn: [
+      "Electric Scooters",
+      "Electric Golf Cars",
+      "Electric Bicycles",
+      "Bicycles",
+    ],
+    variantsAr: [
+      "سكوتر كهربائي",
+      "عربات جولف كهربائية",
+      "دراجات هوائية كهرباء",
+      "دراجات هوائية",
+    ],
     page: "products",
     categoryId: "electric-transport",
   },
@@ -813,23 +823,23 @@ const aboutContent = {
 };
 
 // ========== Social Links ==========
-    const socialLinks = [
-      {
-        icon: "fab fa-facebook-f",
-        url: "https://facebook.com/yourpage",
-        label: "Facebook",
-      },
-      {
-        icon: "fab fa-instagram",
-        url: "https://instagram.com/yourpage",
-        label: "Instagram",
-      },
-      {
-        icon: "fab fa-youtube",
-        url: "https://youtube.com/yourchannel",
-        label: "YouTube",
-      },
-    ];
+const socialLinks = [
+  {
+    icon: "fab fa-facebook-f",
+    url: "https://facebook.com/yourpage",
+    label: "Facebook",
+  },
+  {
+    icon: "fab fa-instagram",
+    url: "https://instagram.com/yourpage",
+    label: "Instagram",
+  },
+  {
+    icon: "fab fa-youtube",
+    url: "https://youtube.com/yourchannel",
+    label: "YouTube",
+  },
+];
 
 // ========== UTILITY FUNCTIONS ==========
 
@@ -1372,7 +1382,7 @@ function initializeSlider() {
             <div class="carousel-caption align-items-center justify-content-center d-flex flex-column ${hasContent ? "" : "no-overlay"}"">
                 <div">
                     <h4 class="text-white text-uppercase fw-bold wow fadeInUp">${slide.subTitle}</h4>
-                    <h1 class="display-1 text-white wow fadeInUp text-capitalize ${getDirectionClass("pb-0","pb-3")}">${slide.title}</h1>
+                    <h1 class="display-1 text-white wow fadeInUp text-capitalize ${getDirectionClass("pb-0", "pb-3")}">${slide.title}</h1>
                     <p class="text-white mx-auto fs-5 wow fadeInUp" style="max-width:36rem;">${slide.text}</p>
                     ${
                       slide.path
@@ -1586,79 +1596,54 @@ function initializeFooter() {
 /**
  * Create banner component
  */
-function createBanner(title) {
-  return `
-        <div class="container-fluid bg-breadcrumb bg-primary">
-            <div class="container text-center py-5">
-                <h3 class="text-white display-3 mb-4 text-capitalize">${title}</h3>
-                <ol class="breadcrumb justify-content-center text-white mb-0">
-                    <li class="breadcrumb-item">
-                        <a href="#" class="text-white-50" onclick="setCurrentPage('home')">${getLabel("Home", "الرئيسية")}</a>
-                    </li>
-                    <span class="px-2" style="opacity: 0.3;">|</span>
-                    <li class="breadcrumb-item active text-white text-capitalize">${title}</li>
-                </ol>
-            </div>
-        </div>
-    `;
-}
+function createBanner(title, subTitle) {
+  const titleLabel = getLabel(title, title);
+  const subTitleLabel = subTitle ? getLabel(subTitle, subTitle) : '';
 
-/**
- * Create counter section
- */
-function createCounterSection() {
   return `
-        <div class="container-fluid counter-facts bg-white py-5">
-            <div class="container py-5">
-                <div class="row g-4">
-                    <div class="col-12 col-sm-6 col-md-6 col-xl-3">
-                        <div class="counter">
-                            <div class="counter-icon"><i class="fas fa-passport"></i></div>
-                            <div class="counter-content">
-                                <h3>${getLabel("Technological Centers", "مراكز التكنولوجيا")}</h3>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <span class="counter-value">31</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-xl-3">
-                        <div class="counter">
-                            <div class="counter-icon"><i class="fas fa-users"></i></div>
-                            <div class="counter-content">
-                                <h3>${getLabel("Firefighting Cars", "سيارات الإطفاء")}</h3>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <span class="counter-value">11</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-xl-3">
-                        <div class="counter">
-                            <div class="counter-icon"><i class="fas fa-user-check"></i></div>
-                            <div class="counter-content">
-                                <h3>${getLabel("Home Furniture", "أثاث المنزل")}</h3>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <span class="counter-value">13</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-xl-3">
-                        <div class="counter">
-                            <div class="counter-icon"><i class="fas fa-handshake"></i></div>
-                            <div class="counter-content">
-                                <h3>${getLabel("Office Furniture", "أثاث المكاتب")}</h3>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <span class="counter-value">20</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
+    <div class="container-fluid bg-breadcrumb bg-dark border-bottom border-black-25">
+      <div class="container py-3">
+        <ol class="breadcrumb justify-content-start align-items-center text-white mb-0">
+
+          <!-- Home -->
+          <li class="breadcrumb-item">
+            <a href="#" 
+               class="text-white-50" 
+               onclick="setCurrentPage('home')">
+              ${getLabel("Home", "الرئيسية")}
+            </a>
+          </li>
+
+          <!-- Title -->
+          <span class="px-2" style="opacity:0.4;">/</span>
+          <li class="breadcrumb-item ${subTitle ? '' : 'active'} text-capitalize">
+            ${
+              subTitle
+                ? `<a href="#" 
+                     class="text-white-50"
+                     onclick="setCurrentPage('${title}')">
+                     ${titleLabel}
+                   </a>`
+                : titleLabel
+            }
+          </li>
+
+          <!-- Subtitle -->
+          ${
+            subTitle
+              ? `
+                <span class="px-2" style="opacity:0.4;">/</span>
+                <li class="breadcrumb-item active text-capitalize">
+                  ${subTitleLabel}
+                </li>
+              `
+              : ''
+          }
+
+        </ol>
+      </div>
+    </div>
+  `;
 }
 
 /**
@@ -1745,6 +1730,9 @@ function loadPageContent(pageId) {
     case "contact":
       loadContactPage();
       break;
+    case "single-product":
+      loadSingleProductPage();
+      break;
   }
 }
 
@@ -1762,7 +1750,7 @@ function loadAboutPage() {
       en: "Engineering Excellence Across Civilian & Military Industries",
       ar: "ريادة هندسية في الصناعات المدنية والعسكرية",
     },
-    title: { en: "Our Manufacturing Capabilities", ar: "قدراتنا التصنيعية" },
+    title: { en: "What We Manufacture", ar: "ماذا نصنع" },
     defense: {
       title: { en: "Defense & Government", ar: "القطاع الدفاعي والحكومي" },
       items: [
@@ -1919,14 +1907,14 @@ function loadAboutPage() {
         ${createBanner(getLabel("About Us", "من نحن"))}
 
         <!-- Who We Are -->
-        <div class="container-fluid overflow-hidden py-2 bg-white">
-            <div class="container py-5">
+        <div class="container-fluid overflow-hidden py-2 bg-light">
+            <div class="container py-5 border-bottom border-black-25">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6 position-relative">
                         <img src="/images/_about.webp" class="img-fluid rounded-2 w-100" style="height: 48rem; object-fit: cover;" alt="Who We Are">
                     </div>
                     <div class="col-lg-6">
-                        <h5 class="sub-title text-primary px-3">${getLabel(aboutContent.subtitle.en, aboutContent.subtitle.ar)}</h5>
+                        <h5 class="sub-title text-primary pb-0">${getLabel(aboutContent.subtitle.en, aboutContent.subtitle.ar)}</h5>
                         <h1 class="display-5 fw-bold mb-4">${getLabel(aboutContent.title.en, aboutContent.title.ar)}</h1>
                         ${paragraphsHtml(aboutContent.paragraphs)}
                         <div class="d-flex align-items-center gap-4 mt-4">
@@ -1948,10 +1936,10 @@ function loadAboutPage() {
         </div>
 
         <!-- What We Manufacture -->
-        <div class="container-fluid overflow-hidden bg-light border-top border-gray border-opacity-25">
+        <div class="container-fluid overflow-hidden bg-light">
             <div class="container py-5">
                 <div class="section-title text-center">
-                    <h5 class="sub-title">${getLabel(sectorsContent.title.en, sectorsContent.title.ar)}</h5>
+                    <h5 class="sub-title pb-2">${getLabel(sectorsContent.title.en, sectorsContent.title.ar)}</h5>
                 </div>
 
                 <div class="row g-4">
@@ -1986,7 +1974,7 @@ function loadAboutPage() {
 
         <!-- Vision & Mission: tab switcher, full paragraphs -->
         <div class="container-fluid overflow-hidden bg-light">
-            <div class="container pb-5">
+            <div class="container pb-5 ">
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="vm-tabs-wrapper rounded-1 overflow-hidden shadow-sm">
@@ -2020,7 +2008,7 @@ function loadAboutPage() {
         </div>
 
         <!-- Our Values: full paragraphs + stacked feature rows -->
-        <div class="container-fluid overflow-hidden bg-light border-bottom border-gray border-opacity-25">
+        <div class="container-fluid overflow-hidden bg-light border-bottom border-black-25">
             <div class="container pb-5">
                 <div class="d-flex justify-content-between flex-wrap">
                     <div class="col-12 col-lg-4 pb-4">
@@ -2051,8 +2039,8 @@ function loadAboutPage() {
         </div>
 
         <!-- CTA -->
-        <div class="container-fluid overflow-hidden pt-5 bg-white text-center">
-            <div class="container py-4 d-flex flex-wrap justify-content-between align-items-center">
+        <div class="container-fluid overflow-hidden bg-light text-center">
+            <div class="container py-4  px-0 d-flex flex-wrap justify-content-between align-items-center">
             <div class="${getDirectionClass("text-start", "text-end")} col-12 col-lg-8">
              <h2 class="display-5 fw-bolder mb-3">${getLabel("Manufacturing Excellence Starts Here", "الصناعة المتميزة تبدأ من هنا")}</h2>
              <p class="text-black-50 mb-4 mx-auto" >
@@ -2245,79 +2233,100 @@ function loadVideosPage() {
  * Load contact page
  */
 function loadContactPage() {
-    const container = document.getElementById("contactPageContent");
-    if (!container) return;
+  const container = document.getElementById("contactPageContent");
+  if (!container) return;
 
-    // ===== Data =====
+  // ===== Data =====
 
-    const socialHtml = socialLinks.map(s => `
+  const socialHtml = socialLinks
+    .map(
+      (s) => `
         <a href="${s.url}" target="_blank" rel="noopener noreferrer"
            class="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center"
            style="width: 52px; height: 52px;" aria-label="${s.label}">
             <i class="${s.icon}"></i>
         </a>
-    `).join('');
+    `,
+    )
+    .join("");
 
-    const supportInfoContent = {
-        subtitle: { en: 'Here to Help', ar: 'هنا لمساعدتك' },
-        title: { en: 'Support & Assistance', ar: 'الدعم والمساعدة' },
-        items: [
-            {
-                icon: 'fas fa-clock',
-                title: { en: 'Working Hours', ar: 'ساعات العمل' },
-                lines: [
-                    { en: 'Sunday – Thursday: 9:00 AM – 5:00 PM', ar: 'الأحد – الخميس: 9:00 ص – 5:00 م' },
-                    { en: 'Friday – Saturday: Closed', ar: 'الجمعة – السبت: مغلق' }
-                ]
-            },
-            {
-                icon: 'fas fa-bolt',
-                title: { en: 'Response Time', ar: 'وقت الاستجابة' },
-                lines: [
-                    { en: 'We respond to all inquiries within 24 hours.', ar: 'نرد على جميع الاستفسارات خلال 24 ساعة.' },
-                ]
-            },
-            {
-                icon: 'fas fa-lock',
-                title: { en: 'Secured Payment', ar: 'دفع آمن' },
-                lines: [
-                    { en: 'Your data and payment details are always kept safe.', ar: 'بياناتك وتفاصيل الدفع محمية دائماً.' }
-                ]
-            }
-        ]
-    };
+  const supportInfoContent = {
+    subtitle: { en: "Here to Help", ar: "هنا لمساعدتك" },
+    title: { en: "Support & Assistance", ar: "الدعم والمساعدة" },
+    items: [
+      {
+        icon: "fas fa-clock",
+        title: { en: "Working Hours", ar: "ساعات العمل" },
+        lines: [
+          {
+            en: "Sunday – Thursday: 8:00 AM – 3:00 PM",
+            ar: "الأحد – الخميس: 8:00 ص – 3:00 م",
+          },
+          { en: "Friday – Saturday: Closed", ar: "الجمعة – السبت: مغلق" },
+        ],
+      },
+      {
+        icon: "fas fa-bolt",
+        title: { en: "Response Time", ar: "وقت الاستجابة" },
+        lines: [
+          {
+            en: "We respond to all inquiries within one business day.",
+            ar: "نستجيب لجميع الاستفسارات خلال يوم عمل واحد.",
+          },
+        ],
+      },
+      {
+        icon: "fas fa-lock",
+        title: { en: "Secured Payment", ar: "دفع آمن" },
+        lines: [
+          {
+            en: "Your data and payment details are always kept safe.",
+            ar: "بياناتك وتفاصيل الدفع محمية دائماً.",
+          },
+        ],
+      },
+    ],
+  };
 
-    const supportItemsHtml = supportInfoContent.items.map(item => `
+  const supportItemsHtml = supportInfoContent.items
+    .map(
+      (item) => `
         <div class="col-md-6 col-lg-4">
             <div class="support-info-card bg-white rounded-1 shadow-sm p-4 h-100">
                 <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-opacity-10 mb-3" style="width: 24px; height: 24px;">
                     <i class="${item.icon} text-secondary fs-4"></i>
                 </div>
                 <p class="fw-bold mb-3">${getLabel(item.title.en, item.title.ar)}</p>
-                ${item.lines.map(line => `
+                ${item.lines
+                  .map(
+                    (line) => `
                     <p class="text-muted small mb-1">${getLabel(line.en, line.ar)}</p>
-                `).join('')}
+                `,
+                  )
+                  .join("")}
             </div>
         </div>
-    `).join('');
+    `,
+    )
+    .join("");
 
-    // ===== Render =====
+  // ===== Render =====
 
-    container.innerHTML = `
+  container.innerHTML = `
         ${createBanner(getLabel("Contact Us", "اتصل بنا"))}
 
         <!-- Quick Contact + Form -->
         <div class="container-fluid contact overflow-hidden pt-5 bg-light">
-            <div class="container py-5 px-5">
+            <div class="container p-5">
                 <div class="row g-5 mb-5">
 
                     <!-- Left: Quick Contact Info -->
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 p-5">
                         <h5 class="sub-title px-3 py-0">${getLabel("Quick Contact", "اتصل بنا")}</h5>
                         <p class="ps-3 pb-3 w-75">
                             ${getLabel(
-                                "We are here to help! Whether you have a question, feedback, or need support, our team is ready to assist you.",
-                                "نحن هنا لمساعدتك! سواء كان لديك سؤال، أو ملاحظات، أو تحتاج إلى دعم، فإن فريقنا مستعد لتقديم المساعدة لك."
+                              "We are here to help! Whether you have a question, feedback, or need support, our team is ready to assist you.",
+                              "نحن هنا لمساعدتك! سواء كان لديك سؤال، أو ملاحظات، أو تحتاج إلى دعم، فإن فريقنا مستعد لتقديم المساعدة لك.",
                             )}
                         </p>
 
@@ -2352,11 +2361,11 @@ function loadContactPage() {
 
                     <!-- Right: Contact Form -->
                     <div class="col-lg-6 bg-white p-5 shadow-sm rounded-1">
-                        <h5 class="sub-title p-3">${getLabel("Get in touch", "تواصل معنا")}</h5>
+                        <h5 class="sub-title px-3">${getLabel("Get in touch", "تواصل معنا")}</h5>
                         <form id="contactForm">
                             <div class="row g-4">
                                 <div class="col-12">
-                                    <input type="text" class="form-control bg-light" id="contactName" placeholder="${getLabel("Your Name", "اسمك")}">
+                                    <input type="text" class="form-control bg-light" id="contactName" placeholder="${getLabel("Your Name / Company Name", "الاسم / اسم الشركة")}">
                                 </div>
                                 <div class="col-12">
                                     <input type="email" class="form-control bg-light" id="contactEmail" placeholder="${getLabel("Your Email", "البريد الألكتروني")}">
@@ -2377,8 +2386,8 @@ function loadContactPage() {
                     </div>
 
                     <!-- Support Info: Working Hours / Response Time / Support & Assistance -->
-                    <div class=" bg-light px-0">
-                        <div class="">
+                    <div class=" bg-light px-0 pt-5 border-top">
+                        <div class="text-center">
                                 <h5 class="sub-title fw-bolder">${getLabel(supportInfoContent.title.en, supportInfoContent.title.ar)}</h5>
                             <div class="row g-4">
                                 ${supportItemsHtml}
@@ -2391,20 +2400,20 @@ function loadContactPage() {
 
     `;
 
-    // Contact form submit handler
-    const form = document.getElementById('contactForm');
-    if (form) {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const subject = document.getElementById('contactSubject').value;
-            const message = document.getElementById('contactMessage').value;
+  // Contact form submit handler
+  const form = document.getElementById("contactForm");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("contactName").value;
+      const email = document.getElementById("contactEmail").value;
+      const subject = document.getElementById("contactSubject").value;
+      const message = document.getElementById("contactMessage").value;
 
-            // Hook your actual contact/API call here
-            console.log('Contact form submitted', { name, email, subject, message });
-        });
-    }
+      // Hook your actual contact/API call here
+      console.log("Contact form submitted", { name, email, subject, message });
+    });
+  }
 }
 /**
  * Initialize Sign Up Page
@@ -2829,6 +2838,499 @@ function loadLoginPage() {
   });
 }
 
+/**
+ * Initialize Single Product Page
+ */
+
+function loadSingleProductPage(productId) {
+    const container = document.getElementById("singleProductContent");
+    if (!container) return;
+
+    const currentData = appState.language === 'ar' ? productsData.ar : productsData.en;
+    const product = currentData.find(p => p.id === productId) || currentData[0];
+
+    if (!product) {
+        container.innerHTML = `<div class="container py-5 text-center text-muted">${getLabel('Product not found', 'المنتج غير موجود')}</div>`;
+        return;
+    }
+
+    // ===== Data (adjust field names to match your real product objects) =====
+    const gallery = product.gallery || [product.url, product.url, product.url];
+    const price = product.price || 0;
+    const colors = product.colors || [
+        { name: 'Black', nameAr: 'أسود', hex: '#1a1a1a' },
+        { name: 'Red', nameAr: 'أحمر', hex: '#c0392b' },
+        { name: 'White', nameAr: 'أبيض', hex: '#f5f5f5' }
+    ];
+    const sizes = product.sizes || [{ en: 'One Size', ar: 'مقاس واحد' }];
+
+    const specGroups = product.specGroups || [
+        {
+            titleEn: 'Performance & Motor', titleAr: 'الأداء والمحرك',
+            items: [
+                { en: '1500W electric motor delivering stable power and high efficiency', ar: 'محرك كهربائي 1500 وات يوفر طاقة ثابتة وكفاءة عالية' },
+                { en: 'Maximum speed ranging from 40 to 50 km/h', ar: 'سرعة قصوى تتراوح بين 40 و50 كم/س' },
+                { en: 'Driving range of 40–50 km per charge (depending on usage conditions)', ar: 'مدى قيادة من 40 إلى 50 كم لكل شحنة (حسب ظروف الاستخدام)' }
+            ]
+        },
+        {
+            titleEn: 'Battery & Charging', titleAr: 'البطارية والشحن',
+            items: [
+                { en: 'High-efficiency 60V – 32Ah lithium battery', ar: 'بطارية ليثيوم عالية الكفاءة 60 فولت – 32 أمبير/ساعة' },
+                { en: 'Fast charging system with a charging time of only 4 to 6 hours', ar: 'نظام شحن سريع بزمن شحن من 4 إلى 6 ساعات فقط' }
+            ]
+        },
+        {
+            titleEn: 'Durability & Structure', titleAr: 'المتانة والتصميم',
+            items: [
+                { en: 'Load capacity up to 250 kg', ar: 'سعة تحميل تصل إلى 250 كجم' },
+                { en: 'Robust design ensuring stability and safety during driving', ar: 'تصميم قوي يضمن الثبات والأمان أثناء القيادة' }
+            ]
+        },
+        {
+            titleEn: 'Features & Technology', titleAr: 'المميزات والتقنية',
+            items: [
+                { en: 'Remote control system with 2 remotes (dual keys) for ease of use and enhanced security', ar: 'نظام تحكم عن بعد بريموتين (مفتاحين) لسهولة الاستخدام وأمان إضافي' },
+                { en: 'Digital display for clear monitoring of essential data', ar: 'شاشة رقمية لعرض البيانات الأساسية بوضوح' },
+                { en: 'USB port for charging devices on the go', ar: 'منفذ USB لشحن الأجهزة أثناء التنقل' }
+            ]
+        },
+        {
+            titleEn: 'Safety & Comfort', titleAr: 'السلامة والراحة',
+            items: [
+                { en: 'Front and rear disc brakes for maximum safety', ar: 'فرامل قرصية أمامية وخلفية لأقصى درجات الأمان' },
+                { en: 'Tubeless tires to reduce breakdown risks and improve reliability', ar: 'إطارات بدون أنبوب لتقليل مخاطر الأعطال وتحسين الموثوقية' }
+            ]
+        }
+    ];
+
+    const warranty = product.warranty || [
+        { en: '3-year warranty on the battery', ar: 'ضمان 3 سنوات على البطارية' },
+        { en: '2-year warranty on the scooter against manufacturing defects', ar: 'ضمان سنتين على السكوتر ضد عيوب التصنيع' }
+    ];
+
+    const relatedProducts = currentData.filter(p => p.category === product.category && p !== product).slice(0, 4);
+
+    // ===== Reservation contact placeholders (reuse your real contact details) =====
+    const RESERVATION_WHATSAPP = '201556336160'; // placeholder, matches contact page number without '+'
+    const RESERVATION_EMAIL = 'kaderfactory38@gmail.com'; // placeholder, matches contact page email
+
+    // ===== Render helpers =====
+
+    const galleryThumbsHtml = gallery.map((img, i) => `
+        <div class="product-thumb ${i === 0 ? 'active' : ''}" data-img="${img}" data-index="${i}">
+            <img src="${img}" alt="${product.title} ${i + 1}" class="img-fluid">
+        </div>
+    `).join('');
+
+    const colorSwatchesHtml = colors.map((c, i) => `
+        <button type="button" class="color-swatch ${i === 0 ? 'active' : ''}" data-color="${getLabel(c.name, c.nameAr)}" style="background:${c.hex};" title="${getLabel(c.name, c.nameAr)}"></button>
+    `).join('');
+
+    const sizeOptionsHtml = sizes.map((s, i) => `
+        <button type="button" class="size-option ${i === 0 ? 'active' : ''}" data-size="${getLabel(s.en, s.ar)}">${getLabel(s.en, s.ar)}</button>
+    `).join('');
+
+    const specGroupsHtml = specGroups.map((group, i) => `
+        <div class="spec-group-item border-bottom">
+            <button class="spec-group-toggle d-flex align-items-center justify-content-between w-100 bg-transparent border-0 py-3" type="button" data-bs-toggle="collapse" data-bs-target="#specGroup${i}">
+                <h6 class="fw-bold mb-0">${getLabel(group.titleEn, group.titleAr)}</h6>
+                <i class="fas fa-chevron-down spec-chevron"></i>
+            </button>
+            <div class="collapse ${i === 0 ? 'show' : ''}" id="specGroup${i}">
+                <ul class="text-muted small mb-3 ps-3">
+                    ${group.items.map(item => `<li class="mb-1">${getLabel(item.en, item.ar)}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+    `).join('');
+
+    const relatedHtml = relatedProducts.map(p => `
+        <div class="col-6 col-md-3">
+            <div class="card h-100 border-0 shadow-sm product-related-card" onclick="loadSingleProductPage('${p.id}')">
+                <img src="${p.url}" class="card-img-top" style="height: 160px; object-fit: cover;" alt="${p.title}">
+                <div class="card-body">
+                    <h6 class="card-title text-truncate mb-1">${p.title}</h6>
+                    <span class="text-muted small">${p.sub_category || ''}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // ===== Render page =====
+
+    container.innerHTML = `
+        <div class="container-fluid overflow-hidden py-4 bg-white border-bottom">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 small">
+                        <li class="breadcrumb-item"><a href="#" onclick="setCurrentPage('home')">${getLabel('Home', 'الرئيسية')}</a></li>
+                        <li class="breadcrumb-item"><a href="#" onclick="setCurrentPage('products')">${getLabel('Products', 'المنتجات')}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">${product.title}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="container-fluid overflow-hidden py-5 bg-white">
+            <div class="container">
+                <div class="row g-5">
+
+                    <!-- Left: Gallery -->
+                    <div class="col-lg-5">
+                        <div class="product-main-image mb-3 position-relative">
+                            <img src="${gallery[0]}" class="img-fluid w-100" id="mainProductImage" alt="${product.title}">
+                            <button type="button" class="product-zoom-btn" id="openGalleryOverlay" aria-label="${getLabel('View full image', 'عرض الصورة كاملة')}">
+                                <i class="fas fa-magnifying-glass-plus"></i>
+                            </button>
+                        </div>
+                        <div class="d-flex gap-2 product-thumbs-row">
+                            ${galleryThumbsHtml}
+                        </div>
+                    </div>
+
+                    <!-- Middle: Product Info -->
+                    <div class="col-lg-4">
+                        <h5 class="text-muted small mb-1">${product.sub_category || ''}</h5>
+                        <h2 class="fw-bold mb-3">${product.title}</h2>
+
+                        <div class="mb-3">
+                            <span class="fs-3 fw-bold text-primary">${price.toLocaleString()} ${getLabel('EGP', 'ج.م')}</span>
+                        </div>
+
+                        <p class="text-muted">${product.desc}</p>
+
+                        <hr>
+
+                        <h6 class="fw-bold mb-3">${getLabel('Technical Specifications', 'المواصفات الفنية')}</h6>
+                        <div class="spec-groups-wrapper">
+                            ${specGroupsHtml}
+                        </div>
+
+                        <hr>
+
+                        <h6 class="fw-bold mb-2">${getLabel('Warranty', 'الضمان')}</h6>
+                        <ul class="text-muted small">
+                            ${warranty.map(w => `<li class="mb-1">${getLabel(w.en, w.ar)}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <!-- Right: Reservation Box -->
+                    <div class="col-lg-3">
+                        <div class="buy-box border rounded-3 p-4">
+                            <div class="mb-3">
+                                <span class="fs-4 fw-bold text-primary">${price.toLocaleString()} ${getLabel('EGP', 'ج.م')}</span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-semibold">${getLabel('Select Color', 'اختر اللون')}</label>
+                                <div class="d-flex gap-2" id="colorSwatches">
+                                    ${colorSwatchesHtml}
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-semibold">${getLabel('Select Size', 'اختر المقاس')}</label>
+                                <div class="d-flex gap-2 flex-wrap" id="sizeOptions">
+                                    ${sizeOptionsHtml}
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-semibold">${getLabel('Quantity', 'الكمية')}</label>
+                                <div class="input-group" style="max-width: 140px;">
+                                    <button class="btn btn-outline-secondary" type="button" id="qtyDecrease">-</button>
+                                    <input type="number" class="form-control text-center" id="productQty" value="1" min="1">
+                                    <button class="btn btn-outline-secondary" type="button" id="qtyIncrease">+</button>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary w-100 py-3 rounded-0 mb-3" id="openReservationModal">
+                                ${getLabel('Request Reservation', 'طلب حجز')}
+                            </button>
+
+                            <hr>
+
+                            <div class="d-flex align-items-start gap-2 mb-3">
+                                <i class="fas fa-shield-alt text-primary mt-1"></i>
+                                <div>
+                                    <div class="small fw-semibold">${getLabel('Quality Guaranteed', 'جودة مضمونة')}</div>
+                                    <div class="small text-muted">${getLabel('Manufactured to international standards', 'مُصنّع وفق المعايير الدولية')}</div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start gap-2">
+                                <i class="fas fa-undo text-primary mt-1"></i>
+                                <div>
+                                    <div class="small fw-semibold">${getLabel('Return Policy', 'سياسة الإرجاع')}</div>
+                                    <div class="small text-muted">${getLabel('14-day return window', 'فترة إرجاع 14 يوماً')}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Return Policy -->
+        <div class="container-fluid overflow-hidden py-5 bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <h4 class="fw-bold mb-3">${getLabel('Return Policy', 'سياسة الإرجاع')}</h4>
+                        <p class="text-muted mb-3">
+                            ${getLabel(
+                                'We always strive to ensure our customers are satisfied with the products they purchase. If you are not satisfied with any product, we offer a flexible return policy under the following conditions:',
+                                'نحرص دائماً على رضا عملائنا عن المنتجات التي يشترونها. في حال عدم رضاك عن أي منتج، نوفر سياسة إرجاع مرنة وفق الشروط التالية:'
+                            )}
+                        </p>
+                        <ul class="text-muted">
+                            <li class="mb-2">${getLabel('Return Period: Within 14 days of receiving the product, provided it is unused and in its original packaging.', 'فترة الإرجاع: خلال 14 يوماً من استلام المنتج، بشرط أن يكون غير مستخدم وفي عبوته الأصلية.')}</li>
+                            <li class="mb-2">${getLabel('Condition: The product must be unused, in good condition, with all accessories and tags included.', 'الحالة: يجب أن يكون المنتج غير مستخدم وبحالة جيدة، مع جميع الملحقات والبطاقات.')}</li>
+                            <li class="mb-2">${getLabel('Proof of Purchase: Please provide a receipt or invoice with the returned product.', 'إثبات الشراء: يرجى إرفاق الفاتورة أو الإيصال مع المنتج المرتجع.')}</li>
+                            <li class="mb-2">${getLabel('Refunds: Once inspected, refunds are processed to the original payment method within 5–10 business days.', 'الاسترداد: بعد الفحص، تتم إعادة المبلغ بنفس وسيلة الدفع خلال 5 إلى 10 أيام عمل.')}</li>
+                            <li class="mb-2">${getLabel('Shipping Fees: Shipping fees are non-refundable.', 'رسوم الشحن: رسوم الشحن غير قابلة للاسترداد.')}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        ${relatedProducts.length > 0 ? `
+        <div class="container-fluid overflow-hidden py-5 bg-white">
+            <div class="container">
+                <h4 class="fw-bold mb-4">${getLabel('You Might Also Like', 'قد يعجبك أيضاً')}</h4>
+                <div class="row g-4">
+                    ${relatedHtml}
+                </div>
+            </div>
+        </div>
+        ` : ''}
+
+        <!-- Fullscreen Gallery Overlay -->
+        <div class="product-gallery-overlay d-none" id="galleryOverlay">
+            <button type="button" class="gallery-overlay-close" id="closeGalleryOverlay" aria-label="${getLabel('Close', 'إغلاق')}">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="swiper galleryOverlaySwiper">
+                <div class="swiper-wrapper">
+                    ${gallery.map(img => `
+                        <div class="swiper-slide d-flex align-items-center justify-content-center">
+                            <img src="${img}" class="img-fluid" style="max-height: 85vh;" alt="${product.title}">
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <!-- Reservation Modal -->
+        <div class="reservation-modal-backdrop d-none" id="reservationModalBackdrop">
+            <div class="reservation-modal">
+                <button type="button" class="reservation-modal-close" id="closeReservationModal" aria-label="${getLabel('Close', 'إغلاق')}">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <h4 class="fw-bold mb-1">${getLabel('Request Reservation', 'طلب حجز')}</h4>
+                <p class="text-muted small mb-4">${getLabel('Fill in your details and we will confirm your reservation shortly.', 'أدخل بياناتك وسنؤكد حجزك في أقرب وقت.')}</p>
+
+                <div class="bg-light rounded-3 p-3 mb-4">
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span class="text-muted">${getLabel('Product', 'المنتج')}</span>
+                        <span class="fw-semibold">${product.title}</span>
+                    </div>
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span class="text-muted">${getLabel('Color', 'اللون')}</span>
+                        <span class="fw-semibold" id="reservationSummaryColor">${getLabel(colors[0].name, colors[0].nameAr)}</span>
+                    </div>
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span class="text-muted">${getLabel('Size', 'المقاس')}</span>
+                        <span class="fw-semibold" id="reservationSummarySize">${getLabel(sizes[0].en, sizes[0].ar)}</span>
+                    </div>
+                    <div class="d-flex justify-content-between small">
+                        <span class="text-muted">${getLabel('Quantity', 'الكمية')}</span>
+                        <span class="fw-semibold" id="reservationSummaryQty">1</span>
+                    </div>
+                </div>
+
+                <form id="reservationForm">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">${getLabel('Full Name', 'الاسم الكامل')}</label>
+                        <input type="text" class="form-control" id="reservationName" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold">${getLabel('Phone Number', 'رقم الهاتف')}</label>
+                        <input type="tel" class="form-control" id="reservationPhone" dir="ltr" required>
+                    </div>
+
+                    <p class="small text-muted mb-2">${getLabel('Send this reservation via:', 'أرسل الحجز عبر:')}</p>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-success flex-fill py-2" id="sendViaWhatsapp">
+                            <i class="fab fa-whatsapp me-2"></i>${getLabel('WhatsApp', 'واتساب')}
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary flex-fill py-2" id="sendViaEmail">
+                            <i class="fas fa-envelope me-2"></i>${getLabel('Email', 'البريد')}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    // ===================== Interactions =====================
+
+    // --- Gallery thumbnail click ---
+    let activeThumbIndex = 0;
+    container.querySelectorAll('.product-thumb').forEach(thumb => {
+        thumb.addEventListener('click', function () {
+            container.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            activeThumbIndex = parseInt(this.dataset.index, 10);
+            document.getElementById('mainProductImage').src = this.dataset.img;
+        });
+    });
+
+    // --- Quantity stepper (defensive, scoped to this container) ---
+    const qtyInput = container.querySelector('#productQty');
+    const qtyIncreaseBtn = container.querySelector('#qtyIncrease');
+    const qtyDecreaseBtn = container.querySelector('#qtyDecrease');
+
+    if (qtyInput && qtyIncreaseBtn && qtyDecreaseBtn) {
+        qtyIncreaseBtn.addEventListener('click', () => {
+            const current = parseInt(qtyInput.value, 10) || 1;
+            qtyInput.value = current + 1;
+        });
+        qtyDecreaseBtn.addEventListener('click', () => {
+            const current = parseInt(qtyInput.value, 10) || 1;
+            if (current > 1) qtyInput.value = current - 1;
+        });
+        qtyInput.addEventListener('input', () => {
+            if (parseInt(qtyInput.value, 10) < 1 || isNaN(parseInt(qtyInput.value, 10))) {
+                qtyInput.value = 1;
+            }
+        });
+    }
+
+    // --- Color swatches ---
+    let selectedColor = getLabel(colors[0].name, colors[0].nameAr);
+    container.querySelectorAll('.color-swatch').forEach(swatch => {
+        swatch.addEventListener('click', function () {
+            container.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            selectedColor = this.dataset.color;
+        });
+    });
+
+    // --- Size options ---
+    let selectedSize = getLabel(sizes[0].en, sizes[0].ar);
+    container.querySelectorAll('.size-option').forEach(opt => {
+        opt.addEventListener('click', function () {
+            container.querySelectorAll('.size-option').forEach(o => o.classList.remove('active'));
+            this.classList.add('active');
+            selectedSize = this.dataset.size;
+        });
+    });
+
+    // --- Spec group chevrons ---
+    container.querySelectorAll('.spec-group-toggle').forEach(btn => {
+        const targetId = btn.getAttribute('data-bs-target');
+        const target = container.querySelector(targetId);
+        target.addEventListener('show.bs.collapse', () => btn.querySelector('.spec-chevron').classList.add('rotated'));
+        target.addEventListener('hide.bs.collapse', () => btn.querySelector('.spec-chevron').classList.remove('rotated'));
+    });
+
+    // --- Fullscreen Gallery Overlay ---
+    const galleryOverlay = document.getElementById('galleryOverlay');
+    const openGalleryBtn = document.getElementById('openGalleryOverlay');
+    const closeGalleryBtn = document.getElementById('closeGalleryOverlay');
+    let galleryOverlaySwiper = null;
+
+    openGalleryBtn.addEventListener('click', () => {
+        galleryOverlay.classList.remove('d-none');
+        document.body.style.overflow = 'hidden';
+
+        if (!galleryOverlaySwiper) {
+            galleryOverlaySwiper = new Swiper('.galleryOverlaySwiper', {
+                slidesPerView: 1,
+                loop: true,
+                initialSlide: activeThumbIndex,
+                rtl: document.documentElement.dir === 'rtl',
+                navigation: {
+                    nextEl: '.galleryOverlaySwiper .swiper-button-next',
+                    prevEl: '.galleryOverlaySwiper .swiper-button-prev',
+                },
+                pagination: {
+                    el: '.galleryOverlaySwiper .swiper-pagination',
+                    clickable: true,
+                }
+            });
+        } else {
+            galleryOverlaySwiper.slideToLoop(activeThumbIndex, 0);
+        }
+    });
+
+    closeGalleryBtn.addEventListener('click', () => {
+        galleryOverlay.classList.add('d-none');
+        document.body.style.overflow = '';
+    });
+
+    // --- Reservation Modal ---
+    const reservationBackdrop = document.getElementById('reservationModalBackdrop');
+    const openReservationBtn = document.getElementById('openReservationModal');
+    const closeReservationBtn = document.getElementById('closeReservationModal');
+
+    openReservationBtn.addEventListener('click', () => {
+        document.getElementById('reservationSummaryColor').textContent = selectedColor;
+        document.getElementById('reservationSummarySize').textContent = selectedSize;
+        document.getElementById('reservationSummaryQty').textContent = qtyInput.value;
+        reservationBackdrop.classList.remove('d-none');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeReservationBtn.addEventListener('click', () => {
+        reservationBackdrop.classList.add('d-none');
+        document.body.style.overflow = '';
+    });
+
+    function buildReservationMessage() {
+        const name = document.getElementById('reservationName').value.trim();
+        const phone = document.getElementById('reservationPhone').value.trim();
+        const qty = qtyInput.value;
+
+        return getLabel(
+            `Reservation Request\nProduct: ${product.title}\nColor: ${selectedColor}\nSize: ${selectedSize}\nQuantity: ${qty}\nName: ${name}\nPhone: ${phone}`,
+            `طلب حجز\nالمنتج: ${product.title}\nاللون: ${selectedColor}\nالمقاس: ${selectedSize}\nالكمية: ${qty}\nالاسم: ${name}\nالهاتف: ${phone}`
+        );
+    }
+
+    document.getElementById('sendViaWhatsapp').addEventListener('click', () => {
+        const name = document.getElementById('reservationName').value.trim();
+        const phone = document.getElementById('reservationPhone').value.trim();
+        if (!name || !phone) {
+            alert(getLabel('Please enter your name and phone number', 'يرجى إدخال الاسم ورقم الهاتف'));
+            return;
+        }
+        const message = encodeURIComponent(buildReservationMessage());
+        window.open(`https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`, '_blank');
+    });
+
+    document.getElementById('sendViaEmail').addEventListener('click', () => {
+        const name = document.getElementById('reservationName').value.trim();
+        const phone = document.getElementById('reservationPhone').value.trim();
+        if (!name || !phone) {
+            alert(getLabel('Please enter your name and phone number', 'يرجى إدخال الاسم ورقم الهاتف'));
+            return;
+        }
+        const subject = encodeURIComponent(getLabel(`Reservation Request - ${product.title}`, `طلب حجز - ${product.title}`));
+        const body = encodeURIComponent(buildReservationMessage());
+        window.location.href = `mailto:${RESERVATION_EMAIL}?subject=${subject}&body=${body}`;
+    });
+}
+
 /*========================================================================================================*/
 
 /**
@@ -2839,7 +3341,7 @@ function initializeHomePageSections() {
   const aboutSection = document.getElementById("aboutSection");
   if (aboutSection) {
     aboutSection.innerHTML = `
-            <div class="container-fluid overflow-hidden py-5 bg-white" style="width: 100%;">
+            <div class="container-fluid overflow-hidden py-5 bg-light" style="width: 100%;">
                 <div class="container">
                     <div class="row g-4">
                         <div class="col-xl-5 order-2 order-md-1 wow fadeInLeft" data-wow-delay="0.1s">
@@ -2848,7 +3350,7 @@ function initializeHomePageSections() {
                             </div>
                         </div>
                         <div class="col-xl-7 order-1 order-md-2 wow fadeInRight" data-wow-delay="0.3s">
-                            <h5 class="sub-title py-3">${getLabel("About KADER", "عن مصنع قادر")}</h5>
+                            <h5 class="sub-title py-3 pb-0">${getLabel("About KADER", "عن مصنع قادر")}</h5>
                             <h1 class="display-5 mb-3">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به")}</h1>
                             <p class="mb-4">
                                 ${getLabel(aboutContent.paragraphs[0].en, aboutContent.paragraphs[0].ar)}
@@ -2899,9 +3401,9 @@ function initializeHomePageSections() {
       .join("");
 
     categorySection.innerHTML = `
-        <div class="container-fluid service overflow-hidden py-5 bg-white">
-        <div class="section-title container mb-0">
-            <h5 class="sub-title px-3">${getLabel("Our Categories", "الأقسام")}</h5>
+        <div class="container-fluid service overflow-hidden py-5 bg-light">
+        <div class="section-title container px-0 mb-0">
+            <h5 class="sub-title ">${getLabel("Our Categories", "الأقسام")}</h5>
         </div>
             <div class="container bg-white p-0 rounded-3">
                 <div class="swiper categoriesSwiper">
@@ -2952,10 +3454,10 @@ function initializeHomePageSections() {
   const productSection = document.getElementById("productSection");
   if (productSection) {
     productSection.innerHTML = `
-        <div class="container-fluid products overflow-hidden bg-white">
-            <div class="container py-5 pb-3">
+        <div class="container-fluid products overflow-hidden bg-light">
+            <div class="container py-5 pb-3 border-top border-bottom border-black-25">
                 <div class="section-title text-center d-flex align-items-center justify-content-between">
-                    <h5 class="sub-title px-3">${getLabel("Products", "المنتجات")}</h5>
+                    <h5 class="sub-title">${getLabel("Our Products", "المنتجات")}</h5>
                     <span class="text-black-50 small border border-opacity-25 border-secondary border-1 p-2" id="productCount"></span>
                     </div>
                     
@@ -3094,7 +3596,7 @@ function initializeHomePageSections() {
         (product) => `
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card product-card h-100 border-0 ">
-                    <div class="product-img-wrap">
+                    <div class="product-img-wrap bg-light">
                         <img src="${product.url}" class="card-img-top" alt="${product.title}">
                     </div>
                     
@@ -3264,7 +3766,7 @@ function initializeHomePageSections() {
                             </span>
                             <h6 class="card-title">${getLabel(item.titleEn, item.titleAr)}</h6>
                             <p class="card-text text-muted">${getLabel(item.excerptEn, item.excerptAr)}</p>
-                            <a href="#" class="btn btn-link small " onclick="setCurrentPage('news', '${item.id}')">
+                            <a href="#" class="btn btn-link small ps-0" onclick="setCurrentPage('news', '${item.id}')">
                                 ${getLabel("Read More", "اقرأ المزيد")}
                             </a>
                         </div>
@@ -3277,12 +3779,12 @@ function initializeHomePageSections() {
       .join("");
 
     newsSection.innerHTML = `
-        <div class="container-fluid overflow-hidden bg-white">
-            <div class="container py-4 border-bottom">
+        <div class="container-fluid overflow-hidden bg-light">
+            <div class="container border-bottom">
 
-                <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center justify-content-start py-4">
                     <div class="section-title mb-0">
-                        <h5 class="sub-title mb-0">${getLabel("Latest News", "الأخبار")}</h5>
+                        <h5 class="sub-title mb-0 pe-3 pb-0">${getLabel("Latest News", "الأخبار")}</h5>
                     </div>
                     <div class="d-flex gap-3">
                         <div class="news-button-prev nav-btn-custom">
@@ -3353,7 +3855,7 @@ function initializeHomePageSections() {
   const projectsSection = document.getElementById("projectsSection");
   if (projectsSection) {
     projectsSection.innerHTML = `
-    <div class="container overflow-hidden rounded-2 p-5 position-relative my-5" id="projectsBgWrapper">
+    <div class="container overflow-hidden rounded-1 p-5 position-relative" id="projectsBgWrapper">
 
         <!-- Background image layer -->
         <div class="projects-bg-image" id="projectsBgImage" style="background-image: url('${projects[0].img}');"></div>
@@ -3363,7 +3865,7 @@ function initializeHomePageSections() {
 
         <!-- Content -->
         <div class="container projects-container position-relative py-5">
-            <h5 class="sub-title px-3 pb-5">${getLabel("Machinery", "الآلات")}</h5>
+            <h5 class="sub-title pb-5">${getLabel("Machinery", "الآلات")}</h5>
 
             <div class="row g-5 align-items-stretch flex-column-reverse flex-lg-row">
 
@@ -3512,12 +4014,12 @@ function initializeHomePageSections() {
       .join("");
 
     trustedSection.innerHTML = `
-            <div class="container-fluid trust overflow-hidden py-0 bg-light border-top border-bottom border-black-25">
-                <div class="container py-5 d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap">
+            <div class="container-fluid trust overflow-hidden py-0 bg-light">
+                <div class="container py-5 d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap  border-bottom border-black-25">
     
                     <!-- Header -->
                     <div class="section-title text-center mb-5 trust-header-block">
-                        <h5 class="sub-title px-3">${getLabel("TRUSTED BY", "موثوق به من قبل")}</h5>
+                        <h5 class="sub-title pb-0">${getLabel("TRUSTED BY", "موثوق به من قبل")}</h5>
                         <h1 class="display-5 mb-4">${getLabel("Trusted by Leading Organizations", "موثوق به من قبل المؤسسات الرائدة")}</h1>
                         <p class="text-muted" style="max-width: 700px;">
                             ${getLabel(
@@ -3558,7 +4060,6 @@ function initializeHomePageSections() {
   // Initialize Social Section
   const trustSocialSection = document.getElementById("socialSection");
   if (trustSocialSection) {
-
     const socialHtml = socialLinks
       .map(
         (s) => `
@@ -3572,7 +4073,7 @@ function initializeHomePageSections() {
       .join("");
 
     trustSocialSection.innerHTML = `
-            <div class="container-fluid overflow-hidden py-5">
+            <div class="container-fluid overflow-hidden py-5 bg-light">
                 <div class="container text-center social-section py-5 rounded-1 overflow-hidden">
                 <img src="./images/logo-kader-white.png" style="height:4rem;" class="position-relative z-3 pb-2"/>
                     <h2 class="text-primary fw-bolder position-relative z-3">${getLabel("Get in Touch", "تواصل معنا")}</h2>
@@ -3616,7 +4117,7 @@ function initializeHomePageSections() {
       .join("");
 
     paymentPartnersSection.innerHTML = `
-        <div class="container-fluid bg-white">
+        <div class="container-fluid bg-light">
         <div class="container overflow-hidden pb-5 ">
             <div class="row align-items-center g-4">
 
@@ -3687,7 +4188,7 @@ function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("contact");
+  setCurrentPage("single-product");
 }
 
 /**
