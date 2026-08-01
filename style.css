@@ -2,14 +2,15 @@
 :root {
   --primary: #ff6600;
   --secondary: #003049;
-  --light: #F4F8FB;
+  --light: #f4f8fb;
   --dark: #2c2c3c;
   --text-primary: #333333;
   --text-secondary: #666666;
   --white: #ffffff;
   --white-transparent: #ffffffe7;
-  --border-color: #EEF3F7;
+  --border-color: #eef3f7;
   --transition: all 0.3s ease;
+  --disabled:#e9ecef;
 }
 
 body[data-theme="dark"] {
@@ -21,6 +22,7 @@ body[data-theme="dark"] {
   --text-secondary: #cccccc;
   --white: #2c2c3c;
   --border-color: #404050;
+  --disabled:#e9ecef;
 }
 
 /* ========== Base Styles ========== */
@@ -184,7 +186,7 @@ a {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: var(--primary);
+  color: var(--primary) !important;
   border: 1px solid var(--primary);
   transition: ease all 0.25s;
 }
@@ -193,7 +195,7 @@ a {
 .swiper .swiper-button-next:hover {
   background: var(--primary);
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
-  color: var(--white);
+  color: var(--white) !important;
 }
 
 /* Remove Swiper's default arrow icon and use Font Awesome instead */
@@ -236,7 +238,7 @@ a {
 
 html[dir="rtl"] .swiper-button-next,
 html[dir="rtl"] .swiper-button-prev {
-    transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 .carousel-caption {
@@ -283,65 +285,71 @@ html[dir="rtl"] .swiper-button-prev {
 
 /* Founded year overlay badge */
 .about-founded-badge {
-    position: absolute;
-    bottom: 0;
-    background: var(--white);
-    padding: 1rem 2rem;
-    backdrop-filter: blur(4px);
+  position: absolute;
+  bottom: 0;
+  background: var(--white);
+  padding: 1rem 2rem;
+  backdrop-filter: blur(4px);
 }
 
 /* Sector cards (What We Manufacture — unchanged) */
 .sector-card-defense {
-    background: linear-gradient(135deg, var(--secondary) 0%, #1a2a3d 100%);
+  background: linear-gradient(135deg, var(--secondary) 0%, #1a2a3d 100%);
 }
 
 /* Vision & Mission tab switcher */
 .vm-tabs-nav {
-    background: var(--border-color);
+  background: var(--border-color);
 }
 
 .vm-tab-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 1.25rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.25s ease;
-    border-bottom: 3px solid var(--border-color);
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 1.25rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border-bottom: 3px solid var(--border-color);
 }
 
 .vm-tab-btn:hover {
-    color: var(--secondary);
-    background: #fff;
-    border-bottom-color: var(--border-color);
+  color: var(--secondary);
+  background: #fff;
+  border-bottom-color: var(--border-color);
 }
 
 .vm-tab-btn.active {
-    color: var(--white);
-    background: var(--secondary);
-    border-bottom-color: var(--secondary);
+  color: var(--white);
+  background: var(--secondary);
+  border-bottom-color: var(--secondary);
 }
 
 .vm-tab-pane {
-    display: none;
-    animation: fadeInTab 0.4s ease;
+  display: none;
+  animation: fadeInTab 0.4s ease;
 }
 
 .vm-tab-pane.active {
-    display: block;
+  display: block;
 }
 
 @keyframes fadeInTab {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Values: stacked feature rows */
 .value-row-icon {
-    flex-shrink: 0;
-    width: 56px;
+  flex-shrink: 0;
+  width: 56px;
 }
 
 /* ========== Banner Styles ========== */
@@ -430,20 +438,32 @@ p {
 .btn-primary {
   background-color: var(--primary);
   color: var(--white);
-  /* border: 2px solid var(--primary); */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   font-weight: 700;
 }
 
 .btn-primary:hover {
-  background-color: var(--secondary);
-  border-color: var(--secondary);
+  background-color: #e65c00;
+  color: #fff;
   /* color: var(--primary) !important; */
   /* transform: translateY(-2px); */
 }
 
+.btn-primary:disabled {
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    color: #9aa0a6;
+    cursor: not-allowed;
+}
+.btn-secondary:disabled {
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    color: #9aa0a6;
+    cursor: not-allowed;
+}
+
 .btn-secondary {
   background-color: var(--secondary);
+  font-weight: 700;
   color: var(--white);
   border: 2px solid var(--secondary);
 }
@@ -914,8 +934,8 @@ p {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-html[dir="rtl"] .nav-btn-custom{
-    transform: scaleX(-1);
+html[dir="rtl"] .nav-btn-custom {
+  transform: scaleX(-1);
 }
 
 .projects-pagination {
@@ -1383,210 +1403,230 @@ html[dir="rtl"] .nav-btn-custom{
 }
 
 /* ========== Single Product Page Styles ========== */
-.product-main-image {
-    border: 1px solid #dee2e6;
-    border-radius: 12px;
-    overflow: hidden;
-    height: 420px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    position: relative;
+.gallery-wrapper {
+  height: 460px;
 }
 
-.product-main-image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+.galleryOverlayThumbs {
+  width: 3rem;
+  height: 100%;
+  margin: 0 !important;
 }
 
-.product-zoom-btn {
-    position: absolute;
-    bottom: 12px;
-    inset-inline-end: 12px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.galleryOverlayThumbs .swiper-slide {
+  height: 3rem !important;
+  opacity: 0.5;
+  cursor: pointer;
+  border-radius: 0.2rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition:
+    opacity 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.product-zoom-btn:hover {
-    background: var(--bs-primary);
-    color: #fff;
+.galleryOverlayThumbs .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.product-thumbs-row {
-    overflow-x: auto;
+.galleryOverlayThumbs .swiper-slide-thumb-active {
+  opacity: 1;
+  border-color: var(--primary);
 }
 
-.product-thumb {
-    width: 72px;
-    height: 72px;
-    border: 2px solid #dee2e6;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: border-color 0.2s ease;
+.galleryOverlaySwiper {
+  flex: 1;
+  border: 1px solid #dee2e6;
+  background-color: var(--white);
+  border-radius: 12px;
 }
 
-.product-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.galleryOverlaySwiper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.product-thumb.active,
-.product-thumb:hover {
-    border-color: var(--bs-primary);
+/* Fullscreen state: same elements, just expanded via fixed positioning */
+.gallery-fullscreen {
+  position: fixed !important;
+  inset: 0;
+  z-index: 2000;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-fullscreen .galleryOverlaySwiper {
+  background: transparent;
+  border: none;
+}
+
+.gallery-fullscreen .galleryOverlaySwiper img {
+  max-height: 85vh;
 }
 
 /* Color / Size selectors */
 .color-swatch {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 2px solid #dee2e6;
-    cursor: pointer;
-    padding: 0;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #dee2e6;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .color-swatch.active {
-    border-color: var(--bs-primary);
-    transform: scale(1.1);
+  border-color: var(--bs-primary);
+  transform: scale(1.1);
 }
 
 .size-option {
-    border: 1px solid #dee2e6;
-    background: #fff;
-    border-radius: 8px;
-    padding: 0.4rem 0.9rem;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  border: 1px solid #dee2e6;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .size-option.active {
-    border-color: var(--bs-primary);
-    background: var(--bs-primary);
-    color: #fff;
+  border-color: var(--bs-primary);
+  background: var(--bs-primary);
+  color: #fff;
 }
 
 .buy-box {
-    position: sticky;
-    top: 90px;
-    background: #fff;
+  position: sticky;
+  top: 8rem;
+  background: #fff;
 }
 
 /* Spec groups accordion */
 .spec-chevron {
-    transition: transform 0.3s ease;
-    font-size: 0.85rem;
-    color: #6c757d;
+  transition: transform 0.3s ease;
+  font-size: 0.85rem;
+  color: #6c757d;
 }
 
 .spec-chevron.rotated {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .spec-group-toggle h6 {
-    color: #212529;
+  color: #212529;
+}
+
+.input-group #productQty {
+  display: flex;
+  min-width: 50px;
+  -moz-appearance: textfield;
+}
+
+.input-group #productQty::-webkit-inner-spin-button,
+.input-group #productQty::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* Related products */
 .product-related-card {
-    cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .product-related-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Fullscreen Gallery Overlay */
 .product-gallery-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.92);
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .gallery-overlay-close {
-    position: absolute;
-    top: 24px;
-    inset-inline-end: 24px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    z-index: 2001;
+  position: absolute;
+  top: 24px;
+  inset-inline-end: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 2001;
 }
 
 .galleryOverlaySwiper {
-    width: 100%;
-    max-width: 900px;
+  width: 100%;
+  max-width: 900px;
 }
 
-.galleryOverlaySwiper .swiper-button-next,
-.galleryOverlaySwiper .swiper-button-prev {
-    color: #fff;
+@media (max-width: 767px) {
+  .galleryOverlayThumbs {
+    display: none !important;
+  }
 }
 
-.galleryOverlaySwiper .swiper-pagination-bullet {
-    background: #fff;
+@media (min-width: 768px) {
+  .galleryOverlaySwiper .swiper-pagination {
+    display: none;
+  }
 }
 
 /* Reservation Modal */
 .reservation-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
 .reservation-modal {
-    background: #fff;
-    border-radius: 16px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 440px;
-    position: relative;
-    max-height: 90vh;
-    overflow-y: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .reservation-modal-close {
-    position: absolute;
-    top: 1.25rem;
-    inset-inline-end: 1.25rem;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: #f1f3f5;
-    cursor: pointer;
+  position: absolute;
+  top: 1.25rem;
+  inset-inline-end: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f3f5;
+  cursor: pointer;
 }
 
 /* ========== Footer Styles ========== */
@@ -2120,4 +2160,15 @@ footer a:hover {
   #megaMenuOverlay {
     display: none;
   }
+}
+
+/** For Sticky **/
+html,
+body,
+main,
+.container,
+.container-fluid,
+.row,
+[class*="col-"] {
+  overflow: visible !important;
 }

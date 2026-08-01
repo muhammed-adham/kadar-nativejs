@@ -1,0 +1,1366 @@
+{
+  "products": [
+    {
+      "id": "trio-max-scooter",
+      "category": {
+        "en": "Electric Transport",
+        "ar": "نقل كهربائي"
+      },
+      "categoryId": "electric-transport",
+      "sub_category": {
+        "en": "Electric Scooter",
+        "ar": "سكوتر كهربائي"
+      },
+      "title": {
+        "en": "Three-Wheel Scooter (TRIO MAX)",
+        "ar": "سكوتر ثلاثي العجلات (TRIO MAX)"
+      },
+      "desc": {
+        "en": "The electric scooter features a practical design and powerful performance, ideal for daily use and comfortable urban mobility.",
+        "ar": "يتميز هذا السكوتر الكهربائي بتصميم عملي وأداء قوي، مما يجعله مثالياً للاستخدام اليومي والتنقل الحضري المريح."
+      },
+      "url": "/images/prd-1.webp",
+      "gallery": [
+        "/images/prd-1.webp"
+      ],
+      "price": 75000,
+      "oldPrice": null,
+      "stockQty": 8,
+      "rating": 4.5,
+      "reviewCount": 12,
+      "colors": [
+        {
+          "name": "Black",
+          "nameAr": "أسود",
+          "hex": "#1a1a1a"
+        },
+        {
+          "name": "Red",
+          "nameAr": "أحمر",
+          "hex": "#c0392b"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "One Size",
+          "ar": "مقاس واحد"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Performance & Motor",
+          "titleAr": "الأداء والمحرك",
+          "items": [
+            {
+              "en": "1500W electric motor delivering stable power and high efficiency",
+              "ar": "محرك كهربائي 1500 وات يوفر طاقة ثابتة وكفاءة عالية"
+            },
+            {
+              "en": "Maximum speed ranging from 40 to 50 km/h",
+              "ar": "سرعة قصوى تتراوح بين 40 و50 كم/س"
+            }
+          ]
+        },
+        {
+          "titleEn": "Battery & Charging",
+          "titleAr": "البطارية والشحن",
+          "items": [
+            {
+              "en": "High-efficiency 60V – 32Ah lithium battery",
+              "ar": "بطارية ليثيوم عالية الكفاءة 60 فولت – 32 أمبير/ساعة"
+            },
+            {
+              "en": "Fast charging: 4 to 6 hours",
+              "ar": "شحن سريع من 4 إلى 6 ساعات"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "3-year warranty on the battery",
+          "ar": "ضمان 3 سنوات على البطارية"
+        },
+        {
+          "en": "2-year warranty against manufacturing defects",
+          "ar": "ضمان سنتين ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "urban-e-bike-x2",
+      "category": {
+        "en": "Electric Transport",
+        "ar": "نقل كهربائي"
+      },
+      "categoryId": "electric-transport",
+      "sub_category": {
+        "en": "Electric Bike",
+        "ar": "دراجة كهربائية"
+      },
+      "title": {
+        "en": "Urban E-Bike X2",
+        "ar": "دراجة كهربائية حضرية X2"
+      },
+      "desc": {
+        "en": "A lightweight electric bike designed for efficient city commuting with a long-lasting battery.",
+        "ar": "دراجة كهربائية خفيفة الوزن مصممة للتنقل الفعال داخل المدينة ببطارية طويلة العمر."
+      },
+      "url": "/images/prd-6.webp",
+      "gallery": [
+        "/images/prd-6.webp"
+      ],
+      "price": 32000,
+      "oldPrice": 36000,
+      "stockQty": 14,
+      "rating": 4,
+      "reviewCount": 9,
+      "colors": [
+        {
+          "name": "Matte Black",
+          "nameAr": "أسود مطفي",
+          "hex": "#2c2c2c"
+        },
+        {
+          "name": "Silver",
+          "nameAr": "فضي",
+          "hex": "#bdc3c7"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "One Size",
+          "ar": "مقاس واحد"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Performance & Battery",
+          "titleAr": "الأداء والبطارية",
+          "items": [
+            {
+              "en": "500W motor with pedal-assist mode",
+              "ar": "محرك 500 وات مع وضع المساعدة بالدواسة"
+            },
+            {
+              "en": "Range of up to 60 km per charge",
+              "ar": "مدى يصل إلى 60 كم لكل شحنة"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year warranty on the battery",
+          "ar": "ضمان سنتين على البطارية"
+        }
+      ]
+    },
+    {
+      "id": "mobility-scooter-comfort",
+      "category": {
+        "en": "Electric Transport",
+        "ar": "نقل كهربائي"
+      },
+      "categoryId": "electric-transport",
+      "sub_category": {
+        "en": "Mobility Scooter",
+        "ar": "سكوتر تنقل"
+      },
+      "title": {
+        "en": "Comfort Mobility Scooter",
+        "ar": "سكوتر تنقل مريح"
+      },
+      "desc": {
+        "en": "A stable four-wheel mobility scooter built for comfort and ease of daily use.",
+        "ar": "سكوتر تنقل رباعي العجلات ثابت ومصمم للراحة وسهولة الاستخدام اليومي."
+      },
+      "url": "/images/prd-7.webp",
+      "gallery": [
+        "/images/prd-7.webp"
+      ],
+      "price": 41000,
+      "oldPrice": null,
+      "stockQty": 6,
+      "rating": 4.2,
+      "reviewCount": 5,
+      "colors": [
+        {
+          "name": "Blue",
+          "nameAr": "أزرق",
+          "hex": "#2980b9"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "One Size",
+          "ar": "مقاس واحد"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Comfort & Stability",
+          "titleAr": "الراحة والثبات",
+          "items": [
+            {
+              "en": "Wide padded seat with adjustable armrests",
+              "ar": "مقعد عريض مبطن بمساند ذراع قابلة للتعديل"
+            },
+            {
+              "en": "Four-wheel base for extra stability",
+              "ar": "قاعدة رباعية العجلات لثبات إضافي"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "cash-transit-van-01",
+      "category": {
+        "en": "Cash Transfer",
+        "ar": "نقل الأموال"
+      },
+      "categoryId": "cash-transfer",
+      "sub_category": {
+        "en": "Cash-in-Transit Van",
+        "ar": "شاحنة نقل أموال"
+      },
+      "title": {
+        "en": "Armored Cash Transit Van",
+        "ar": "شاحنة نقل أموال مصفحة"
+      },
+      "desc": {
+        "en": "A fully armored vehicle engineered for secure cash and valuables transport, built to the highest safety standards.",
+        "ar": "مركبة مصفحة بالكامل مصممة لنقل الأموال والمقتنيات الثمينة بأمان، ومصنعة وفق أعلى معايير السلامة."
+      },
+      "url": "/images/prd-2.webp",
+      "gallery": [
+        "/images/prd-2.webp"
+      ],
+      "price": 850000,
+      "oldPrice": null,
+      "stockQty": 3,
+      "rating": 5,
+      "reviewCount": 6,
+      "colors": [
+        {
+          "name": "White",
+          "nameAr": "أبيض",
+          "hex": "#f5f5f5"
+        },
+        {
+          "name": "Gray",
+          "nameAr": "رمادي",
+          "hex": "#7f8c8d"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Protection & Armor",
+          "titleAr": "الحماية والتصفيح",
+          "items": [
+            {
+              "en": "Ballistic-rated armored body and glass",
+              "ar": "هيكل وزجاج مقاوم للرصاص"
+            },
+            {
+              "en": "Reinforced cash compartment with secure locking system",
+              "ar": "حجرة أموال معززة بنظام إغلاق آمن"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year manufacturer warranty on armor integrity",
+          "ar": "ضمان سنتين من الشركة المصنعة على سلامة التصفيح"
+        }
+      ]
+    },
+    {
+      "id": "armored-patrol-vehicle",
+      "category": {
+        "en": "Cash Transfer",
+        "ar": "نقل الأموال"
+      },
+      "categoryId": "cash-transfer",
+      "sub_category": {
+        "en": "Patrol Vehicle",
+        "ar": "مركبة دورية"
+      },
+      "title": {
+        "en": "Armored Patrol Vehicle",
+        "ar": "مركبة دورية مصفحة"
+      },
+      "desc": {
+        "en": "A rugged patrol vehicle designed for security operations, offering reliable protection and mobility.",
+        "ar": "مركبة دورية قوية مصممة للعمليات الأمنية، توفر حماية موثوقة وحركة عالية."
+      },
+      "url": "/images/prd-8.webp",
+      "gallery": [
+        "/images/prd-8.webp"
+      ],
+      "price": 720000,
+      "oldPrice": null,
+      "stockQty": 2,
+      "rating": 4.8,
+      "reviewCount": 4,
+      "colors": [
+        {
+          "name": "Desert Tan",
+          "nameAr": "بيج صحراوي",
+          "hex": "#c2a878"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Protection & Mobility",
+          "titleAr": "الحماية والحركة",
+          "items": [
+            {
+              "en": "Reinforced chassis for off-road capability",
+              "ar": "هيكل معزز للقدرة على القيادة خارج الطرق"
+            },
+            {
+              "en": "Ballistic protection rated cabin",
+              "ar": "مقصورة مقاومة للرصاص"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year warranty against manufacturing defects",
+          "ar": "ضمان سنتين ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "ambulance-als-01",
+      "category": {
+        "en": "Ambulance",
+        "ar": "إسعاف"
+      },
+      "categoryId": "ambulance",
+      "sub_category": {
+        "en": "Advanced Life Support Ambulance",
+        "ar": "سيارة إسعاف دعم متقدم"
+      },
+      "title": {
+        "en": "Advanced Life Support Ambulance",
+        "ar": "سيارة إسعاف دعم متقدم"
+      },
+      "desc": {
+        "en": "Fully equipped ambulance designed for rapid emergency response and advanced patient care en route.",
+        "ar": "سيارة إسعاف مجهزة بالكامل مصممة للاستجابة السريعة للطوارئ وتقديم رعاية متقدمة للمرضى أثناء النقل."
+      },
+      "url": "/images/prd-3.webp",
+      "gallery": [
+        "/images/prd-3.webp"
+      ],
+      "price": 620000,
+      "oldPrice": 680000,
+      "stockQty": 5,
+      "rating": 5,
+      "reviewCount": 31,
+      "colors": [
+        {
+          "name": "White/Red",
+          "nameAr": "أبيض/أحمر",
+          "hex": "#e74c3c"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Medical Equipment",
+          "titleAr": "التجهيزات الطبية",
+          "items": [
+            {
+              "en": "Onboard oxygen and suction systems",
+              "ar": "أنظمة أكسجين وشفط داخلية"
+            },
+            {
+              "en": "Patient stretcher with secure mounting",
+              "ar": "نقالة مريض بتثبيت آمن"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year warranty on vehicle conversion and equipment",
+          "ar": "ضمان سنتين على تجهيز المركبة ومعداتها"
+        }
+      ]
+    },
+    {
+      "id": "ambulance-bls-01",
+      "category": {
+        "en": "Ambulance",
+        "ar": "إسعاف"
+      },
+      "categoryId": "ambulance",
+      "sub_category": {
+        "en": "Basic Life Support Ambulance",
+        "ar": "سيارة إسعاف دعم أساسي"
+      },
+      "title": {
+        "en": "Basic Life Support Ambulance",
+        "ar": "سيارة إسعاف دعم أساسي"
+      },
+      "desc": {
+        "en": "A reliable ambulance for non-critical patient transport and first-response care.",
+        "ar": "سيارة إسعاف موثوقة لنقل المرضى في الحالات غير الحرجة وتقديم الرعاية الأولية."
+      },
+      "url": "/images/prd-9.webp",
+      "gallery": [
+        "/images/prd-9.webp"
+      ],
+      "price": 480000,
+      "oldPrice": null,
+      "stockQty": 7,
+      "rating": 4.6,
+      "reviewCount": 14,
+      "colors": [
+        {
+          "name": "White/Red",
+          "nameAr": "أبيض/أحمر",
+          "hex": "#e74c3c"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Equipment",
+          "titleAr": "التجهيزات",
+          "items": [
+            {
+              "en": "First-aid and monitoring equipment",
+              "ar": "معدات إسعافات أولية ومراقبة"
+            },
+            {
+              "en": "Secure patient stretcher mounting",
+              "ar": "تثبيت آمن لنقالة المريض"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty on vehicle conversion",
+          "ar": "ضمان سنة واحدة على تجهيز المركبة"
+        }
+      ]
+    },
+    {
+      "id": "firefighting-truck-01",
+      "category": {
+        "en": "Firefighting",
+        "ar": "إطفاء"
+      },
+      "categoryId": "firefighting",
+      "sub_category": {
+        "en": "Compact Firefighting Truck",
+        "ar": "شاحنة إطفاء صغيرة"
+      },
+      "title": {
+        "en": "Compact Firefighting Truck",
+        "ar": "شاحنة إطفاء صغيرة"
+      },
+      "desc": {
+        "en": "A maneuverable firefighting vehicle built for rapid response in urban and industrial settings.",
+        "ar": "مركبة إطفاء سهلة المناورة مصممة للاستجابة السريعة في البيئات الحضرية والصناعية."
+      },
+      "url": "/images/prd-4.webp",
+      "gallery": [
+        "/images/prd-4.webp"
+      ],
+      "price": 950000,
+      "oldPrice": null,
+      "stockQty": 2,
+      "rating": 4,
+      "reviewCount": 8,
+      "colors": [
+        {
+          "name": "Red",
+          "nameAr": "أحمر",
+          "hex": "#c0392b"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Firefighting Capability",
+          "titleAr": "قدرات الإطفاء",
+          "items": [
+            {
+              "en": "Onboard water tank and high-pressure pump",
+              "ar": "خزان مياه داخلي ومضخة عالية الضغط"
+            },
+            {
+              "en": "Compact chassis for narrow street access",
+              "ar": "هيكل مدمج للوصول إلى الشوارع الضيقة"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year warranty against manufacturing defects",
+          "ar": "ضمان سنتين ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "airport-firefighting-vehicle",
+      "category": {
+        "en": "Firefighting",
+        "ar": "إطفاء"
+      },
+      "categoryId": "firefighting",
+      "sub_category": {
+        "en": "Airport Rescue Vehicle",
+        "ar": "مركبة إنقاذ مطارات"
+      },
+      "title": {
+        "en": "Airport Rescue & Firefighting Vehicle",
+        "ar": "مركبة إنقاذ وإطفاء للمطارات"
+      },
+      "desc": {
+        "en": "A heavy-duty rescue and firefighting vehicle built for rapid response at airport facilities.",
+        "ar": "مركبة إنقاذ وإطفاء ثقيلة مصممة للاستجابة السريعة في منشآت المطارات."
+      },
+      "url": "/images/prd-10.webp",
+      "gallery": [
+        "/images/prd-10.webp"
+      ],
+      "price": 1450000,
+      "oldPrice": null,
+      "stockQty": 1,
+      "rating": 5,
+      "reviewCount": 3,
+      "colors": [
+        {
+          "name": "Yellow",
+          "nameAr": "أصفر",
+          "hex": "#f1c40f"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Firefighting Capability",
+          "titleAr": "قدرات الإطفاء",
+          "items": [
+            {
+              "en": "Large-capacity foam and water tanks",
+              "ar": "خزانات رغوة ومياه كبيرة السعة"
+            },
+            {
+              "en": "High-output roof-mounted monitor",
+              "ar": "مدفع إطفاء علوي عالي التدفق"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "3-year warranty against manufacturing defects",
+          "ar": "ضمان 3 سنوات ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "mobile-tech-center",
+      "category": {
+        "en": "Vehicle Conversions",
+        "ar": "مراكز تقنية"
+      },
+      "categoryId": "vehicle-Conversions",
+      "sub_category": {
+        "en": "Mobile Technology Unit",
+        "ar": "وحدة تكنولوجية متنقلة"
+      },
+      "title": {
+        "en": "Mobile Technology Center",
+        "ar": "مركز تكنولوجي متنقل"
+      },
+      "desc": {
+        "en": "A fully equipped mobile unit for on-site technical operations and communications.",
+        "ar": "وحدة متنقلة مجهزة بالكامل للعمليات الفنية والاتصالات الميدانية."
+      },
+      "url": "/images/prd-11.webp",
+      "gallery": [
+        "/images/prd-11.webp"
+      ],
+      "price": 980000,
+      "oldPrice": null,
+      "stockQty": 2,
+      "rating": 4.3,
+      "reviewCount": 5,
+      "colors": [
+        {
+          "name": "White",
+          "nameAr": "أبيض",
+          "hex": "#f5f5f5"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Onboard Systems",
+          "titleAr": "الأنظمة الداخلية",
+          "items": [
+            {
+              "en": "Satellite communication equipment",
+              "ar": "معدات اتصال عبر الأقمار الصناعية"
+            },
+            {
+              "en": "Onboard power generator",
+              "ar": "مولد كهرباء داخلي"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year warranty on onboard systems",
+          "ar": "ضمان سنتين على الأنظمة الداخلية"
+        }
+      ]
+    },
+    {
+      "id": "mobile-clinic-unit",
+      "category": {
+        "en": "Vehicle Conversions",
+        "ar": "مراكز تقنية"
+      },
+      "categoryId": "vehicle-Conversions",
+      "sub_category": {
+        "en": "Mobile Clinic",
+        "ar": "عيادة متنقلة"
+      },
+      "title": {
+        "en": "Mobile Medical Clinic Unit",
+        "ar": "وحدة عيادة طبية متنقلة"
+      },
+      "desc": {
+        "en": "A mobile clinic unit equipped to provide medical services in remote or underserved areas.",
+        "ar": "وحدة عيادة متنقلة مجهزة لتقديم الخدمات الطبية في المناطق النائية أو الأقل خدمة."
+      },
+      "url": "/images/prd-12.webp",
+      "gallery": [
+        "/images/prd-12.webp"
+      ],
+      "price": 890000,
+      "oldPrice": null,
+      "stockQty": 2,
+      "rating": 4.7,
+      "reviewCount": 6,
+      "colors": [
+        {
+          "name": "White",
+          "nameAr": "أبيض",
+          "hex": "#f5f5f5"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Medical Facilities",
+          "titleAr": "المرافق الطبية",
+          "items": [
+            {
+              "en": "Onboard examination room and basic lab equipment",
+              "ar": "غرفة فحص ومعدات مختبر أساسية داخلية"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year warranty on equipment and conversion",
+          "ar": "ضمان سنتين على المعدات والتجهيز"
+        }
+      ]
+    },
+    {
+      "id": "home-sofa-set",
+      "category": {
+        "en": "Home Furniture",
+        "ar": "أثاث منزلي"
+      },
+      "categoryId": "home-furniture",
+      "sub_category": {
+        "en": "Sofa Set",
+        "ar": "طقم كنب"
+      },
+      "title": {
+        "en": "Modern Sofa Set",
+        "ar": "طقم كنب عصري"
+      },
+      "desc": {
+        "en": "A modern sofa set combining comfort with a clean, contemporary look for any living room.",
+        "ar": "طقم كنب عصري يجمع بين الراحة والمظهر الأنيق المناسب لأي غرفة معيشة."
+      },
+      "url": "/images/prd-13.webp",
+      "gallery": [
+        "/images/prd-13.webp"
+      ],
+      "price": 8500,
+      "oldPrice": 10200,
+      "stockQty": 10,
+      "rating": 4,
+      "reviewCount": 47,
+      "colors": [
+        {
+          "name": "Beige",
+          "nameAr": "بيج",
+          "hex": "#d8c3a5"
+        },
+        {
+          "name": "Gray",
+          "nameAr": "رمادي",
+          "hex": "#7f8c8d"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "3-Seater",
+          "ar": "3 مقاعد"
+        },
+        {
+          "en": "5-Seater",
+          "ar": "5 مقاعد"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Materials & Comfort",
+          "titleAr": "المواد والراحة",
+          "items": [
+            {
+              "en": "High-density foam cushioning",
+              "ar": "حشو إسفنجي عالي الكثافة"
+            },
+            {
+              "en": "Durable, stain-resistant upholstery fabric",
+              "ar": "قماش تنجيد متين ومقاوم للبقع"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "dining-table-set",
+      "category": {
+        "en": "Home Furniture",
+        "ar": "أثاث منزلي"
+      },
+      "categoryId": "home-furniture",
+      "sub_category": {
+        "en": "Dining Set",
+        "ar": "طقم سفرة"
+      },
+      "title": {
+        "en": "Solid Wood Dining Table Set",
+        "ar": "طقم سفرة خشب صلب"
+      },
+      "desc": {
+        "en": "A sturdy dining table set crafted from solid wood, seating up to six people comfortably.",
+        "ar": "طقم سفرة متين مصنوع من الخشب الصلب، يتسع لست أشخاص براحة."
+      },
+      "url": "/images/prd-14.webp",
+      "gallery": [
+        "/images/prd-14.webp"
+      ],
+      "price": 12500,
+      "oldPrice": null,
+      "stockQty": 5,
+      "rating": 4.4,
+      "reviewCount": 21,
+      "colors": [
+        {
+          "name": "Walnut",
+          "nameAr": "جوزي",
+          "hex": "#5c3a21"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "6-Seater",
+          "ar": "6 مقاعد"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Materials & Build",
+          "titleAr": "المواد والتصنيع",
+          "items": [
+            {
+              "en": "Solid wood frame and tabletop",
+              "ar": "هيكل وسطح من الخشب الصلب"
+            },
+            {
+              "en": "Scratch-resistant protective finish",
+              "ar": "طلاء واقٍ مقاوم للخدش"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "bedroom-wardrobe",
+      "category": {
+        "en": "Home Furniture",
+        "ar": "أثاث منزلي"
+      },
+      "categoryId": "home-furniture",
+      "sub_category": {
+        "en": "Wardrobe",
+        "ar": "دولاب"
+      },
+      "title": {
+        "en": "Spacious Bedroom Wardrobe",
+        "ar": "دولاب غرفة نوم واسع"
+      },
+      "desc": {
+        "en": "A spacious wardrobe with multiple compartments, designed for efficient bedroom storage.",
+        "ar": "دولاب واسع بعدة أقسام، مصمم لتخزين فعال في غرفة النوم."
+      },
+      "url": "/images/prd-15.webp",
+      "gallery": [
+        "/images/prd-15.webp"
+      ],
+      "price": 9800,
+      "oldPrice": null,
+      "stockQty": 8,
+      "rating": 4.1,
+      "reviewCount": 15,
+      "colors": [
+        {
+          "name": "White",
+          "nameAr": "أبيض",
+          "hex": "#f5f5f5"
+        },
+        {
+          "name": "Oak",
+          "nameAr": "بلوطي",
+          "hex": "#a9744f"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "2-Door",
+          "ar": "بابين"
+        },
+        {
+          "en": "3-Door",
+          "ar": "3 أبواب"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Storage & Build",
+          "titleAr": "التخزين والتصنيع",
+          "items": [
+            {
+              "en": "Multiple shelves and a hanging rail",
+              "ar": "عدة أرفف وقضيب تعليق"
+            },
+            {
+              "en": "High-density MDF board construction",
+              "ar": "تصنيع من خشب MDF عالي الكثافة"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "office-desk-executive",
+      "category": {
+        "en": "Office Furniture",
+        "ar": "أثاث مكتبي"
+      },
+      "categoryId": "office-furniture",
+      "sub_category": {
+        "en": "Executive Desk",
+        "ar": "مكتب تنفيذي"
+      },
+      "title": {
+        "en": "Executive Office Desk",
+        "ar": "مكتب تنفيذي"
+      },
+      "desc": {
+        "en": "A modern executive desk combining durable materials with a clean, professional design.",
+        "ar": "مكتب تنفيذي عصري يجمع بين المواد المتينة والتصميم الأنيق والاحترافي."
+      },
+      "url": "/images/prd-5.webp",
+      "gallery": [
+        "/images/prd-5.webp"
+      ],
+      "price": 4200,
+      "oldPrice": null,
+      "stockQty": 15,
+      "rating": 4.5,
+      "reviewCount": 19,
+      "colors": [
+        {
+          "name": "Walnut",
+          "nameAr": "جوزي",
+          "hex": "#5c3a21"
+        },
+        {
+          "name": "White",
+          "nameAr": "أبيض",
+          "hex": "#f5f5f5"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "140cm",
+          "ar": "140 سم"
+        },
+        {
+          "en": "160cm",
+          "ar": "160 سم"
+        },
+        {
+          "en": "180cm",
+          "ar": "180 سم"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Materials & Build",
+          "titleAr": "المواد والتصنيع",
+          "items": [
+            {
+              "en": "High-density MDF board with scratch-resistant finish",
+              "ar": "خشب MDF عالي الكثافة بطلاء مقاوم للخدش"
+            },
+            {
+              "en": "Reinforced steel frame legs for stability",
+              "ar": "أرجل بإطار فولاذي معزز لثبات أكبر"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "hydraulic-office-chair",
+      "category": {
+        "en": "Office Furniture",
+        "ar": "أثاث مكتبي"
+      },
+      "categoryId": "office-furniture",
+      "sub_category": {
+        "en": "Hydraulic Chair",
+        "ar": "كرسي هيدروليكي"
+      },
+      "title": {
+        "en": "Ergonomic Hydraulic Office Chair",
+        "ar": "كرسي مكتب هيدروليكي مريح"
+      },
+      "desc": {
+        "en": "An ergonomic office chair with hydraulic height adjustment and lumbar support for all-day comfort.",
+        "ar": "كرسي مكتب مريح بنظام تعديل ارتفاع هيدروليكي ودعم لأسفل الظهر لراحة طوال اليوم."
+      },
+      "url": "/images/prd-16.webp",
+      "gallery": [
+        "/images/prd-16.webp"
+      ],
+      "price": 2400,
+      "oldPrice": 2800,
+      "stockQty": 25,
+      "rating": 4.3,
+      "reviewCount": 33,
+      "colors": [
+        {
+          "name": "Black",
+          "nameAr": "أسود",
+          "hex": "#1a1a1a"
+        },
+        {
+          "name": "Gray",
+          "nameAr": "رمادي",
+          "hex": "#7f8c8d"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "One Size",
+          "ar": "مقاس واحد"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Comfort & Adjustability",
+          "titleAr": "الراحة وقابلية التعديل",
+          "items": [
+            {
+              "en": "Hydraulic height adjustment",
+              "ar": "تعديل ارتفاع هيدروليكي"
+            },
+            {
+              "en": "360-degree swivel base with smooth-rolling casters",
+              "ar": "قاعدة دوارة 360 درجة بعجلات سلسة الحركة"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "conference-table-large",
+      "category": {
+        "en": "Office Furniture",
+        "ar": "أثاث مكتبي"
+      },
+      "categoryId": "office-furniture",
+      "sub_category": {
+        "en": "Conference Table",
+        "ar": "طاولة اجتماعات"
+      },
+      "title": {
+        "en": "Large Conference Table",
+        "ar": "طاولة اجتماعات كبيرة"
+      },
+      "desc": {
+        "en": "A spacious conference table suited for meeting rooms, seating up to 10 people.",
+        "ar": "طاولة اجتماعات واسعة مناسبة لقاعات الاجتماعات، تتسع حتى 10 أشخاص."
+      },
+      "url": "/images/prd-17.webp",
+      "gallery": [
+        "/images/prd-17.webp"
+      ],
+      "price": 15000,
+      "oldPrice": null,
+      "stockQty": 4,
+      "rating": 4.6,
+      "reviewCount": 11,
+      "colors": [
+        {
+          "name": "Walnut",
+          "nameAr": "جوزي",
+          "hex": "#5c3a21"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "10-Seater",
+          "ar": "10 مقاعد"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Build & Finish",
+          "titleAr": "التصنيع والتشطيب",
+          "items": [
+            {
+              "en": "Reinforced tabletop with scratch-resistant coating",
+              "ar": "سطح معزز بطلاء مقاوم للخدش"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "plastic-storage-box",
+      "category": {
+        "en": "Plastic Products",
+        "ar": "منتجات بلاستيكية"
+      },
+      "categoryId": "plastic",
+      "sub_category": {
+        "en": "Storage Box",
+        "ar": "صندوق تخزين"
+      },
+      "title": {
+        "en": "Stackable Plastic Storage Box",
+        "ar": "صندوق تخزين بلاستيكي قابل للتكديس"
+      },
+      "desc": {
+        "en": "A durable, stackable storage box suitable for home, office, or industrial use.",
+        "ar": "صندوق تخزين متين وقابل للتكديس، مناسب للاستخدام المنزلي والمكتبي والصناعي."
+      },
+      "url": "/images/prd-18.webp",
+      "gallery": [
+        "/images/prd-18.webp"
+      ],
+      "price": 350,
+      "oldPrice": 420,
+      "stockQty": 60,
+      "rating": 4,
+      "reviewCount": 63,
+      "colors": [
+        {
+          "name": "Gray",
+          "nameAr": "رمادي",
+          "hex": "#7f8c8d"
+        },
+        {
+          "name": "Blue",
+          "nameAr": "أزرق",
+          "hex": "#2980b9"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Small",
+          "ar": "صغير"
+        },
+        {
+          "en": "Medium",
+          "ar": "متوسط"
+        },
+        {
+          "en": "Large",
+          "ar": "كبير"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Material & Build",
+          "titleAr": "المادة والتصنيع",
+          "items": [
+            {
+              "en": "High-impact resistant polypropylene",
+              "ar": "بولي بروبيلين مقاوم للصدمات"
+            },
+            {
+              "en": "Reinforced stacking corners",
+              "ar": "زوايا تكديس معززة"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "6-month warranty against manufacturing defects",
+          "ar": "ضمان 6 أشهر ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "industrial-plastic-pallet",
+      "category": {
+        "en": "Plastic Products",
+        "ar": "منتجات بلاستيكية"
+      },
+      "categoryId": "plastic",
+      "sub_category": {
+        "en": "Pallet",
+        "ar": "منصة نقالة"
+      },
+      "title": {
+        "en": "Industrial Plastic Pallet",
+        "ar": "منصة نقالة بلاستيكية صناعية"
+      },
+      "desc": {
+        "en": "A heavy-duty plastic pallet designed for warehouse and logistics operations.",
+        "ar": "منصة نقالة بلاستيكية ثقيلة الخدمة مصممة لعمليات المستودعات والخدمات اللوجستية."
+      },
+      "url": "/images/prd-19.webp",
+      "gallery": [
+        "/images/prd-19.webp"
+      ],
+      "price": 950,
+      "oldPrice": null,
+      "stockQty": 40,
+      "rating": 4.2,
+      "reviewCount": 18,
+      "colors": [
+        {
+          "name": "Black",
+          "nameAr": "أسود",
+          "hex": "#1a1a1a"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard 1200x1000mm",
+          "ar": "قياسي 1200×1000 مم"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Load & Durability",
+          "titleAr": "التحميل والمتانة",
+          "items": [
+            {
+              "en": "Static load capacity up to 4,000 kg",
+              "ar": "سعة تحميل ثابت تصل إلى 4000 كجم"
+            },
+            {
+              "en": "Weather and chemical resistant material",
+              "ar": "مادة مقاومة للعوامل الجوية والكيميائية"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "1-year warranty against manufacturing defects",
+          "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
+        }
+      ]
+    },
+    {
+      "id": "plastic-water-tank",
+      "category": {
+        "en": "Plastic Products",
+        "ar": "منتجات بلاستيكية"
+      },
+      "categoryId": "plastic",
+      "sub_category": {
+        "en": "Water Tank",
+        "ar": "خزان مياه"
+      },
+      "title": {
+        "en": "Rotomolded Plastic Water Tank",
+        "ar": "خزان مياه بلاستيكي مصبوب دورانياً"
+      },
+      "desc": {
+        "en": "A UV-resistant water storage tank built for long-term outdoor use.",
+        "ar": "خزان تخزين مياه مقاوم للأشعة فوق البنفسجية مصمم للاستخدام الخارجي طويل الأمد."
+      },
+      "url": "/images/prd-20.webp",
+      "gallery": [
+        "/images/prd-20.webp"
+      ],
+      "price": 4800,
+      "oldPrice": null,
+      "stockQty": 12,
+      "rating": 4.5,
+      "reviewCount": 27,
+      "colors": [
+        {
+          "name": "Black",
+          "nameAr": "أسود",
+          "hex": "#1a1a1a"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "1000L",
+          "ar": "1000 لتر"
+        },
+        {
+          "en": "2000L",
+          "ar": "2000 لتر"
+        },
+        {
+          "en": "5000L",
+          "ar": "5000 لتر"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Material & Durability",
+          "titleAr": "المادة والمتانة",
+          "items": [
+            {
+              "en": "UV-stabilized rotomolded polyethylene",
+              "ar": "بولي إيثيلين مصبوب دورانياً ومقاوم للأشعة فوق البنفسجية"
+            },
+            {
+              "en": "Food-grade, corrosion-resistant construction",
+              "ar": "تصنيع من مادة صالحة للأغذية ومقاومة للتآكل"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "5-year warranty against manufacturing defects",
+          "ar": "ضمان 5 سنوات ضد عيوب التصنيع"
+        }
+      ]
+    }
+  ]
+}

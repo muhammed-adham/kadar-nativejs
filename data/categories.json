@@ -1,0 +1,567 @@
+{
+  "categories": [
+    {
+      "categoryId": "electric-transport",
+      "img": "/images/cat-7.webp",
+      "name": {
+        "en": "Electric Transport",
+        "ar": "نقل كهربائي"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Electric Scooters",
+          "ar": "سكوتر كهربائي"
+        },
+        {
+          "en": "Electric Golf Cars",
+          "ar": "عربات جولف كهربائية"
+        },
+        {
+          "en": "Electric Bicycles",
+          "ar": "دراجات هوائية كهرباء"
+        },
+        {
+          "en": "Bicycles",
+          "ar": "دراجات هوائية"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "electric-transport-electric-scooters",
+          "name": {
+            "en": "Electric Scooters",
+            "ar": "سكوتر كهربائي"
+          }
+        },
+        {
+          "subCategoryId": "electric-transport-electric-golf-cars",
+          "name": {
+            "en": "Electric Golf Cars",
+            "ar": "عربات جولف كهربائية"
+          }
+        },
+        {
+          "subCategoryId": "electric-transport-electric-bicycles",
+          "name": {
+            "en": "Electric Bicycles",
+            "ar": "دراجات هوائية كهرباء"
+          }
+        },
+        {
+          "subCategoryId": "electric-transport-bicycles",
+          "name": {
+            "en": "Bicycles",
+            "ar": "دراجات هوائية"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "furnish-home",
+      "img": "/images/cat-11.webp",
+      "name": {
+        "en": "Furnish Home",
+        "ar": "افرش بيتك"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Living Room Sets",
+          "ar": "طقم صالة"
+        },
+        {
+          "en": "Bedroom Sets",
+          "ar": "طقم غرفة نوم"
+        },
+        {
+          "en": "Diningroom Sets",
+          "ar": "طقم غرفة طعام"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "furnish-home-living-room-sets",
+          "name": {
+            "en": "Living Room Sets",
+            "ar": "طقم صالة"
+          }
+        },
+        {
+          "subCategoryId": "furnish-home-bedroom-sets",
+          "name": {
+            "en": "Bedroom Sets",
+            "ar": "طقم غرفة نوم"
+          }
+        },
+        {
+          "subCategoryId": "furnish-home-diningroom-sets",
+          "name": {
+            "en": "Diningroom Sets",
+            "ar": "طقم غرفة طعام"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "home-furniture",
+      "img": "/images/cat-8.webp",
+      "name": {
+        "en": "Home Furniture",
+        "ar": "أثاث منزلي"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Sofas",
+          "ar": "كنب"
+        },
+        {
+          "en": "Dining Tables",
+          "ar": "طاولات سفرة"
+        },
+        {
+          "en": "Bedroom Furniture",
+          "ar": "أثاث غرف نوم"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "home-furniture-sofas",
+          "name": {
+            "en": "Sofas",
+            "ar": "كنب"
+          }
+        },
+        {
+          "subCategoryId": "home-furniture-dining-tables",
+          "name": {
+            "en": "Dining Tables",
+            "ar": "طاولات سفرة"
+          }
+        },
+        {
+          "subCategoryId": "home-furniture-bedroom-furniture",
+          "name": {
+            "en": "Bedroom Furniture",
+            "ar": "أثاث غرف نوم"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "office-furniture",
+      "img": "/images/cat-5.webp",
+      "name": {
+        "en": "Office Furniture",
+        "ar": "أثاث مكتبي"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Office Desks",
+          "ar": "مكاتب"
+        },
+        {
+          "en": "Ergonomic Chairs",
+          "ar": "كراسي مريحة"
+        },
+        {
+          "en": "Storage Cabinets",
+          "ar": "خزائن تخزين"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "office-furniture-office-desks",
+          "name": {
+            "en": "Office Desks",
+            "ar": "مكاتب"
+          }
+        },
+        {
+          "subCategoryId": "office-furniture-ergonomic-chairs",
+          "name": {
+            "en": "Ergonomic Chairs",
+            "ar": "كراسي مريحة"
+          }
+        },
+        {
+          "subCategoryId": "office-furniture-storage-cabinets",
+          "name": {
+            "en": "Storage Cabinets",
+            "ar": "خزائن تخزين"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "plastic",
+      "img": "/images/cat-6.webp",
+      "name": {
+        "en": "Plastic Products",
+        "ar": "منتجات بلاستيكية"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Storage Boxes",
+          "ar": "صناديق تخزين"
+        },
+        {
+          "en": "Outdoor Furniture",
+          "ar": "أثاث خارجي"
+        },
+        {
+          "en": "Household Items",
+          "ar": "أدوات منزلية"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "plastic-storage-boxes",
+          "name": {
+            "en": "Storage Boxes",
+            "ar": "صناديق تخزين"
+          }
+        },
+        {
+          "subCategoryId": "plastic-outdoor-furniture",
+          "name": {
+            "en": "Outdoor Furniture",
+            "ar": "أثاث خارجي"
+          }
+        },
+        {
+          "subCategoryId": "plastic-household-items",
+          "name": {
+            "en": "Household Items",
+            "ar": "أدوات منزلية"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "vehicle-Conversions",
+      "img": "/images/cat-9.webp",
+      "name": {
+        "en": "Vehicle Conversions",
+        "ar": "مراكز تقنية"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Mobile Labs",
+          "ar": "معامل متنقلة"
+        },
+        {
+          "en": "Comm Units",
+          "ar": "وحدات اتصال"
+        },
+        {
+          "en": "Server Cabins",
+          "ar": "غرف سيرفرات"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "vehicle-Conversions-mobile-labs",
+          "name": {
+            "en": "Mobile Labs",
+            "ar": "معامل متنقلة"
+          }
+        },
+        {
+          "subCategoryId": "vehicle-Conversions-comm-units",
+          "name": {
+            "en": "Comm Units",
+            "ar": "وحدات اتصال"
+          }
+        },
+        {
+          "subCategoryId": "vehicle-Conversions-server-cabins",
+          "name": {
+            "en": "Server Cabins",
+            "ar": "غرف سيرفرات"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "firefighting",
+      "img": "/images/cat-4.webp",
+      "name": {
+        "en": "Firefighting",
+        "ar": "إطفاء"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Pumper Trucks",
+          "ar": "شاحنات إطفاء"
+        },
+        {
+          "en": "Ladder Trucks",
+          "ar": "سلالم آلية"
+        },
+        {
+          "en": "Rescue Units",
+          "ar": "وحدات إنقاذ"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "firefighting-pumper-trucks",
+          "name": {
+            "en": "Pumper Trucks",
+            "ar": "شاحنات إطفاء"
+          }
+        },
+        {
+          "subCategoryId": "firefighting-ladder-trucks",
+          "name": {
+            "en": "Ladder Trucks",
+            "ar": "سلالم آلية"
+          }
+        },
+        {
+          "subCategoryId": "firefighting-rescue-units",
+          "name": {
+            "en": "Rescue Units",
+            "ar": "وحدات إنقاذ"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "cash-transfer",
+      "img": "/images/cat-2.webp",
+      "name": {
+        "en": "Cash Transfer",
+        "ar": "نقل الأموال"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Armored Vans",
+          "ar": "فانات مصفحة"
+        },
+        {
+          "en": "ATM Trucks",
+          "ar": "شاحنات صرافات"
+        },
+        {
+          "en": "Escort Vehicles",
+          "ar": "مركبات مرافقة"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "cash-transfer-armored-vans",
+          "name": {
+            "en": "Armored Vans",
+            "ar": "فانات مصفحة"
+          }
+        },
+        {
+          "subCategoryId": "cash-transfer-atm-trucks",
+          "name": {
+            "en": "ATM Trucks",
+            "ar": "شاحنات صرافات"
+          }
+        },
+        {
+          "subCategoryId": "cash-transfer-escort-vehicles",
+          "name": {
+            "en": "Escort Vehicles",
+            "ar": "مركبات مرافقة"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "ambulance",
+      "img": "/images/cat-3.webp",
+      "name": {
+        "en": "Ambulance",
+        "ar": "إسعاف"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Basic Life Support",
+          "ar": "إسعاف أساسي"
+        },
+        {
+          "en": "ICU Ambulance",
+          "ar": "إسعاف عناية مركزة"
+        },
+        {
+          "en": "Off-Road Units",
+          "ar": "وحدات وعرة"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "ambulance-basic-life-support",
+          "name": {
+            "en": "Basic Life Support",
+            "ar": "إسعاف أساسي"
+          }
+        },
+        {
+          "subCategoryId": "ambulance-icu-ambulance",
+          "name": {
+            "en": "ICU Ambulance",
+            "ar": "إسعاف عناية مركزة"
+          }
+        },
+        {
+          "subCategoryId": "ambulance-off-road-units",
+          "name": {
+            "en": "Off-Road Units",
+            "ar": "وحدات وعرة"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "agricultural-tractor",
+      "img": "/images/cat-12.webp",
+      "name": {
+        "en": "Agricultural Tractor",
+        "ar": "جرارات زراعية"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Utility Tractors",
+          "ar": "جرارات متعددة الاستخدام"
+        },
+        {
+          "en": "Field Tractors",
+          "ar": "جرارات الحقول"
+        },
+        {
+          "en": "Agricultural Attachments",
+          "ar": "ملحقات زراعية"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "agricultural-tractor-utility-tractors",
+          "name": {
+            "en": "Utility Tractors",
+            "ar": "جرارات متعددة الاستخدام"
+          }
+        },
+        {
+          "subCategoryId": "agricultural-tractor-field-tractors",
+          "name": {
+            "en": "Field Tractors",
+            "ar": "جرارات الحقول"
+          }
+        },
+        {
+          "subCategoryId": "agricultural-tractor-agricultural-attachments",
+          "name": {
+            "en": "Agricultural Attachments",
+            "ar": "ملحقات زراعية"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "axle-flatbed-semi-trailer",
+      "img": "/images/cat-13.webp",
+      "name": {
+        "en": "Axle Flatbed Semi-Trailer",
+        "ar": "مقطورات نصف نقل مسطحة"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "2-Axle Flatbed",
+          "ar": "مقطورة مسطحة بمحورين"
+        },
+        {
+          "en": "3-Axle Flatbed",
+          "ar": "مقطورة مسطحة بثلاثة محاور"
+        },
+        {
+          "en": "Heavy-Duty Flatbed",
+          "ar": "مقطورة مسطحة للخدمة الشاقة"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "axle-flatbed-semi-trailer-2-axle-flatbed",
+          "name": {
+            "en": "2-Axle Flatbed",
+            "ar": "مقطورة مسطحة بمحورين"
+          }
+        },
+        {
+          "subCategoryId": "axle-flatbed-semi-trailer-3-axle-flatbed",
+          "name": {
+            "en": "3-Axle Flatbed",
+            "ar": "مقطورة مسطحة بثلاثة محاور"
+          }
+        },
+        {
+          "subCategoryId": "axle-flatbed-semi-trailer-heavy-duty-flatbed",
+          "name": {
+            "en": "Heavy-Duty Flatbed",
+            "ar": "مقطورة مسطحة للخدمة الشاقة"
+          }
+        }
+      ]
+    },
+    {
+      "categoryId": "military",
+      "img": "/images/cat-10.webp",
+      "name": {
+        "en": "Military",
+        "ar": "عسكري"
+      },
+      "page": "products",
+      "variants": [
+        {
+          "en": "Armored Carriers",
+          "ar": "ناقلات مدرعة"
+        },
+        {
+          "en": "Field Trucks",
+          "ar": "شاحنات ميدانية"
+        },
+        {
+          "en": "Command Vehicles",
+          "ar": "مركبات قيادة"
+        }
+      ],
+      "subCategories": [
+        {
+          "subCategoryId": "military-armored-carriers",
+          "name": {
+            "en": "Armored Carriers",
+            "ar": "ناقلات مدرعة"
+          }
+        },
+        {
+          "subCategoryId": "military-field-trucks",
+          "name": {
+            "en": "Field Trucks",
+            "ar": "شاحنات ميدانية"
+          }
+        },
+        {
+          "subCategoryId": "military-command-vehicles",
+          "name": {
+            "en": "Command Vehicles",
+            "ar": "مركبات قيادة"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -7,7 +7,12 @@ const appState = {
   currentSlide: 0,
   selectedCategory: "",
   selectedSubcategory: "",
+  currentProductId: "",
 };
+
+// ========== contact placeholders ==========
+const RESERVATION_WHATSAPP = "201556336160";
+const RESERVATION_EMAIL = "kaderfactory38@gmail.com";
 
 // ========== NAVIGATION DATA ==========
 const navigationLinks = [
@@ -275,463 +280,6 @@ const sliderData = {
   ],
 };
 
-// ========== PRODUCTS DATA ==========
-const productsData = {
-  en: [
-    // ---- Home Furniture ----
-    {
-      title: "Bedroom",
-      desc: "Spacious wardrobe with premium finish for master bedrooms.",
-      url: "/images/prd-4.webp",
-      category: "home-furniture",
-      sub_category: "Master Room",
-      price: 350,
-      // oldPrice: 450,
-    },
-    {
-      title: "Living Room Sofa",
-      desc: "Three-seat sofa upholstered in durable fabric.",
-      url: "/images/prd-3.webp",
-      category: "home-furniture",
-      sub_category: "Living Room",
-      price: 420,
-      oldPrice: 520,
-    },
-
-    // ---- Office Furniture ----
-    {
-      title: "Hydraulic Office Chair",
-      desc: "Ergonomic chair with adjustable height and lumbar support.",
-      url: "/images/prd-5.webp",
-      category: "office-furniture",
-      sub_category: "Hydraulic Chairs",
-      price: 120,
-      oldPrice: 180,
-    },
-    {
-      title: "Executive Desk",
-      desc: "Solid wood desk with built-in storage drawers.",
-      url: "/images/prd-4.webp",
-      category: "office-furniture",
-      sub_category: "Desks",
-      price: 520,
-      oldPrice: 650,
-    },
-
-    // ---- Military ----
-    {
-      title: "Armored Personnel Carrier",
-      desc: "Heavy-duty armored vehicle for troop transport.",
-      url: "/images/prd-5.webp",
-      category: "military",
-      sub_category: "Armored Carriers",
-      price: 185000,
-      // oldPrice: 210000,
-    },
-    {
-      title: "Field Command Vehicle",
-      desc: "Mobile command unit equipped for battlefield coordination.",
-      url: "/images/prd-6.webp",
-      category: "military",
-      sub_category: "Command Vehicles",
-      price: 142000,
-      oldPrice: 165000,
-    },
-
-    // ---- Firefighting ----
-    {
-      title: "Pumper Fire Truck",
-      desc: "High-pressure pump truck for structural fire response.",
-      url: "/images/prd-1.webp",
-      category: "firefighting",
-      sub_category: "Pumper Trucks",
-      price: 96000,
-      oldPrice: 112000,
-    },
-    {
-      title: "Aerial Ladder Truck",
-      desc: "Extendable ladder truck for high-rise rescue operations.",
-      url: "/images/prd-2.webp",
-      category: "firefighting",
-      sub_category: "Ladder Trucks",
-      price: 134000,
-      // oldPrice: 155000,
-    },
-
-    // ---- Ambulance ----
-    {
-      title: "ICU Ambulance",
-      desc: "Fully equipped ambulance with intensive care unit fittings.",
-      url: "/images/prd-3.webp",
-      category: "ambulance",
-      sub_category: "ICU Ambulance",
-      price: 78000,
-      oldPrice: 92000,
-    },
-    {
-      title: "Basic Life Support Ambulance",
-      desc: "Standard ambulance equipped for emergency first response.",
-      url: "/images/prd-4.webp",
-      category: "ambulance",
-      sub_category: "Basic Life Support",
-      price: 52000,
-      oldPrice: 61000,
-    },
-
-    // ---- Tech Centers ----
-    {
-      title: "Mobile Tech Unit",
-      desc: "Self-contained mobile lab for on-site technical work.",
-      url: "/images/prd-5.webp",
-      category: "vehicle-Conversions",
-      sub_category: "Mobile Labs",
-      price: 68000,
-      oldPrice: 79000,
-    },
-    {
-      title: "Communication Center Vehicle",
-      desc: "Mobile unit outfitted for field communications and networking.",
-      url: "/images/prd-6.webp",
-      category: "vehicle-Conversions",
-      sub_category: "Comm Units",
-      price: 71000,
-      // oldPrice: 84000,
-    },
-
-    // ---- Electric Transport ----
-    {
-      title: "Electric Bike",
-      desc: "Lightweight electric bike for short urban commutes.",
-      url: "/images/prd-1.webp",
-      category: "electric-transport",
-      sub_category: "Electric Bikes",
-      price: 950,
-      oldPrice: 1150,
-    },
-    {
-      title: "Electric Golf Cart",
-      desc: "Four-seat electric cart suited for resorts and campuses.",
-      url: "/images/prd-2.webp",
-      category: "electric-transport",
-      sub_category: "Golf Carts",
-      price: 4200,
-      oldPrice: 4900,
-    },
-
-    // ---- Plastic Products ----
-    {
-      title: "Plastic Storage Box",
-      desc: "Stackable storage box with secure locking lid.",
-      url: "/images/prd-3.webp",
-      category: "plastic",
-      sub_category: "Storage Boxes",
-      price: 18,
-      oldPrice: 25,
-    },
-    {
-      title: "Plastic Outdoor Chair",
-      desc: "Weather-resistant chair for gardens and patios.",
-      url: "/images/prd-4.webp",
-      category: "plastic",
-      sub_category: "Outdoor Furniture",
-      price: 32,
-      // oldPrice: 40,
-    },
-  ],
-  ar: [
-    // ---- أثاث منزلي ----
-    {
-      title: "دولاب غرفة نوم",
-      desc: "دولاب فسيح بتشطيب فاخر يناسب غرف النوم الرئيسية.",
-      url: "/images/prd-1.webp",
-      category: "home-furniture",
-      sub_category: "غرفة النوم",
-      price: 350,
-      // oldPrice: 450,
-    },
-    {
-      title: "كنبة صالة",
-      desc: "كنبة ثلاثية المقاعد مصنوعة من قماش متين.",
-      url: "/images/prd-2.webp",
-      category: "home-furniture",
-      sub_category: "الصالة",
-      price: 420,
-      oldPrice: 520,
-    },
-
-    // ---- أثاث مكتبي ----
-    {
-      title: "كرسي مكتب هيدروليك",
-      desc: "كرسي مريح بارتفاع قابل للتعديل ودعم أسفل الظهر.",
-      url: "/images/prd-3.webp",
-      category: "office-furniture",
-      sub_category: "كراسي هيدروليك",
-      price: 120,
-      oldPrice: 180,
-    },
-    {
-      title: "مكتب تنفيذي",
-      desc: "مكتب خشبي صلب مزود بأدراج تخزين مدمجة.",
-      url: "/images/prd-4.webp",
-      category: "office-furniture",
-      sub_category: "مكاتب",
-      price: 520,
-      oldPrice: 650,
-    },
-
-    // ---- عسكري ----
-    {
-      title: "ناقلة جنود مدرعة",
-      desc: "مركبة مدرعة شديدة التحمل لنقل الجنود.",
-      url: "/images/prd-5.webp",
-      category: "military",
-      sub_category: "ناقلات مدرعة",
-      price: 185000,
-      // oldPrice: 210000,
-    },
-    {
-      title: "مركبة قيادة ميدانية",
-      desc: "وحدة قيادة متنقلة مجهزة لتنسيق العمليات الميدانية.",
-      url: "/images/prd-6.webp",
-      category: "military",
-      sub_category: "مركبات قيادة",
-      price: 142000,
-      oldPrice: 165000,
-    },
-
-    // ---- إطفاء ----
-    {
-      title: "شاحنة إطفاء بمضخة",
-      desc: "شاحنة بمضخة عالية الضغط للاستجابة لحرائق المباني.",
-      url: "/images/prd-1.webp",
-      category: "firefighting",
-      sub_category: "شاحنات مضخة",
-      price: 96000,
-      oldPrice: 112000,
-    },
-    {
-      title: "شاحنة سلم هوائي",
-      desc: "شاحنة بسلم قابل للتمديد لعمليات الإنقاذ في المباني العالية.",
-      url: "/images/prd-2.webp",
-      category: "firefighting",
-      sub_category: "شاحنات سلم",
-      price: 134000,
-      // oldPrice: 155000,
-    },
-
-    // ---- إسعاف ----
-    {
-      title: "سيارة إسعاف عناية مركزة",
-      desc: "سيارة إسعاف مجهزة بالكامل بتجهيزات العناية المركزة.",
-      url: "/images/prd-3.webp",
-      category: "ambulance",
-      sub_category: "عناية مركزة",
-      price: 78000,
-      oldPrice: 92000,
-    },
-    {
-      title: "سيارة إسعاف أساسي",
-      desc: "سيارة إسعاف قياسية مجهزة للاستجابة الطارئة الأولى.",
-      url: "/images/prd-4.webp",
-      category: "ambulance",
-      sub_category: "إسعاف أساسي",
-      price: 52000,
-      oldPrice: 61000,
-    },
-
-    // ---- مراكز تقنية ----
-    {
-      title: "وحدة تقنية متنقلة",
-      desc: "معمل متنقل ذاتي الاحتواء للعمل التقني الميداني.",
-      url: "/images/prd-5.webp",
-      category: "vehicle-Conversions",
-      sub_category: "معامل متنقلة",
-      price: 68000,
-      oldPrice: 79000,
-    },
-    {
-      title: "مركبة مركز اتصالات",
-      desc: "وحدة متنقلة مجهزة للاتصالات والشبكات الميدانية.",
-      url: "/images/prd-6.webp",
-      category: "vehicle-Conversions",
-      sub_category: "وحدات اتصال",
-      price: 71000,
-      // oldPrice: 84000,
-    },
-
-    // ---- نقل كهربائي ----
-    {
-      title: "دراجة كهربائية",
-      desc: "دراجة كهربائية خفيفة الوزن للتنقلات الحضرية القصيرة.",
-      url: "/images/prd-1.webp",
-      category: "electric-transport",
-      sub_category: "دراجات كهربائية",
-      price: 950,
-      oldPrice: 1150,
-    },
-    {
-      title: "عربة جولف كهربائية",
-      desc: "عربة كهربائية بأربعة مقاعد تناسب المنتجعات والحرم الجامعي.",
-      url: "/images/prd-2.webp",
-      category: "electric-transport",
-      sub_category: "عربات جولف",
-      price: 4200,
-      oldPrice: 4900,
-    },
-
-    // ---- منتجات بلاستيكية ----
-    {
-      title: "صندوق تخزين بلاستيك",
-      desc: "صندوق تخزين قابل للتكديس بغطاء قفل آمن.",
-      url: "/images/prd-3.webp",
-      category: "plastic",
-      sub_category: "صناديق تخزين",
-      price: 18,
-      oldPrice: 25,
-    },
-    {
-      title: "كرسي بلاستيك خارجي",
-      desc: "كرسي مقاوم للعوامل الجوية للحدائق والشرفات.",
-      url: "/images/prd-4.webp",
-      category: "plastic",
-      sub_category: "أثاث خارجي",
-      price: 32,
-      // oldPrice: 40,
-    },
-  ],
-};
-
-// ========== Category DATA ==========
-const categories = [
-  {
-    img: "/images/cat-7.webp",
-    nameEn: "Electric Transport",
-    nameAr: "نقل كهربائي",
-    variantsEn: [
-      "Electric Scooters",
-      "Electric Golf Cars",
-      "Electric Bicycles",
-      "Bicycles",
-    ],
-    variantsAr: [
-      "سكوتر كهربائي",
-      "عربات جولف كهربائية",
-      "دراجات هوائية كهرباء",
-      "دراجات هوائية",
-    ],
-    page: "products",
-    categoryId: "electric-transport",
-  },
-  {
-    img: "/images/cat-11.webp",
-    nameEn: "Furnish Home",
-    nameAr: "افرش بيتك",
-    variantsEn: ["Living Room Sets", "Bedroom Sets", "Diningroom Sets"],
-    variantsAr: ["طقم صالة", "طقم غرفة نوم", "طقم غرفة طعام"],
-    page: "products",
-    categoryId: "furnish-home",
-  },
-  {
-    img: "/images/cat-8.webp",
-    nameEn: "Home Furniture",
-    nameAr: "أثاث منزلي",
-    variantsEn: ["Sofas", "Dining Tables", "Bedroom Furniture"],
-    variantsAr: ["كنب", "طاولات سفرة", "أثاث غرف نوم"],
-    page: "products",
-    categoryId: "home-furniture",
-  },
-  {
-    img: "/images/cat-5.webp",
-    nameEn: "Office Furniture",
-    nameAr: "أثاث مكتبي",
-    variantsEn: ["Office Desks", "Ergonomic Chairs", "Storage Cabinets"],
-    variantsAr: ["مكاتب", "كراسي مريحة", "خزائن تخزين"],
-    page: "products",
-    categoryId: "office-furniture",
-  },
-  {
-    img: "/images/cat-6.webp",
-    nameEn: "Plastic Products",
-    nameAr: "منتجات بلاستيكية",
-    variantsEn: ["Storage Boxes", "Outdoor Furniture", "Household Items"],
-    variantsAr: ["صناديق تخزين", "أثاث خارجي", "أدوات منزلية"],
-    page: "products",
-    categoryId: "plastic",
-  },
-  {
-    img: "/images/cat-9.webp",
-    nameEn: "Vehicle Conversions",
-    nameAr: "مراكز تقنية",
-    variantsEn: ["Mobile Labs", "Comm Units", "Server Cabins"],
-    variantsAr: ["معامل متنقلة", "وحدات اتصال", "غرف سيرفرات"],
-    page: "products",
-    categoryId: "vehicle-Conversions",
-  },
-  {
-    img: "/images/cat-4.webp",
-    nameEn: "Firefighting",
-    nameAr: "إطفاء",
-    variantsEn: ["Pumper Trucks", "Ladder Trucks", "Rescue Units"],
-    variantsAr: ["شاحنات إطفاء", "سلالم آلية", "وحدات إنقاذ"],
-    page: "products",
-    categoryId: "firefighting",
-  },
-  {
-    img: "/images/cat-2.webp",
-    nameEn: "Cash Transfer",
-    nameAr: "نقل الأموال",
-    variantsEn: ["Armored Vans", "ATM Trucks", "Escort Vehicles"],
-    variantsAr: ["فانات مصفحة", "شاحنات صرافات", "مركبات مرافقة"],
-    page: "products",
-    categoryId: "cash-transfer",
-  },
-  {
-    img: "/images/cat-3.webp",
-    nameEn: "Ambulance",
-    nameAr: "إسعاف",
-    variantsEn: ["Basic Life Support", "ICU Ambulance", "Off-Road Units"],
-    variantsAr: ["إسعاف أساسي", "إسعاف عناية مركزة", "وحدات وعرة"],
-    page: "products",
-    categoryId: "ambulance",
-  },
-  {
-    img: "/images/cat-12.webp",
-    nameEn: "Agricultural Tractor",
-    nameAr: "جرارات زراعية",
-    variantsEn: [
-      "Utility Tractors",
-      "Field Tractors",
-      "Agricultural Attachments",
-    ],
-    variantsAr: ["جرارات متعددة الاستخدام", "جرارات الحقول", "ملحقات زراعية"],
-    page: "products",
-    categoryId: "agricultural-tractor",
-  },
-  {
-    img: "/images/cat-13.webp",
-    nameEn: "Axle Flatbed Semi-Trailer",
-    nameAr: "مقطورات نصف نقل مسطحة",
-    variantsEn: ["2-Axle Flatbed", "3-Axle Flatbed", "Heavy-Duty Flatbed"],
-    variantsAr: [
-      "مقطورة مسطحة بمحورين",
-      "مقطورة مسطحة بثلاثة محاور",
-      "مقطورة مسطحة للخدمة الشاقة",
-    ],
-    page: "products",
-    categoryId: "axle-flatbed-semi-trailer",
-  },
-  {
-    img: "/images/cat-10.webp",
-    nameEn: "Military",
-    nameAr: "عسكري",
-    variantsEn: ["Armored Carriers", "Field Trucks", "Command Vehicles"],
-    variantsAr: ["ناقلات مدرعة", "شاحنات ميدانية", "مركبات قيادة"],
-    page: "products",
-    categoryId: "military",
-  },
-];
-
-// ========== Projects DATA ==========
 const projects = [
   {
     id: "cnc-horizontal-lathe",
@@ -841,15 +389,159 @@ const socialLinks = [
   },
 ];
 
+// ========== Share Links ==========
+const shareLinks = [
+  {
+    id: "facebook",
+    label: "Share on Facebook",
+    icon: "fab fa-facebook-f",
+    url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`,
+  },
+  {
+    id: "messenger",
+    label: "Share on Messenger",
+    icon: "fab fa-facebook-messenger",
+    url: `https://www.facebook.com/dialog/send?link=${encodeURIComponent(window.location.href)}&app_id=YOUR_APP_ID`,
+  },
+  {
+    id: "whatsapp",
+    label: "Share on WhatsApp",
+    icon: "fab fa-whatsapp",
+    url: `https://wa.me/?text=${encodeURIComponent(document.title + " " + window.location.href)}`,
+  },
+  {
+    id: "copylink",
+    label: "Copy link",
+    icon: "fas fa-link",
+    copy: true,
+  },
+];
+
+// ========== Policy Tabs Data Short Version==========
+const policyTabsContent = {
+  // Return
+  returnPolicy: {
+    tabLabel: { en: "Return Policy", ar: "سياسة الإرجاع" },
+    icon: "fas fa-undo",
+    intro: {
+      en: "We offer a flexible return policy so you can shop with confidence.",
+      ar: "نوفر سياسة إرجاع مرنة لتتسوق بثقة تامة.",
+    },
+    points: [
+      {
+        en: "Return within 14 days of purchase, unused and in original packaging with all accessories.",
+        ar: "الإرجاع خلال 14 يوماً من تاريخ الشراء، بشرط أن يكون غير مستخدم وفي عبوته الأصلية مع جميع الملحقات.",
+      },
+      {
+        en: "For verified manufacturing defects, returns are accepted within 30 days with a technical report.",
+        ar: "في حالة وجود عيب تصنيع مؤكد، يمكن الإرجاع خلال 30 يوماً بموجب تقرير فني.",
+      },
+      {
+        en: "Refunds processed within 5–10 business days after inspection.",
+        ar: "يتم رد المبلغ خلال 5 إلى 10 أيام عمل بعد الفحص.",
+      },
+      {
+        en: "Shipping fees are non-refundable.",
+        ar: "رسوم الشحن غير قابلة للاسترداد.",
+      },
+    ],
+    linkLabel: {
+      en: "See Full Return Policy",
+      ar: "عرض سياسة الإرجاع كاملة",
+    },
+    linkPage: "return-policy",
+  },
+
+  // Warranty
+  warranty: {
+    tabLabel: { en: "Warranty", ar: "الضمان" },
+    icon: "fas fa-shield-alt",
+    intro: {
+      en: "Every product is backed by a manufacturer warranty for your peace of mind.",
+      ar: "كل منتج مدعوم بضمان الشركة المصنعة لراحة بالك.",
+    },
+    points: [
+      {
+        en: "Warranty period is as specified on your product's warranty certificate or invoice.",
+        ar: "مدة الضمان كما هي محددة في شهادة الضمان أو فاتورة الشراء الخاصة بمنتجك.",
+      },
+      {
+        en: "Covers manufacturing defects — free repair or replacement of defective parts, no charge for parts or labor.",
+        ar: "يغطي عيوب التصنيع — إصلاح أو استبدال القطع المعيبة مجاناً دون أي رسوم على القطع أو العمالة.",
+      },
+    ],
+    linkLabel: { en: "See Full Warranty Terms", ar: "عرض شروط الضمان كاملة" },
+    linkPage: "warranty-policy",
+  },
+
+  // Delivery
+  delivery: {
+    tabLabel: { en: "Delivery", ar: "التوصيل" },
+    icon: "fas fa-truck",
+    intro: {
+      en: "Once your payment is confirmed, our team will coordinate delivery details with you directly.",
+      ar: "بمجرد تأكيد الدفع سيتواصل فريقنا معك لتنسيق تفاصيل التوصيل.",
+    },
+    points: [
+      {
+        en: "Delivery available across Egypt; timeframe depends on your location.",
+        ar: "التوصيل متاح في جميع أنحاء مصر، وتختلف المدة حسب المنطقة.",
+      },
+      {
+        en: "Some orders may take longer than the estimated timeframe due to demand or availability.",
+        ar: "قد تستغرق بعض الطلبات وقتًا أطول من المدة المتوقعة حسب الطلب أو التوفر.",
+      },
+      {
+        en: "Delivery fees vary depending on your location and will be confirmed with your order.",
+        ar: "تختلف رسوم التوصيل حسب موقعك، وسيتم تأكيدها مع طلبك.",
+      },
+      {
+        en: "Our team will reach out shortly to confirm your exact delivery date, address, and fees.",
+        ar: "سيتواصل معك فريقنا قريبًا لتأكيد موعد التوصيل والعنوان والرسوم بدقة.",
+      },
+    ],
+    linkLabel: null, // no dedicated page for delivery
+    linkPage: null,
+  },
+};
+
+// ========== Product Data JSon ==========
+let productsData = [];
+
+async function loadProductsData() {
+  try {
+    const response = await fetch("/data/products.json");
+    const data = await response.json();
+    productsData = data.products;
+  } catch (e) {
+    console.error("Failed to load products.json", e);
+    productsData = [];
+  }
+}
+
+// ========== Category Data JSon ==========
+let categoriesData = [];
+
+async function loadCategoriesData() {
+  try {
+    const response = await fetch("/data/categories.json");
+    const data = await response.json();
+    categoriesData = data.categories;
+  } catch (e) {
+    console.error("Failed to load categories.json", e);
+    categoriesData = [];
+  }
+}
+
 // ========== UTILITY FUNCTIONS ==========
 
 /**
  * Get text based on current language
  */
-function getText(obj, key) {
-  const currentLang = appState.language === "ar" ? "ar" : "en";
-  return obj[`${key}_${currentLang}`] || obj[key] || "";
-}
+// function getText(obj, key) {
+//   const currentLang = appState.language === "ar" ? "ar" : "en";
+//   return obj[`${key}_${currentLang}`] || obj[key] || "";
+// }
 
 /**
  * Get label based on language
@@ -907,6 +599,122 @@ function toggleLanguage() {
   document.documentElement.dir = newDir;
 
   location.reload();
+}
+
+/**
+ * Cart Management
+ */
+
+// Initialize cart from localStorage on app load (add this call inside your initializeApp())
+function initializeCart() {
+  try {
+    const savedCart = localStorage.getItem("cart");
+    appState.cart = savedCart ? JSON.parse(savedCart) : [];
+  } catch (e) {
+    console.error("Failed to load cart from storage", e);
+    appState.cart = [];
+  }
+  updateCartCount();
+}
+
+// Save current cart state to localStorage
+function saveCart() {
+  try {
+    localStorage.setItem("cart", JSON.stringify(appState.cart));
+  } catch (e) {
+    console.error("Failed to save cart to storage", e);
+  }
+}
+
+/**
+ * Add a product to the cart
+ * @param {string} productId - unique product id
+ * @param {number} qty - quantity to add
+ * @param {object} options - optional selected variant info, e.g. { color, size }
+ */
+function addToCart(productId, qty = 1, options = {}) {
+  if (!appState.cart) appState.cart = [];
+
+  const currentData =
+    appState.language === "ar" ? productsData.ar : productsData.en;
+  const product = currentData.find((p) => p.id === productId);
+  if (!product) {
+    console.error("addToCart: product not found", productId);
+    return;
+  }
+
+  // Check if the same product + same variant already exists in cart
+  const existingItem = appState.cart.find(
+    (item) =>
+      item.productId === productId &&
+      item.color === (options.color || null) &&
+      item.size === (options.size || null),
+  );
+
+  if (existingItem) {
+    existingItem.qty += qty;
+  } else {
+    appState.cart.push({
+      productId: productId,
+      title: product.title,
+      img: product.url,
+      price: product.price || 0,
+      color: options.color || null,
+      size: options.size || null,
+      qty: qty,
+    });
+  }
+
+  saveCart();
+  updateCartCount();
+}
+
+// Remove an item from the cart entirely
+function removeFromCart(productId, color, size) {
+  if (!appState.cart) return;
+  appState.cart = appState.cart.filter(
+    (item) =>
+      !(
+        item.productId === productId &&
+        item.color === color &&
+        item.size === size
+      ),
+  );
+  saveCart();
+  updateCartCount();
+}
+
+// Update quantity of an existing cart item
+function updateCartItemQty(productId, color, size, newQty) {
+  if (!appState.cart) return;
+  const item = appState.cart.find(
+    (i) => i.productId === productId && i.color === color && i.size === size,
+  );
+  if (item) {
+    item.qty = Math.max(1, newQty);
+    saveCart();
+    updateCartCount();
+  }
+}
+
+// Get total number of items in cart (sum of quantities)
+function getCartCount() {
+  if (!appState.cart) return 0;
+  return appState.cart.reduce((sum, item) => sum + item.qty, 0);
+}
+
+// Get total price of all items in cart
+function getCartTotal() {
+  if (!appState.cart) return 0;
+  return appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+}
+
+// Update the cart badge in the nav (matches your earlier nav cart button)
+function updateCartCount() {
+  const cartCountEl = document.getElementById("cartCount");
+  if (cartCountEl) {
+    cartCountEl.textContent = getCartCount();
+  }
 }
 
 /**
@@ -1598,7 +1406,7 @@ function initializeFooter() {
  */
 function createBanner(title, subTitle) {
   const titleLabel = getLabel(title, title);
-  const subTitleLabel = subTitle ? getLabel(subTitle, subTitle) : '';
+  const subTitleLabel = subTitle ? getLabel(subTitle, subTitle) : "";
 
   return `
     <div class="container-fluid bg-breadcrumb bg-dark border-bottom border-black-25">
@@ -1616,7 +1424,7 @@ function createBanner(title, subTitle) {
 
           <!-- Title -->
           <span class="px-2" style="opacity:0.4;">/</span>
-          <li class="breadcrumb-item ${subTitle ? '' : 'active'} text-capitalize">
+          <li class="breadcrumb-item ${subTitle ? "" : "active"} text-capitalize">
             ${
               subTitle
                 ? `<a href="#" 
@@ -1637,7 +1445,7 @@ function createBanner(title, subTitle) {
                   ${subTitleLabel}
                 </li>
               `
-              : ''
+              : ""
           }
 
         </ol>
@@ -1649,7 +1457,7 @@ function createBanner(title, subTitle) {
 /**
  * Set current page and update display
  */
-function setCurrentPage(pageId) {
+function setCurrentPage(pageId, productId) {
   // Hide all pages
   document.querySelectorAll(".page").forEach((page) => {
     page.style.display = "none";
@@ -1693,6 +1501,18 @@ function setCurrentPage(pageId) {
       if (mainHeader) mainHeader.style.display = "";
     }
 
+    // Update the URL to reflect the current page (and product, if applicable)
+    if (pageId === "single-product" && productId) {
+      appState.currentProductId = productId;
+      history.pushState(
+        { pageId, productId },
+        "",
+        `#single-product/${productId}`,
+      );
+    } else {
+      history.pushState({ pageId }, "", `#${pageId}`);
+    }
+
     // Load page-specific content if needed
     loadPageContent(pageId);
   }
@@ -1731,7 +1551,7 @@ function loadPageContent(pageId) {
       loadContactPage();
       break;
     case "single-product":
-      loadSingleProductPage();
+      loadSingleProductPage(appState.currentProductId);
       break;
   }
 }
@@ -2072,6 +1892,38 @@ function loadAboutPage() {
   });
 }
 
+/* ============================================================
+   PRODUCTS PAGE — complete file
+   ============================================================
+   Assumes these already exist in your app (loaded before this file):
+     - productsData     (array, from /data/products.json)
+     - categoriesData   (array, from /data/categories.json)
+     - appState         (global, has appState.language)
+     - getLabel(en, ar)
+     - createBanner(title)
+     - setCurrentPage(pageId, productId)  — your existing router
+
+   Real schema used (no renamed fields):
+     products.json:   id, categoryId, subCategoryId, category:{en,ar},
+                       sub_category:{en,ar}, title:{en,ar}, gallery[],
+                       price, oldPrice, rating, reviewCount, stockQty
+     categories.json: categoryId, name:{en,ar}, subCategories:[
+                         { subCategoryId, name:{en,ar} }
+                       ]
+     NOTE: subCategoryId (products.json) and subCategories (categories.json)
+     are the two additions agreed on earlier — add them to your real JSON
+     files if not already there.
+   ============================================================ */
+
+let filterState = { categoryId: null, subCategoryId: null };
+let productsPageEventsBound = false;
+
+const PRODUCTS_PAGE_SIZE = 12;
+let displayedProductsCount = PRODUCTS_PAGE_SIZE;
+
+const PRODUCTS_PER_PAGE = 12;
+let currentPage = 1;
+
 /**
  * Load products page
  */
@@ -2081,47 +1933,383 @@ function loadProductsPage() {
 
   const productHTML = `
         ${createBanner(getLabel("Products", "المنتجات"))}
-        <div class="container-fluid service overflow-hidden py-5">
-            <div class="container py-5">
-                <div class="section-title text-center mb-5">
-                    <div class="sub-style">
-                        <h5 class="sub-title px-3">${getLabel("CHECK OUR PRODUCTS", "اكتشف المنتجات")}</h5>
-                    </div>
-                    <h1 class="display-5 mb-4">${getLabel("Offer Tailor Made Products", "منتجات مخصصة حسب احتياجاتك")}</h1>
-                    <p class="mb-0">${getLabel("Discover our wide range of high-quality products", "استكشف مجموعة واسعة من المنتجات عالية الجودة")}</p>
-                </div>
+        <div class="container-fluid service overflow-hidden py-5 bg-light">
+            <div class="container">
                 <div class="row g-4">
-                    <div class="col-lg-6 col-xl-4">
-                        <div class="service-item">
-                            <div class="service-inner">
-                                <div class="service-img" style="height: 16rem;">
-                                    <img src="/images/b-5.jpg" class="img-fluid w-100 rounded" alt="Transport" style="width: 100%; height: 100%; object-fit: contain;">
+                    <!-- Desktop filter sidebar -->
+                    <aside class="col-lg-3 d-none d-lg-block">
+                        <div class="filter-panel">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">${getLabel("Filter Options", "الفلاتر")}</h5>
                                 </div>
-                                <div class="service-title">
-                                    <div class="service-title-name">
-                                        <div class="bg-primary text-center rounded-0 p-3 mx-5 mb-4">
-                                            <a href="#" class="h4 text-white mb-0">${getLabel("Transport Vehicles", "مركبات النقل")}</a>
-                                        </div>
-                                        <a class="btn bg-white shadow-sm text-secondary rounded-0 py-3 px-5 mb-4" href="#">
-                                            ${getLabel("Explore More", "استكشف المزيد")}
-                                        </a>
-                                    </div>
-                                    <div class="service-content pb-4 bg-primary">
-                                        <h4 class="text-white mb-4 py-3">${getLabel("Transport Vehicles", "مركبات النقل")}</h4>
-                                        <div class="px-4">
-                                            <p class="mb-4">${getLabel("High-quality transport solutions", "حلول نقل عالية الجودة")}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <hr>
+                            <div id="category-filter-container"></div>
+                            <div id="subcategory-filter-container"></div>
+                        </div>
+                    </aside>
+
+                    <!-- Mobile filters trigger -->
+                    <div class="col-12 d-lg-none">
+                        <button class="btn btn-primary filters-toggle-btn mb-2" type="button"
+                                data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
+                            <i class="fa-solid fa-sliders"></i>
+                        </button>
+                    </div>
+
+                    <!-- Mobile off-canvas -->
+                    <div class="offcanvas offcanvas-start mt-0" tabindex="-1" id="filtersOffcanvas">
+                        <div class="offcanvas-header pb-0">
+                            <h5 class="offcanvas-title">${getLabel("Filter Options", "الفلاتر")}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                        </div>
+                        <hr>
+                        <div class="offcanvas-body">
+                            <div id="category-filter-container-mobile"></div>
+                            <div id="subcategory-filter-container-mobile"></div>
                         </div>
                     </div>
+
+                    <!-- Grid + active filter chips -->
+                    <div class="col-lg-9">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-2" style="min-height:3rem;">
+                            <div id="active-filters-container" class="flex-grow-1"></div>
+                            <div class="text-muted small ms-auto ps-3" id="results-count"></div>
+                        </div>
+                        <div id="products-grid-container" class="row g-4"></div>
+                    </div>
+
                 </div>
             </div>
         </div>
     `;
 
   container.innerHTML = productHTML;
+
+  filterState = { categoryId: null, subCategoryId: null };
+  displayedProductsCount = PRODUCTS_PAGE_SIZE;
+  bindProductsPageEvents();
+  renderCategoryFilter();
+  renderSubCategoryFilter();
+  renderActiveFilterChips();
+  renderProductsGrid(applyFilters(productsData, filterState));
+}
+
+/* ------------------------------------------------------------
+   PURE FILTER FUNCTION
+   ------------------------------------------------------------ */
+function applyFilters(products, state) {
+  return products.filter((p) => {
+    if (state.categoryId && p.categoryId !== state.categoryId) return false;
+    if (state.subCategoryId && p.subCategoryId !== state.subCategoryId) return false;
+    return true;
+  });
+}
+
+/* ------------------------------------------------------------
+   EVENT BINDING — delegated on document, bound once
+   ------------------------------------------------------------ */
+function bindProductsPageEvents() {
+  if (productsPageEventsBound) return;
+  productsPageEventsBound = true;
+
+  document.addEventListener("change", (e) => {
+    if (e.target.matches('input[name="categoryFilter"]')) {
+      onCategoryFilterChange(e.target.value || null);
+    }
+    if (e.target.matches('input[name="subCategoryFilter"]')) {
+      onSubCategoryFilterChange(e.target.value || null);
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("#clear-filters-btn, #clear-filters-btn-mobile, #clear-filters-btn-empty")) {
+      clearAllFilters();
+      return;
+    }
+
+    const chipRemove = e.target.closest("[data-remove-filter]");
+    if (chipRemove) {
+      const type = chipRemove.dataset.removeFilter;
+      if (type === "category") onCategoryFilterChange(null);
+      if (type === "subcategory") onSubCategoryFilterChange(null);
+      return;
+    }
+
+    const card = e.target.closest("[data-product-id]");
+    if (card) {
+      setCurrentPage("single-product", Number(card.dataset.productId));
+    }
+
+    if (e.target.closest("#show-more-products-btn")) {
+      displayedProductsCount += PRODUCTS_PAGE_SIZE;
+      renderProductsGrid(applyFilters(productsData, filterState));
+    }
+  });
+}
+
+/* ------------------------------------------------------------
+   CATEGORY FILTER
+   ------------------------------------------------------------ */
+function renderCategoryFilter() {
+  const targets = [
+    document.getElementById("category-filter-container"),
+    document.getElementById("category-filter-container-mobile"),
+  ].filter(Boolean);
+
+  const itemsHtml = categoriesData
+    .map(
+      (cat) => `
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="categoryFilter"
+                   id="cat-${cat.categoryId}" value="${cat.categoryId}"
+                   ${filterState.categoryId === cat.categoryId ? "checked" : ""}>
+            <label class="form-check-label" for="cat-${cat.categoryId}">
+                ${getLabel(cat.name.en, cat.name.ar)}
+            </label>
+        </div>
+    `
+    )
+    .join("");
+
+  const html = `
+        <div class="filter-group mb-4">
+            <h6 class="fw-bold mb-3">${getLabel("Category", "الفئة")}</h6>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="categoryFilter"
+                       id="cat-all" value="" ${!filterState.categoryId ? "checked" : ""}>
+                <label class="form-check-label" for="cat-all">
+                    ${getLabel("All Categories", "كل الفئات")}
+                </label>
+            </div>
+            ${itemsHtml}
+        </div>
+    `;
+
+  targets.forEach((t) => (t.innerHTML = html));
+}
+
+function onCategoryFilterChange(categoryId) {
+  filterState.categoryId = categoryId;
+  filterState.subCategoryId = null;
+  displayedProductsCount = PRODUCTS_PAGE_SIZE;
+  renderCategoryFilter();
+  renderSubCategoryFilter();
+  renderActiveFilterChips();
+  renderProductsGrid(applyFilters(productsData, filterState));
+}
+
+/* ------------------------------------------------------------
+   SUB-CATEGORY FILTER
+   ------------------------------------------------------------ */
+function renderSubCategoryFilter() {
+  const targets = [
+    document.getElementById("subcategory-filter-container"),
+    document.getElementById("subcategory-filter-container-mobile"),
+  ].filter(Boolean);
+
+  if (!filterState.categoryId) {
+    targets.forEach((t) => (t.innerHTML = ""));
+    return;
+  }
+
+  const activeCategory = categoriesData.find((c) => c.categoryId === filterState.categoryId);
+  const subCats = activeCategory?.subCategories || [];
+
+  if (subCats.length === 0) {
+    targets.forEach((t) => (t.innerHTML = ""));
+    return;
+  }
+
+  const itemsHtml = subCats
+    .map(
+      (sub) => `
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="subCategoryFilter"
+                   id="sub-${sub.subCategoryId}" value="${sub.subCategoryId}"
+                   ${filterState.subCategoryId === sub.subCategoryId ? "checked" : ""}>
+            <label class="form-check-label" for="sub-${sub.subCategoryId}">
+                ${getLabel(sub.name.en, sub.name.ar)}
+            </label>
+        </div>
+    `
+    )
+    .join("");
+
+  const html = `
+        <div class="filter-group mb-4">
+            <h6 class="fw-bold mb-3">${getLabel("Sub-Category", "الفئة الفرعية")}</h6>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="subCategoryFilter"
+                       id="sub-all" value="" ${!filterState.subCategoryId ? "checked" : ""}>
+                <label class="form-check-label" for="sub-all">
+                    ${getLabel("All Sub-Categories", "كل الفئات الفرعية")}
+                </label>
+            </div>
+            ${itemsHtml}
+        </div>
+    `;
+
+  targets.forEach((t) => (t.innerHTML = html));
+}
+
+function onSubCategoryFilterChange(subCategoryId) {
+  filterState.subCategoryId = subCategoryId;
+  displayedProductsCount = PRODUCTS_PAGE_SIZE;
+  renderSubCategoryFilter();
+  renderActiveFilterChips();
+  renderProductsGrid(applyFilters(productsData, filterState));
+}
+
+/* ------------------------------------------------------------
+   ACTIVE FILTER CHIPS
+   ------------------------------------------------------------ */
+function renderActiveFilterChips() {
+  const container = document.getElementById("active-filters-container");
+  if (!container) return;
+
+  const clearFiltersBtn=`                                
+    <button type="button" class="btn btn-link text-decoration-none d-none d-lg-inline-block" id="clear-filters-btn">
+      ${getLabel("Clear All", "مسح الكل")}
+    </button>`;
+  
+    const chips = [];
+
+  if (filterState.categoryId) {
+    const cat = categoriesData.find((c) => c.categoryId === filterState.categoryId);
+    if (cat) {
+      chips.push(`
+                <span class="badge filter-chip me-2 mb-2 p-2 active-filter-chip">
+                    ${getLabel(cat.name.en, cat.name.ar)}
+                    <button type="button" class="btn-close small ps-2" style="width:8px; height:8px;" aria-label="Remove" data-remove-filter="category"></button>
+                </span>
+            `);
+    }
+  }
+
+  if (filterState.subCategoryId) {
+    const cat = categoriesData.find((c) => c.categoryId === filterState.categoryId);
+    const sub = cat?.subCategories?.find((s) => s.subCategoryId === filterState.subCategoryId);
+    if (sub) {
+      chips.push(`
+                <span class="badge filter-chip me-2 mb-2 p-2 active-filter-chip">
+                    ${getLabel(sub.name.en, sub.name.ar)}
+                    <button type="button" class="btn-close" style="width:8px; height:8px;" aria-label="Remove" data-remove-filter="subcategory"></button>
+                </span>
+            `);
+    }
+  }
+
+  if (filterState.categoryId) chips.push(clearFiltersBtn)
+  container.innerHTML = chips.join("");
+}
+
+function clearAllFilters() {
+  filterState = { categoryId: null, subCategoryId: null };
+  displayedProductsCount = PRODUCTS_PAGE_SIZE;
+  renderCategoryFilter();
+  renderSubCategoryFilter();
+  renderActiveFilterChips();
+  renderProductsGrid(applyFilters(productsData, filterState));
+}
+
+/* ------------------------------------------------------------
+   PRODUCTS GRID
+   ------------------------------------------------------------ */
+function renderProductsGrid(products) {
+  const container = document.getElementById("products-grid-container");
+  const countEl = document.getElementById("results-count");
+  if (!container) return;
+
+  if (countEl) {
+    countEl.textContent = getLabel(
+      `${displayedProductsCount} result${displayedProductsCount === 1 ? "" : "s"}`,
+      `${displayedProductsCount} نتيجة`
+    );
+  }
+
+  if (products.length === 0) {
+    container.innerHTML = `
+            <div class="col-12">
+                <div class="empty-state text-center py-5">
+                    <i class="bi bi-inbox" style="font-size:2.5rem;color:#ced4da;"></i>
+                    <h5 class="mt-3">${getLabel("No products found", "لم يتم العثور على منتجات")}</h5>
+                    <p class="mb-3">${getLabel("Try a different category or sub-category.", "جرّب فئة أو فئة فرعية مختلفة.")}</p>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="clear-filters-btn-empty">
+                        ${getLabel("Clear Filters", "مسح الفلاتر")}
+                    </button>
+                </div>
+            </div>
+        `;
+    return;
+  }
+
+  const visibleProducts = products.slice(0, displayedProductsCount);
+  const hasMore = displayedProductsCount < products.length;
+
+  const cardsHtml = visibleProducts
+    .map(
+      (product) => /*html*/`
+        <div class="col-6 col-md-4 col-xl-4">
+                <div class="card product-card h-100 border-0 ">
+                    <div class="product-img-wrap bg-light">
+                        <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
+                    </div>
+
+                    <div class="card-body">
+                        <div class="price-section mt-3">
+                            ${
+                              product.oldPrice
+                                ? `<span class="discount-badge">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
+                                : ""
+                            }
+
+                        <div class="price-row">
+                            <span class="current-price">
+                                EGP ${product.price}
+                            </span>
+
+                            ${
+                              product.oldPrice
+                                ? `<span class="old-price">EGP ${product.oldPrice}</span>`
+                                : ""
+                            }
+                        </div>
+                    </div>
+            <span class="badge bg-light text-dark mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
+
+            <h6 class="card-title mb-1">${getLabel(product.title.en, product.title.ar)}</h6>
+
+            <p class="card-text text-muted small product-desc">
+                ${getLabel(product.desc.en, product.desc.ar)}
+            </p>
+        </div>
+    </div>
+        </div>
+    `
+    )
+    .join("");
+
+  const showMoreHtml = hasMore
+    ? `
+        <div class="col-12 text-center mt-4">
+            <button type="button" class="btn btn-primary px-5 py-2" id="show-more-products-btn">
+                ${getLabel("Show More", "عرض المزيد")}
+            </button>
+        </div>
+    `
+    : "";
+
+  container.innerHTML = cardsHtml + showMoreHtml;
+
+  
+  container.querySelectorAll(".product-card").forEach((card, i) => {
+        console.log(cardsHtml);
+      card.style.cursor = "pointer";
+      card.addEventListener("click", () => {
+        setCurrentPage("single-product", visibleProducts[i].id);
+      });
+    });
+  
 }
 
 /**
@@ -2277,7 +2465,7 @@ function loadContactPage() {
       },
       {
         icon: "fas fa-lock",
-        title: { en: "Secured Payment", ar: "دفع آمن" },
+        title: { en: "Secured", ar: "آمن" },
         lines: [
           {
             en: "Your data and payment details are always kept safe.",
@@ -2316,14 +2504,14 @@ function loadContactPage() {
         ${createBanner(getLabel("Contact Us", "اتصل بنا"))}
 
         <!-- Quick Contact + Form -->
-        <div class="container-fluid contact overflow-hidden pt-5 bg-light">
+        <div class="container-fluid contact overflow-hidden bg-light">
             <div class="container p-5">
                 <div class="row g-5 mb-5">
 
                     <!-- Left: Quick Contact Info -->
-                    <div class="col-lg-6 p-5">
+                    <div class="col-lg-6 pt-5 px-0 mt-0 mt-xl-5">
                         <h5 class="sub-title px-3 py-0">${getLabel("Quick Contact", "اتصل بنا")}</h5>
-                        <p class="ps-3 pb-3 w-75">
+                        <p class="ps-3 pb-3">
                             ${getLabel(
                               "We are here to help! Whether you have a question, feedback, or need support, our team is ready to assist you.",
                               "نحن هنا لمساعدتك! سواء كان لديك سؤال، أو ملاحظات، أو تحتاج إلى دعم، فإن فريقنا مستعد لتقديم المساعدة لك.",
@@ -2333,12 +2521,12 @@ function loadContactPage() {
                         <div class="ps-3">
                             <h5 class="fw-bolder pb-2">
                                 ${getLabel("Phone", "الهاتف")}:<br>
-                                <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://wa.me/201556336160" target="_blank" dir="ltr">+20 15 56336160</a>
+                                <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://wa.me/${RESERVATION_WHATSAPP}" target="_blank" dir="ltr">+${RESERVATION_WHATSAPP}</a>
                             </h5>
 
                             <h5 class="fw-bolder pb-2">
                                 ${getLabel("Email", "البريد")}:<br>
-                                <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="mailto:kaderfactory38@gmail.com" target="_blank">kaderfactory38@gmail.com</a>
+                                <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="mailto:${RESERVATION_EMAIL}" target="_blank">${RESERVATION_EMAIL}</a>
                             </h5>
 
                             <h5 class="fw-bolder pb-2">
@@ -2712,19 +2900,17 @@ function loadLoginPage() {
   const loginPage = document.getElementById("loginPageContent");
   if (!loginPage) return;
 
-  loginPage.innerHTML = `
+  loginPage.innerHTML = /*html*/ `
         <div class="container-fluid p-0">
             <div class="row g-0 min-vh-100">
 
                 <!-- Left: Branded visual panel -->
                 <div class="col-lg-4 d-none d-lg-flex signup-visual-panel position-relative v-100">
                     <div class="signup-visual-overlay"></div>
-                    <div class="position-relative d-flex align-items-start flex-column justify-content-between p-5">
-
-                    <a href="/#home" >
-                    <img src="/images/logo-kader-white.png" alt="KADER" style="max-height: 3.2rem; object-fit:contain;">
-                    </a>
-
+                      <div class="position-relative d-flex align-items-start flex-column justify-content-between p-5">
+                        <a href="/#home" >
+                          <img src="/images/logo-kader-white.png" alt="KADER" style="max-height: 3.2rem; object-fit:contain;">
+                        </a>
                         <div>
                             <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel("Welcome Back", "مرحباً بعودتك")}</h2>
                             <p class="text-white-50 mb-4" style="max-width: 400px;">
@@ -2734,17 +2920,16 @@ function loadLoginPage() {
                                 )}
                             </p>
                             <div class="d-flex gap-4">
-                                <div>
-                                    <h4 class="fw-bold mb-0">70+</h4>
-                                    <span class="text-white-50 small">${getLabel("Years Experience", "سنوات خبرة")}</span>
-                                </div>
-                                <div>
-                                    <h4 class="fw-bold mb-0">100+</h4>
-                                    <span class="text-white-50 small">${getLabel("Industrial Partners", "شريك صناعي")}</span>
-                                </div>
+                              <div>
+                                <h4 class="fw-bold mb-0">70+</h4>
+                                <span class="text-white-50 small">${getLabel("Years Experience", "سنوات خبرة")}</span>
+                              </div>
+                            <div>
+                              <h4 class="fw-bold mb-0">100+</h4>
+                              <span class="text-white-50 small">${getLabel("Industrial Partners", "شريك صناعي")}</span>
                             </div>
+                          </div>
                         </div>
-
                         <span class="text-white-50 small">${getLabel("© 2026 Kader Factory for Advanced Industries", "© 2026 مصنع قادر للصناعات المتطورة")}</span>
                     </div>
                 </div>
@@ -2843,210 +3028,359 @@ function loadLoginPage() {
  */
 
 function loadSingleProductPage(productId) {
-    const container = document.getElementById("singleProductContent");
-    if (!container) return;
+  const container = document.getElementById("singleProductContent");
+  if (!container) return;
 
-    const currentData = appState.language === 'ar' ? productsData.ar : productsData.en;
-    const product = currentData.find(p => p.id === productId) || currentData[0];
+  const product = productsData.find((p) => p.id === productId);
 
-    if (!product) {
-        container.innerHTML = `<div class="container py-5 text-center text-muted">${getLabel('Product not found', 'المنتج غير موجود')}</div>`;
-        return;
-    }
+  if (!product) {
+    container.innerHTML = `<div class="container py-5 text-center text-muted">${getLabel("Product not found", "المنتج غير موجود")}</div>`;
+    return;
+  }
 
-    // ===== Data (adjust field names to match your real product objects) =====
-    const gallery = product.gallery || [product.url, product.url, product.url];
-    const price = product.price || 0;
-    const colors = product.colors || [
-        { name: 'Black', nameAr: 'أسود', hex: '#1a1a1a' },
-        { name: 'Red', nameAr: 'أحمر', hex: '#c0392b' },
-        { name: 'White', nameAr: 'أبيض', hex: '#f5f5f5' }
-    ];
-    const sizes = product.sizes || [{ en: 'One Size', ar: 'مقاس واحد' }];
+  // REMOVED — RESERVATION_WHATSAPP / RESERVATION_EMAIL already declared
+  // at the top of your file; no need to redeclare them here.
 
-    const specGroups = product.specGroups || [
-        {
-            titleEn: 'Performance & Motor', titleAr: 'الأداء والمحرك',
-            items: [
-                { en: '1500W electric motor delivering stable power and high efficiency', ar: 'محرك كهربائي 1500 وات يوفر طاقة ثابتة وكفاءة عالية' },
-                { en: 'Maximum speed ranging from 40 to 50 km/h', ar: 'سرعة قصوى تتراوح بين 40 و50 كم/س' },
-                { en: 'Driving range of 40–50 km per charge (depending on usage conditions)', ar: 'مدى قيادة من 40 إلى 50 كم لكل شحنة (حسب ظروف الاستخدام)' }
-            ]
-        },
-        {
-            titleEn: 'Battery & Charging', titleAr: 'البطارية والشحن',
-            items: [
-                { en: 'High-efficiency 60V – 32Ah lithium battery', ar: 'بطارية ليثيوم عالية الكفاءة 60 فولت – 32 أمبير/ساعة' },
-                { en: 'Fast charging system with a charging time of only 4 to 6 hours', ar: 'نظام شحن سريع بزمن شحن من 4 إلى 6 ساعات فقط' }
-            ]
-        },
-        {
-            titleEn: 'Durability & Structure', titleAr: 'المتانة والتصميم',
-            items: [
-                { en: 'Load capacity up to 250 kg', ar: 'سعة تحميل تصل إلى 250 كجم' },
-                { en: 'Robust design ensuring stability and safety during driving', ar: 'تصميم قوي يضمن الثبات والأمان أثناء القيادة' }
-            ]
-        },
-        {
-            titleEn: 'Features & Technology', titleAr: 'المميزات والتقنية',
-            items: [
-                { en: 'Remote control system with 2 remotes (dual keys) for ease of use and enhanced security', ar: 'نظام تحكم عن بعد بريموتين (مفتاحين) لسهولة الاستخدام وأمان إضافي' },
-                { en: 'Digital display for clear monitoring of essential data', ar: 'شاشة رقمية لعرض البيانات الأساسية بوضوح' },
-                { en: 'USB port for charging devices on the go', ar: 'منفذ USB لشحن الأجهزة أثناء التنقل' }
-            ]
-        },
-        {
-            titleEn: 'Safety & Comfort', titleAr: 'السلامة والراحة',
-            items: [
-                { en: 'Front and rear disc brakes for maximum safety', ar: 'فرامل قرصية أمامية وخلفية لأقصى درجات الأمان' },
-                { en: 'Tubeless tires to reduce breakdown risks and improve reliability', ar: 'إطارات بدون أنبوب لتقليل مخاطر الأعطال وتحسين الموثوقية' }
-            ]
-        }
-    ];
+  // ===== Data — read directly from the JSON, no fallback defaults =====
+  const gallery = product.gallery;
+  const price = product.price;
+  const colors = product.colors;
+  const sizes = product.sizes;
+  const specGroups = product.specGroups;
+  const warranty = product.warranty;
 
-    const warranty = product.warranty || [
-        { en: '3-year warranty on the battery', ar: 'ضمان 3 سنوات على البطارية' },
-        { en: '2-year warranty on the scooter against manufacturing defects', ar: 'ضمان سنتين على السكوتر ضد عيوب التصنيع' }
-    ];
+  const productTitle = getLabel(product.title.en, product.title.ar);
+  const productDesc = getLabel(product.desc.en, product.desc.ar);
+  const productSubCategory = product.sub_category
+    ? getLabel(product.sub_category.en, product.sub_category.ar)
+    : "";
 
-    const relatedProducts = currentData.filter(p => p.category === product.category && p !== product).slice(0, 4);
+  const relatedProducts = productsData
+    .filter((p) => p.categoryId === product.categoryId && p.id !== product.id)
+    .slice(0, 4);
 
-    // ===== Reservation contact placeholders (reuse your real contact details) =====
-    const RESERVATION_WHATSAPP = '201556336160'; // placeholder, matches contact page number without '+'
-    const RESERVATION_EMAIL = 'kaderfactory38@gmail.com'; // placeholder, matches contact page email
+  // ===== Render helpers =====
 
-    // ===== Render helpers =====
-
-    const galleryThumbsHtml = gallery.map((img, i) => `
-        <div class="product-thumb ${i === 0 ? 'active' : ''}" data-img="${img}" data-index="${i}">
+  const galleryThumbsHtml = gallery
+    .map(
+      (img, i) => `
+        <div class="product-thumb ${i === 0 ? "active" : ""}" data-img="${img}" data-index="${i}">
             <img src="${img}" alt="${product.title} ${i + 1}" class="img-fluid">
         </div>
-    `).join('');
+    `,
+    )
+    .join("");
 
-    const colorSwatchesHtml = colors.map((c, i) => `
-        <button type="button" class="color-swatch ${i === 0 ? 'active' : ''}" data-color="${getLabel(c.name, c.nameAr)}" style="background:${c.hex};" title="${getLabel(c.name, c.nameAr)}"></button>
-    `).join('');
+  const colorSwatchesHtml = colors
+    .map(
+      (c, i) => `
+        <button type="button" class="color-swatch ${i === 0 ? "active" : ""}" data-color="${getLabel(c.name, c.nameAr)}" style="background:${c.hex};" title="${getLabel(c.name, c.nameAr)}"></button>
+    `,
+    )
+    .join("");
 
-    const sizeOptionsHtml = sizes.map((s, i) => `
-        <button type="button" class="size-option ${i === 0 ? 'active' : ''}" data-size="${getLabel(s.en, s.ar)}">${getLabel(s.en, s.ar)}</button>
-    `).join('');
+  const sizeOptionsHtml = sizes
+    .map(
+      (s, i) => `
+        <button type="button" class="size-option ${i === 0 ? "active" : ""}" data-size="${getLabel(s.en, s.ar)}">${getLabel(s.en, s.ar)}</button>
+    `,
+    )
+    .join("");
 
-    const specGroupsHtml = specGroups.map((group, i) => `
-        <div class="spec-group-item border-bottom">
+  const specGroupsHtml = specGroups
+    .map(
+      (group, i) => `
+        <div class="spec-group-item border-bottom border-black-25">
             <button class="spec-group-toggle d-flex align-items-center justify-content-between w-100 bg-transparent border-0 py-3" type="button" data-bs-toggle="collapse" data-bs-target="#specGroup${i}">
                 <h6 class="fw-bold mb-0">${getLabel(group.titleEn, group.titleAr)}</h6>
                 <i class="fas fa-chevron-down spec-chevron"></i>
             </button>
-            <div class="collapse ${i === 0 ? 'show' : ''}" id="specGroup${i}">
+            <div class="collapse" id="specGroup${i}">
                 <ul class="text-muted small mb-3 ps-3">
-                    ${group.items.map(item => `<li class="mb-1">${getLabel(item.en, item.ar)}</li>`).join('')}
+                    ${group.items.map((item) => `<li class="mb-1">${getLabel(item.en, item.ar)}</li>`).join("")}
                 </ul>
             </div>
         </div>
-    `).join('');
+    `,
+    )
+    .join("");
 
-    const relatedHtml = relatedProducts.map(p => `
-        <div class="col-6 col-md-3">
-            <div class="card h-100 border-0 shadow-sm product-related-card" onclick="loadSingleProductPage('${p.id}')">
-                <img src="${p.url}" class="card-img-top" style="height: 160px; object-fit: cover;" alt="${p.title}">
-                <div class="card-body">
-                    <h6 class="card-title text-truncate mb-1">${p.title}</h6>
-                    <span class="text-muted small">${p.sub_category || ''}</span>
-                </div>
-            </div>
+  const relatedHtml = relatedProducts
+    .map(
+      (p) => /*html*/ `
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card product-card h-100 border-0 ">
+                    <div class="product-img-wrap bg-light">
+                        <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
+                    </div>
+
+                    <div class="card-body">
+                        <div class="price-section mt-3">
+                            ${
+                              product.oldPrice
+                                ? `<span class="discount-badge">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
+                                : ""
+                            }
+
+                        <div class="price-row">
+                            <span class="current-price">
+                                EGP ${product.price}
+                            </span>
+
+                            ${
+                              product.oldPrice
+                                ? `<span class="old-price">EGP ${product.oldPrice}</span>`
+                                : ""
+                            }
+                        </div>
+                    </div>
+            <span class="badge bg-light text-dark mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
+
+            <h6 class="card-title mb-1">${getLabel(product.title.en, product.title.ar)}</h6>
+
+            <p class="card-text text-muted small product-desc">
+                ${getLabel(product.desc.en, product.desc.ar)}
+            </p>
         </div>
-    `).join('');
+    </div>
+    </div>
+      `,
+    )
+    .join("");
 
-    // ===== Render page =====
+  /**Social Links Handler */
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".copy-link");
 
-    container.innerHTML = `
-        <div class="container-fluid overflow-hidden py-4 bg-white border-bottom">
-            <div class="container">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 small">
-                        <li class="breadcrumb-item"><a href="#" onclick="setCurrentPage('home')">${getLabel('Home', 'الرئيسية')}</a></li>
-                        <li class="breadcrumb-item"><a href="#" onclick="setCurrentPage('products')">${getLabel('Products', 'المنتجات')}</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">${product.title}</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+    if (!btn) return;
 
-        <div class="container-fluid overflow-hidden py-5 bg-white">
-            <div class="container">
+    await navigator.clipboard.writeText(btn.dataset.url);
+
+    // Optional
+    btn.innerHTML = `<i class="fas fa-check"></i>`;
+
+    setTimeout(() => {
+      btn.innerHTML = `<i class="fas fa-link"></i>`;
+    }, 1500);
+  });
+
+  const shareLinksHtml = shareLinks
+    .map((s) => {
+      if (s.copy) {
+        return `
+            <button type="button"
+                    class="btn btn-white fs-5 px-2 copy-link"
+                    data-url="${window.location.href}"
+                    aria-label="${s.label}">
+                <i class="${s.icon}"></i>
+            </button>
+        `;
+      }
+
+      return `
+        <a href="${s.url}"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn btn-white fs-5 px-2"
+           aria-label="${s.label}">
+            <i class="${s.icon}"></i>
+        </a>
+    `;
+    })
+    .join("");
+
+  // ===== Render =====
+  const policyTabButtonsHtml = Object.entries(policyTabsContent)
+    .map(
+      ([key, tab], i) => `
+          <li class="nav-item">
+              <button class="nav-link ${i === 0 ? "active" : ""}" data-bs-toggle="tab" data-bs-target="#${key}Tab" type="button">
+                  <i class="${tab.icon} me-2"></i>${getLabel(tab.tabLabel.en, tab.tabLabel.ar)}
+              </button>
+          </li>
+      `,
+    )
+    .join("");
+
+  const policyTabPanesHtml = Object.entries(policyTabsContent)
+    .map(
+      ([key, tab], i) => `
+          <div class="tab-pane fade ${i === 0 ? "show active" : ""}" id="${key}Tab">
+              <p class="text-muted mb-3">${getLabel(tab.intro.en, tab.intro.ar)}</p>
+              <ul class="text-muted ${tab.linkLabel ? "mb-3" : "mb-0"}">
+                  ${tab.points.map((point) => `<li class="mb-2">${getLabel(point.en, point.ar)}</li>`).join("")}
+              </ul>
+              ${
+                tab.linkLabel
+                  ? `
+                  <a href="#" class="btn btn-link" onclick="setCurrentPage('${tab.linkPage}')">
+                      ${getLabel(tab.linkLabel.en, tab.linkLabel.ar)}</i>
+                  </a>
+              `
+                  : ""
+              }
+          </div>
+      `,
+    )
+    .join("");
+
+  // ===== Res Section =====
+  // Assumes product has a stockQty field — add this to your product data objects
+  const stockQty = product.stockQty || 20; // fallback default if not set
+  const maxSelectable = Math.min(stockQty, 20); // cap the dropdown length even if stock is huge
+
+  const qtyOptionsHtml = Array.from({ length: maxSelectable }, (_, i) => i + 1)
+    .map((n) => `<option value="${n}">${n}</option>`)
+    .join("");
+
+  // ===== Render page =====
+
+  container.innerHTML = /*html*/ `
+    ${createBanner(getLabel("All Products", "المنتجات"), getLabel("Product", "المنتج"))}
+
+        <div class="container-fluid overflow-hidden py-5 bg-light">
+            <div class="container border-bottom pb-5">
                 <div class="row g-5">
 
-                    <!-- Left: Gallery -->
-                    <div class="col-lg-5">
-                        <div class="product-main-image mb-3 position-relative">
-                            <img src="${gallery[0]}" class="img-fluid w-100" id="mainProductImage" alt="${product.title}">
-                            <button type="button" class="product-zoom-btn" id="openGalleryOverlay" aria-label="${getLabel('View full image', 'عرض الصورة كاملة')}">
-                                <i class="fas fa-magnifying-glass-plus"></i>
-                            </button>
-                        </div>
-                        <div class="d-flex gap-2 product-thumbs-row">
-                            ${galleryThumbsHtml}
+            <!-- Left: Gallery -->
+            <div class="col-lg-5">
+                <div class="d-flex gap-3 gallery-wrapper" id="productGalleryWrapper">
+
+                    <!-- Vertical thumbnails -->
+                    <div class="swiper galleryOverlayThumbs">
+                        <div class="swiper-wrapper">
+                            ${gallery
+                              .map(
+                                (img) => `
+                                <div class="swiper-slide">
+                                    <img src="${img}" class="img-fluid" alt="${product.title} thumb">
+                                </div>
+                            `,
+                              )
+                              .join("")}
                         </div>
                     </div>
 
+                    <!-- Main image swiper -->
+                    <div class="swiper galleryOverlaySwiper position-relative">
+                        <div class="swiper-wrapper">
+                            ${gallery
+                              .map(
+                                (img) => `
+                                <div class="swiper-slide d-flex align-items-center justify-content-center">
+                                    <img src="${img}" class="img-fluid" alt="${product.title}">
+                                </div>
+                            `,
+                              )
+                              .join("")}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+
+                        <button type="button" class="btn btn-primary position-absolute d-flex justify-content-center align-items-center top-0 end-0 rounded-circle m-2" style="height:40px; width:40px; z-index: 10;" id="openGalleryOverlay" aria-label="${getLabel("View full image", "عرض الصورة كاملة")}">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
                     <!-- Middle: Product Info -->
                     <div class="col-lg-4">
-                        <h5 class="text-muted small mb-1">${product.sub_category || ''}</h5>
-                        <h2 class="fw-bold mb-3">${product.title}</h2>
+                        <h5 class=" small mb-0">${getLabel(product.sub_category.en, product.sub_category.ar)}</h5>
+                        <h2 class="fw-bold mb-0">${getLabel(product.title.en, product.title.ar)}</h2>
 
-                        <div class="mb-3">
-                            <span class="fs-3 fw-bold text-primary">${price.toLocaleString()} ${getLabel('EGP', 'ج.م')}</span>
+                        <p class="text-muted m-0">${getLabel(product.desc.en, product.desc.ar)}</p>
+
+                        <div class="">
+                            ${
+                              product.oldPrice
+                                ? `<span class="text-danger fs-3 pe-2">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
+                                : ""
+                            }
+                          <span class="current-price fs-3 fw-bold text-primary">
+                            ${getLabel("EGP", "ج.م")} ${product.price}
+                          </span>
+                            ${
+                              product.oldPrice
+                                ? `
+                                <div class="d-flex gap-1 align-items-center">
+                                  <span class="small">${getLabel("List Price", "")}: </span>
+                                  <span class="old-price">${getLabel("EGP", "ج.م")} ${product.oldPrice}</span>
+                                </div>
+                                `
+                                : ""
+                            }
                         </div>
 
-                        <p class="text-muted">${product.desc}</p>
+                        <div class="d-flex justify-content-start align-items-center">
+                        <p class="m-0 pe-2">Share</p>
+                        ${shareLinksHtml}
+                        </div>
 
                         <hr>
 
-                        <h6 class="fw-bold mb-3">${getLabel('Technical Specifications', 'المواصفات الفنية')}</h6>
+                        <h5 class="sub-title p-0 pt-3">${getLabel("Details", "مواصفات المنتج")}</h5>
                         <div class="spec-groups-wrapper">
                             ${specGroupsHtml}
                         </div>
 
-                        <hr>
 
-                        <h6 class="fw-bold mb-2">${getLabel('Warranty', 'الضمان')}</h6>
-                        <ul class="text-muted small">
-                            ${warranty.map(w => `<li class="mb-1">${getLabel(w.en, w.ar)}</li>`).join('')}
-                        </ul>
                     </div>
 
                     <!-- Right: Reservation Box -->
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 d">
                         <div class="buy-box border rounded-3 p-4">
                             <div class="mb-3">
-                                <span class="fs-4 fw-bold text-primary">${price.toLocaleString()} ${getLabel('EGP', 'ج.م')}</span>
+                                <span class="fs-4 fw-bold text-primary">${price.toLocaleString()} ${getLabel("EGP", "ج.م")}</span>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label small fw-semibold">${getLabel('Select Color', 'اختر اللون')}</label>
+                                <label class="form-label small fw-semibold">${getLabel("Select Color", "اختر اللون")}</label>
                                 <div class="d-flex gap-2" id="colorSwatches">
                                     ${colorSwatchesHtml}
                                 </div>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label small fw-semibold">${getLabel('Select Size', 'اختر المقاس')}</label>
+                                <label class="form-label small fw-semibold">${getLabel("Select Size", "اختر المقاس")}</label>
                                 <div class="d-flex gap-2 flex-wrap" id="sizeOptions">
                                     ${sizeOptionsHtml}
                                 </div>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label small fw-semibold">${getLabel('Quantity', 'الكمية')}</label>
-                                <div class="input-group" style="max-width: 140px;">
-                                    <button class="btn btn-outline-secondary" type="button" id="qtyDecrease">-</button>
-                                    <input type="number" class="form-control text-center" id="productQty" value="1" min="1">
-                                    <button class="btn btn-outline-secondary" type="button" id="qtyIncrease">+</button>
-                                </div>
+                                <label class="form-label small fw-semibold" for="productQty">${getLabel("Quantity", "الكمية")}</label>
+                                <select class="form-select ${stockQty === 0 ? "d-none" : ""}" id="productQty" style="max-width: 140px;">
+                                    ${qtyOptionsHtml}
+                                </select>
+                                ${
+                                  stockQty === 0
+                                    ? `
+                                    <div class="form-text text-danger small mt-1">
+                                        ${getLabel(`Out of stock`, ` غير متاح`)}
+                                    </div>`
+                                    : stockQty <= 10
+                                      ? `
+                                    <div class="form-text text-danger small mt-1">
+                                        ${getLabel(`Only ${stockQty} left in stock`, `متبقي ${stockQty} فقط في المخزون`)}
+                                    </div>
+                                `
+                                      : ""
+                                }
                             </div>
 
-                            <button class="btn btn-primary w-100 py-3 rounded-0 mb-3" id="openReservationModal">
-                                ${getLabel('Request Reservation', 'طلب حجز')}
+                            <button class="btn btn-primary w-100 py-2 rounded-0 mb-2" id="addToCartBtn" ${stockQty === 0 ? "disabled" : ""}>
+                                ${getLabel("Add to Cart", "أضف إلى السلة")}
+                            </button>
+
+                            <button class="btn btn-secondary w-100 py-2 rounded-0 mb-2" id="buyNowBtn" ${stockQty === 0 ? "disabled" : ""}>
+                                ${getLabel("Buy Now", "اشترِ الآن")}
+                            </button>
+                            
+                            <button class="btn btn-warning w-100 py-2 rounded-0 mb-3" id="openReservationModal"  ${stockQty === 0 ? "" : "hidden"}>
+                                ${getLabel("Request Reservation", "طلب حجز")}
                             </button>
 
                             <hr>
@@ -3054,16 +3388,16 @@ function loadSingleProductPage(productId) {
                             <div class="d-flex align-items-start gap-2 mb-3">
                                 <i class="fas fa-shield-alt text-primary mt-1"></i>
                                 <div>
-                                    <div class="small fw-semibold">${getLabel('Quality Guaranteed', 'جودة مضمونة')}</div>
-                                    <div class="small text-muted">${getLabel('Manufactured to international standards', 'مُصنّع وفق المعايير الدولية')}</div>
+                                    <div class="small fw-semibold">${getLabel("Quality Guaranteed", "جودة مضمونة")}</div>
+                                    <div class="small text-muted">${getLabel("Manufactured to international standards", "مُصنّع وفق المعايير الدولية")}</div>
                                 </div>
                             </div>
 
                             <div class="d-flex align-items-start gap-2">
                                 <i class="fas fa-undo text-primary mt-1"></i>
                                 <div>
-                                    <div class="small fw-semibold">${getLabel('Return Policy', 'سياسة الإرجاع')}</div>
-                                    <div class="small text-muted">${getLabel('14-day return window', 'فترة إرجاع 14 يوماً')}</div>
+                                    <div class="small fw-semibold">${getLabel("Return Policy", "سياسة الإرجاع")}</div>
+                                    <div class="small text-muted">${getLabel("14-day return window", "فترة إرجاع 14 يوماً")}</div>
                                 </div>
                             </div>
                         </div>
@@ -3073,54 +3407,51 @@ function loadSingleProductPage(productId) {
             </div>
         </div>
 
-        <!-- Return Policy -->
-        <div class="container-fluid overflow-hidden py-5 bg-light">
+        <!-- Policies: Return / Warranty / Delivery Tabs -->
+        <div class="container-fluid overflow-hidden bg-light">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-9">
-                        <h4 class="fw-bold mb-3">${getLabel('Return Policy', 'سياسة الإرجاع')}</h4>
-                        <p class="text-muted mb-3">
-                            ${getLabel(
-                                'We always strive to ensure our customers are satisfied with the products they purchase. If you are not satisfied with any product, we offer a flexible return policy under the following conditions:',
-                                'نحرص دائماً على رضا عملائنا عن المنتجات التي يشترونها. في حال عدم رضاك عن أي منتج، نوفر سياسة إرجاع مرنة وفق الشروط التالية:'
-                            )}
-                        </p>
-                        <ul class="text-muted">
-                            <li class="mb-2">${getLabel('Return Period: Within 14 days of receiving the product, provided it is unused and in its original packaging.', 'فترة الإرجاع: خلال 14 يوماً من استلام المنتج، بشرط أن يكون غير مستخدم وفي عبوته الأصلية.')}</li>
-                            <li class="mb-2">${getLabel('Condition: The product must be unused, in good condition, with all accessories and tags included.', 'الحالة: يجب أن يكون المنتج غير مستخدم وبحالة جيدة، مع جميع الملحقات والبطاقات.')}</li>
-                            <li class="mb-2">${getLabel('Proof of Purchase: Please provide a receipt or invoice with the returned product.', 'إثبات الشراء: يرجى إرفاق الفاتورة أو الإيصال مع المنتج المرتجع.')}</li>
-                            <li class="mb-2">${getLabel('Refunds: Once inspected, refunds are processed to the original payment method within 5–10 business days.', 'الاسترداد: بعد الفحص، تتم إعادة المبلغ بنفس وسيلة الدفع خلال 5 إلى 10 أيام عمل.')}</li>
-                            <li class="mb-2">${getLabel('Shipping Fees: Shipping fees are non-refundable.', 'رسوم الشحن: رسوم الشحن غير قابلة للاسترداد.')}</li>
-                        </ul>
-                    </div>
+                <ul class="nav nav-tabs policy-tabs" id="policyTabs" role="tablist">
+                    ${policyTabButtonsHtml}
+                </ul>
+
+                <div class="tab-content bg-white p-4 p-lg-5 rounded-bottom shadow-sm pb-5">
+                    ${policyTabPanesHtml}
                 </div>
             </div>
         </div>
 
         <!-- Related Products -->
-        ${relatedProducts.length > 0 ? `
-        <div class="container-fluid overflow-hidden py-5 bg-white">
-            <div class="container">
-                <h4 class="fw-bold mb-4">${getLabel('You Might Also Like', 'قد يعجبك أيضاً')}</h4>
+        ${
+          relatedProducts.length > 0
+            ? `
+        <div class="container-fluid overflow-hidden py-5 bg-light">
+            <div class="container border-top pt-5">
+                <h4 class="fw-bold mb-4">${getLabel("You Might Also Like", "قد يعجبك أيضاً")}</h4>
                 <div class="row g-4">
                     ${relatedHtml}
                 </div>
             </div>
         </div>
-        ` : ''}
+        `
+            : ""
+        }
 
         <!-- Fullscreen Gallery Overlay -->
         <div class="product-gallery-overlay d-none" id="galleryOverlay">
-            <button type="button" class="gallery-overlay-close" id="closeGalleryOverlay" aria-label="${getLabel('Close', 'إغلاق')}">
+            <button type="button" class="gallery-overlay-close" id="closeGalleryOverlay" aria-label="${getLabel("Close", "إغلاق")}">
                 <i class="fas fa-times"></i>
             </button>
             <div class="swiper galleryOverlaySwiper">
                 <div class="swiper-wrapper">
-                    ${gallery.map(img => `
+                    ${gallery
+                      .map(
+                        (img) => `
                         <div class="swiper-slide d-flex align-items-center justify-content-center">
                             <img src="${img}" class="img-fluid" style="max-height: 85vh;" alt="${product.title}">
                         </div>
-                    `).join('')}
+                    `,
+                      )
+                      .join("")}
                 </div>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
@@ -3131,49 +3462,49 @@ function loadSingleProductPage(productId) {
         <!-- Reservation Modal -->
         <div class="reservation-modal-backdrop d-none" id="reservationModalBackdrop">
             <div class="reservation-modal">
-                <button type="button" class="reservation-modal-close" id="closeReservationModal" aria-label="${getLabel('Close', 'إغلاق')}">
+                <button type="button" class="reservation-modal-close" id="closeReservationModal" aria-label="${getLabel("Close", "إغلاق")}">
                     <i class="fas fa-times"></i>
                 </button>
 
-                <h4 class="fw-bold mb-1">${getLabel('Request Reservation', 'طلب حجز')}</h4>
-                <p class="text-muted small mb-4">${getLabel('Fill in your details and we will confirm your reservation shortly.', 'أدخل بياناتك وسنؤكد حجزك في أقرب وقت.')}</p>
+                <h4 class="fw-bold mb-1">${getLabel("Request Reservation", "طلب حجز")}</h4>
+                <p class="text-muted small mb-4">${getLabel("Fill in your details and we will confirm your reservation shortly.", "أدخل بياناتك وسنؤكد حجزك في أقرب وقت.")}</p>
 
                 <div class="bg-light rounded-3 p-3 mb-4">
                     <div class="d-flex justify-content-between small mb-1">
-                        <span class="text-muted">${getLabel('Product', 'المنتج')}</span>
+                        <span class="text-muted">${getLabel("Product", "المنتج")}</span>
                         <span class="fw-semibold">${product.title}</span>
                     </div>
                     <div class="d-flex justify-content-between small mb-1">
-                        <span class="text-muted">${getLabel('Color', 'اللون')}</span>
+                        <span class="text-muted">${getLabel("Color", "اللون")}</span>
                         <span class="fw-semibold" id="reservationSummaryColor">${getLabel(colors[0].name, colors[0].nameAr)}</span>
                     </div>
                     <div class="d-flex justify-content-between small mb-1">
-                        <span class="text-muted">${getLabel('Size', 'المقاس')}</span>
+                        <span class="text-muted">${getLabel("Size", "المقاس")}</span>
                         <span class="fw-semibold" id="reservationSummarySize">${getLabel(sizes[0].en, sizes[0].ar)}</span>
                     </div>
                     <div class="d-flex justify-content-between small">
-                        <span class="text-muted">${getLabel('Quantity', 'الكمية')}</span>
+                        <span class="text-muted">${getLabel("Quantity", "الكمية")}</span>
                         <span class="fw-semibold" id="reservationSummaryQty">1</span>
                     </div>
                 </div>
 
                 <form id="reservationForm">
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">${getLabel('Full Name', 'الاسم الكامل')}</label>
+                        <label class="form-label small fw-semibold">${getLabel("Full Name", "الاسم الكامل")}</label>
                         <input type="text" class="form-control" id="reservationName" required>
                     </div>
                     <div class="mb-4">
-                        <label class="form-label small fw-semibold">${getLabel('Phone Number', 'رقم الهاتف')}</label>
+                        <label class="form-label small fw-semibold">${getLabel("Phone Number", "رقم الهاتف")}</label>
                         <input type="tel" class="form-control" id="reservationPhone" dir="ltr" required>
                     </div>
 
-                    <p class="small text-muted mb-2">${getLabel('Send this reservation via:', 'أرسل الحجز عبر:')}</p>
+                    <p class="small text-muted mb-2">${getLabel("Send this reservation via:", "أرسل الحجز عبر:")}</p>
                     <div class="d-flex gap-2">
                         <button type="button" class="btn btn-success flex-fill py-2" id="sendViaWhatsapp">
-                            <i class="fab fa-whatsapp me-2"></i>${getLabel('WhatsApp', 'واتساب')}
+                            <i class="fab fa-whatsapp me-2"></i>${getLabel("WhatsApp", "واتساب")}
                         </button>
                         <button type="button" class="btn btn-outline-secondary flex-fill py-2" id="sendViaEmail">
-                            <i class="fas fa-envelope me-2"></i>${getLabel('Email', 'البريد')}
+                            <i class="fas fa-envelope me-2"></i>${getLabel("Email", "البريد")}
                         </button>
                     </div>
                 </form>
@@ -3181,154 +3512,248 @@ function loadSingleProductPage(productId) {
         </div>
     `;
 
-    // ===================== Interactions =====================
+  // ===================== Interactions =====================
 
-    // --- Gallery thumbnail click ---
-    let activeThumbIndex = 0;
-    container.querySelectorAll('.product-thumb').forEach(thumb => {
-        thumb.addEventListener('click', function () {
-            container.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            activeThumbIndex = parseInt(this.dataset.index, 10);
-            document.getElementById('mainProductImage').src = this.dataset.img;
-        });
+  // --- Add to Cart ---
+  const addToCartBtn = container.querySelector("#addToCartBtn");
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", () => {
+      const qty = parseInt(qtySelect.value, 10);
+      addToCart(product.id, qty, { color: selectedColor, size: selectedSize }); // hook your existing addToCart function
+
+      // Simple visual confirmation
+      const originalHtml = addToCartBtn.innerHTML;
+      addToCartBtn.innerHTML = `<i class="fas fa-check me-2"></i>${getLabel("Added!", "تمت الإضافة!")}`;
+      addToCartBtn.disabled = true;
+      setTimeout(() => {
+        addToCartBtn.innerHTML = originalHtml;
+        addToCartBtn.disabled = false;
+      }, 1500);
     });
+  }
 
-    // --- Quantity stepper (defensive, scoped to this container) ---
-    const qtyInput = container.querySelector('#productQty');
-    const qtyIncreaseBtn = container.querySelector('#qtyIncrease');
-    const qtyDecreaseBtn = container.querySelector('#qtyDecrease');
+  // --- Buy Now ---
+  const buyNowBtn = container.querySelector("#buyNowBtn");
+  if (buyNowBtn) {
+    buyNowBtn.addEventListener("click", () => {
+      const qty = parseInt(qtySelect.value, 10);
+      addToCart(product.id, qty, { color: selectedColor, size: selectedSize }); // add to cart first
+      setCurrentPage("checkout"); // then go straight to checkout
+    });
+  }
 
-    if (qtyInput && qtyIncreaseBtn && qtyDecreaseBtn) {
-        qtyIncreaseBtn.addEventListener('click', () => {
-            const current = parseInt(qtyInput.value, 10) || 1;
-            qtyInput.value = current + 1;
-        });
-        qtyDecreaseBtn.addEventListener('click', () => {
-            const current = parseInt(qtyInput.value, 10) || 1;
-            if (current > 1) qtyInput.value = current - 1;
-        });
-        qtyInput.addEventListener('input', () => {
-            if (parseInt(qtyInput.value, 10) < 1 || isNaN(parseInt(qtyInput.value, 10))) {
-                qtyInput.value = 1;
-            }
-        });
+  // --- Gallery thumbnail click ---
+  let activeThumbIndex = 0;
+  container.querySelectorAll(".product-thumb").forEach((thumb) => {
+    thumb.addEventListener("click", function () {
+      container
+        .querySelectorAll(".product-thumb")
+        .forEach((t) => t.classList.remove("active"));
+      this.classList.add("active");
+      activeThumbIndex = parseInt(this.dataset.index, 10);
+      document.getElementById("mainProductImage").src = this.dataset.img;
+    });
+  });
+
+  // --- Quantity stepper (defensive, scoped to this container) ---
+  // Quantity is just read directly wherever needed, e.g. in the reservation modal:
+  // Example usage elsewhere in your code:
+  // const selectedQty = qtySelect.value; // returns the selected number as a string
+
+  // --- Color swatches ---
+  let selectedColor = getLabel(colors[0].name, colors[0].nameAr);
+  container.querySelectorAll(".color-swatch").forEach((swatch) => {
+    swatch.addEventListener("click", function () {
+      container
+        .querySelectorAll(".color-swatch")
+        .forEach((s) => s.classList.remove("active"));
+      this.classList.add("active");
+      selectedColor = this.dataset.color;
+    });
+  });
+
+  // --- Size options ---
+  let selectedSize = getLabel(sizes[0].en, sizes[0].ar);
+  container.querySelectorAll(".size-option").forEach((opt) => {
+    opt.addEventListener("click", function () {
+      container
+        .querySelectorAll(".size-option")
+        .forEach((o) => o.classList.remove("active"));
+      this.classList.add("active");
+      selectedSize = this.dataset.size;
+    });
+  });
+
+  // --- Spec group chevrons ---
+  container.querySelectorAll(".spec-group-toggle").forEach((btn) => {
+    const targetId = btn.getAttribute("data-bs-target");
+    const target = container.querySelector(targetId);
+    target.addEventListener("show.bs.collapse", () =>
+      btn.querySelector(".spec-chevron").classList.add("rotated"),
+    );
+    target.addEventListener("hide.bs.collapse", () =>
+      btn.querySelector(".spec-chevron").classList.remove("rotated"),
+    );
+  });
+
+  // --- Gallery: init swipers + fullscreen toggle ---
+  const galleryOverlayThumbs = new Swiper(".galleryOverlayThumbs", {
+    direction: "vertical",
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesProgress: true,
+    rtl: document.documentElement.dir === "rtl",
+
+    breakpoints: {
+      0: {
+        direction: "horizontal",
+        slidesPerView: 4,
+        spaceBetween: 8,
+      },
+      768: {
+        direction: "vertical",
+        slidesPerView: 4,
+        spaceBetween: 10,
+      },
+    },
+  });
+
+  const galleryOverlaySwiper = new Swiper(".galleryOverlaySwiper", {
+    slidesPerView: 1,
+    loop: true,
+    rtl: document.documentElement.dir === "rtl",
+
+    navigation: {
+      nextEl: ".galleryOverlaySwiper .swiper-button-next",
+      prevEl: ".galleryOverlaySwiper .swiper-button-prev",
+    },
+
+    pagination: {
+      el: ".galleryOverlaySwiper .swiper-pagination",
+      clickable: true,
+    },
+
+    thumbs: {
+      swiper: galleryOverlayThumbs,
+    },
+  });
+
+  const galleryWrapper = document.getElementById("productGalleryWrapper");
+  const openGalleryBtn = document.getElementById("openGalleryOverlay");
+
+  openGalleryBtn.addEventListener("click", () => {
+    const isFullscreen = galleryWrapper.classList.toggle("gallery-fullscreen");
+    document.documentElement.style.overflow = isFullscreen ? "hidden" : "";
+    document.body.style.overflow = isFullscreen ? "hidden" : "";
+    openGalleryBtn.querySelector("i").className = isFullscreen
+      ? "fas fa-compress"
+      : "fas fa-expand";
+
+    galleryOverlaySwiper.update();
+    galleryOverlayThumbs.update();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.key === "Escape" &&
+      galleryWrapper.classList.contains("gallery-fullscreen")
+    ) {
+      galleryWrapper.classList.remove("gallery-fullscreen");
+      document.body.style.overflow = "";
+      openGalleryBtn.querySelector("i").className = "fas fa-expand";
+      galleryOverlaySwiper.update();
+      galleryOverlayThumbs.update();
     }
+  });
 
-    // --- Color swatches ---
-    let selectedColor = getLabel(colors[0].name, colors[0].nameAr);
-    container.querySelectorAll('.color-swatch').forEach(swatch => {
-        swatch.addEventListener('click', function () {
-            container.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-            this.classList.add('active');
-            selectedColor = this.dataset.color;
-        });
+  // --- Reservation Modal ---
+  const reservationBackdrop = document.getElementById(
+    "reservationModalBackdrop",
+  );
+  const openReservationBtn = document.getElementById("openReservationModal");
+  const closeReservationBtn = document.getElementById("closeReservationModal");
+  const qtySelect = container.querySelector("#productQty"); // <-- this was missing
+
+  if (openReservationBtn && reservationBackdrop && qtySelect) {
+    openReservationBtn.addEventListener("click", () => {
+      const colorEl = document.getElementById("reservationSummaryColor");
+      const sizeEl = document.getElementById("reservationSummarySize");
+      const qtyEl = document.getElementById("reservationSummaryQty");
+
+      if (colorEl) colorEl.textContent = selectedColor;
+      if (sizeEl) sizeEl.textContent = selectedSize;
+      if (qtyEl) qtyEl.textContent = qtySelect.value;
+
+      reservationBackdrop.classList.remove("d-none");
+      document.body.style.overflow = "hidden";
     });
-
-    // --- Size options ---
-    let selectedSize = getLabel(sizes[0].en, sizes[0].ar);
-    container.querySelectorAll('.size-option').forEach(opt => {
-        opt.addEventListener('click', function () {
-            container.querySelectorAll('.size-option').forEach(o => o.classList.remove('active'));
-            this.classList.add('active');
-            selectedSize = this.dataset.size;
-        });
+  } else {
+    console.error("Reservation modal setup failed — missing element(s):", {
+      openReservationBtn,
+      reservationBackdrop,
+      qtySelect,
     });
+  }
 
-    // --- Spec group chevrons ---
-    container.querySelectorAll('.spec-group-toggle').forEach(btn => {
-        const targetId = btn.getAttribute('data-bs-target');
-        const target = container.querySelector(targetId);
-        target.addEventListener('show.bs.collapse', () => btn.querySelector('.spec-chevron').classList.add('rotated'));
-        target.addEventListener('hide.bs.collapse', () => btn.querySelector('.spec-chevron').classList.remove('rotated'));
+  if (closeReservationBtn && reservationBackdrop) {
+    closeReservationBtn.addEventListener("click", () => {
+      reservationBackdrop.classList.add("d-none");
+      document.body.style.overflow = "";
     });
+  }
 
-    // --- Fullscreen Gallery Overlay ---
-    const galleryOverlay = document.getElementById('galleryOverlay');
-    const openGalleryBtn = document.getElementById('openGalleryOverlay');
-    const closeGalleryBtn = document.getElementById('closeGalleryOverlay');
-    let galleryOverlaySwiper = null;
+  function buildReservationMessage() {
+    const name = document.getElementById("reservationName").value.trim();
+    const phone = document.getElementById("reservationPhone").value.trim();
+    const qty = qtySelect.value;
 
-    openGalleryBtn.addEventListener('click', () => {
-        galleryOverlay.classList.remove('d-none');
-        document.body.style.overflow = 'hidden';
+    return getLabel(
+      `Reservation Request\nProduct: ${product.title}\nColor: ${selectedColor}\nSize: ${selectedSize}\nQuantity: ${qty}\nName: ${name}\nPhone: ${phone}`,
+      `طلب حجز\nالمنتج: ${product.title}\nاللون: ${selectedColor}\nالمقاس: ${selectedSize}\nالكمية: ${qty}\nالاسم: ${name}\nالهاتف: ${phone}`,
+    );
+  }
 
-        if (!galleryOverlaySwiper) {
-            galleryOverlaySwiper = new Swiper('.galleryOverlaySwiper', {
-                slidesPerView: 1,
-                loop: true,
-                initialSlide: activeThumbIndex,
-                rtl: document.documentElement.dir === 'rtl',
-                navigation: {
-                    nextEl: '.galleryOverlaySwiper .swiper-button-next',
-                    prevEl: '.galleryOverlaySwiper .swiper-button-prev',
-                },
-                pagination: {
-                    el: '.galleryOverlaySwiper .swiper-pagination',
-                    clickable: true,
-                }
-            });
-        } else {
-            galleryOverlaySwiper.slideToLoop(activeThumbIndex, 0);
-        }
-    });
-
-    closeGalleryBtn.addEventListener('click', () => {
-        galleryOverlay.classList.add('d-none');
-        document.body.style.overflow = '';
-    });
-
-    // --- Reservation Modal ---
-    const reservationBackdrop = document.getElementById('reservationModalBackdrop');
-    const openReservationBtn = document.getElementById('openReservationModal');
-    const closeReservationBtn = document.getElementById('closeReservationModal');
-
-    openReservationBtn.addEventListener('click', () => {
-        document.getElementById('reservationSummaryColor').textContent = selectedColor;
-        document.getElementById('reservationSummarySize').textContent = selectedSize;
-        document.getElementById('reservationSummaryQty').textContent = qtyInput.value;
-        reservationBackdrop.classList.remove('d-none');
-        document.body.style.overflow = 'hidden';
-    });
-
-    closeReservationBtn.addEventListener('click', () => {
-        reservationBackdrop.classList.add('d-none');
-        document.body.style.overflow = '';
-    });
-
-    function buildReservationMessage() {
-        const name = document.getElementById('reservationName').value.trim();
-        const phone = document.getElementById('reservationPhone').value.trim();
-        const qty = qtyInput.value;
-
-        return getLabel(
-            `Reservation Request\nProduct: ${product.title}\nColor: ${selectedColor}\nSize: ${selectedSize}\nQuantity: ${qty}\nName: ${name}\nPhone: ${phone}`,
-            `طلب حجز\nالمنتج: ${product.title}\nاللون: ${selectedColor}\nالمقاس: ${selectedSize}\nالكمية: ${qty}\nالاسم: ${name}\nالهاتف: ${phone}`
-        );
+  document.getElementById("sendViaWhatsapp").addEventListener("click", () => {
+    const name = document.getElementById("reservationName").value.trim();
+    const phone = document.getElementById("reservationPhone").value.trim();
+    if (!name || !phone) {
+      alert(
+        getLabel(
+          "Please enter your name and phone number",
+          "يرجى إدخال الاسم ورقم الهاتف",
+        ),
+      );
+      return;
     }
+    const message = encodeURIComponent(buildReservationMessage());
+    window.open(
+      `https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`,
+      "_blank",
+    );
+  });
 
-    document.getElementById('sendViaWhatsapp').addEventListener('click', () => {
-        const name = document.getElementById('reservationName').value.trim();
-        const phone = document.getElementById('reservationPhone').value.trim();
-        if (!name || !phone) {
-            alert(getLabel('Please enter your name and phone number', 'يرجى إدخال الاسم ورقم الهاتف'));
-            return;
-        }
-        const message = encodeURIComponent(buildReservationMessage());
-        window.open(`https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`, '_blank');
-    });
-
-    document.getElementById('sendViaEmail').addEventListener('click', () => {
-        const name = document.getElementById('reservationName').value.trim();
-        const phone = document.getElementById('reservationPhone').value.trim();
-        if (!name || !phone) {
-            alert(getLabel('Please enter your name and phone number', 'يرجى إدخال الاسم ورقم الهاتف'));
-            return;
-        }
-        const subject = encodeURIComponent(getLabel(`Reservation Request - ${product.title}`, `طلب حجز - ${product.title}`));
-        const body = encodeURIComponent(buildReservationMessage());
-        window.location.href = `mailto:${RESERVATION_EMAIL}?subject=${subject}&body=${body}`;
-    });
+  document.getElementById("sendViaEmail").addEventListener("click", () => {
+    const name = document.getElementById("reservationName").value.trim();
+    const phone = document.getElementById("reservationPhone").value.trim();
+    if (!name || !phone) {
+      alert(
+        getLabel(
+          "Please enter your name and phone number",
+          "يرجى إدخال الاسم ورقم الهاتف",
+        ),
+      );
+      return;
+    }
+    const subject = encodeURIComponent(
+      getLabel(
+        `Reservation Request - ${product.title}`,
+        `طلب حجز - ${product.title}`,
+      ),
+    );
+    const body = encodeURIComponent(buildReservationMessage());
+    window.location.href = `mailto:${RESERVATION_EMAIL}?subject=${subject}&body=${body}`;
+  });
 }
 
 /*========================================================================================================*/
@@ -3360,8 +3785,6 @@ function initializeHomePageSections() {
                                  ${getLabel("Read More", "اقرأ المزيد")} 
                                 </a>
                             </p>
-
-
                         </div>
                     </div>
                 </div>
@@ -3372,27 +3795,27 @@ function initializeHomePageSections() {
   // Initialize Categories Section
   const categorySection = document.getElementById("categorySection");
   if (categorySection) {
-    const categorySlidesHtml = categories
+    const categorySlidesHtml = categoriesData
       .map(
         (cat) => `
     <div class="swiper-slide">
         <a href="#" class="category-card-link" onclick="setCurrentPage('${cat.page}', '${cat.categoryId}')">
             <div class="category-card">
                  <div class="category-card-img">
-                    <img src="${cat.img}" class="img-fluid" alt="${getLabel(cat.nameEn, cat.nameAr)}">
+                    <img src="${cat.img}" class="img-fluid" alt="${getLabel(cat.name.en, cat.name.ar)}">
                 </div>
                  <ul class="category-card-details">
-                    ${getLabel(cat.variantsEn, cat.variantsAr)
+                    ${cat.variants
                       .map(
                         (variant, i) => `
-                        <li style="transition-delay: ${i * 80}ms;">${variant}</li>
+                        <li style="transition-delay: ${i * 80}ms;">${getLabel(variant.en, variant.ar)}</li>
                     `,
                       )
                       .join("")}
                 </ul>
             </div>
             <div class="category-card-name text-start">
-                ${getLabel(cat.nameEn, cat.nameAr)}
+                ${getLabel(cat.name.en, cat.name.ar)}
             </div>
         </a>
     </div>
@@ -3498,26 +3921,28 @@ function initializeHomePageSections() {
     const chipsContainer = document.getElementById("filterChips");
     if (!chipsContainer) return;
 
-    const currentData =
-      appState.language === "ar" ? productsData.ar : productsData.en;
-    const uniqueCategories = [...new Set(currentData.map((p) => p.category))];
+    // Get unique categories from the single unified array
+    const uniqueCategories = [
+      ...new Map(productsData.map((p) => [p.categoryId, p.category])).entries(),
+    ];
+    // uniqueCategories is now: [ [categoryId, {en, ar}], [categoryId, {en, ar}], ... ]
 
     let chipsHtml = `
+        <div class="swiper-slide" style="width: auto;">
+            <div class="filter-chip ${activeProductCategory === "all" ? "active" : ""}" data-category="all" role="button" tabindex="0">
+                ${getLabel("All", "الكل")}
+            </div>
+        </div>
+    `;
+
+    uniqueCategories.forEach(([categoryId, categoryLabel]) => {
+      chipsHtml += `
             <div class="swiper-slide" style="width: auto;">
-                <div class="filter-chip ${activeProductCategory === "all" ? "active" : ""}" data-category="all" role="button" tabindex="0">
-                    ${getLabel("All", "الكل")}
+                <div class="filter-chip ${activeProductCategory === categoryId ? "active" : ""}" data-category="${categoryId}" role="button" tabindex="0">
+                    ${getLabel(categoryLabel.en, categoryLabel.ar)}
                 </div>
             </div>
         `;
-
-    uniqueCategories.forEach((cat) => {
-      chipsHtml += `
-                <div class="swiper-slide" style="width: auto;">
-                    <div class="filter-chip ${activeProductCategory === cat ? "active" : ""}" data-category="${cat}" role="button" tabindex="0">
-                        ${cat}
-                    </div>
-                </div>
-            `;
     });
 
     chipsContainer.innerHTML = chipsHtml;
@@ -3527,14 +3952,6 @@ function initializeHomePageSections() {
         activeProductCategory = this.dataset.category;
         renderFilterChips();
         renderProductsGrid();
-      });
-
-      // keep keyboard accessibility since it's no longer a real <button>
-      chip.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          this.click();
-        }
       });
     });
 
@@ -3569,13 +3986,11 @@ function initializeHomePageSections() {
     const countLabel = document.getElementById("productCount");
     if (!grid) return;
 
-    const currentData =
-      appState.language === "ar" ? productsData.ar : productsData.en;
-
+    // productsData is now one unified array (not split by language)
     const filtered =
       activeProductCategory === "all"
-        ? currentData
-        : currentData.filter((p) => p.category === activeProductCategory);
+        ? productsData
+        : productsData.filter((p) => p.categoryId === activeProductCategory);
 
     const displayedProducts = filtered.slice(0, 12); // Show only the first 12
 
@@ -3593,13 +4008,13 @@ function initializeHomePageSections() {
 
     grid.innerHTML = displayedProducts
       .map(
-        (product) => `
+        (product) => /*html*/ `
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card product-card h-100 border-0 ">
                     <div class="product-img-wrap bg-light">
-                        <img src="${product.url}" class="card-img-top" alt="${product.title}">
+                        <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
                     </div>
-                    
+
                     <div class="card-body">
                         <div class="price-section mt-3">
                             ${
@@ -3607,12 +4022,12 @@ function initializeHomePageSections() {
                                 ? `<span class="discount-badge">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
                                 : ""
                             }
-        
+
                         <div class="price-row">
                             <span class="current-price">
                                 EGP ${product.price}
                             </span>
-        
+
                             ${
                               product.oldPrice
                                 ? `<span class="old-price">EGP ${product.oldPrice}</span>`
@@ -3620,12 +4035,12 @@ function initializeHomePageSections() {
                             }
                         </div>
                     </div>
-            <span class="badge bg-light text-dark mb-2">${product.sub_category}</span>
+            <span class="badge bg-light text-dark mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
 
-            <h6 class="card-title mb-1">${product.title}</h6>
+            <h6 class="card-title mb-1">${getLabel(product.title.en, product.title.ar)}</h6>
 
             <p class="card-text text-muted small product-desc">
-                ${product.desc}
+                ${getLabel(product.desc.en, product.desc.ar)}
             </p>
         </div>
     </div>
@@ -3633,6 +4048,14 @@ function initializeHomePageSections() {
     `,
       )
       .join("");
+
+    // Make each card clickable through to the single product page
+    grid.querySelectorAll(".product-card").forEach((card, i) => {
+      card.style.cursor = "pointer";
+      card.addEventListener("click", () => {
+        setCurrentPage("single-product", displayedProducts[i].id);
+      });
+    });
   }
 
   // Initialize News Section
@@ -3970,7 +4393,7 @@ function initializeHomePageSections() {
     renderDots();
   }
 
-  // Intialize Trusted Section
+  // initialize Trusted Section
   const trustedSection = document.getElementById("trustedSection");
   if (trustedSection) {
     const stats = [
@@ -4149,7 +4572,7 @@ function initializeHomePageSections() {
 /**
  * Initialize the application
  */
-function initializeApp() {
+async function initializeApp() {
   // ============================
   // App Settings
   // ============================
@@ -4161,7 +4584,8 @@ function initializeApp() {
   // ============================
   // UI Components
   // ============================
-
+  await loadProductsData();
+  await loadCategoriesData();
   initializeNavigation();
   initializeSlider();
   initializeFooter();
@@ -4188,7 +4612,7 @@ function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("single-product");
+  setCurrentPage("products");
 }
 
 /**
