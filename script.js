@@ -10,11 +10,30 @@ const appState = {
   currentProductId: "",
 };
 
+// document.documentElement.lang = appState.language;
+// document.documentElement.dir = appState.direction;
+// document.body.setAttribute("data-theme", appState.theme);
+
+/* ===============================================================================
+  MAIN APP DATA
+  =============================================================================== */
+
 // ========== contact placeholders ==========
 const RESERVATION_WHATSAPP = "201556336160";
 const RESERVATION_EMAIL = "kaderfactory38@gmail.com";
 
 // ========== NAVIGATION DATA ==========
+/* ============================================================
+   NAVIGATION LINKS
+   ============================================================
+   The Products entry's megaMenu is EMPTY here on purpose.
+   It gets filled at runtime by buildProductsMegaMenuColumns()
+   in initializeApp(), after categories.json has loaded.
+
+   Do NOT put a hardcoded megaMenu array here — that's what caused
+   the duplicate categories and the missing prefilter.
+   ============================================================ */
+
 const navigationLinks = [
   { id: "home", label_en: "Home", label_ar: "الصفحة الرئيسية", path: "#home" },
 
@@ -25,147 +44,7 @@ const navigationLinks = [
     label_en: "Products",
     label_ar: "المنتجات",
     path: "#products",
-
-    megaMenu: [
-      // Column 1
-      {
-        title_en: "Category",
-        title_ar: "الفئات",
-
-        items: [
-          {
-            label_en: "Civilian Products",
-            label_ar: "المنتجات المدنية",
-            path: "#products",
-          },
-          {
-            label_en: "Corporate Products",
-            label_ar: "منتجات الشركات",
-            path: "#products",
-          },
-          {
-            label_en: "Military Products",
-            label_ar: "المنتجات العسكرية",
-            path: "#products",
-          },
-          {
-            label_en: "Furniture",
-            label_ar: "الأثاث",
-            path: "#products",
-          },
-          {
-            label_en: "Plastic Products",
-            label_ar: "المنتجات البلاستيكية",
-            path: "#products",
-          },
-        ],
-      },
-
-      // Column 2
-      {
-        title_en: "Civilian Products",
-        title_ar: "المنتجات المدنية",
-
-        items: [
-          {
-            label_en: "Home Furniture",
-            label_ar: "الأثاث المنزلي",
-            path: "#products",
-          },
-          {
-            label_en: "Office Furniture",
-            label_ar: "الأثاث المكتبي",
-            path: "#products",
-          },
-          {
-            label_en: "Electric Vehicles",
-            label_ar: "وسائل النقل الكهربائية",
-            path: "#products",
-          },
-          {
-            label_en: "Plastic Products",
-            label_ar: "المنتجات البلاستيكية",
-            path: "#products",
-          },
-        ],
-      },
-
-      // Column 3
-      {
-        title_en: "Corporate & Military",
-        title_ar: "منتجات الشركات والعسكرية",
-
-        items: [
-          {
-            label_en: "Corporate Products",
-            label_ar: "منتجات الشركات",
-            path: "#products",
-          },
-          {
-            label_en: "Cash Transport Vehicles",
-            label_ar: "مركبات نقل الأموال",
-            path: "#products",
-          },
-          {
-            label_en: "Armored Vehicles",
-            label_ar: "المركبات المصفحة",
-            path: "#products",
-          },
-          {
-            label_en: "Military Products",
-            label_ar: "المنتجات العسكرية",
-            path: "#products",
-          },
-          {
-            label_en: "Tactical Equipment",
-            label_ar: "المعدات التكتيكية",
-            path: "#products",
-          },
-        ],
-      },
-
-      // Column 4
-      {
-        title_en: "Furniture",
-        title_ar: "الأثاث",
-
-        items: [
-          {
-            label_en: "Home Furniture",
-            label_ar: "الأثاث المنزلي",
-            path: "#products",
-          },
-          {
-            label_en: "Office Furniture",
-            label_ar: "الأثاث المكتبي",
-            path: "#products",
-          },
-          {
-            label_en: "Hotel Furniture",
-            label_ar: "الأثاث الفندقي",
-            path: "#products",
-          },
-          {
-            label_en: "Furnish Your Home",
-            label_ar: "مبادرة أفرش بيتك",
-            path: "#products",
-          },
-        ],
-      },
-
-      {
-        title_en: "All",
-        title_ar: "الكل",
-
-        items: [
-          {
-            label_en: "View All Products",
-            label_ar: "جميع المنتجات",
-            path: "#products",
-          },
-        ],
-      },
-    ],
+    megaMenu: [], // filled in initializeApp() — see note above
   },
 
   {
@@ -532,6 +411,9 @@ async function loadCategoriesData() {
     categoriesData = [];
   }
 }
+/* ================================================================================
+  MAIN APP DATA END
+  ================================================================================ */
 
 // ========== UTILITY FUNCTIONS ==========
 
@@ -605,7 +487,23 @@ function toggleLanguage() {
  * Cart Management
  */
 
-// Initialize cart from localStorage on app load (add this call inside your initializeApp())
+/* ============================================================
+   CART SYSTEM
+   ============================================================
+   Fixes:
+     1. addToCart used productsData.ar / productsData.en — the OLD split
+        schema. productsData is a unified array now, so productsData.en
+        was undefined and .find() threw, silently killing the click.
+     2. Cart stored a single-language title string, so switching language
+        left old cart items stuck in the previous language. Now stores the
+        full {en,ar} object and resolves via getLabel() at render time.
+     3. updateCartCount only updated the desktop badge — mobile badge
+        (#mobileCartCount) never changed.
+     4. Cart items now also store subCategoryId/categoryId so a cart page
+        can link back or group items without re-looking-up products.
+   ============================================================ */
+
+// Initialize cart from localStorage on app load (call inside initializeApp())
 function initializeCart() {
   try {
     const savedCart = localStorage.getItem("cart");
@@ -628,39 +526,43 @@ function saveCart() {
 
 /**
  * Add a product to the cart
- * @param {string} productId - unique product id
+ * @param {string} productId - product id (string slug, e.g. "trio-max-scooter")
  * @param {number} qty - quantity to add
- * @param {object} options - optional selected variant info, e.g. { color, size }
+ * @param {object} options - selected variant info, e.g. { color, size }
  */
 function addToCart(productId, qty = 1, options = {}) {
   if (!appState.cart) appState.cart = [];
 
-  const currentData =
-    appState.language === "ar" ? productsData.ar : productsData.en;
-  const product = currentData.find((p) => p.id === productId);
+  // productsData is a UNIFIED array — no .en / .ar split
+  const product = productsData.find((p) => p.id === productId);
   if (!product) {
     console.error("addToCart: product not found", productId);
     return;
   }
 
-  // Check if the same product + same variant already exists in cart
+  const color = options.color || null;
+  const size = options.size || null;
+
+  // Same product + same variant → bump quantity instead of duplicating
   const existingItem = appState.cart.find(
     (item) =>
       item.productId === productId &&
-      item.color === (options.color || null) &&
-      item.size === (options.size || null),
+      item.color === color &&
+      item.size === size,
   );
 
   if (existingItem) {
     existingItem.qty += qty;
   } else {
     appState.cart.push({
-      productId: productId,
-      title: product.title,
+      productId: product.id,
+      title: product.title, // full {en, ar} — resolve with getLabel() when rendering
       img: product.url,
       price: product.price || 0,
-      color: options.color || null,
-      size: options.size || null,
+      categoryId: product.categoryId,
+      subCategoryId: product.subCategoryId,
+      color: color,
+      size: size,
       qty: qty,
     });
   }
@@ -670,7 +572,7 @@ function addToCart(productId, qty = 1, options = {}) {
 }
 
 // Remove an item from the cart entirely
-function removeFromCart(productId, color, size) {
+function removeFromCart(productId, color = null, size = null) {
   if (!appState.cart) return;
   appState.cart = appState.cart.filter(
     (item) =>
@@ -690,182 +592,310 @@ function updateCartItemQty(productId, color, size, newQty) {
   const item = appState.cart.find(
     (i) => i.productId === productId && i.color === color && i.size === size,
   );
-  if (item) {
-    item.qty = Math.max(1, newQty);
-    saveCart();
-    updateCartCount();
+  if (!item) return;
+
+  if (newQty <= 0) {
+    removeFromCart(productId, color, size);
+    return;
   }
+
+  item.qty = newQty;
+  saveCart();
+  updateCartCount();
 }
 
-// Get total number of items in cart (sum of quantities)
+// Empty the cart
+function clearCart() {
+  appState.cart = [];
+  saveCart();
+  updateCartCount();
+}
+
+// Total number of items (sum of quantities)
 function getCartCount() {
   if (!appState.cart) return 0;
   return appState.cart.reduce((sum, item) => sum + item.qty, 0);
 }
 
-// Get total price of all items in cart
+// Total price of all items
 function getCartTotal() {
   if (!appState.cart) return 0;
   return appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
-// Update the cart badge in the nav (matches your earlier nav cart button)
+// Update BOTH cart badges (desktop nav + mobile menu)
 function updateCartCount() {
+  const count = getCartCount();
+
   const cartCountEl = document.getElementById("cartCount");
-  if (cartCountEl) {
-    cartCountEl.textContent = getCartCount();
-  }
+  if (cartCountEl) cartCountEl.textContent = count;
+
+  const mobileCartCountEl = document.getElementById("mobileCartCount");
+  if (mobileCartCountEl) mobileCartCountEl.textContent = count;
 }
 
 /**
  * Initialize navigation
  */
+/* ============================================================
+   NAVIGATION — full file
+   ============================================================
+   LOAD ORDER (this is what broke before):
+     1. categories.json + products.json fetched
+        (categoriesData / productsData populated)
+     2. buildProductsMegaMenuColumns() assigned to the Products link
+     3. initializeNavigation() called
+
+   In initializeApp():
+
+     await loadProductsData();
+     await loadCategoriesData();
+     initializeCart();
+
+     const productsLink = navigationLinks.find(l => l.id === "products");
+     productsLink.megaMenu = buildProductsMegaMenuColumns();
+
+     initializeNavigation();
+
+   Calling initializeNavigation() before step 2 leaves megaMenu empty,
+   which makes Products render as a plain link and the mobile mega-menu
+   overlay never open.
+   ============================================================ */
+
+let navigationEventsBound = false;
+
+/* ============================================================
+   MEGA MENU COLUMN DEFINITIONS
+   ------------------------------------------------------------
+   You control grouping + order here. Names/translations still come
+   from categoriesData, so they can't drift out of sync.
+   A typo'd categoryId here silently drops that item — check spelling
+   against categories.json if a column renders short.
+   ============================================================ */
+const MEGA_MENU_COLUMNS = [
+  {
+    title_en: "Civilian Products",
+    title_ar: "المنتجات المدنية",
+    categoryIds: ["electric-transport", "plastic"],
+  },
+  {
+    title_en: "Furniture",
+    title_ar: "الأثاث",
+    categoryIds: ["home-furniture", "office-furniture", "furnish-home"],
+  },
+  {
+    title_en: "Corporate & Military",
+    title_ar: "منتجات الشركات والعسكرية",
+    categoryIds: [
+      "cash-transfer",
+      "vehicle-conversions",
+      "military",
+      "firefighting",
+      "ambulance",
+    ],
+  },
+  {
+    title_en: "Heavy & Agricultural",
+    title_ar: "الثقيلة والزراعية",
+    categoryIds: ["agricultural-tractor", "axle-flatbed-semi-trailer"],
+  },
+];
+
+function buildProductsMegaMenuColumns() {
+  if (!Array.isArray(categoriesData) || categoriesData.length === 0) {
+    console.warn(
+      "buildProductsMegaMenuColumns: categoriesData is empty — call this AFTER loadCategoriesData()",
+    );
+    return [];
+  }
+
+  /* --- Guard 1: no category may appear in more than one column --- */
+  const seen = new Set();
+  const duplicates = new Set();
+  MEGA_MENU_COLUMNS.forEach((col) => {
+    col.categoryIds.forEach((id) => {
+      if (seen.has(id)) duplicates.add(id);
+      seen.add(id);
+    });
+  });
+  if (duplicates.size > 0) {
+    console.warn(
+      "MEGA_MENU_COLUMNS: these categoryIds appear in multiple columns —",
+      [...duplicates].join(", "),
+    );
+  }
+
+  /* --- Guard 2: flag IDs that don't exist in categories.json (typos) --- */
+  const realIds = new Set(categoriesData.map((c) => c.categoryId));
+  const unknown = [...seen].filter((id) => !realIds.has(id));
+  if (unknown.length > 0) {
+    console.warn(
+      "MEGA_MENU_COLUMNS: these categoryIds don't exist in categories.json —",
+      unknown.join(", "),
+    );
+  }
+
+  /* --- Guard 3: flag real categories missing from every column --- */
+  const missing = [...realIds].filter((id) => !seen.has(id));
+  if (missing.length > 0) {
+    console.warn(
+      "MEGA_MENU_COLUMNS: these categories aren't in any column —",
+      missing.join(", "),
+    );
+  }
+
+  /* --- Build columns; claimed set enforces first-column-wins on any dupe --- */
+  const claimed = new Set();
+
+  const columns = MEGA_MENU_COLUMNS.map((column) => ({
+    title_en: column.title_en,
+    title_ar: column.title_ar,
+    items: categoriesData
+      .filter((cat) => {
+        if (!column.categoryIds.includes(cat.categoryId)) return false;
+        if (claimed.has(cat.categoryId)) return false; // already shown in an earlier column
+        claimed.add(cat.categoryId);
+        return true;
+      })
+      .sort(
+        (a, b) =>
+          column.categoryIds.indexOf(a.categoryId) -
+          column.categoryIds.indexOf(b.categoryId),
+      )
+      .map((cat) => ({
+        label_en: cat.name.en,
+        label_ar: cat.name.ar,
+        path: "#products",
+        categoryId: cat.categoryId,
+        subCategoryId: null,
+      })),
+  }));
+
+  columns.push({
+    title_en: "All",
+    title_ar: "الكل",
+    items: [
+      {
+        label_en: "View All Products",
+        label_ar: "جميع المنتجات",
+        path: "#products",
+        categoryId: null,
+        subCategoryId: null,
+      },
+    ],
+  });
+
+  return columns;
+}
+
+/* ============================================================
+   MAIN NAV
+   ============================================================ */
 function initializeNavigation() {
   const navContainer = document.querySelector(".navbar-nav");
   if (!navContainer) return;
 
   navContainer.innerHTML = "";
 
-  navigationLinks.forEach((link, index) => {
+  navigationLinks.forEach((link) => {
     const isMegaMenu = link.megaMenu && link.megaMenu.length > 0;
 
     if (isMegaMenu) {
-      const megaMenuHTML = `
+      navContainer.innerHTML += `
         <div class="nav-item dropdown position-static text-center">
-
             <a class="nav-link py-4 text-white" href="${link.path}" data-bs-toggle="dropdown">
                 <span class="dropdown-toggle">
                     ${getLabel(link.label_en, link.label_ar)}
                 </span>
             </a>
-
             <div class="dropdown-menu mega-menu p-4">
-
-                <div class="d-lg-flex justify-content-lg-evenly align-items-lg-start">
-
+                <div class="container d-lg-flex justify-content-lg-evenly align-items-lg-start">
                     ${link.megaMenu
                       .map(
                         (column) => `
-
                         <div class="d-flex flex-column">
-
                             <h6 class="mega-title">
                                 ${getLabel(column.title_en, column.title_ar)}
                             </h6>
-
                             ${column.items
                               .map(
                                 (item) => `
-
                                 <a class="dropdown-item"
                                    href="${item.path}"
-                                   onclick="setCurrentPage('products')">
-
+                                   data-nav-page-id="products"
+                                   ${item.categoryId ? `data-category-id="${item.categoryId}"` : ""}
+                                   ${item.subCategoryId ? `data-sub-category-id="${item.subCategoryId}"` : ""}>
                                     ${getLabel(item.label_en, item.label_ar)}
-
                                 </a>
-
                             `,
                               )
                               .join("")}
-
                         </div>
-
                     `,
                       )
                       .join("")}
-
                 </div>
-
             </div>
-
         </div>
-    `;
-
-      navContainer.innerHTML += megaMenuHTML;
+      `;
     } else {
-      const linkHTML = `
-            <a class="nav-item nav-link py-4 text-white"
-               href="${link.path}"
-               onclick="setCurrentPage('${link.id}')"
-               id="nav-${link.id}">
-
-                ${getLabel(link.label_en, link.label_ar)}
-
-            </a>
-        `;
-
-      navContainer.innerHTML += linkHTML;
+      navContainer.innerHTML += `
+        <a class="nav-item nav-link py-4 text-white"
+           href="${link.path}"
+           data-nav-page-id="${link.id}"
+           id="nav-${link.id}">
+            ${getLabel(link.label_en, link.label_ar)}
+        </a>
+      `;
     }
   });
 
-  // Add separator line
-  // navContainer.innerHTML += '<div class="d-none d-lg-block vertical-line m-4"></div>';
-
   const topRightControls = document.getElementById("topRightControls");
-  const navLinksContainer = document.getElementById("navLinksContainer");
 
-  // ---- TOP ROW: cart, profile, theme, language ----
-
-  // Search Bar
+  /* ---- Desktop search ---- */
   const searchInput = document.getElementById("searchInput");
   const searchDropdown = document.getElementById("searchDropdown");
 
-  searchInput.addEventListener("input", function () {
-    const query = this.value.trim();
+  if (searchInput && searchDropdown) {
+    searchInput.addEventListener("input", function () {
+      const query = this.value.trim();
 
-    if (query.length === 0) {
-      searchDropdown.classList.add("d-none");
-      searchDropdown.innerHTML = "";
-      return;
-    }
+      if (query.length === 0) {
+        searchDropdown.classList.add("d-none");
+        searchDropdown.innerHTML = "";
+        return;
+      }
 
-    // Replace this with your real search/filter logic
-    const results = getSearchSuggestions(query); // returns an array of { label, url } or similar
+      const results = getSearchSuggestions(query);
 
-    if (results.length === 0) {
-      searchDropdown.innerHTML = `<div class="list-group-item text-muted">${getLabel("No results found", "لا توجد نتائج")}</div>`;
-    } else {
-      searchDropdown.innerHTML = results
-        .map(
-          (item) => `
-            <a href="${item.url}" class="list-group-item list-group-item-action">${item.label}</a>
-        `,
-        )
-        .join("");
-    }
+      searchDropdown.innerHTML =
+        results.length === 0
+          ? `<div class="list-group-item text-muted">${getLabel("No results found", "لا توجد نتائج")}</div>`
+          : results
+              .map(
+                (item) => `
+                <a href="#" class="list-group-item list-group-item-action" data-search-product-id="${item.id}">
+                    ${item.label}
+                </a>`,
+              )
+              .join("");
 
-    searchDropdown.classList.remove("d-none");
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener("click", function (e) {
-    if (!document.getElementById("searchWrapper").contains(e.target)) {
-      searchDropdown.classList.add("d-none");
-    }
-  });
-
-  // Example placeholder function — swap with your real data source (products array, API call, etc.)
-  function getSearchSuggestions(query) {
-    const allItems = window.appState?.products || []; // adjust to your data source
-    return allItems
-      .filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
-      .slice(0, 8)
-      .map((p) => ({ label: p.name, url: `/product/${p.id}` }));
+      searchDropdown.classList.remove("d-none");
+    });
   }
 
-  // Cart button
+  /* ---- Cart ---- */
   topRightControls.innerHTML += `
-    <a class="nav-link position-relative" href="/cart" id="cartBtn">
+    <a class="nav-link position-relative" href="#" data-nav-page-id="cart" id="cartBtn">
         <i class="fas fa-shopping-cart mx-1"></i>
         ${getLabel("Cart", "السلة")}
         <span class="badge bg-primary rounded-pill position-absolute top-0 start-100 translate-middle" id="cartCount" style="font-size: 0.65rem;">
-            ${appState.cartCount || 0}
+            ${typeof getCartCount === "function" ? getCartCount() : 0}
         </span>
     </a>
-`;
+  `;
 
-  // Profile/account dropdown
+  /* ---- Account ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
@@ -876,35 +906,35 @@ function initializeNavigation() {
             ${
               appState.user
                 ? `
-                <a class="dropdown-item" href="/profile">${getLabel("My Profile", "ملفي الشخصي")}</a>
-                <a class="dropdown-item" href="/orders">${getLabel("My Orders", "طلباتي")}</a>
-                <a class="dropdown-item" onclick="logout()">${getLabel("Logout", "تسجيل الخروج")}</a>
+                <a class="dropdown-item" href="#" data-nav-page-id="profile">${getLabel("My Profile", "ملفي الشخصي")}</a>
+                <a class="dropdown-item" href="#" data-nav-page-id="orders">${getLabel("My Orders", "طلباتي")}</a>
+                <a class="dropdown-item" href="#" data-action="logout">${getLabel("Logout", "تسجيل الخروج")}</a>
             `
                 : `
-                <a class="dropdown-item" href="/#login">${getLabel("Login", "تسجيل الدخول")}</a>
-                <a class="dropdown-item"  onclick="setCurrentPage('register')" href="/#register">${getLabel("Register", "تسجيل جديد")}</a>
+                <a class="dropdown-item" href="#" data-nav-page-id="login">${getLabel("Login", "تسجيل الدخول")}</a>
+                <a class="dropdown-item" href="#" data-nav-page-id="register">${getLabel("Register", "تسجيل جديد")}</a>
             `
             }
         </div>
     </div>
-`;
+  `;
 
-  // Theme toggle
+  /* ---- Theme ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
             <i class="fas fa-${appState.theme === "dark" ? "moon" : "sun"} mx-1"></i>
             ${getLabel("Theme", "الوضع")}
         </a>
-        <div class="dropdown-menu " style="min-width: 6rem;">
-            <a class="dropdown-item" onclick="toggleTheme()">
+        <div class="dropdown-menu" style="min-width: 6rem;">
+            <a class="dropdown-item" href="#" data-action="toggle-theme">
                 ${appState.theme === "dark" ? getLabel("Light", "الوضع الفاتح") : getLabel("Dark", "الوضع الداكن")}
             </a>
         </div>
     </div>
-`;
+  `;
 
-  // Language toggle
+  /* ---- Language ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
@@ -912,132 +942,209 @@ function initializeNavigation() {
             ${appState.language === "ar" ? "ع" : "EN"}
         </a>
         <div class="dropdown-menu ${appState.language === "ar" ? "text-start" : "text-end"}" style="min-width: 6rem;">
-            <a class="dropdown-item" onclick="toggleLanguage()">
+            <a class="dropdown-item" href="#" data-action="toggle-language">
                 ${appState.language === "ar" ? "English" : "العربية"}
             </a>
         </div>
     </div>
-`;
+  `;
 
-  // ---- SECOND ROW: category / nav links ----
-  // (keep your existing loop that builds category links, just target navLinksContainer instead of navContainer)
+  bindNavigationEvents();
+  initializeMobileTopBar();
+  initializeMobileMenu();
+}
 
-  /* ======================================================================
-   MOBILE TOP BAR — logo + hamburger button (visible only on small screens)
-   ====================================================================== */
-  function initializeMobileTopBar() {
-    const mount = document.getElementById("mobileTopBar");
-    if (!mount) return;
+/* ============================================================
+   SEARCH — reads real productsData + title:{en,ar}
+   (was reading appState.products / p.name, which don't exist)
+   ============================================================ */
+function getSearchSuggestions(query) {
+  const all =
+    typeof productsData !== "undefined" && Array.isArray(productsData)
+      ? productsData
+      : [];
+  const q = query.toLowerCase();
 
-    mount.innerHTML = `
-        <div class="mobile-topbar d-lg-none">
-            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
-                <i class="fas fa-bars"></i>
+  return all
+    .filter((p) => getLabel(p.title.en, p.title.ar).toLowerCase().includes(q))
+    .slice(0, 8)
+    .map((p) => ({ id: p.id, label: getLabel(p.title.en, p.title.ar) }));
+}
+
+/* ============================================================
+   DELEGATED EVENTS — bound once, survives every innerHTML rebuild
+   ============================================================ */
+function bindNavigationEvents() {
+  if (navigationEventsBound) return;
+  navigationEventsBound = true;
+
+  document.addEventListener("click", (e) => {
+    const searchWrapper = document.getElementById("searchWrapper");
+    const searchDropdown = document.getElementById("searchDropdown");
+
+    /* Close desktop search dropdown when clicking outside it */
+    if (searchWrapper && searchDropdown && !searchWrapper.contains(e.target)) {
+      searchDropdown.classList.add("d-none");
+    }
+
+    /* Search result → single product page */
+    const searchResult = e.target.closest("[data-search-product-id]");
+    if (searchResult) {
+      e.preventDefault();
+      setCurrentPage("single-product", searchResult.dataset.searchProductId);
+      if (searchDropdown) searchDropdown.classList.add("d-none");
+      closeMobileMenu();
+      return;
+    }
+
+    /* Mega-menu item WITH a category filter */
+    const filterLink = e.target.closest("[data-category-id]");
+    if (filterLink) {
+      e.preventDefault();
+      goToProductsWithFilter(
+        filterLink.dataset.categoryId,
+        filterLink.dataset.subCategoryId || null,
+      );
+      closeMobileMenu();
+      return;
+    }
+
+    /* Plain nav link (incl. "View All Products" — no category attached) */
+    const navLink = e.target.closest("[data-nav-page-id]");
+    if (navLink) {
+      e.preventDefault();
+      setCurrentPage(navLink.dataset.navPageId);
+      closeMobileMenu();
+      return;
+    }
+
+    /* Theme / language / logout */
+    const actionEl = e.target.closest("[data-action]");
+    if (actionEl) {
+      e.preventDefault();
+      const action = actionEl.dataset.action;
+      if (action === "toggle-theme" && typeof toggleTheme === "function")
+        toggleTheme();
+      if (action === "toggle-language" && typeof toggleLanguage === "function")
+        toggleLanguage();
+      if (action === "logout" && typeof logout === "function") logout();
+      return;
+    }
+  });
+}
+
+/* ============================================================
+   MOBILE TOP BAR
+   ============================================================ */
+function initializeMobileTopBar() {
+  const mount = document.getElementById("mobileTopBar");
+  if (!mount) return;
+
+  mount.innerHTML = `
+    <div class="mobile-topbar d-lg-none">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+  `;
+
+  document
+    .getElementById("hamburgerBtn")
+    .addEventListener("click", openMobileMenu);
+}
+
+/* ============================================================
+   MOBILE MENU OVERLAY
+   ============================================================ */
+function initializeMobileMenu() {
+  const mount = document.getElementById("mobileMenu");
+  if (!mount) return;
+
+  mount.innerHTML = `
+    <div class="nav-overlay" id="mobileMenuPanel">
+        <div class="overlay-header">
+            <span class="overlay-title">${getLabel("Menu", "القائمة")}</span>
+            <button class="overlay-icon-btn" id="closeMobileMenuBtn" aria-label="Close menu">
+                <i class="fas fa-xmark"></i>
             </button>
         </div>
-    `;
 
-    document
-      .getElementById("hamburgerBtn")
-      .addEventListener("click", openMobileMenu);
-  }
-
-  /* ======================================================================
-       MOBILE MENU OVERLAY — main nav links
-       ====================================================================== */
-  function initializeMobileMenu() {
-    const mount = document.getElementById("mobileMenu");
-    if (!mount) return;
-
-    mount.innerHTML = `
-        <div class="nav-overlay" id="mobileMenuPanel">
-            <div class="overlay-header">
-                <span class="overlay-title">${getLabel("Menu", "القائمة")}</span>
-                <button class="overlay-icon-btn" id="closeMobileMenuBtn" aria-label="Close menu">
-                    <i class="fas fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Mobile search -->
-            <div class="overlay-search px-3 pt-2 pb-3" id="mobileSearchWrapper">
-                <input type="text"
-                       class="form-control"
-                       id="mobileSearchInput"
-                       placeholder="${getLabel("Search...", "ابحث...")}">
-                <div class="list-group d-none" id="mobileSearchDropdown"></div>
-            </div>
-
-            <div class="overlay-body">
-                ${navigationLinks
-                  .map((link) => {
-                    const hasMega = link.megaMenu && link.megaMenu.length > 0;
-                    if (hasMega) {
-                      return `
-                            <a href="#" class="overlay-link" data-mega-trigger="${link.id}">
-                                ${getLabel(link.label_en, link.label_ar)}
-                                <i class="fas fa-chevron-right chevron"></i>
-                            </a>
-                        `;
-                    }
-                    return `
-                        <a href="${link.path}" class="overlay-link" onclick="setCurrentPage('${link.id}')">
-                            ${getLabel(link.label_en, link.label_ar)}
-                        </a>
-                    `;
-                  })
-                  .join("")}
-            </div>
-
-            <div class="d d-flex py-5 justify-content-center align-items-center bg-light px-3">
-
-                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" href="${appState.user ? "/profile" : "/#register"}">
-                    <i class="fas fa-user"></i>
-                    ${appState.user ? appState.user.name : getLabel("Login / Register", "تسجيل الدخول / تسجيل جديد")}
-                </a>
-
-                <a href="#" class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" id="mobileThemeToggle">
-                    <i class="fas fa-${appState.theme === "dark" ? "sun" : "moon"}"></i>
-                    ${appState.theme === "dark" ? getLabel("Light Mode", "الوضع الفاتح") : getLabel("Dark ", " داكن")}
-                </a>
-
-                <a href="#" class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100" id="mobileLangToggle">
-                    <i class="fas fa-globe"></i>
-                    ${appState.language === "ar" ? "English" : "العربية"}
-                </a>
-
-                <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 h-100" href="/cart" id="mobileCartBtn">
-                    <i class="fas fa-shopping-cart"></i>
-                    ${getLabel("Cart", "السلة")}
-                    <span class="badge bg-primary rounded-pill" id="mobileCartCount">
-                        ${appState.cartCount || 0}
-                    </span>
-                </a>
-
-            </div>
+        <div class="overlay-search px-3 pt-2 pb-3" id="mobileSearchWrapper">
+            <input type="text" class="form-control" id="mobileSearchInput"
+                   placeholder="${getLabel("Search...", "ابحث...")}">
+            <div class="list-group d-none" id="mobileSearchDropdown"></div>
         </div>
-    `;
 
-    document
-      .getElementById("closeMobileMenuBtn")
-      .addEventListener("click", closeMobileMenu);
+        <div class="overlay-body">
+            ${navigationLinks
+              .map((link) => {
+                const hasMega = link.megaMenu && link.megaMenu.length > 0;
+                if (hasMega) {
+                  return `
+                    <a href="#" class="overlay-link" data-mega-trigger="${link.id}">
+                        ${getLabel(link.label_en, link.label_ar)}
+                        <i class="fas fa-chevron-right chevron"></i>
+                    </a>`;
+                }
+                return `
+                    <a href="#" class="overlay-link" data-nav-page-id="${link.id}">
+                        ${getLabel(link.label_en, link.label_ar)}
+                    </a>`;
+              })
+              .join("")}
+        </div>
 
-    // Mega menu triggers
-    mount.querySelectorAll("[data-mega-trigger]").forEach((el) => {
-      el.addEventListener("click", (e) => {
-        e.preventDefault();
-        const link = navigationLinks.find(
-          (l) => l.id === el.getAttribute("data-mega-trigger"),
-        );
-        if (link) openMegaMenu(link);
-      });
+        <div class="d-flex py-5 justify-content-center align-items-center bg-light px-3">
+            <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100"
+               href="#" data-nav-page-id="${appState.user ? "profile" : "register"}">
+                <i class="fas fa-user"></i>
+                ${appState.user ? appState.user.name : getLabel("Login / Register", "تسجيل الدخول / تسجيل جديد")}
+            </a>
+
+            <a href="#" class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100"
+               data-action="toggle-theme">
+                <i class="fas fa-${appState.theme === "dark" ? "sun" : "moon"}"></i>
+                ${appState.theme === "dark" ? getLabel("Light Mode", "الوضع الفاتح") : getLabel("Dark ", " داكن")}
+            </a>
+
+            <a href="#" class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 border-end h-100"
+               data-action="toggle-language">
+                <i class="fas fa-globe"></i>
+                ${appState.language === "ar" ? "English" : "العربية"}
+            </a>
+
+            <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 h-100"
+               href="#" data-nav-page-id="cart" id="mobileCartBtn">
+                <i class="fas fa-shopping-cart"></i>
+                ${getLabel("Cart", "السلة")}
+                <span class="badge bg-primary rounded-pill" id="mobileCartCount">
+                    ${typeof getCartCount === "function" ? getCartCount() : 0}
+                </span>
+            </a>
+        </div>
+    </div>
+  `;
+
+  document
+    .getElementById("closeMobileMenuBtn")
+    .addEventListener("click", closeMobileMenu);
+
+  /* Mega-menu triggers — stopPropagation so the delegated nav handler
+     below doesn't ALSO fire and navigate away instead of opening the panel */
+  mount.querySelectorAll("[data-mega-trigger]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const link = navigationLinks.find((l) => l.id === el.dataset.megaTrigger);
+      if (link) openMegaMenu(link);
     });
+  });
 
-    // Mobile search
-    const mobileSearchInput = document.getElementById("mobileSearchInput");
-    const mobileSearchDropdown = document.getElementById(
-      "mobileSearchDropdown",
-    );
+  /* Mobile search */
+  const mobileSearchInput = document.getElementById("mobileSearchInput");
+  const mobileSearchDropdown = document.getElementById("mobileSearchDropdown");
 
+  if (mobileSearchInput && mobileSearchDropdown) {
     mobileSearchInput.addEventListener("input", function () {
       const query = this.value.trim();
 
@@ -1047,123 +1154,102 @@ function initializeNavigation() {
         return;
       }
 
-      const allItems = window.appState?.products || [];
-      const results = allItems
-        .filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
-        .slice(0, 8)
-        .map((p) => ({ label: p.name, url: `/product/${p.id}` }));
+      const results = getSearchSuggestions(query);
 
-      if (results.length === 0) {
-        mobileSearchDropdown.innerHTML = `<div class="list-group-item text-muted">${getLabel("No results found", "لا توجد نتائج")}</div>`;
-      } else {
-        mobileSearchDropdown.innerHTML = results
-          .map(
-            (item) =>
-              `<a href="${item.url}" class="list-group-item list-group-item-action">${item.label}</a>`,
-          )
-          .join("");
-      }
+      mobileSearchDropdown.innerHTML =
+        results.length === 0
+          ? `<div class="list-group-item text-muted">${getLabel("No results found", "لا توجد نتائج")}</div>`
+          : results
+              .map(
+                (item) =>
+                  `<a href="#" class="list-group-item list-group-item-action" data-search-product-id="${item.id}">${item.label}</a>`,
+              )
+              .join("");
 
       mobileSearchDropdown.classList.remove("d-none");
     });
-
-    // Theme / language toggles
-    document
-      .getElementById("mobileThemeToggle")
-      .addEventListener("click", (e) => {
-        e.preventDefault();
-        if (typeof toggleTheme === "function") toggleTheme();
-      });
-
-    document
-      .getElementById("mobileLangToggle")
-      .addEventListener("click", (e) => {
-        e.preventDefault();
-        if (typeof toggleLanguage === "function") toggleLanguage();
-      });
   }
+}
 
-  function openMobileMenu() {
-    document.getElementById("mobileMenuPanel").classList.add("is-open");
-    document.body.style.overflow = "hidden";
-  }
+function openMobileMenu() {
+  const panel = document.getElementById("mobileMenuPanel");
+  if (!panel) return;
+  panel.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+}
 
-  function closeMobileMenu() {
-    document.getElementById("mobileMenuPanel").classList.remove("is-open");
-    closeMegaMenu();
-    document.body.style.overflow = "";
-  }
+function closeMobileMenu() {
+  const panel = document.getElementById("mobileMenuPanel");
+  if (!panel) return;
+  panel.classList.remove("is-open");
+  closeMegaMenu();
+  document.body.style.overflow = "";
+}
 
-  /* ======================================================================
-       MEGA MENU OVERLAY — Products sub-menu (sibling div, sits on top)
-       ====================================================================== */
-  function openMegaMenu(link) {
-    const mount = document.getElementById("megaMenuOverlay");
-    if (!mount) return;
+/* ============================================================
+   MEGA MENU OVERLAY (mobile)
+   ============================================================ */
+function openMegaMenu(link) {
+  const mount = document.getElementById("megaMenuOverlay");
+  if (!mount) return;
 
-    mount.innerHTML = `
-        <div class="nav-overlay" id="megaMenuPanel">
-            <div class="overlay-header">
-                <button class="overlay-icon-btn" id="backToMobileMenuBtn" aria-label="Back">
-                    <i class="fas fa-arrow-${appState.language === "ar" ? "right" : "left"}"></i>
-                </button>
-                <span class="overlay-title">${getLabel(link.label_en, link.label_ar)}</span>
-                <button class="overlay-icon-btn" id="closeMegaMenuBtn" aria-label="Close menu">
-                    <i class="fas fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="overlay-body" style="padding:0;">
-                ${link.megaMenu
-                  .map(
-                    (column) => `
-                    <div class="mega-section">
-                        <h6>${getLabel(column.title_en, column.title_ar)}</h6>
-                        ${column.items
-                          .map(
-                            (item) => `
-                            <a href="${item.path}" onclick="setCurrentPage('${link.id}')">
-                                ${getLabel(item.label_en, item.label_ar)}
-                            </a>
-                        `,
-                          )
-                          .join("")}
-                    </div>
-                `,
-                  )
-                  .join("")}
-            </div>
+  mount.innerHTML = `
+    <div class="nav-overlay" id="megaMenuPanel">
+        <div class="overlay-header">
+            <button class="overlay-icon-btn" id="backToMobileMenuBtn" aria-label="Back">
+                <i class="fas fa-arrow-${appState.language === "ar" ? "right" : "left"}"></i>
+            </button>
+            <span class="overlay-title">${getLabel(link.label_en, link.label_ar)}</span>
+            <button class="overlay-icon-btn" id="closeMegaMenuBtn" aria-label="Close menu">
+                <i class="fas fa-xmark"></i>
+            </button>
         </div>
-    `;
 
-    const panel = document.getElementById("megaMenuPanel");
+        <div class="overlay-body" style="padding:0;">
+            ${link.megaMenu
+              .map(
+                (column) => `
+                <div class="mega-section">
+                    <h6>${getLabel(column.title_en, column.title_ar)}</h6>
+                    ${column.items
+                      .map(
+                        (item) => `
+                        <a href="${item.path}"
+                           data-nav-page-id="products"
+                           ${item.categoryId ? `data-category-id="${item.categoryId}"` : ""}
+                           ${item.subCategoryId ? `data-sub-category-id="${item.subCategoryId}"` : ""}>
+                            ${getLabel(item.label_en, item.label_ar)}
+                        </a>`,
+                      )
+                      .join("")}
+                </div>`,
+              )
+              .join("")}
+        </div>
+    </div>
+  `;
 
-    // force the browser to register the starting position (translateX 100%)
-    // before we flip the class, otherwise there's nothing to transition from
+  const panel = document.getElementById("megaMenuPanel");
+
+  // two frames so the browser registers the starting transform before the
+  // class flip — otherwise there's nothing to transition from
+  requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        panel.classList.add("is-open");
-      });
+      panel.classList.add("is-open");
     });
+  });
 
-    document
-      .getElementById("backToMobileMenuBtn")
-      .addEventListener("click", closeMegaMenu);
-    document
-      .getElementById("closeMegaMenuBtn")
-      .addEventListener("click", closeMobileMenu);
-  }
+  document
+    .getElementById("backToMobileMenuBtn")
+    .addEventListener("click", closeMegaMenu);
+  document
+    .getElementById("closeMegaMenuBtn")
+    .addEventListener("click", closeMobileMenu);
+}
 
-  function closeMegaMenu() {
-    const panel = document.getElementById("megaMenuPanel");
-    if (panel) panel.classList.remove("is-open");
-  }
-
-  /* ======================================================================
-       INIT — call these alongside your existing initializeNavigation()
-       ====================================================================== */
-  initializeMobileTopBar();
-  initializeMobileMenu();
+function closeMegaMenu() {
+  const panel = document.getElementById("megaMenuPanel");
+  if (panel) panel.classList.remove("is-open");
 }
 
 /**
@@ -1892,6 +1978,9 @@ function loadAboutPage() {
   });
 }
 
+/* =============================================================
+   PRODUCTS PAGE START
+   ============================================================= */
 /* ============================================================
    PRODUCTS PAGE — complete file
    ============================================================
@@ -1923,6 +2012,19 @@ let displayedProductsCount = PRODUCTS_PAGE_SIZE;
 
 const PRODUCTS_PER_PAGE = 12;
 let currentPage = 1;
+
+/**
+ * Call this from nav links, category cards, homepage "Explore" buttons, etc.
+ * to land on the Products page with a category (and optionally sub-category)
+ * already applied.
+ *
+ * Example: goToProductsWithFilter('plastic')
+ * Example: goToProductsWithFilter('plastic', 'plastic-storage-boxes')
+ */
+function goToProductsWithFilter(categoryId, subCategoryId = null) {
+  appState.pendingProductFilter = { categoryId, subCategoryId };
+  setCurrentPage("products");
+}
 
 /**
  * Load products page
@@ -1985,7 +2087,19 @@ function loadProductsPage() {
 
   container.innerHTML = productHTML;
 
-  filterState = { categoryId: null, subCategoryId: null };
+  // Apply a pending filter from goToProductsWithFilter() if one was set,
+  // otherwise start with no filters. Consumed once so a later plain
+  // navigation to Products (e.g. via nav link) isn't affected.
+  if (appState.pendingProductFilter) {
+    filterState = {
+      categoryId: appState.pendingProductFilter.categoryId || null,
+      subCategoryId: appState.pendingProductFilter.subCategoryId || null,
+    };
+    appState.pendingProductFilter = null;
+  } else {
+    filterState = { categoryId: null, subCategoryId: null };
+  }
+
   displayedProductsCount = PRODUCTS_PAGE_SIZE;
   bindProductsPageEvents();
   renderCategoryFilter();
@@ -2000,7 +2114,8 @@ function loadProductsPage() {
 function applyFilters(products, state) {
   return products.filter((p) => {
     if (state.categoryId && p.categoryId !== state.categoryId) return false;
-    if (state.subCategoryId && p.subCategoryId !== state.subCategoryId) return false;
+    if (state.subCategoryId && p.subCategoryId !== state.subCategoryId)
+      return false;
     return true;
   });
 }
@@ -2022,7 +2137,11 @@ function bindProductsPageEvents() {
   });
 
   document.addEventListener("click", (e) => {
-    if (e.target.closest("#clear-filters-btn, #clear-filters-btn-mobile, #clear-filters-btn-empty")) {
+    if (
+      e.target.closest(
+        "#clear-filters-btn, #clear-filters-btn-mobile, #clear-filters-btn-empty",
+      )
+    ) {
       clearAllFilters();
       return;
     }
@@ -2067,7 +2186,7 @@ function renderCategoryFilter() {
                 ${getLabel(cat.name.en, cat.name.ar)}
             </label>
         </div>
-    `
+    `,
     )
     .join("");
 
@@ -2112,7 +2231,9 @@ function renderSubCategoryFilter() {
     return;
   }
 
-  const activeCategory = categoriesData.find((c) => c.categoryId === filterState.categoryId);
+  const activeCategory = categoriesData.find(
+    (c) => c.categoryId === filterState.categoryId,
+  );
   const subCats = activeCategory?.subCategories || [];
 
   if (subCats.length === 0) {
@@ -2131,7 +2252,7 @@ function renderSubCategoryFilter() {
                 ${getLabel(sub.name.en, sub.name.ar)}
             </label>
         </div>
-    `
+    `,
     )
     .join("");
 
@@ -2167,15 +2288,17 @@ function renderActiveFilterChips() {
   const container = document.getElementById("active-filters-container");
   if (!container) return;
 
-  const clearFiltersBtn=`                                
+  const clearFiltersBtn = `                                
     <button type="button" class="btn btn-link text-decoration-none d-none d-lg-inline-block" id="clear-filters-btn">
       ${getLabel("Clear All", "مسح الكل")}
     </button>`;
-  
-    const chips = [];
+
+  const chips = [];
 
   if (filterState.categoryId) {
-    const cat = categoriesData.find((c) => c.categoryId === filterState.categoryId);
+    const cat = categoriesData.find(
+      (c) => c.categoryId === filterState.categoryId,
+    );
     if (cat) {
       chips.push(`
                 <span class="badge filter-chip me-2 mb-2 p-2 active-filter-chip">
@@ -2187,8 +2310,12 @@ function renderActiveFilterChips() {
   }
 
   if (filterState.subCategoryId) {
-    const cat = categoriesData.find((c) => c.categoryId === filterState.categoryId);
-    const sub = cat?.subCategories?.find((s) => s.subCategoryId === filterState.subCategoryId);
+    const cat = categoriesData.find(
+      (c) => c.categoryId === filterState.categoryId,
+    );
+    const sub = cat?.subCategories?.find(
+      (s) => s.subCategoryId === filterState.subCategoryId,
+    );
     if (sub) {
       chips.push(`
                 <span class="badge filter-chip me-2 mb-2 p-2 active-filter-chip">
@@ -2199,7 +2326,7 @@ function renderActiveFilterChips() {
     }
   }
 
-  if (filterState.categoryId) chips.push(clearFiltersBtn)
+  if (filterState.categoryId) chips.push(clearFiltersBtn);
   container.innerHTML = chips.join("");
 }
 
@@ -2223,7 +2350,7 @@ function renderProductsGrid(products) {
   if (countEl) {
     countEl.textContent = getLabel(
       `${displayedProductsCount} result${displayedProductsCount === 1 ? "" : "s"}`,
-      `${displayedProductsCount} نتيجة`
+      `${displayedProductsCount} نتيجة`,
     );
   }
 
@@ -2248,9 +2375,9 @@ function renderProductsGrid(products) {
 
   const cardsHtml = visibleProducts
     .map(
-      (product) => /*html*/`
+      (product) => /*html*/ `
         <div class="col-6 col-md-4 col-xl-4">
-                <div class="card product-card h-100 border-0 ">
+                <div class="card product-card h-100 border-0 " data-product-id="${product.id}">
                     <div class="product-img-wrap bg-light">
                         <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
                     </div>
@@ -2285,7 +2412,7 @@ function renderProductsGrid(products) {
         </div>
     </div>
         </div>
-    `
+    `,
     )
     .join("");
 
@@ -2301,16 +2428,19 @@ function renderProductsGrid(products) {
 
   container.innerHTML = cardsHtml + showMoreHtml;
 
-  
+  // Make each card clickable through to the single product page
+
   container.querySelectorAll(".product-card").forEach((card, i) => {
-        console.log(cardsHtml);
-      card.style.cursor = "pointer";
-      card.addEventListener("click", () => {
-        setCurrentPage("single-product", visibleProducts[i].id);
-      });
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      setCurrentPage("single-product", visibleProducts[i].id);
     });
-  
+  });
 }
+
+/* =============================================================
+    PRODUCTS PAGE END
+    ============================================================= */
 
 /**
  * Load projects page
@@ -3107,62 +3237,29 @@ function loadSingleProductPage(productId) {
 
   const relatedHtml = relatedProducts
     .map(
-      (p) => /*html*/ `
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="card product-card h-100 border-0 ">
-                    <div class="product-img-wrap bg-light">
-                        <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
-                    </div>
-
-                    <div class="card-body">
-                        <div class="price-section mt-3">
-                            ${
-                              product.oldPrice
-                                ? `<span class="discount-badge">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
-                                : ""
-                            }
-
+      (p) => `
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card product-card related-product-card h-100 border-0" data-product-id="${p.id}">
+                <div class="product-img-wrap bg-light">
+                    <img src="${p.url}" class="card-img-top" alt="${getLabel(p.title.en, p.title.ar)}">
+                </div>
+                <div class="card-body">
+                    <div class="price-section mt-3">
+                        ${p.oldPrice ? `<span class="discount-badge">-${Math.round((1 - p.price / p.oldPrice) * 100)}%</span>` : ""}
                         <div class="price-row">
-                            <span class="current-price">
-                                EGP ${product.price}
-                            </span>
-
-                            ${
-                              product.oldPrice
-                                ? `<span class="old-price">EGP ${product.oldPrice}</span>`
-                                : ""
-                            }
+                            <span class="current-price">EGP ${p.price}</span>
+                            ${p.oldPrice ? `<span class="old-price">EGP ${p.oldPrice}</span>` : ""}
                         </div>
                     </div>
-            <span class="badge bg-light text-dark mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
-
-            <h6 class="card-title mb-1">${getLabel(product.title.en, product.title.ar)}</h6>
-
-            <p class="card-text text-muted small product-desc">
-                ${getLabel(product.desc.en, product.desc.ar)}
-            </p>
+                    <span class="badge bg-light text-dark mb-2">${getLabel(p.sub_category.en, p.sub_category.ar)}</span>
+                    <h6 class="card-title mb-1">${getLabel(p.title.en, p.title.ar)}</h6>
+                    <p class="card-text text-muted small product-desc">${getLabel(p.desc.en, p.desc.ar)}</p>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
       `,
     )
     .join("");
-
-  /**Social Links Handler */
-  document.addEventListener("click", async (e) => {
-    const btn = e.target.closest(".copy-link");
-
-    if (!btn) return;
-
-    await navigator.clipboard.writeText(btn.dataset.url);
-
-    // Optional
-    btn.innerHTML = `<i class="fas fa-check"></i>`;
-
-    setTimeout(() => {
-      btn.innerHTML = `<i class="fas fa-link"></i>`;
-    }, 1500);
-  });
 
   const shareLinksHtml = shareLinks
     .map((s) => {
@@ -3513,15 +3610,35 @@ function loadSingleProductPage(productId) {
     `;
 
   // ===================== Interactions =====================
+  // NOTE: all shared state is declared FIRST, before any handler that
+  // references it. Previously qtySelect / selectedColor / selectedSize
+  // were declared at the bottom, so if anything above them threw, the
+  // Add to Cart / Buy Now handlers hit a TDZ ReferenceError on click.
+
+  const qtySelect = container.querySelector("#productQty");
+  let selectedColor = getLabel(colors[0].name, colors[0].nameAr);
+  let selectedSize = getLabel(sizes[0].en, sizes[0].ar);
+
+  const getQty = () => parseInt(qtySelect?.value || "1", 10);
+
+  // --- Related product cards ---
+  // (was: relatedHtml[i].id — relatedHtml is a STRING, not an array)
+  container.querySelectorAll(".related-product-card").forEach((card) => {
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      setCurrentPage("single-product", card.dataset.productId);
+    });
+  });
 
   // --- Add to Cart ---
   const addToCartBtn = container.querySelector("#addToCartBtn");
   if (addToCartBtn) {
     addToCartBtn.addEventListener("click", () => {
-      const qty = parseInt(qtySelect.value, 10);
-      addToCart(product.id, qty, { color: selectedColor, size: selectedSize }); // hook your existing addToCart function
+      addToCart(product.id, getQty(), {
+        color: selectedColor,
+        size: selectedSize,
+      });
 
-      // Simple visual confirmation
       const originalHtml = addToCartBtn.innerHTML;
       addToCartBtn.innerHTML = `<i class="fas fa-check me-2"></i>${getLabel("Added!", "تمت الإضافة!")}`;
       addToCartBtn.disabled = true;
@@ -3536,32 +3653,15 @@ function loadSingleProductPage(productId) {
   const buyNowBtn = container.querySelector("#buyNowBtn");
   if (buyNowBtn) {
     buyNowBtn.addEventListener("click", () => {
-      const qty = parseInt(qtySelect.value, 10);
-      addToCart(product.id, qty, { color: selectedColor, size: selectedSize }); // add to cart first
-      setCurrentPage("checkout"); // then go straight to checkout
+      addToCart(product.id, getQty(), {
+        color: selectedColor,
+        size: selectedSize,
+      });
+      setCurrentPage("checkout");
     });
   }
 
-  // --- Gallery thumbnail click ---
-  let activeThumbIndex = 0;
-  container.querySelectorAll(".product-thumb").forEach((thumb) => {
-    thumb.addEventListener("click", function () {
-      container
-        .querySelectorAll(".product-thumb")
-        .forEach((t) => t.classList.remove("active"));
-      this.classList.add("active");
-      activeThumbIndex = parseInt(this.dataset.index, 10);
-      document.getElementById("mainProductImage").src = this.dataset.img;
-    });
-  });
-
-  // --- Quantity stepper (defensive, scoped to this container) ---
-  // Quantity is just read directly wherever needed, e.g. in the reservation modal:
-  // Example usage elsewhere in your code:
-  // const selectedQty = qtySelect.value; // returns the selected number as a string
-
   // --- Color swatches ---
-  let selectedColor = getLabel(colors[0].name, colors[0].nameAr);
   container.querySelectorAll(".color-swatch").forEach((swatch) => {
     swatch.addEventListener("click", function () {
       container
@@ -3573,7 +3673,6 @@ function loadSingleProductPage(productId) {
   });
 
   // --- Size options ---
-  let selectedSize = getLabel(sizes[0].en, sizes[0].ar);
   container.querySelectorAll(".size-option").forEach((opt) => {
     opt.addEventListener("click", function () {
       container
@@ -3588,6 +3687,7 @@ function loadSingleProductPage(productId) {
   container.querySelectorAll(".spec-group-toggle").forEach((btn) => {
     const targetId = btn.getAttribute("data-bs-target");
     const target = container.querySelector(targetId);
+    if (!target) return; // defensive: don't throw and abort everything below
     target.addEventListener("show.bs.collapse", () =>
       btn.querySelector(".spec-chevron").classList.add("rotated"),
     );
@@ -3596,76 +3696,69 @@ function loadSingleProductPage(productId) {
     );
   });
 
-  // --- Gallery: init swipers + fullscreen toggle ---
-  const galleryOverlayThumbs = new Swiper(".galleryOverlayThumbs", {
+  // --- Gallery swipers ---
+  // NOTE: the inline gallery and the fullscreen overlay must NOT share the
+  // same class — new Swiper(".x") only binds the FIRST match, so the second
+  // one silently never initializes. Rename the overlay's classes in the
+  // markup to .galleryFullscreenSwiper / .galleryFullscreenThumbs.
+  const galleryThumbs = new Swiper(".galleryOverlayThumbs", {
     direction: "vertical",
     spaceBetween: 10,
     slidesPerView: 4,
     freeMode: true,
     watchSlidesProgress: true,
     rtl: document.documentElement.dir === "rtl",
-
     breakpoints: {
-      0: {
-        direction: "horizontal",
-        slidesPerView: 4,
-        spaceBetween: 8,
-      },
-      768: {
-        direction: "vertical",
-        slidesPerView: 4,
-        spaceBetween: 10,
-      },
+      0: { direction: "horizontal", slidesPerView: 4, spaceBetween: 8 },
+      768: { direction: "vertical", slidesPerView: 4, spaceBetween: 10 },
     },
   });
 
-  const galleryOverlaySwiper = new Swiper(".galleryOverlaySwiper", {
+  const gallerySwiper = new Swiper(".galleryOverlaySwiper", {
     slidesPerView: 1,
     loop: true,
     rtl: document.documentElement.dir === "rtl",
-
     navigation: {
       nextEl: ".galleryOverlaySwiper .swiper-button-next",
       prevEl: ".galleryOverlaySwiper .swiper-button-prev",
     },
-
     pagination: {
       el: ".galleryOverlaySwiper .swiper-pagination",
       clickable: true,
     },
-
-    thumbs: {
-      swiper: galleryOverlayThumbs,
-    },
+    thumbs: { swiper: galleryThumbs },
   });
 
+  // --- Fullscreen toggle ---
   const galleryWrapper = document.getElementById("productGalleryWrapper");
   const openGalleryBtn = document.getElementById("openGalleryOverlay");
 
-  openGalleryBtn.addEventListener("click", () => {
-    const isFullscreen = galleryWrapper.classList.toggle("gallery-fullscreen");
-    document.documentElement.style.overflow = isFullscreen ? "hidden" : "";
-    document.body.style.overflow = isFullscreen ? "hidden" : "";
-    openGalleryBtn.querySelector("i").className = isFullscreen
-      ? "fas fa-compress"
-      : "fas fa-expand";
+  if (galleryWrapper && openGalleryBtn) {
+    openGalleryBtn.addEventListener("click", () => {
+      const isFullscreen =
+        galleryWrapper.classList.toggle("gallery-fullscreen");
+      document.documentElement.style.overflow = isFullscreen ? "hidden" : "";
+      document.body.style.overflow = isFullscreen ? "hidden" : "";
+      openGalleryBtn.querySelector("i").className = isFullscreen
+        ? "fas fa-compress"
+        : "fas fa-expand";
+      gallerySwiper.update();
+      galleryThumbs.update();
+    });
 
-    galleryOverlaySwiper.update();
-    galleryOverlayThumbs.update();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (
-      e.key === "Escape" &&
-      galleryWrapper.classList.contains("gallery-fullscreen")
-    ) {
-      galleryWrapper.classList.remove("gallery-fullscreen");
-      document.body.style.overflow = "";
-      openGalleryBtn.querySelector("i").className = "fas fa-expand";
-      galleryOverlaySwiper.update();
-      galleryOverlayThumbs.update();
-    }
-  });
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.key === "Escape" &&
+        galleryWrapper.classList.contains("gallery-fullscreen")
+      ) {
+        galleryWrapper.classList.remove("gallery-fullscreen");
+        document.body.style.overflow = "";
+        openGalleryBtn.querySelector("i").className = "fas fa-expand";
+        gallerySwiper.update();
+        galleryThumbs.update();
+      }
+    });
+  }
 
   // --- Reservation Modal ---
   const reservationBackdrop = document.getElementById(
@@ -3673,9 +3766,8 @@ function loadSingleProductPage(productId) {
   );
   const openReservationBtn = document.getElementById("openReservationModal");
   const closeReservationBtn = document.getElementById("closeReservationModal");
-  const qtySelect = container.querySelector("#productQty"); // <-- this was missing
 
-  if (openReservationBtn && reservationBackdrop && qtySelect) {
+  if (openReservationBtn && reservationBackdrop) {
     openReservationBtn.addEventListener("click", () => {
       const colorEl = document.getElementById("reservationSummaryColor");
       const sizeEl = document.getElementById("reservationSummarySize");
@@ -3683,16 +3775,10 @@ function loadSingleProductPage(productId) {
 
       if (colorEl) colorEl.textContent = selectedColor;
       if (sizeEl) sizeEl.textContent = selectedSize;
-      if (qtyEl) qtyEl.textContent = qtySelect.value;
+      if (qtyEl) qtyEl.textContent = getQty();
 
       reservationBackdrop.classList.remove("d-none");
       document.body.style.overflow = "hidden";
-    });
-  } else {
-    console.error("Reservation modal setup failed — missing element(s):", {
-      openReservationBtn,
-      reservationBackdrop,
-      qtySelect,
     });
   }
 
@@ -3706,15 +3792,14 @@ function loadSingleProductPage(productId) {
   function buildReservationMessage() {
     const name = document.getElementById("reservationName").value.trim();
     const phone = document.getElementById("reservationPhone").value.trim();
-    const qty = qtySelect.value;
 
     return getLabel(
-      `Reservation Request\nProduct: ${product.title}\nColor: ${selectedColor}\nSize: ${selectedSize}\nQuantity: ${qty}\nName: ${name}\nPhone: ${phone}`,
-      `طلب حجز\nالمنتج: ${product.title}\nاللون: ${selectedColor}\nالمقاس: ${selectedSize}\nالكمية: ${qty}\nالاسم: ${name}\nالهاتف: ${phone}`,
+      `Reservation Request\nProduct: ${productTitle}\nColor: ${selectedColor}\nSize: ${selectedSize}\nQuantity: ${getQty()}\nName: ${name}\nPhone: ${phone}`,
+      `طلب حجز\nالمنتج: ${productTitle}\nاللون: ${selectedColor}\nالمقاس: ${selectedSize}\nالكمية: ${getQty()}\nالاسم: ${name}\nالهاتف: ${phone}`,
     );
   }
 
-  document.getElementById("sendViaWhatsapp").addEventListener("click", () => {
+  function validateReservation() {
     const name = document.getElementById("reservationName").value.trim();
     const phone = document.getElementById("reservationPhone").value.trim();
     if (!name || !phone) {
@@ -3724,38 +3809,87 @@ function loadSingleProductPage(productId) {
           "يرجى إدخال الاسم ورقم الهاتف",
         ),
       );
-      return;
+      return false;
     }
-    const message = encodeURIComponent(buildReservationMessage());
-    window.open(
-      `https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`,
-      "_blank",
-    );
-  });
+    return true;
+  }
 
-  document.getElementById("sendViaEmail").addEventListener("click", () => {
-    const name = document.getElementById("reservationName").value.trim();
-    const phone = document.getElementById("reservationPhone").value.trim();
-    if (!name || !phone) {
-      alert(
+  const whatsappBtn = document.getElementById("sendViaWhatsapp");
+  if (whatsappBtn) {
+    whatsappBtn.addEventListener("click", () => {
+      if (!validateReservation()) return;
+      const message = encodeURIComponent(buildReservationMessage());
+      window.open(
+        `https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`,
+        "_blank",
+      );
+    });
+  }
+
+  const emailBtn = document.getElementById("sendViaEmail");
+  if (emailBtn) {
+    emailBtn.addEventListener("click", () => {
+      if (!validateReservation()) return;
+      const subject = encodeURIComponent(
         getLabel(
-          "Please enter your name and phone number",
-          "يرجى إدخال الاسم ورقم الهاتف",
+          `Reservation Request - ${productTitle}`,
+          `طلب حجز - ${productTitle}`,
         ),
       );
-      return;
-    }
-    const subject = encodeURIComponent(
-      getLabel(
-        `Reservation Request - ${product.title}`,
-        `طلب حجز - ${product.title}`,
-      ),
-    );
-    const body = encodeURIComponent(buildReservationMessage());
-    window.location.href = `mailto:${RESERVATION_EMAIL}?subject=${subject}&body=${body}`;
-  });
+      const body = encodeURIComponent(buildReservationMessage());
+      window.location.href = `mailto:${RESERVATION_EMAIL}?subject=${subject}&body=${body}`;
+    });
+  }
 }
 
+/* ============================================================
+   ALSO FIX — the relatedHtml template (was rendering `product.*`
+   instead of `p.*`, so all 4 related cards showed the CURRENT
+   product). Replace your existing relatedHtml block with this:
+   ============================================================ */
+
+/*
+  const relatedHtml = relatedProducts
+    .map(
+      (p) => `
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card product-card related-product-card h-100 border-0" data-product-id="${p.id}">
+                <div class="product-img-wrap bg-light">
+                    <img src="${p.url}" class="card-img-top" alt="${getLabel(p.title.en, p.title.ar)}">
+                </div>
+                <div class="card-body">
+                    <div class="price-section mt-3">
+                        ${p.oldPrice ? `<span class="discount-badge">-${Math.round((1 - p.price / p.oldPrice) * 100)}%</span>` : ""}
+                        <div class="price-row">
+                            <span class="current-price">EGP ${p.price}</span>
+                            ${p.oldPrice ? `<span class="old-price">EGP ${p.oldPrice}</span>` : ""}
+                        </div>
+                    </div>
+                    <span class="badge bg-light text-dark mb-2">${getLabel(p.sub_category.en, p.sub_category.ar)}</span>
+                    <h6 class="card-title mb-1">${getLabel(p.title.en, p.title.ar)}</h6>
+                    <p class="card-text text-muted small product-desc">${getLabel(p.desc.en, p.desc.ar)}</p>
+                </div>
+            </div>
+        </div>
+      `,
+    )
+    .join("");
+*/
+
+/* ============================================================
+   ALSO REMOVE — this block near the top of loadSingleProductPage().
+   It attaches a NEW document-level listener every time the page
+   loads, stacking duplicates. Move it into your global event setup
+   (setupEventListeners) so it binds exactly once:
+
+     document.addEventListener("click", async (e) => {
+       const btn = e.target.closest(".copy-link");
+       if (!btn) return;
+       await navigator.clipboard.writeText(btn.dataset.url);
+       btn.innerHTML = `<i class="fas fa-check"></i>`;
+       setTimeout(() => { btn.innerHTML = `<i class="fas fa-link"></i>`; }, 1500);
+     });
+   ============================================================ */
 /*========================================================================================================*/
 
 /**
@@ -3792,23 +3926,31 @@ function initializeHomePageSections() {
             `;
   }
 
+  document.addEventListener("click", (e) => {
+    const catLink = e.target.closest("[data-category-id]");
+    if (catLink) {
+      e.preventDefault();
+      goToProductsWithFilter(catLink.dataset.categoryId);
+    }
+  });
+
   // Initialize Categories Section
   const categorySection = document.getElementById("categorySection");
   if (categorySection) {
     const categorySlidesHtml = categoriesData
       .map(
-        (cat) => `
+        (cat) => /*html*/ `
     <div class="swiper-slide">
-        <a href="#" class="category-card-link" onclick="setCurrentPage('${cat.page}', '${cat.categoryId}')">
+        <a href="#" class="category-card-link" data-category-id="${cat.categoryId}" onclick="setCurrentPage('${cat.page}', '${cat.categoryId}')">
             <div class="category-card">
                  <div class="category-card-img">
                     <img src="${cat.img}" class="img-fluid" alt="${getLabel(cat.name.en, cat.name.ar)}">
                 </div>
                  <ul class="category-card-details">
-                    ${cat.variants
+                    ${cat.subCategories
                       .map(
                         (variant, i) => `
-                        <li style="transition-delay: ${i * 80}ms;">${getLabel(variant.en, variant.ar)}</li>
+                        <li style="transition-delay: ${i * 80}ms;">${getLabel(variant.name.en, variant.name.ar)}</li>
                     `,
                       )
                       .join("")}
@@ -3923,7 +4065,7 @@ function initializeHomePageSections() {
 
     // Get unique categories from the single unified array
     const uniqueCategories = [
-      ...new Map(productsData.map((p) => [p.categoryId, p.category])).entries(),
+      ...new Map(categoriesData.map((p) => [p.categoryId, p.name])).entries(),
     ];
     // uniqueCategories is now: [ [categoryId, {en, ar}], [categoryId, {en, ar}], ... ]
 
@@ -4586,6 +4728,12 @@ async function initializeApp() {
   // ============================
   await loadProductsData();
   await loadCategoriesData();
+
+  // Build the Products mega menu from categoriesData.
+  // MUST be after loadCategoriesData() and before initializeNavigation().
+  const productsLink = navigationLinks.find((l) => l.id === "products");
+  productsLink.megaMenu = buildProductsMegaMenuColumns();
+
   initializeNavigation();
   initializeSlider();
   initializeFooter();
@@ -4612,7 +4760,7 @@ async function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("products");
+  setCurrentPage("home");
 }
 
 /**
@@ -4637,6 +4785,17 @@ function setupEventListeners() {
       setCurrentPage("home");
     });
   }
+
+  // Sticky navbar on scroll
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".copy-link");
+    if (!btn) return;
+    await navigator.clipboard.writeText(btn.dataset.url);
+    btn.innerHTML = `<i class="fas fa-check"></i>`;
+    setTimeout(() => {
+      btn.innerHTML = `<i class="fas fa-link"></i>`;
+    }, 1500);
+  });
 
   // Sticky navbar on scroll
   window.addEventListener("scroll", () => {

@@ -85,7 +85,8 @@
           "en": "2-year warranty against manufacturing defects",
           "ar": "ضمان سنتين ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "electric-transport-electric-scooter"
     },
     {
       "id": "urban-e-bike-x2",
@@ -154,7 +155,8 @@
           "en": "2-year warranty on the battery",
           "ar": "ضمان سنتين على البطارية"
         }
-      ]
+      ],
+      "subCategoryId": "electric-transport-electric-bike"
     },
     {
       "id": "mobility-scooter-comfort",
@@ -218,7 +220,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "electric-transport-mobility-scooter"
     },
     {
       "id": "cash-transit-van-01",
@@ -287,7 +290,8 @@
           "en": "2-year manufacturer warranty on armor integrity",
           "ar": "ضمان سنتين من الشركة المصنعة على سلامة التصفيح"
         }
-      ]
+      ],
+      "subCategoryId": "cash-transfer-cash-in-transit-van"
     },
     {
       "id": "armored-patrol-vehicle",
@@ -351,7 +355,8 @@
           "en": "2-year warranty against manufacturing defects",
           "ar": "ضمان سنتين ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "cash-transfer-patrol-vehicle"
     },
     {
       "id": "ambulance-als-01",
@@ -415,7 +420,8 @@
           "en": "2-year warranty on vehicle conversion and equipment",
           "ar": "ضمان سنتين على تجهيز المركبة ومعداتها"
         }
-      ]
+      ],
+      "subCategoryId": "ambulance-advanced-life-support-ambulance"
     },
     {
       "id": "ambulance-bls-01",
@@ -479,7 +485,8 @@
           "en": "1-year warranty on vehicle conversion",
           "ar": "ضمان سنة واحدة على تجهيز المركبة"
         }
-      ]
+      ],
+      "subCategoryId": "ambulance-basic-life-support-ambulance"
     },
     {
       "id": "firefighting-truck-01",
@@ -543,7 +550,8 @@
           "en": "2-year warranty against manufacturing defects",
           "ar": "ضمان سنتين ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "firefighting-compact-firefighting-truck"
     },
     {
       "id": "airport-firefighting-vehicle",
@@ -607,7 +615,8 @@
           "en": "3-year warranty against manufacturing defects",
           "ar": "ضمان 3 سنوات ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "firefighting-airport-rescue-vehicle"
     },
     {
       "id": "mobile-tech-center",
@@ -615,7 +624,7 @@
         "en": "Vehicle Conversions",
         "ar": "مراكز تقنية"
       },
-      "categoryId": "vehicle-Conversions",
+      "categoryId": "vehicle-conversions",
       "sub_category": {
         "en": "Mobile Technology Unit",
         "ar": "وحدة تكنولوجية متنقلة"
@@ -671,7 +680,8 @@
           "en": "2-year warranty on onboard systems",
           "ar": "ضمان سنتين على الأنظمة الداخلية"
         }
-      ]
+      ],
+      "subCategoryId": "vehicle-conversions-mobile-technology-unit"
     },
     {
       "id": "mobile-clinic-unit",
@@ -679,7 +689,7 @@
         "en": "Vehicle Conversions",
         "ar": "مراكز تقنية"
       },
-      "categoryId": "vehicle-Conversions",
+      "categoryId": "vehicle-conversions",
       "sub_category": {
         "en": "Mobile Clinic",
         "ar": "عيادة متنقلة"
@@ -731,7 +741,8 @@
           "en": "2-year warranty on equipment and conversion",
           "ar": "ضمان سنتين على المعدات والتجهيز"
         }
-      ]
+      ],
+      "subCategoryId": "vehicle-conversions-mobile-clinic"
     },
     {
       "id": "home-sofa-set",
@@ -804,7 +815,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "home-furniture-sofa-set"
     },
     {
       "id": "dining-table-set",
@@ -868,7 +880,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "home-furniture-dining-set"
     },
     {
       "id": "bedroom-wardrobe",
@@ -941,7 +954,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "home-furniture-wardrobe"
     },
     {
       "id": "office-desk-executive",
@@ -1018,7 +1032,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "office-furniture-executive-desk"
     },
     {
       "id": "hydraulic-office-chair",
@@ -1087,7 +1102,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "office-furniture-hydraulic-chair"
     },
     {
       "id": "conference-table-large",
@@ -1147,7 +1163,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "office-furniture-conference-table"
     },
     {
       "id": "plastic-storage-box",
@@ -1224,7 +1241,8 @@
           "en": "6-month warranty against manufacturing defects",
           "ar": "ضمان 6 أشهر ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "plastic-storage-box"
     },
     {
       "id": "industrial-plastic-pallet",
@@ -1288,7 +1306,8 @@
           "en": "1-year warranty against manufacturing defects",
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "plastic-pallet"
     },
     {
       "id": "plastic-water-tank",
@@ -1360,7 +1379,8 @@
           "en": "5-year warranty against manufacturing defects",
           "ar": "ضمان 5 سنوات ضد عيوب التصنيع"
         }
-      ]
+      ],
+      "subCategoryId": "plastic-water-tank"
     }
   ]
 }

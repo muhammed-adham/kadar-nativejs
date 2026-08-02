@@ -8,54 +8,30 @@
         "ar": "نقل كهربائي"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Electric Scooters",
-          "ar": "سكوتر كهربائي"
-        },
-        {
-          "en": "Electric Golf Cars",
-          "ar": "عربات جولف كهربائية"
-        },
-        {
-          "en": "Electric Bicycles",
-          "ar": "دراجات هوائية كهرباء"
-        },
-        {
-          "en": "Bicycles",
-          "ar": "دراجات هوائية"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "electric-transport-electric-scooters",
+          "subCategoryId": "electric-transport-electric-scooter",
           "name": {
-            "en": "Electric Scooters",
+            "en": "Electric Scooter",
             "ar": "سكوتر كهربائي"
           }
         },
         {
-          "subCategoryId": "electric-transport-electric-golf-cars",
+          "subCategoryId": "electric-transport-electric-bike",
           "name": {
-            "en": "Electric Golf Cars",
-            "ar": "عربات جولف كهربائية"
+            "en": "Electric Bike",
+            "ar": "دراجة كهربائية"
           }
         },
         {
-          "subCategoryId": "electric-transport-electric-bicycles",
+          "subCategoryId": "electric-transport-mobility-scooter",
           "name": {
-            "en": "Electric Bicycles",
-            "ar": "دراجات هوائية كهرباء"
-          }
-        },
-        {
-          "subCategoryId": "electric-transport-bicycles",
-          "name": {
-            "en": "Bicycles",
-            "ar": "دراجات هوائية"
+            "en": "Mobility Scooter",
+            "ar": "سكوتر تنقل"
           }
         }
-      ]
+      ],
+      "group": "civilian"
     },
     {
       "categoryId": "furnish-home",
@@ -65,20 +41,6 @@
         "ar": "افرش بيتك"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Living Room Sets",
-          "ar": "طقم صالة"
-        },
-        {
-          "en": "Bedroom Sets",
-          "ar": "طقم غرفة نوم"
-        },
-        {
-          "en": "Diningroom Sets",
-          "ar": "طقم غرفة طعام"
-        }
-      ],
       "subCategories": [
         {
           "subCategoryId": "furnish-home-living-room-sets",
@@ -101,7 +63,8 @@
             "ar": "طقم غرفة طعام"
           }
         }
-      ]
+      ],
+      "group": "furniture"
     },
     {
       "categoryId": "home-furniture",
@@ -111,43 +74,30 @@
         "ar": "أثاث منزلي"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Sofas",
-          "ar": "كنب"
-        },
-        {
-          "en": "Dining Tables",
-          "ar": "طاولات سفرة"
-        },
-        {
-          "en": "Bedroom Furniture",
-          "ar": "أثاث غرف نوم"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "home-furniture-sofas",
+          "subCategoryId": "home-furniture-sofa-set",
           "name": {
-            "en": "Sofas",
-            "ar": "كنب"
+            "en": "Sofa Set",
+            "ar": "طقم كنب"
           }
         },
         {
-          "subCategoryId": "home-furniture-dining-tables",
+          "subCategoryId": "home-furniture-dining-set",
           "name": {
-            "en": "Dining Tables",
-            "ar": "طاولات سفرة"
+            "en": "Dining Set",
+            "ar": "طقم سفرة"
           }
         },
         {
-          "subCategoryId": "home-furniture-bedroom-furniture",
+          "subCategoryId": "home-furniture-wardrobe",
           "name": {
-            "en": "Bedroom Furniture",
-            "ar": "أثاث غرف نوم"
+            "en": "Wardrobe",
+            "ar": "دولاب"
           }
         }
-      ]
+      ],
+      "group": "furniture"
     },
     {
       "categoryId": "office-furniture",
@@ -157,43 +107,30 @@
         "ar": "أثاث مكتبي"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Office Desks",
-          "ar": "مكاتب"
-        },
-        {
-          "en": "Ergonomic Chairs",
-          "ar": "كراسي مريحة"
-        },
-        {
-          "en": "Storage Cabinets",
-          "ar": "خزائن تخزين"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "office-furniture-office-desks",
+          "subCategoryId": "office-furniture-executive-desk",
           "name": {
-            "en": "Office Desks",
-            "ar": "مكاتب"
+            "en": "Executive Desk",
+            "ar": "مكتب تنفيذي"
           }
         },
         {
-          "subCategoryId": "office-furniture-ergonomic-chairs",
+          "subCategoryId": "office-furniture-hydraulic-chair",
           "name": {
-            "en": "Ergonomic Chairs",
-            "ar": "كراسي مريحة"
+            "en": "Hydraulic Chair",
+            "ar": "كرسي هيدروليكي"
           }
         },
         {
-          "subCategoryId": "office-furniture-storage-cabinets",
+          "subCategoryId": "office-furniture-conference-table",
           "name": {
-            "en": "Storage Cabinets",
-            "ar": "خزائن تخزين"
+            "en": "Conference Table",
+            "ar": "طاولة اجتماعات"
           }
         }
-      ]
+      ],
+      "group": "furniture"
     },
     {
       "categoryId": "plastic",
@@ -203,89 +140,56 @@
         "ar": "منتجات بلاستيكية"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Storage Boxes",
-          "ar": "صناديق تخزين"
-        },
-        {
-          "en": "Outdoor Furniture",
-          "ar": "أثاث خارجي"
-        },
-        {
-          "en": "Household Items",
-          "ar": "أدوات منزلية"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "plastic-storage-boxes",
+          "subCategoryId": "plastic-storage-box",
           "name": {
-            "en": "Storage Boxes",
-            "ar": "صناديق تخزين"
+            "en": "Storage Box",
+            "ar": "صندوق تخزين"
           }
         },
         {
-          "subCategoryId": "plastic-outdoor-furniture",
+          "subCategoryId": "plastic-pallet",
           "name": {
-            "en": "Outdoor Furniture",
-            "ar": "أثاث خارجي"
+            "en": "Pallet",
+            "ar": "منصة نقالة"
           }
         },
         {
-          "subCategoryId": "plastic-household-items",
+          "subCategoryId": "plastic-water-tank",
           "name": {
-            "en": "Household Items",
-            "ar": "أدوات منزلية"
+            "en": "Water Tank",
+            "ar": "خزان مياه"
           }
         }
-      ]
+      ],
+      "group": "civilian"
     },
     {
-      "categoryId": "vehicle-Conversions",
+      "categoryId": "vehicle-conversions",
       "img": "/images/cat-9.webp",
       "name": {
         "en": "Vehicle Conversions",
         "ar": "مراكز تقنية"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Mobile Labs",
-          "ar": "معامل متنقلة"
-        },
-        {
-          "en": "Comm Units",
-          "ar": "وحدات اتصال"
-        },
-        {
-          "en": "Server Cabins",
-          "ar": "غرف سيرفرات"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "vehicle-Conversions-mobile-labs",
+          "subCategoryId": "vehicle-conversions-mobile-technology-unit",
           "name": {
-            "en": "Mobile Labs",
-            "ar": "معامل متنقلة"
+            "en": "Mobile Technology Unit",
+            "ar": "وحدة تكنولوجية متنقلة"
           }
         },
         {
-          "subCategoryId": "vehicle-Conversions-comm-units",
+          "subCategoryId": "vehicle-conversions-mobile-clinic",
           "name": {
-            "en": "Comm Units",
-            "ar": "وحدات اتصال"
-          }
-        },
-        {
-          "subCategoryId": "vehicle-Conversions-server-cabins",
-          "name": {
-            "en": "Server Cabins",
-            "ar": "غرف سيرفرات"
+            "en": "Mobile Clinic",
+            "ar": "عيادة متنقلة"
           }
         }
-      ]
+      ],
+      "group": "corporate-military"
     },
     {
       "categoryId": "firefighting",
@@ -295,43 +199,23 @@
         "ar": "إطفاء"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Pumper Trucks",
-          "ar": "شاحنات إطفاء"
-        },
-        {
-          "en": "Ladder Trucks",
-          "ar": "سلالم آلية"
-        },
-        {
-          "en": "Rescue Units",
-          "ar": "وحدات إنقاذ"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "firefighting-pumper-trucks",
+          "subCategoryId": "firefighting-compact-firefighting-truck",
           "name": {
-            "en": "Pumper Trucks",
-            "ar": "شاحنات إطفاء"
+            "en": "Compact Firefighting Truck",
+            "ar": "شاحنة إطفاء صغيرة"
           }
         },
         {
-          "subCategoryId": "firefighting-ladder-trucks",
+          "subCategoryId": "firefighting-airport-rescue-vehicle",
           "name": {
-            "en": "Ladder Trucks",
-            "ar": "سلالم آلية"
-          }
-        },
-        {
-          "subCategoryId": "firefighting-rescue-units",
-          "name": {
-            "en": "Rescue Units",
-            "ar": "وحدات إنقاذ"
+            "en": "Airport Rescue Vehicle",
+            "ar": "مركبة إنقاذ مطارات"
           }
         }
-      ]
+      ],
+      "group": "corporate-military"
     },
     {
       "categoryId": "cash-transfer",
@@ -341,43 +225,23 @@
         "ar": "نقل الأموال"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Armored Vans",
-          "ar": "فانات مصفحة"
-        },
-        {
-          "en": "ATM Trucks",
-          "ar": "شاحنات صرافات"
-        },
-        {
-          "en": "Escort Vehicles",
-          "ar": "مركبات مرافقة"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "cash-transfer-armored-vans",
+          "subCategoryId": "cash-transfer-cash-in-transit-van",
           "name": {
-            "en": "Armored Vans",
-            "ar": "فانات مصفحة"
+            "en": "Cash-in-Transit Van",
+            "ar": "شاحنة نقل أموال"
           }
         },
         {
-          "subCategoryId": "cash-transfer-atm-trucks",
+          "subCategoryId": "cash-transfer-patrol-vehicle",
           "name": {
-            "en": "ATM Trucks",
-            "ar": "شاحنات صرافات"
-          }
-        },
-        {
-          "subCategoryId": "cash-transfer-escort-vehicles",
-          "name": {
-            "en": "Escort Vehicles",
-            "ar": "مركبات مرافقة"
+            "en": "Patrol Vehicle",
+            "ar": "مركبة دورية"
           }
         }
-      ]
+      ],
+      "group": "corporate-military"
     },
     {
       "categoryId": "ambulance",
@@ -387,43 +251,23 @@
         "ar": "إسعاف"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Basic Life Support",
-          "ar": "إسعاف أساسي"
-        },
-        {
-          "en": "ICU Ambulance",
-          "ar": "إسعاف عناية مركزة"
-        },
-        {
-          "en": "Off-Road Units",
-          "ar": "وحدات وعرة"
-        }
-      ],
       "subCategories": [
         {
-          "subCategoryId": "ambulance-basic-life-support",
+          "subCategoryId": "ambulance-advanced-life-support-ambulance",
           "name": {
-            "en": "Basic Life Support",
-            "ar": "إسعاف أساسي"
+            "en": "Advanced Life Support Ambulance",
+            "ar": "سيارة إسعاف دعم متقدم"
           }
         },
         {
-          "subCategoryId": "ambulance-icu-ambulance",
+          "subCategoryId": "ambulance-basic-life-support-ambulance",
           "name": {
-            "en": "ICU Ambulance",
-            "ar": "إسعاف عناية مركزة"
-          }
-        },
-        {
-          "subCategoryId": "ambulance-off-road-units",
-          "name": {
-            "en": "Off-Road Units",
-            "ar": "وحدات وعرة"
+            "en": "Basic Life Support Ambulance",
+            "ar": "سيارة إسعاف دعم أساسي"
           }
         }
-      ]
+      ],
+      "group": "corporate-military"
     },
     {
       "categoryId": "agricultural-tractor",
@@ -433,20 +277,6 @@
         "ar": "جرارات زراعية"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Utility Tractors",
-          "ar": "جرارات متعددة الاستخدام"
-        },
-        {
-          "en": "Field Tractors",
-          "ar": "جرارات الحقول"
-        },
-        {
-          "en": "Agricultural Attachments",
-          "ar": "ملحقات زراعية"
-        }
-      ],
       "subCategories": [
         {
           "subCategoryId": "agricultural-tractor-utility-tractors",
@@ -469,7 +299,8 @@
             "ar": "ملحقات زراعية"
           }
         }
-      ]
+      ],
+      "group": "corporate-military"
     },
     {
       "categoryId": "axle-flatbed-semi-trailer",
@@ -479,20 +310,6 @@
         "ar": "مقطورات نصف نقل مسطحة"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "2-Axle Flatbed",
-          "ar": "مقطورة مسطحة بمحورين"
-        },
-        {
-          "en": "3-Axle Flatbed",
-          "ar": "مقطورة مسطحة بثلاثة محاور"
-        },
-        {
-          "en": "Heavy-Duty Flatbed",
-          "ar": "مقطورة مسطحة للخدمة الشاقة"
-        }
-      ],
       "subCategories": [
         {
           "subCategoryId": "axle-flatbed-semi-trailer-2-axle-flatbed",
@@ -515,7 +332,8 @@
             "ar": "مقطورة مسطحة للخدمة الشاقة"
           }
         }
-      ]
+      ],
+      "group": "corporate-military"
     },
     {
       "categoryId": "military",
@@ -525,20 +343,6 @@
         "ar": "عسكري"
       },
       "page": "products",
-      "variants": [
-        {
-          "en": "Armored Carriers",
-          "ar": "ناقلات مدرعة"
-        },
-        {
-          "en": "Field Trucks",
-          "ar": "شاحنات ميدانية"
-        },
-        {
-          "en": "Command Vehicles",
-          "ar": "مركبات قيادة"
-        }
-      ],
       "subCategories": [
         {
           "subCategoryId": "military-armored-carriers",
@@ -561,7 +365,8 @@
             "ar": "مركبات قيادة"
           }
         }
-      ]
+      ],
+      "group": "corporate-military"
     }
   ]
 }
