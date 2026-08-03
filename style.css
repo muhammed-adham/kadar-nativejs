@@ -1,4 +1,44 @@
-/* ========== CSS Variables & Root ========== */
+/* ============================================================================
+   TABLE OF CONTENTS
+   ============================================================================
+   1.  CSS VARIABLES & ROOT
+   2.  BASE STYLES
+   3.  NAVBAR STYLES
+   4.  CAROUSEL / SLIDER STYLES
+   5.  ABOUT SECTION STYLES
+   6.  BANNER STYLES
+   7.  TYPOGRAPHY
+   8.  BUTTON STYLES
+   9.  CONTAINER STYLES
+   10. CARD STYLES
+   11. CATEGORY / SERVICE ITEM STYLES
+   12. PRODUCTS / SERVICE ITEM STYLES
+   13. PROJECT ITEM STYLES
+   14. TRUSTED SECTION STYLES
+   15. NEWS SECTION STYLES
+   16. COUNTER STYLES
+   17. SIGNUP STYLES
+   18. FORM STYLES
+   19. IMAGE GALLERY STYLES
+   20. SOCIAL SECTION STYLES
+   21. FILTER STYLES
+   22. MODAL STYLES
+   23. PAYMENT SECTION STYLES
+   24. CART PAGE STYLES (also used by checkout order summary)
+   25. CHECKOUT PAGE STYLES
+   26. SINGLE PRODUCT PAGE STYLES
+   27. ACCOUNT & CONTENT PAGES (profile, admin, news, videos, machinery)
+   28. FOOTER STYLES
+   29. UTILITY CLASSES
+   30. RESPONSIVE DESIGN
+   31. PRINT STYLES
+   32. MOBILE TOP BAR / NAV OVERLAYS / MEGA MENU (mobile)
+   33. STICKY POSITIONING FIX
+   ============================================================================ */
+
+/* ============================================================
+   CSS VARIABLES & ROOT
+   ============================================================ */
 :root {
   --primary: #ff6600;
   --secondary: #003049;
@@ -25,7 +65,9 @@ body[data-theme="dark"] {
   --disabled:#e9ecef;
 }
 
-/* ========== Base Styles ========== */
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
 * {
   margin: 0;
   padding: 0;
@@ -50,7 +92,9 @@ a {
   text-decoration: none;
 }
 
-/* ========== Navbar Styles ========== */
+/* ============================================================
+   NAVBAR STYLES
+   ============================================================ */
 .nav-bar {
   background-color: var(--white) !important;
   transition: var(--transition);
@@ -156,7 +200,9 @@ a {
   color: var(--primary);
 }
 
-/* ========== Carousel/Slider Styles ========== */
+/* ============================================================
+   CAROUSEL / SLIDER STYLES
+   ============================================================ */
 .carousel-header {
   position: relative;
   height: 69dvh !important;
@@ -281,7 +327,9 @@ html[dir="rtl"] .swiper-button-prev {
   cursor: pointer;
 }
 
-/* ========== About Section Styles ========== */
+/* ============================================================
+   ABOUT SECTION STYLES
+   ============================================================ */
 
 /* Founded year overlay badge */
 .about-founded-badge {
@@ -352,7 +400,9 @@ html[dir="rtl"] .swiper-button-prev {
   width: 56px;
 }
 
-/* ========== Banner Styles ========== */
+/* ============================================================
+   BANNER STYLES
+   ============================================================ */
 .bg-breadcrumb {
   height: fit-content;
 }
@@ -374,7 +424,9 @@ html[dir="rtl"] .swiper-button-prev {
   color: var(--text-light) !important;
 }
 
-/* ========== Typography ========== */
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
 .display-5 {
   font-size: 3rem;
   font-weight: 700;
@@ -423,7 +475,9 @@ p {
   margin-bottom: 15px;
 }
 
-/* ========== Button Styles ========== */
+/* ============================================================
+   BUTTON STYLES
+   ============================================================ */
 .btn {
   border-radius: 5px;
   font-weight: 600;
@@ -526,7 +580,9 @@ p {
   border: 1px solid black;
 }
 
-/* ========== Container Styles ========== */
+/* ============================================================
+   CONTAINER STYLES
+   ============================================================ */
 .container-fluid {
   background-color: var(--white);
   color: var(--text-primary);
@@ -548,7 +604,9 @@ p {
   background-color: var(--secondary) !important;
 }
 
-/* ========== Card Styles ========== */
+/* ============================================================
+   CARD STYLES
+   ============================================================ */
 .card {
   background-color: var(--white);
   border: 1px solid var(--border-color);
@@ -574,7 +632,9 @@ p {
   /* height: 20rem; */
 }
 
-/* ========== Category/Service Item Styles ========== */
+/* ============================================================
+   CATEGORY / SERVICE ITEM STYLES
+   ============================================================ */
 .category-card-link {
   text-decoration: none;
   display: block;
@@ -642,24 +702,6 @@ p {
   object-fit: cover;
   object-position: center;
 }
-
-/* .category-card:hover .category-card-img img{
-    object-position: 50% 45%;
-} */
-/** Details overlay for clear text **/
-/* .category-card-img::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, var(--primary) 30%, transparent 70%);
-    opacity: 0;
-    transition: all ease .3s;
-} 
-
-.category-card:hover .category-card-img::before{
-    opacity: .4;
-} */
 
 .category-card-details {
   position: absolute;
@@ -735,7 +777,9 @@ p {
   color: #f1f1f1;
 }
 
-/* ========== Products/Service Item Styles ========== */
+/* ============================================================
+   PRODUCTS / SERVICE ITEM STYLES
+   ============================================================ */
 .categoriesSwiper {
   overflow: visible !important;
   height: fit-content !important;
@@ -836,7 +880,9 @@ p {
   font-weight: 600;
 }
 
-/* ========== project Item Styles ========== */
+/* ============================================================
+   PROJECT ITEM STYLES
+   ============================================================ */
 
 @keyframes slideInText {
   from {
@@ -966,9 +1012,9 @@ html[dir="rtl"] .nav-btn-custom {
   z-index: 2;
 }
 
-/* ------------------------------------------------------------------------- */
-
-/* ========== Trusted Section Styles ========== */
+/* ============================================================
+   TRUSTED SECTION STYLES
+   ============================================================ */
 .trust-logo-card {
   background: #fff;
   border: 1px solid #dee2e6;
@@ -1037,7 +1083,9 @@ html[dir="rtl"] .nav-btn-custom {
   }
 }
 
-/* ========== News Section Styles ========== */
+/* ============================================================
+   NEWS SECTION STYLES
+   ============================================================ */
 .card-news {
   transition: all ease 0.2s !important;
   outline: 0px solid var(--border-color) !important;
@@ -1049,7 +1097,9 @@ html[dir="rtl"] .nav-btn-custom {
   box-shadow: none !important;
 }
 
-/* ========== Counter Styles ========== */
+/* ============================================================
+   COUNTER STYLES
+   ============================================================ */
 .counter-facts {
   background-color: var(--light) !important;
 }
@@ -1099,7 +1149,9 @@ html[dir="rtl"] .nav-btn-custom {
   color: var(--white);
 }
 
-/* ========== SignUp Styles ========== */
+/* ============================================================
+   SIGNUP STYLES
+   ============================================================ */
 .signup-visual-panel {
   background-image: url("/images/b-9.webp");
   background-size: 150%;
@@ -1141,7 +1193,9 @@ html[dir="rtl"] .nav-btn-custom {
   box-shadow: 0 0 0 0.2rem rgba(0, 145, 219, 0.15);
 }
 
-/* ========== Form Styles ========== */
+/* ============================================================
+   FORM STYLES
+   ============================================================ */
 .form-floating > label {
   color: var(--text-secondary);
 }
@@ -1171,7 +1225,9 @@ html[dir="rtl"] .nav-btn-custom {
   font-weight: 600;
 }
 
-/* ========== Image Gallery Styles ========== */
+/* ============================================================
+   IMAGE GALLERY STYLES
+   ============================================================ */
 .product-images {
   margin: 30px 0;
 }
@@ -1200,7 +1256,9 @@ html[dir="rtl"] .nav-btn-custom {
   border-color: var(--primary);
 }
 
-/* ========== Social Section Styles ========== */
+/* ============================================================
+   SOCIAL SECTION STYLES
+   ============================================================ */
 .social-section {
   background-image: url(./images/b-7.webp);
   background-size: cover;
@@ -1219,7 +1277,9 @@ html[dir="rtl"] .nav-btn-custom {
   background: linear-gradient(rgba(0, 0, 0, 0.75));
 }
 
-/* ========== Filter Styles ========== */
+/* ============================================================
+   FILTER STYLES
+   ============================================================ */
 .filter-btn {
   border: 2px solid var(--primary);
   background-color: var(--white);
@@ -1369,7 +1429,9 @@ html[dir="rtl"] .nav-btn-custom {
   color: var(--primary);
 }
 
-/* ========== Modal Styles ========== */
+/* ============================================================
+   MODAL STYLES
+   ============================================================ */
 .modal-content {
   background-color: var(--white);
   color: var(--text-primary);
@@ -1389,7 +1451,9 @@ html[dir="rtl"] .nav-btn-custom {
   background-color: var(--light);
 }
 
-/* ========== Payment Section Styles ========== */
+/* ============================================================
+   PAYMENT SECTION STYLES
+   ============================================================ */
 .payment-logo {
   height: 100%;
   width: 100%;
@@ -1402,7 +1466,209 @@ html[dir="rtl"] .nav-btn-custom {
   filter: grayscale(0%) opacity(1);
 }
 
-/* ========== Single Product Page Styles ========== */
+/* ============================================================
+   CART PAGE STYLES
+   Also used by the checkout order summary (.qty-stepper-sm /
+   .qty-btn-sm variants).
+   ============================================================ */
+.cart-line-item:last-child {
+  border-bottom: none !important;
+}
+
+.qty-stepper {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.qty-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.qty-btn:hover {
+  background: var(--light);
+}
+
+.qty-value {
+  display: inline-block;
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.qty-stepper-sm .qty-btn-sm {
+  width: 22px;
+  height: 22px;
+  font-size: 0.75rem;
+}
+
+/* ============================================================
+   CHECKOUT PAGE STYLES
+   Uses logical properties throughout for RTL safety.
+   ============================================================ */
+
+.checkout-section {
+  border: 1px solid var(--bs-border-color);
+}
+
+.checkout-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bs-primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ---------- Sticky order summary ---------- */
+.checkout-summary {
+  border: 1px solid var(--bs-border-color);
+  position: sticky;
+  top: 8rem;
+}
+
+/* NOTE: position:sticky silently fails if ANY parent has overflow:hidden.
+   This site uses .overflow-hidden on container-fluid sections a lot —
+   make sure the checkout page wrapper doesn't have it. */
+
+.checkout-items {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.checkout-item-img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background: #f5f5f5;
+  flex-shrink: 0;
+}
+
+.min-width-0 {
+  min-width: 0; /* lets text-truncate work inside flex children */
+}
+
+/* ---------- Payment method options ---------- */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid var(--bs-border-color);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.payment-option:hover {
+  border-color: var(--bs-primary);
+  background: rgba(var(--bs-primary-rgb), 0.03);
+}
+
+.payment-option.active {
+  border-color: var(--bs-primary);
+  background: rgba(var(--bs-primary-rgb), 0.06);
+}
+
+.payment-option i {
+  font-size: 1.35rem;
+  color: var(--bs-primary);
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ---------- Proof upload ---------- */
+.proof-upload {
+  border: 2px dashed var(--bs-border-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.proof-upload:hover {
+  border-color: var(--bs-primary);
+  background: rgba(var(--bs-primary-rgb), 0.03);
+}
+
+.proof-placeholder {
+  text-align: center;
+}
+
+.proof-placeholder i {
+  font-size: 2rem;
+  color: var(--bs-primary);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.proof-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.proof-pdf-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 0.5rem;
+  background: #f8d7da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.proof-pdf-icon i {
+  font-size: 1.5rem;
+  color: #dc3545;
+}
+
+/* ---------- Success state ---------- */
+.order-success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #d1e7dd;
+  color: #0f5132;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 991.98px) {
+  .checkout-summary {
+    position: static;
+  }
+}
+
+/* ============================================================
+   SINGLE PRODUCT PAGE STYLES
+   ============================================================ */
 .gallery-wrapper {
   height: 460px;
 }
@@ -1629,7 +1895,217 @@ html[dir="rtl"] .nav-btn-custom {
   cursor: pointer;
 }
 
-/* ========== Footer Styles ========== */
+/* ============================================================
+   ACCOUNT & CONTENT PAGES
+   Profile, Admin Dashboard, News, Videos, Machinery.
+   ============================================================ */
+
+/* ---------- Profile page ---------- */
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--secondary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.profile-tabs .nav-link {
+  color: var(--text-secondary);
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+}
+
+.profile-tabs .nav-link.active {
+  color: var(--primary);
+  background: transparent;
+  border-bottom-color: var(--primary);
+}
+
+.order-history-card {
+  border-color: var(--border-color) !important;
+}
+
+/* ---------- Admin dashboard ---------- */
+.admin-kpi-card {
+  border: 1px solid var(--border-color);
+}
+
+.admin-kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.admin-orders-table th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  border-bottom-width: 1px;
+}
+
+.admin-kpi-trend-row {
+  font-size: 0.8rem;
+}
+
+.admin-kpi-trend i {
+  font-size: 0.7rem;
+}
+
+.admin-chart-wrap {
+  position: relative;
+  height: 280px;
+}
+
+.admin-chart-wrap-sm {
+  height: 220px;
+}
+
+.sortable-th {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sortable-th:hover {
+  color: var(--primary);
+}
+
+.admin-section-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+}
+
+.admin-section-tab {
+  border: 1px solid var(--border-color);
+  background: #fff;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.admin-section-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.admin-section-tab.active {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  color: #fff;
+}
+
+.cms-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.cms-image-field {
+  border: 1px dashed var(--border-color);
+  border-radius: 0.4rem;
+  padding: 0.75rem;
+}
+
+.cms-image-preview {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 0.3rem;
+  background: var(--light);
+}
+
+/* ---------- News page ---------- */
+.news-card {
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.news-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.news-card-img {
+  height: 200px;
+  overflow: hidden;
+}
+
+.news-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-card-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Videos page ---------- */
+.video-embed-wrap {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 0.4rem;
+  background: #000;
+}
+
+.video-embed-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- Machinery page ---------- */
+.machinery-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.machinery-card-img {
+  height: 18rem;
+  overflow: hidden;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.machinery-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   FOOTER STYLES
+   ============================================================ */
 footer {
   background-color: var(secondary) !important;
   color: var(--white);
@@ -1694,7 +2170,9 @@ footer a:hover {
     height: auto !important;
   }
 }
-/* ========== Utility Classes ========== */
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
 .wow {
   opacity: 0;
   animation: fadeInUp 1s ease-in-out;
@@ -1822,7 +2300,9 @@ footer a:hover {
   transition: var(--transition);
 }
 
-/* ========== Responsive Design ========== */
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
 
 @media (min-width: 992px) {
   .dropdown:hover > .dropdown-menu {
@@ -1837,6 +2317,14 @@ footer a:hover {
     opacity: 0;
     visibility: hidden;
     transition: 0.25s ease;
+  }
+
+  /* Forces the mega menu shut right after a click, overriding the
+     :hover rule above until the mouse actually leaves the nav item */
+  .dropdown.mega-closed > .dropdown-menu {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
 }
 
@@ -1963,7 +2451,9 @@ footer a:hover {
   }
 }
 
-/* ========== Print Styles ========== */
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
 @media print {
   nav,
   footer,
@@ -2162,7 +2652,9 @@ footer a:hover {
   }
 }
 
-/** For Sticky **/
+/* ============================================================
+   STICKY POSITIONING FIX
+   ============================================================ */
 html,
 body,
 main,

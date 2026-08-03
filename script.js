@@ -1,4 +1,6 @@
-// ========== GLOBAL STATE & CONFIGURATION ==========
+/* ============================================================
+   GLOBAL STATE & CONFIGURATION
+   ============================================================ */
 const appState = {
   currentPage: "home",
   direction: localStorage.getItem("direction") || "ltr",
@@ -8,21 +10,49 @@ const appState = {
   selectedCategory: "",
   selectedSubcategory: "",
   currentProductId: "",
+  user: null, // set by initializeAuth() from localStorage — see AUTH SYSTEM
 };
 
-// document.documentElement.lang = appState.language;
-// document.documentElement.dir = appState.direction;
-// document.body.setAttribute("data-theme", appState.theme);
+/* ============================================================================
+   TABLE OF CONTENTS
+   ============================================================================
+   1.  MAIN APP DATA            — nav/slider/projects/clients/news/video data,
+                                   about-us/social/share/policy content,
+                                   products.json & categories.json loaders
+   2.  UTILITY FUNCTIONS         — getLabel, getDirectionClass, theme, language
+   3.  AUTH SYSTEM               — demo login/logout, roles (customer/admin)
+   4.  CART SYSTEM               — add/remove/update/clear, badge count
+   5.  MEGA MENU COLUMNS         — builds the Products nav dropdown from data
+   6.  MAIN NAV                  — desktop nav, search, delegated nav events
+   7.  MOBILE NAV                — top bar, slide-in menu, mega menu overlay
+   8.  SLIDER & FOOTER           — home banner slider, site footer, breadcrumb
+   9.  ROUTER                    — setCurrentPage(), loadPageContent()
+   10. ABOUT PAGE
+   11. PRODUCTS PAGE             — filters, grid, pagination
+   12. MACHINERY / NEWS / VIDEOS / CONTACT PAGES
+   13. REGISTER / LOGIN PAGES
+   14. SINGLE PRODUCT PAGE       — gallery, variants, policies, reservation
+   15. CART PAGE                 — editable review step: qty stepper, remove
+   16. PROFILE PAGE              — account info + order history, role-aware
+   17. CMS: CONTENT MANAGEMENT   — generic table+form engine for Products/
+                                   Banner/News/Videos/Machinery (Admin only)
+   18. ADMIN DASHBOARD           — overview KPIs/charts + orders table, plus
+                                   the CMS section tabs above, role-gated
+   19. CHECKOUT PAGE             — forms, payment methods, order submission
+   20. HOME PAGE SECTIONS        — about/categories/products/news/trusted/etc.
+   21. APP INIT & GLOBAL EVENTS  — initializeApp(), setupEventListeners()
+   ============================================================================ */
 
 /* ===============================================================================
   MAIN APP DATA
   =============================================================================== */
 
-// ========== contact placeholders ==========
+/* ============================================================
+   CONTACT PLACEHOLDERS
+   ============================================================ */
 const RESERVATION_WHATSAPP = "201556336160";
 const RESERVATION_EMAIL = "kaderfactory38@gmail.com";
 
-// ========== NAVIGATION DATA ==========
 /* ============================================================
    NAVIGATION LINKS
    ============================================================
@@ -71,95 +101,78 @@ const navigationLinks = [
   },
 ];
 
-// ========== SLIDER DATA ==========
-const sliderData = {
-  en: [
-    {
-      title: "",
-      subTitle: "",
-      text: "",
-      url: "/images/b-0.png",
-      cta: "",
-      path: "",
-    },
-    {
-      title: "Technology Centers",
-      subTitle: "Diverse Industries, Unified Excellence",
-      text: "Explore our state-of-the-art technology centers, equipped with cutting-edge tools and innovations.",
-      url: "/images/cat-9.webp",
-      cta: "",
-      path: "/",
-    },
-    {
-      title: "Electronic Motorbikes",
-      subTitle: "Diverse Industries, Unified Excellence",
-      text: "Discover our range of eco-friendly electronic motorbikes.",
-      url: "/images/b-1.webp",
-      cta: "",
-      path: "/",
-    },
-    {
-      title: "Office Furniture",
-      subTitle: "Diverse Industries, Unified Excellence",
-      text: "Transform your living spaces with our premium home furniture collection.",
-      url: "/images/b-3.webp",
-      cta: "",
-      path: "/",
-    },
-    {
-      title: "National Bank of Egypt",
-      subTitle: "Furnish Your Home, Your Way",
-      text: "Get everything you need for your home with instant financing and hassle-free procedures from NBE.",
-      url: "/images/b-2.webp",
-      cta: "",
-      path: "/",
-    },
-  ],
-  ar: [
-    {
-      title: "",
-      subTitle: "",
-      text: "",
-      url: "/images/b-0.png",
-      cta: "",
-      path: "",
-    },
-    {
-      title: "مراكز التكنولوجيا",
-      subTitle: "صناعات متنوعة، تميز موحد",
-      text: "اكتشف مراكز التكنولوجيا الحديثة لدينا والمجهزة بأحدث الأدوات والابتكارات.",
-      url: "/images/cat-9.webp",
-      cta: "",
-      path: "/",
-    },
-    {
-      title: "المركبات الإلكترونية",
-      subTitle: "صناعات متنوعة، تميز موحد",
-      text: "اكتشف مجموعة المركبات الإلكترونية الصديقة للبيئة.",
-      url: "/images/b-1.webp",
-      cta: "",
-      path: "/",
-    },
-    {
-      title: "أثاث مكتبي",
-      subTitle: "صناعات متنوعة، تميز موحد",
-      text: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
-      url: "/images/b-3.webp",
-      cta: "",
-      path: "/",
-    },
-    {
-      title: "مبادرة البنك الأهلي المصري",
-      subTitle: "صناعات متنوعة، تميز موحد",
-      text: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
-      url: "/images/b-3.webp",
-      cta: "",
-      path: "",
-    },
-  ],
-};
+/* ============================================================
+   BANNER DATA (home page slider) — managed via the Admin Dashboard
+   Home Banner tab. `let` (not const): CMS add/edit/delete reassigns
+   this array; see CMS_TYPES.banner.
+   ============================================================ */
+let bannerSlides = [
+  {
+    id: "slide-0",
+    titleEn: "",
+    titleAr: "",
+    subTitleEn: "",
+    subTitleAr: "",
+    textEn: "",
+    textAr: "",
+    url: "/images/b-0.png",
+    cta: "",
+    path: "",
+  },
+  {
+    id: "slide-1",
+    titleEn: "Technology Centers",
+    titleAr: "مراكز التكنولوجيا",
+    subTitleEn: "Diverse Industries, Unified Excellence",
+    subTitleAr: "صناعات متنوعة، تميز موحد",
+    textEn: "Explore our state-of-the-art technology centers, equipped with cutting-edge tools and innovations.",
+    textAr: "اكتشف مراكز التكنولوجيا الحديثة لدينا والمجهزة بأحدث الأدوات والابتكارات.",
+    url: "/images/cat-9.webp",
+    cta: "",
+    path: "/",
+  },
+  {
+    id: "slide-2",
+    titleEn: "Electronic Motorbikes",
+    titleAr: "المركبات الإلكترونية",
+    subTitleEn: "Diverse Industries, Unified Excellence",
+    subTitleAr: "صناعات متنوعة، تميز موحد",
+    textEn: "Discover our range of eco-friendly electronic motorbikes.",
+    textAr: "اكتشف مجموعة المركبات الإلكترونية الصديقة للبيئة.",
+    url: "/images/b-1.webp",
+    cta: "",
+    path: "/",
+  },
+  {
+    id: "slide-3",
+    titleEn: "Office Furniture",
+    titleAr: "أثاث مكتبي",
+    subTitleEn: "Diverse Industries, Unified Excellence",
+    subTitleAr: "صناعات متنوعة، تميز موحد",
+    textEn: "Transform your living spaces with our premium home furniture collection.",
+    textAr: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
+    url: "/images/b-3.webp",
+    cta: "",
+    path: "/",
+  },
+  {
+    id: "slide-4",
+    titleEn: "National Bank of Egypt",
+    titleAr: "مبادرة البنك الأهلي المصري",
+    subTitleEn: "Furnish Your Home, Your Way",
+    subTitleAr: "صناعات متنوعة، تميز موحد",
+    textEn: "Get everything you need for your home with instant financing and hassle-free procedures from NBE.",
+    textAr: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
+    url: "/images/b-2.webp",
+    cta: "",
+    path: "/",
+  },
+];
 
-const projects = [
+/* ============================================================
+   PROJECTS DATA (machinery rental)
+   ============================================================ */
+let projects = [
   {
     id: "cnc-horizontal-lathe",
     img: "/images/prj-1.webp",
@@ -202,7 +215,143 @@ const projects = [
   },
 ];
 
-// ========== Clients DATA ==========
+/* ============================================================
+   NEWS DATA — shared by the homepage News section and the full
+   News page. Sorted newest-first wherever it's rendered.
+   ============================================================ */
+let newsItems = [
+  {
+    id: "news-1",
+    img: "/images/news-1.webp",
+    dateRaw: "2026-07-12",
+    dateEn: "July 12, 2026",
+    dateAr: "12 يوليو 2026",
+    titleEn: "Latest News",
+    titleAr: "أحدث خبر",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر الأول مع شرح موجز عن الموضوع.",
+  },
+  {
+    id: "news-2",
+    img: "/images/news-2.webp",
+    dateRaw: "2026-07-08",
+    dateEn: "July 8, 2026",
+    dateAr: "8 يوليو 2026",
+    titleEn: "Company Update",
+    titleAr: "تحديث الشركة",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر الثاني مع شرح موجز عن الموضوع.",
+  },
+  {
+    id: "news-3",
+    img: "/images/news-3.webp",
+    dateRaw: "2026-07-02",
+    dateEn: "July 2, 2026",
+    dateAr: "2 يوليو 2026",
+    titleEn: "New Partnership",
+    titleAr: "شراكة جديدة",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر الثالث مع شرح موجز عن الموضوع.",
+  },
+  {
+    id: "news-4",
+    img: "/images/news-4.webp",
+    dateRaw: "2026-06-25",
+    dateEn: "June 25, 2026",
+    dateAr: "25 يونيو 2026",
+    titleEn: "Facility Expansion",
+    titleAr: "توسعة المنشأة",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر الرابع مع شرح موجز عن الموضوع.",
+  },
+  {
+    id: "news-5",
+    img: "/images/news-5.webp",
+    dateRaw: "2026-06-18",
+    dateEn: "June 18, 2026",
+    dateAr: "18 يونيو 2026",
+    titleEn: "New Product Line Launch",
+    titleAr: "إطلاق خط إنتاج جديد",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر الخامس مع شرح موجز عن الموضوع.",
+  },
+  {
+    id: "news-6",
+    img: "/images/news-6.webp",
+    dateRaw: "2026-06-10",
+    dateEn: "June 10, 2026",
+    dateAr: "10 يونيو 2026",
+    titleEn: "Safety Certification Achieved",
+    titleAr: "الحصول على شهادة السلامة",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر السادس مع شرح موجز عن الموضوع.",
+  },
+  {
+    id: "news-7",
+    img: "/images/news-7.webp",
+    dateRaw: "2026-05-30",
+    dateEn: "May 30, 2026",
+    dateAr: "30 مايو 2026",
+    titleEn: "Regional Expo Participation",
+    titleAr: "المشاركة في المعرض الإقليمي",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر السابع مع شرح موجز عن الموضوع.",
+  },
+  {
+    id: "news-8",
+    img: "/images/news-8.webp",
+    dateRaw: "2026-05-20",
+    dateEn: "May 20, 2026",
+    dateAr: "20 مايو 2026",
+    titleEn: "Sustainability Initiative",
+    titleAr: "مبادرة الاستدامة",
+    excerptEn:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    excerptAr:
+      "نص تجريبي عربي يوضح تفاصيل الخبر الثامن مع شرح موجز عن الموضوع.",
+  },
+  // ...add as many news items as you need
+];
+
+/* ============================================================
+   VIDEO DATA — same placeholder embed reused across entries
+   until real footage exists; swap `youtubeId` per item.
+   ============================================================ */
+const VIDEO_CATEGORIES = [
+  { key: "facility", en: "Facility Tour", ar: "جولة المصنع" },
+  { key: "product", en: "Product Demos", ar: "عروض المنتجات" },
+  { key: "corporate", en: "Corporate", ar: "الشركة" },
+  { key: "event", en: "Events", ar: "الفعاليات" },
+];
+
+let videoItems = [
+  { id: "v1", titleEn: "Inside Kader Factory", titleAr: "داخل مصنع قادر", category: "facility", youtubeId: "dY3t90L_q3Q" },
+  { id: "v2", titleEn: "CNC Machining Line Tour", titleAr: "جولة في خط تشغيل CNC", category: "facility", youtubeId: "dY3t90L_q3Q" },
+  { id: "v3", titleEn: "Electric Scooter Assembly", titleAr: "تجميع السكوتر الكهربائي", category: "product", youtubeId: "dY3t90L_q3Q" },
+  { id: "v4", titleEn: "Furniture Manufacturing Process", titleAr: "عملية تصنيع الأثاث", category: "product", youtubeId: "dY3t90L_q3Q" },
+  { id: "v5", titleEn: "Message from Management", titleAr: "كلمة الإدارة", category: "corporate", youtubeId: "dY3t90L_q3Q" },
+  { id: "v6", titleEn: "70 Years of Industry", titleAr: "70 عاماً من الصناعة", category: "corporate", youtubeId: "dY3t90L_q3Q" },
+  { id: "v7", titleEn: "Regional Expo Highlights", titleAr: "أبرز لحظات المعرض الإقليمي", category: "event", youtubeId: "dY3t90L_q3Q" },
+  { id: "v8", titleEn: "Safety Certification Ceremony", titleAr: "حفل اعتماد شهادة السلامة", category: "event", youtubeId: "dY3t90L_q3Q" },
+];
+
+/* ============================================================
+   CLIENTS DATA
+   ============================================================ */
 const clients = [
   { name: "Client 1", logo: "/images/prt-1.webp" },
   { name: "Client 2", logo: "/images/prt-2.webp" },
@@ -213,7 +362,9 @@ const clients = [
   { name: "Client 7", logo: "/images/prt-7.webp" },
 ];
 
-// ========== AboutUs DATA ==========
+/* ============================================================
+   ABOUT US DATA
+   ============================================================ */
 const aboutContent = {
   subtitle: { en: "About KADER", ar: "عن مصنع قادر" },
   title: { en: "Who We Are", ar: "من نحن" },
@@ -249,7 +400,9 @@ const aboutContent = {
   ],
 };
 
-// ========== Social Links ==========
+/* ============================================================
+   SOCIAL LINKS
+   ============================================================ */
 const socialLinks = [
   {
     icon: "fab fa-facebook-f",
@@ -268,7 +421,9 @@ const socialLinks = [
   },
 ];
 
-// ========== Share Links ==========
+/* ============================================================
+   SHARE LINKS
+   ============================================================ */
 const shareLinks = [
   {
     id: "facebook",
@@ -296,7 +451,9 @@ const shareLinks = [
   },
 ];
 
-// ========== Policy Tabs Data Short Version==========
+/* ============================================================
+   POLICY TABS DATA (short version — return / warranty / delivery)
+   ============================================================ */
 const policyTabsContent = {
   // Return
   returnPolicy: {
@@ -384,7 +541,9 @@ const policyTabsContent = {
   },
 };
 
-// ========== Product Data JSon ==========
+/* ============================================================
+   PRODUCT DATA (loaded from /data/products.json)
+   ============================================================ */
 let productsData = [];
 
 async function loadProductsData() {
@@ -398,7 +557,9 @@ async function loadProductsData() {
   }
 }
 
-// ========== Category Data JSon ==========
+/* ============================================================
+   CATEGORY DATA (loaded from /data/categories.json)
+   ============================================================ */
 let categoriesData = [];
 
 async function loadCategoriesData() {
@@ -415,15 +576,9 @@ async function loadCategoriesData() {
   MAIN APP DATA END
   ================================================================================ */
 
-// ========== UTILITY FUNCTIONS ==========
-
-/**
- * Get text based on current language
- */
-// function getText(obj, key) {
-//   const currentLang = appState.language === "ar" ? "ar" : "en";
-//   return obj[`${key}_${currentLang}`] || obj[key] || "";
-// }
+/* ============================================================
+   UTILITY FUNCTIONS
+   ============================================================ */
 
 /**
  * Get label based on language
@@ -483,9 +638,41 @@ function toggleLanguage() {
   location.reload();
 }
 
-/**
- * Cart Management
- */
+/* ============================================================
+   AUTH SYSTEM
+   ============================================================
+   DEMO ONLY — there is no real backend, so nothing here is secure:
+   passwords are never checked. Logging in with the email below
+   grants the "admin" role so the Admin Dashboard can be reached;
+   any other email/registration gets the "customer" role.
+   Swap this for a real API call + session cookie/JWT in production.
+   ============================================================ */
+const DEMO_ADMIN_EMAIL = "admin@kader-factory.com";
+
+// Load the saved session (if any) on app start
+function initializeAuth() {
+  try {
+    const saved = localStorage.getItem("user");
+    appState.user = saved ? JSON.parse(saved) : null;
+  } catch (e) {
+    console.error("Failed to load user session", e);
+    appState.user = null;
+  }
+}
+
+// Persist + apply a session, then refresh the nav so it reflects the new role
+function loginUser(user) {
+  appState.user = user;
+  localStorage.setItem("user", JSON.stringify(user));
+  initializeNavigation();
+}
+
+function logout() {
+  appState.user = null;
+  localStorage.removeItem("user");
+  initializeNavigation();
+  setCurrentPage("home");
+}
 
 /* ============================================================
    CART SYSTEM
@@ -634,43 +821,11 @@ function updateCartCount() {
   if (mobileCartCountEl) mobileCartCountEl.textContent = count;
 }
 
-/**
- * Initialize navigation
- */
-/* ============================================================
-   NAVIGATION — full file
-   ============================================================
-   LOAD ORDER (this is what broke before):
-     1. categories.json + products.json fetched
-        (categoriesData / productsData populated)
-     2. buildProductsMegaMenuColumns() assigned to the Products link
-     3. initializeNavigation() called
-
-   In initializeApp():
-
-     await loadProductsData();
-     await loadCategoriesData();
-     initializeCart();
-
-     const productsLink = navigationLinks.find(l => l.id === "products");
-     productsLink.megaMenu = buildProductsMegaMenuColumns();
-
-     initializeNavigation();
-
-   Calling initializeNavigation() before step 2 leaves megaMenu empty,
-   which makes Products render as a plain link and the mobile mega-menu
-   overlay never open.
-   ============================================================ */
 
 let navigationEventsBound = false;
 
 /* ============================================================
    MEGA MENU COLUMN DEFINITIONS
-   ------------------------------------------------------------
-   You control grouping + order here. Names/translations still come
-   from categoriesData, so they can't drift out of sync.
-   A typo'd categoryId here silently drops that item — check spelling
-   against categories.json if a column renders short.
    ============================================================ */
 const MEGA_MENU_COLUMNS = [
   {
@@ -907,7 +1062,12 @@ function initializeNavigation() {
               appState.user
                 ? `
                 <a class="dropdown-item" href="#" data-nav-page-id="profile">${getLabel("My Profile", "ملفي الشخصي")}</a>
-                <a class="dropdown-item" href="#" data-nav-page-id="orders">${getLabel("My Orders", "طلباتي")}</a>
+                <a class="dropdown-item" href="#" onclick="goToProfileTab('orders')">${getLabel("My Orders", "طلباتي")}</a>
+                ${
+                  appState.user.role === "admin"
+                    ? `<a class="dropdown-item" href="#" data-nav-page-id="admin">${getLabel("Admin Dashboard", "لوحة التحكم")}</a>`
+                    : ""
+                }
                 <a class="dropdown-item" href="#" data-action="logout">${getLabel("Logout", "تسجيل الخروج")}</a>
             `
                 : `
@@ -987,12 +1147,41 @@ function bindNavigationEvents() {
       searchDropdown.classList.add("d-none");
     }
 
+    /* Close the desktop mega menu on any click inside it.
+       It's shown via CSS :hover (not Bootstrap's JS toggle), so without
+       this it stays open after navigating — the mouse hasn't moved. */
+    const megaMenuPanel = e.target.closest(".dropdown > .mega-menu");
+    if (megaMenuPanel) {
+      const dropdown = megaMenuPanel.closest(".dropdown");
+      dropdown.classList.add("mega-closed");
+      dropdown.addEventListener(
+        "mouseleave",
+        () => dropdown.classList.remove("mega-closed"),
+        { once: true },
+      );
+    }
+
     /* Search result → single product page */
     const searchResult = e.target.closest("[data-search-product-id]");
     if (searchResult) {
       e.preventDefault();
       setCurrentPage("single-product", searchResult.dataset.searchProductId);
-      if (searchDropdown) searchDropdown.classList.add("d-none");
+
+      // Clear both search inputs/dropdowns — whichever one was used
+      const searchInput = document.getElementById("searchInput");
+      const mobileSearchInput = document.getElementById("mobileSearchInput");
+      const mobileSearchDropdown = document.getElementById("mobileSearchDropdown");
+      if (searchInput) searchInput.value = "";
+      if (mobileSearchInput) mobileSearchInput.value = "";
+      if (searchDropdown) {
+        searchDropdown.classList.add("d-none");
+        searchDropdown.innerHTML = "";
+      }
+      if (mobileSearchDropdown) {
+        mobileSearchDropdown.classList.add("d-none");
+        mobileSearchDropdown.innerHTML = "";
+      }
+
       closeMobileMenu();
       return;
     }
@@ -1092,6 +1281,11 @@ function initializeMobileMenu() {
                     </a>`;
               })
               .join("")}
+            ${
+              appState.user && appState.user.role === "admin"
+                ? `<a href="#" class="overlay-link" data-nav-page-id="admin">${getLabel("Admin Dashboard", "لوحة التحكم")}</a>`
+                : ""
+            }
         </div>
 
         <div class="d-flex py-5 justify-content-center align-items-center bg-light px-3">
@@ -1253,12 +1447,9 @@ function closeMegaMenu() {
 }
 
 /**
-/**
  * Initialize slider/carousel
  */
 function initializeSlider() {
-  const currentData =
-    appState.language === "ar" ? sliderData.ar : sliderData.en;
   const bannerWrapper = document.getElementById("bannerWrapper");
 
   if (!bannerWrapper) return;
@@ -1267,22 +1458,26 @@ function initializeSlider() {
   bannerWrapper.innerHTML = "";
 
   // Build slides
-  currentData.forEach((slide) => {
+  bannerSlides.forEach((slide) => {
+    const title = getLabel(slide.titleEn, slide.titleAr);
+    const subTitle = getLabel(slide.subTitleEn, slide.subTitleAr);
+    const text = getLabel(slide.textEn, slide.textAr);
+
     const item = document.createElement("div");
-    const hasContent = slide.title || slide.subTitle || slide.text;
+    const hasContent = title || subTitle || text;
     item.className = "swiper-slide";
     item.innerHTML = `
             <img src="${slide.url}" class="d-block w-100" alt="Banner Slide">
             <div class="carousel-caption align-items-center justify-content-center d-flex flex-column ${hasContent ? "" : "no-overlay"}"">
                 <div">
-                    <h4 class="text-white text-uppercase fw-bold wow fadeInUp">${slide.subTitle}</h4>
-                    <h1 class="display-1 text-white wow fadeInUp text-capitalize ${getDirectionClass("pb-0", "pb-3")}">${slide.title}</h1>
-                    <p class="text-white mx-auto fs-5 wow fadeInUp" style="max-width:36rem;">${slide.text}</p>
+                    <h4 class="text-white text-uppercase fw-bold wow fadeInUp">${subTitle}</h4>
+                    <h1 class="display-1 text-white wow fadeInUp text-capitalize ${getDirectionClass("pb-0", "pb-3")}">${title}</h1>
+                    <p class="text-white mx-auto fs-5 wow fadeInUp" style="max-width:36rem;">${text}</p>
                     ${
                       slide.path
                         ? `
                         <a href="#products"
-                        onclick="setCurrentPage('${item.path}')"
+                        onclick="setCurrentPage('${slide.path}')"
                         class="btn btn-primary border-secondary text-white py-3 px-5 wow fadeInUp rounded-0">
                             ${slide.cta || getLabel("More Details", "المزيد من التفاصيل")}
                         </a>
@@ -1638,6 +1833,18 @@ function loadPageContent(pageId) {
       break;
     case "single-product":
       loadSingleProductPage(appState.currentProductId);
+      break;
+    case "cart":
+      loadCartPage();
+      break;
+    case "profile":
+      loadProfilePage();
+      break;
+    case "admin":
+      loadAdminPage();
+      break;
+    case "checkout":
+      loadCheckoutPage();
       break;
   }
 }
@@ -2009,9 +2216,6 @@ let productsPageEventsBound = false;
 
 const PRODUCTS_PAGE_SIZE = 12;
 let displayedProductsCount = PRODUCTS_PAGE_SIZE;
-
-const PRODUCTS_PER_PAGE = 12;
-let currentPage = 1;
 
 /**
  * Call this from nav links, category cards, homepage "Explore" buttons, etc.
@@ -2445,106 +2649,259 @@ function renderProductsGrid(products) {
 /**
  * Load projects page
  */
+/* ============================================================
+   MACHINERY PAGE — full catalog over the `projects` data (see
+   PROJECTS DATA). Previously ignored that data entirely and
+   showed one hardcoded Lorem-ipsum card.
+   ============================================================ */
 function loadProjectsPage() {
   const container = document.getElementById("projectsPageContent");
   if (!container) return;
 
-  container.innerHTML = `
-        ${createBanner(getLabel("Projects", "المشاريع"))}
-        <div class="container-fluid  overflow-hidden py-5">
-            <div class="container py-5">
-                <div class="section-title text-left mb-5">
-                    <div class="sub-style">
-                        <h5 class="sub-title px-3">${getLabel("Our Projects", "مشاريعنا")}</h5>
-                    </div>
-                    <h1 class="display-5 mb-4">${getLabel("Projects that demonstrate our professionalism", "مشاريع تثبت مستوى احترافيتنا")}</h1>
-                    <p class="mb-0">${getLabel("This page showcases our latest projects", "تعرض هذه الصفحة أحدث مشاريعنا")}</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-6 col-xl-4">
-                        <div class="">
-                            <div  style="height: 32rem;">
-                                <img src="/images/pro-1.jpg" class="img-fluid w-100 rounded" alt="Project">
-                            </div>
-                            <div class=" bg-secondary rounded-bottom p-4">
-                                <h4 class="text-white">${getLabel("Project 1", "المشروع 1")}</h4>
-                                <p class="text-white-50">Lorem ipsum dolor sit amet consectetur</p>
-                                <a href="#" class="btn btn-secondary rounded-pill text-white p-0">
-                                    ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-right px-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  const cardsHtml = projects
+    .map(
+      (p) => `
+      <div class="col-md-6 col-lg-4">
+        <div class="machinery-card h-100">
+          <div class="machinery-card-img">
+            <img src="${p.img}" class="img-fluid w-100 h-100" alt="${getLabel(p.titleEn, p.titleAr)}" loading="lazy">
+          </div>
+          <div class="bg-secondary rounded-bottom p-4 h-100 d-flex flex-column">
+            <h4 class="text-white">${getLabel(p.titleEn, p.titleAr)}</h4>
+            <p class="text-white-50 flex-grow-1">${getLabel(p.descEn, p.descAr)}</p>
+            <a href="#" class="btn btn-secondary rounded-pill text-white p-0 align-self-start" onclick="setCurrentPage('contact')">
+              ${getLabel("Request Quote", "اطلب عرض سعر")} <i class="fas fa-arrow-${getDirectionClass("right", "left")} px-1"></i>
+            </a>
+          </div>
         </div>
-    `;
+      </div>
+    `,
+    )
+    .join("");
+
+  container.innerHTML = `
+    ${createBanner(getLabel("Machinery", "الآلات"))}
+    <div class="container-fluid overflow-hidden py-5">
+      <div class="container py-5">
+        <div class="section-title text-left mb-5">
+          <div class="sub-style">
+            <h5 class="sub-title px-3">${getLabel("Our Machinery", "آلاتنا")}</h5>
+          </div>
+          <h1 class="display-5 mb-4">${getLabel("Industrial Machinery Available for Rental", "آلات صناعية متاحة للإيجار")}</h1>
+          <p class="mb-0">${getLabel("Precision CNC equipment for rent, maintained to the highest standards.", "معدات CNC دقيقة متاحة للإيجار بأعلى معايير الصيانة.")}</p>
+        </div>
+        <div class="row g-4">
+          ${cardsHtml}
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-/**
- * Load news page
- */
+/* ============================================================
+   NEWS PAGE — full grid over the shared `newsItems` data (see
+   NEWS DATA), with a "Show More" pattern matching the Products
+   page. "Read More" opens the shared #overlayModal for a quick
+   read without a dedicated article route.
+   ============================================================ */
+const NEWS_PAGE_SIZE = 6;
+let displayedNewsCount = NEWS_PAGE_SIZE;
+let newsPageEventsBound = false;
+
 function loadNewsPage() {
   const container = document.getElementById("newsPageContent");
   if (!container) return;
 
+  displayedNewsCount = NEWS_PAGE_SIZE;
+
   container.innerHTML = `
-        ${createBanner(getLabel("News", "الأخبار"))}
-        <div class="container-fluid  overflow-hidden py-5">
-            <div class="container py-5">
-                <div class="section-title text-left mb-5">
-                    <div class="sub-style">
-                        <h5 class="sub-title text-primary px-3">${getLabel("News", "الأخبار")}</h5>
-                    </div>
-                    <h1 class="display-5 mb-4">${getLabel("Stay Informed on the Latest Updates", "ابق على اطلاع بأحدث المستجدات")}</h1>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-6 col-xl-6">
-                        <div class="">
-                            <div  style="height: 24rem;">
-                                <img src="/images/news-1.webp" class="img-fluid w-100 rounded" alt="News">
-                            </div>
-                            <div class="bg-secondary rounded-bottom p-4">
-                                <h4 class="text-white">${getLabel("Latest News", "أحدث الأخبار")}</h4>
-                                <p class="text-white-50">Lorem ipsum dolor sit amet</p>
-                                <a href="#" class="btn btn-secondary rounded-pill text-white p-0">
-                                    ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-right px-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    ${createBanner(getLabel("News", "الأخبار"))}
+    <div class="container-fluid overflow-hidden py-5 bg-light">
+      <div class="container">
+        <div class="section-title text-center mb-5">
+          <h5 class="sub-title px-3">${getLabel("News", "الأخبار")}</h5>
+          <h1 class="display-5 mb-3">${getLabel("Stay Informed on the Latest Updates", "ابق على اطلاع بأحدث المستجدات")}</h1>
+          <p class="text-muted mb-0">${getLabel("The latest announcements, milestones, and updates from Kader Factory.", "أحدث الإعلانات والإنجازات والمستجدات من مصنع قادر.")}</p>
         </div>
-    `;
+        <div class="row g-4" id="newsGridContainer"></div>
+      </div>
+    </div>
+  `;
+
+  renderNewsGrid();
+  bindNewsPageEvents();
 }
 
-/**
- * Load videos page
- */
+function renderNewsGrid() {
+  const grid = document.getElementById("newsGridContainer");
+  if (!grid) return;
+
+  const sorted = [...newsItems].sort(
+    (a, b) => new Date(b.dateRaw) - new Date(a.dateRaw),
+  );
+  const visible = sorted.slice(0, displayedNewsCount);
+  const hasMore = displayedNewsCount < sorted.length;
+
+  const cardsHtml = visible
+    .map(
+      (item) => `
+      <div class="col-md-6 col-lg-4">
+        <div class="news-card bg-white rounded-3 overflow-hidden h-100 shadow-sm">
+          <div class="news-card-img">
+            <img src="${item.img}" class="img-fluid w-100 h-100" alt="${getLabel(item.titleEn, item.titleAr)}" loading="lazy">
+          </div>
+          <div class="p-4">
+            <span class="text-muted small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
+            <h5 class="fw-bold mt-2 mb-2">${getLabel(item.titleEn, item.titleAr)}</h5>
+            <p class="text-muted small mb-3 news-card-excerpt">${getLabel(item.excerptEn, item.excerptAr)}</p>
+            <a href="#" class="btn btn-link small ps-0" data-news-id="${item.id}">
+              ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-${getDirectionClass("right", "left")}"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    `,
+    )
+    .join("");
+
+  const showMoreHtml = hasMore
+    ? `
+      <div class="col-12 text-center mt-2">
+        <button type="button" class="btn btn-primary px-5 py-2" id="showMoreNewsBtn">
+          ${getLabel("Show More", "عرض المزيد")}
+        </button>
+      </div>
+    `
+    : "";
+
+  grid.innerHTML = cardsHtml + showMoreHtml;
+}
+
+function bindNewsPageEvents() {
+  if (newsPageEventsBound) return;
+  newsPageEventsBound = true;
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("#showMoreNewsBtn")) {
+      displayedNewsCount += NEWS_PAGE_SIZE;
+      renderNewsGrid();
+      return;
+    }
+
+    const readMoreLink = e.target.closest("[data-news-id]");
+    if (readMoreLink) {
+      e.preventDefault();
+      const item = newsItems.find((n) => n.id === readMoreLink.dataset.newsId);
+      if (!item) return;
+
+      document.getElementById("modalTitle").textContent = getLabel(
+        item.titleEn,
+        item.titleAr,
+      );
+      document.getElementById("modalBody").innerHTML = `
+        <img src="${item.img}" class="img-fluid rounded mb-3 w-100" alt="${getLabel(item.titleEn, item.titleAr)}">
+        <p class="text-muted small mb-2"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</p>
+        <p>${getLabel(item.excerptEn, item.excerptAr)}</p>
+      `;
+      new bootstrap.Modal(document.getElementById("overlayModal")).show();
+    }
+  });
+}
+
+/* ============================================================
+   VIDEOS PAGE — filterable grid over `videoItems` (see VIDEO DATA)
+   ============================================================ */
+let activeVideoCategory = "all";
+let videosPageEventsBound = false;
+
 function loadVideosPage() {
   const container = document.getElementById("videosPageContent");
   if (!container) return;
 
+  activeVideoCategory = "all";
+
   container.innerHTML = `
-        ${createBanner(getLabel("Video Library", "معرض الفيديوهات"))}
-        <div class="container-fluid  overflow-hidden py-5">
-            <div class="container py-5">
-                <div class="section-title text-center mb-5">
-                    <h5 class="sub-title px-3">${getLabel("Video Gallery", "معرض الفيديو")}</h5>
-                    <h1 class="display-5 mb-4">${getLabel("Explore Our Visual Content", "استكشف محتوانا المرئي")}</h1>
-                </div>
-                <div class="row g-5">
-                    <div class="col-lg-6 col-xl-3">
-                        <div class="position-relative" style="padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-                                src="https://www.youtube.com/embed/dY3t90L_q3Q" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    ${createBanner(getLabel("Video Library", "معرض الفيديوهات"))}
+    <div class="container-fluid overflow-hidden py-5 bg-light">
+      <div class="container">
+        <div class="section-title text-center mb-4">
+          <h5 class="sub-title px-3">${getLabel("Video Gallery", "معرض الفيديو")}</h5>
+          <h1 class="display-5 mb-3">${getLabel("Explore Our Visual Content", "استكشف محتوانا المرئي")}</h1>
         </div>
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" id="videoFilterChips"></div>
+        <div class="row g-4" id="videosGridContainer"></div>
+      </div>
+    </div>
+  `;
+
+  renderVideoFilterChips();
+  renderVideosGrid();
+  bindVideosPageEvents();
+}
+
+function renderVideoFilterChips() {
+  const container = document.getElementById("videoFilterChips");
+  if (!container) return;
+
+  const chips = [{ key: "all", en: "All", ar: "الكل" }, ...VIDEO_CATEGORIES];
+
+  container.innerHTML = chips
+    .map(
+      (c) => `
+      <button type="button" class="filter-chip ${activeVideoCategory === c.key ? "active" : ""}" data-video-category="${c.key}">
+        ${getLabel(c.en, c.ar)}
+      </button>
+    `,
+    )
+    .join("");
+}
+
+function renderVideosGrid() {
+  const grid = document.getElementById("videosGridContainer");
+  if (!grid) return;
+
+  const filtered =
+    activeVideoCategory === "all"
+      ? videoItems
+      : videoItems.filter((v) => v.category === activeVideoCategory);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="col-12 text-center py-5 text-muted">
+        ${getLabel("No videos in this category yet.", "لا توجد فيديوهات في هذا القسم بعد.")}
+      </div>
     `;
+    return;
+  }
+
+  grid.innerHTML = filtered
+    .map(
+      (v) => `
+      <div class="col-md-6 col-lg-3">
+        <div class="video-card">
+          <div class="video-embed-wrap">
+            <iframe src="https://www.youtube.com/embed/${v.youtubeId}" title="${getLabel(v.titleEn, v.titleAr)}" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <h6 class="fw-semibold mt-2 mb-0">${getLabel(v.titleEn, v.titleAr)}</h6>
+        </div>
+      </div>
+    `,
+    )
+    .join("");
+}
+
+function bindVideosPageEvents() {
+  if (videosPageEventsBound) return;
+  videosPageEventsBound = true;
+
+  document.addEventListener("click", (e) => {
+    const chip = e.target.closest("[data-video-category]");
+    if (chip) {
+      activeVideoCategory = chip.dataset.videoCategory;
+      renderVideoFilterChips();
+      renderVideosGrid();
+    }
+  });
 }
 
 /**
@@ -2892,10 +3249,18 @@ function loadRegisterPage() {
   const form = document.getElementById("signupForm");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    validateSignupForm();
+    if (!validateSignupForm()) return;
 
-    // Hook your actual signup/API call here
-    console.log("Signup submitted");
+    const email = document.getElementById("signupEmail").value.trim();
+    const user = {
+      name: `${document.getElementById("firstName").value.trim()} ${document.getElementById("lastName").value.trim()}`.trim(),
+      email,
+      phone: document.getElementById("signupPhone").value.trim(),
+      role: email.toLowerCase() === DEMO_ADMIN_EMAIL ? "admin" : "customer",
+    };
+
+    loginUser(user);
+    setCurrentPage(user.role === "admin" ? "admin" : "profile");
   });
 
   // Validations
@@ -3145,11 +3510,28 @@ function loadLoginPage() {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const email = document.getElementById("loginEmail").value;
+    const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
 
-    // Hook your actual login/API call here
-    console.log("Login submitted", { email, password });
+    if (!email || !password) {
+      alert(
+        getLabel(
+          "Please enter your email and password",
+          "يرجى إدخال البريد الإلكتروني وكلمة المرور",
+        ),
+      );
+      return;
+    }
+
+    // DEMO: no real password check / backend — see AUTH SYSTEM notes above
+    const isAdmin = email.toLowerCase() === DEMO_ADMIN_EMAIL;
+    const namePart = email.split("@")[0].replace(/[._-]+/g, " ").trim();
+    const displayName = isAdmin
+      ? "Admin"
+      : namePart.replace(/\b\w/g, (c) => c.toUpperCase());
+
+    loginUser({ name: displayName, email, phone: "", role: isAdmin ? "admin" : "customer" });
+    setCurrentPage(isAdmin ? "admin" : "profile");
   });
 }
 
@@ -3843,54 +4225,2145 @@ function loadSingleProductPage(productId) {
 }
 
 /* ============================================================
-   ALSO FIX — the relatedHtml template (was rendering `product.*`
-   instead of `p.*`, so all 4 related cards showed the CURRENT
-   product). Replace your existing relatedHtml block with this:
+   CART PAGE
+   ============================================================
+   The review/edit step before checkout. Reuses the existing cart
+   functions (removeFromCart / updateCartItemQty / getCartTotal) —
+   no new cart state is introduced here.
    ============================================================ */
+let cartPageEventsBound = false;
 
-/*
-  const relatedHtml = relatedProducts
-    .map(
-      (p) => `
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="card product-card related-product-card h-100 border-0" data-product-id="${p.id}">
-                <div class="product-img-wrap bg-light">
-                    <img src="${p.url}" class="card-img-top" alt="${getLabel(p.title.en, p.title.ar)}">
-                </div>
-                <div class="card-body">
-                    <div class="price-section mt-3">
-                        ${p.oldPrice ? `<span class="discount-badge">-${Math.round((1 - p.price / p.oldPrice) * 100)}%</span>` : ""}
-                        <div class="price-row">
-                            <span class="current-price">EGP ${p.price}</span>
-                            ${p.oldPrice ? `<span class="old-price">EGP ${p.oldPrice}</span>` : ""}
-                        </div>
-                    </div>
-                    <span class="badge bg-light text-dark mb-2">${getLabel(p.sub_category.en, p.sub_category.ar)}</span>
-                    <h6 class="card-title mb-1">${getLabel(p.title.en, p.title.ar)}</h6>
-                    <p class="card-text text-muted small product-desc">${getLabel(p.desc.en, p.desc.ar)}</p>
-                </div>
-            </div>
+function loadCartPage() {
+  const container = document.getElementById("cartPageContent");
+  if (!container) return;
+
+  const cart = appState.cart || [];
+
+  if (cart.length === 0) {
+    container.innerHTML = `
+      ${createBanner(getLabel("Cart", "السلة"))}
+      <div class="container py-5">
+        <div class="text-center py-5">
+          <i class="fas fa-cart-shopping text-muted" style="font-size:3rem;"></i>
+          <h4 class="mt-3">${getLabel("Your cart is empty", "سلتك فارغة")}</h4>
+          <p class="text-muted mb-4">${getLabel("Browse our products and add something you like.", "تصفح منتجاتنا وأضف ما يعجبك.")}</p>
+          <button type="button" class="btn btn-primary px-5" data-nav-page-id="products">
+            ${getLabel("Browse Products", "تصفح المنتجات")}
+          </button>
         </div>
-      `,
-    )
-    .join("");
-*/
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    ${createBanner(getLabel("Cart", "السلة"))}
+    <div class="container-fluid py-5 bg-light">
+      <div class="container">
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+            <div class="cart-items-list bg-white rounded-3 p-4">
+              ${cart.map((item) => renderCartLineItem(item)).join("")}
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="checkout-summary bg-white rounded-3 p-4">
+              <h5 class="fw-bold mb-3">${getLabel("Order Summary", "ملخص الطلب")}</h5>
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <span class="fw-bold">${getLabel("Subtotal", "المجموع الفرعي")}</span>
+                <span class="fs-4 fw-bold text-primary">${formatEGP(getCartTotal())}</span>
+              </div>
+              <button type="button" class="btn btn-primary w-100 py-2 mb-2" data-nav-page-id="checkout">
+                ${getLabel("Proceed to Checkout", "متابعة الدفع")}
+              </button>
+              <button type="button" class="btn btn-outline-secondary w-100 py-2" data-nav-page-id="products">
+                ${getLabel("Continue Shopping", "متابعة التسوق")}
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  `;
+
+  bindCartPageEvents();
+}
+
+function renderCartLineItem(item) {
+  const title =
+    typeof item.title === "string"
+      ? item.title
+      : getLabel(item.title.en, item.title.ar);
+  const variants = [item.color, item.size].filter(Boolean).join(" · ");
+
+  return `
+    <div class="cart-line-item d-flex gap-3 align-items-center py-3 border-bottom"
+         data-product-id="${item.productId}"
+         data-color="${item.color || ""}"
+         data-size="${item.size || ""}">
+      <img src="${item.img}" alt="${title}" class="checkout-item-img">
+      <div class="flex-grow-1 min-width-0">
+        <div class="fw-semibold text-truncate">${title}</div>
+        ${variants ? `<div class="small text-muted">${variants}</div>` : ""}
+        <div class="small text-muted">${formatEGP(item.price)} ${getLabel("each", "للقطعة")}</div>
+      </div>
+      <div class="qty-stepper d-flex align-items-center gap-2">
+        <button type="button" class="qty-btn" data-qty-action="decrease" aria-label="${getLabel("Decrease quantity", "تقليل الكمية")}">−</button>
+        <span class="qty-value">${item.qty}</span>
+        <button type="button" class="qty-btn" data-qty-action="increase" aria-label="${getLabel("Increase quantity", "زيادة الكمية")}">+</button>
+      </div>
+      <div class="fw-semibold text-nowrap" style="min-width:5rem; text-align:end;">${formatEGP(item.price * item.qty)}</div>
+      <button type="button" class="btn btn-sm btn-link text-danger" data-cart-remove aria-label="${getLabel("Remove item", "إزالة المنتج")}">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  `;
+}
+
+/* Delegated qty-stepper / remove handling, scoped to #cartPageContent
+   so it never fires for unrelated [data-product-id] elements elsewhere
+   (e.g. product grid cards) */
+function bindCartPageEvents() {
+  if (cartPageEventsBound) return;
+  cartPageEventsBound = true;
+
+  document.addEventListener("click", (e) => {
+    const row = e.target.closest("[data-product-id]");
+    if (!row || !row.closest("#cartPageContent")) return;
+
+    const productId = row.dataset.productId;
+    const color = row.dataset.color || null;
+    const size = row.dataset.size || null;
+
+    const qtyBtn = e.target.closest("[data-qty-action]");
+    if (qtyBtn) {
+      const currentItem = appState.cart.find(
+        (i) =>
+          i.productId === productId && i.color === color && i.size === size,
+      );
+      if (!currentItem) return;
+      const newQty =
+        qtyBtn.dataset.qtyAction === "increase"
+          ? currentItem.qty + 1
+          : currentItem.qty - 1;
+      updateCartItemQty(productId, color, size, newQty);
+      loadCartPage();
+      return;
+    }
+
+    if (e.target.closest("[data-cart-remove]")) {
+      removeFromCart(productId, color, size);
+      loadCartPage();
+      return;
+    }
+  });
+}
 
 /* ============================================================
-   ALSO REMOVE — this block near the top of loadSingleProductPage().
-   It attaches a NEW document-level listener every time the page
-   loads, stacking duplicates. Move it into your global event setup
-   (setupEventListeners) so it binds exactly once:
-
-     document.addEventListener("click", async (e) => {
-       const btn = e.target.closest(".copy-link");
-       if (!btn) return;
-       await navigator.clipboard.writeText(btn.dataset.url);
-       btn.innerHTML = `<i class="fas fa-check"></i>`;
-       setTimeout(() => { btn.innerHTML = `<i class="fas fa-link"></i>`; }, 1500);
-     });
+   PROFILE PAGE
+   ============================================================
+   Route-guarded: redirects to Login if nobody is signed in.
+   Tabs: Overview (editable account info) + Order History (orders
+   from ORDER STORAGE, filtered to the signed-in user's email).
    ============================================================ */
-/*========================================================================================================*/
+function goToProfileTab(tab) {
+  appState.pendingProfileTab = tab;
+  setCurrentPage("profile");
+}
+
+function loadProfilePage() {
+  const container = document.getElementById("profilePageContent");
+  if (!container) return;
+
+  if (!appState.user) {
+    setCurrentPage("login");
+    return;
+  }
+
+  const activeTab = appState.pendingProfileTab || "overview";
+  appState.pendingProfileTab = null;
+
+  const justSaved = appState.profileJustSaved;
+  appState.profileJustSaved = false;
+
+  const user = appState.user;
+  const initials =
+    (user.name || "")
+      .split(" ")
+      .map((p) => p[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "?";
+
+  const myOrders = getOrders().filter(
+    (o) => o.email && user.email && o.email.toLowerCase() === user.email.toLowerCase(),
+  );
+
+  const ordersHtml =
+    myOrders.length === 0
+      ? `
+      <div class="text-center py-5">
+        <i class="fas fa-box-open text-muted" style="font-size:2.5rem;"></i>
+        <p class="text-muted mt-3 mb-3">${getLabel("You haven't placed any orders yet.", "لم تقم بأي طلبات حتى الآن.")}</p>
+        <button type="button" class="btn btn-primary px-4" data-nav-page-id="products">${getLabel("Browse Products", "تصفح المنتجات")}</button>
+      </div>
+    `
+      : myOrders
+          .map(
+            (order) => `
+        <div class="order-history-card border rounded-3 p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+            <div>
+              <div class="fw-semibold" dir="ltr">${order.id}</div>
+              <div class="small text-muted">${new Date(order.date).toLocaleDateString()}</div>
+            </div>
+            ${orderStatusBadge(order.status)}
+          </div>
+          <div class="small text-muted mb-2">${(order.items || []).length} ${getLabel("item(s)", "منتج")}</div>
+          <div class="fw-bold text-primary">${formatEGP(order.total)}</div>
+        </div>
+      `,
+          )
+          .join("");
+
+  container.innerHTML = `
+    ${createBanner(getLabel("My Profile", "ملفي الشخصي"))}
+    <div class="container-fluid py-5 bg-light">
+      <div class="container">
+        <div class="row g-4">
+
+          <!-- Sidebar -->
+          <div class="col-lg-3">
+            <div class="bg-white rounded-3 p-4 text-center">
+              <div class="profile-avatar mx-auto mb-3">${initials}</div>
+              <h6 class="fw-bold mb-0">${user.name || getLabel("Customer", "عميل")}</h6>
+              <div class="small text-muted text-break">${user.email}</div>
+              ${user.role === "admin" ? `<span class="badge bg-secondary mt-2">${getLabel("Admin", "مسؤول")}</span>` : ""}
+            </div>
+          </div>
+
+          <!-- Main -->
+          <div class="col-lg-9">
+            <div class="bg-white rounded-3 p-4">
+              <ul class="nav nav-tabs profile-tabs mb-4">
+                <li class="nav-item">
+                  <button class="nav-link ${activeTab === "overview" ? "active" : ""}" data-profile-tab="overview">${getLabel("Overview", "نظرة عامة")}</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link ${activeTab === "orders" ? "active" : ""}" data-profile-tab="orders">${getLabel("Order History", "سجل الطلبات")}</button>
+                </li>
+              </ul>
+
+              <div class="profile-tab-pane ${activeTab === "overview" ? "" : "d-none"}" data-profile-pane="overview">
+                <form id="profileForm">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label small fw-semibold">${getLabel("Full Name", "الاسم الكامل")}</label>
+                      <input type="text" class="form-control" id="profileName" value="${user.name || ""}">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small fw-semibold">${getLabel("Email", "البريد الإلكتروني")}</label>
+                      <input type="email" class="form-control" id="profileEmail" value="${user.email || ""}" dir="ltr">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label small fw-semibold">${getLabel("Phone Number", "رقم الهاتف")}</label>
+                      <input type="tel" class="form-control" id="profilePhone" value="${user.phone || ""}" dir="ltr">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary mt-4 px-4">${getLabel("Save Changes", "حفظ التغييرات")}</button>
+                  <span class="small text-success ms-3 ${justSaved ? "" : "d-none"}" id="profileSavedMsg">${getLabel("Saved!", "تم الحفظ!")}</span>
+                </form>
+              </div>
+
+              <div class="profile-tab-pane ${activeTab === "orders" ? "" : "d-none"}" data-profile-pane="orders">
+                ${ordersHtml}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  `;
+
+  bindProfilePageEvents(container);
+}
+
+// Shared by Profile order history + Admin orders table
+function orderStatusBadge(status) {
+  const s = ORDER_STATUSES.find((x) => x.key === status) || ORDER_STATUSES[0];
+  return `<span class="badge ${s.badgeClass}">${getLabel(s.en, s.ar)}</span>`;
+}
+
+function bindProfilePageEvents(container) {
+  container.querySelectorAll("[data-profile-tab]").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      container
+        .querySelectorAll("[data-profile-tab]")
+        .forEach((b) => b.classList.remove("active"));
+      container
+        .querySelectorAll("[data-profile-pane]")
+        .forEach((p) => p.classList.add("d-none"));
+      this.classList.add("active");
+      container
+        .querySelector(`[data-profile-pane="${this.dataset.profileTab}"]`)
+        .classList.remove("d-none");
+    });
+  });
+
+  const savedMsg = document.getElementById("profileSavedMsg");
+  if (savedMsg && !savedMsg.classList.contains("d-none")) {
+    setTimeout(() => savedMsg.classList.add("d-none"), 2000);
+  }
+
+  const form = document.getElementById("profileForm");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      loginUser({
+        ...appState.user,
+        name: document.getElementById("profileName").value.trim(),
+        email: document.getElementById("profileEmail").value.trim(),
+        phone: document.getElementById("profilePhone").value.trim(),
+      });
+      appState.profileJustSaved = true;
+      appState.pendingProfileTab = "overview";
+      loadProfilePage();
+    });
+  }
+}
+
+/* ============================================================
+   CMS: CONTENT MANAGEMENT (Admin Dashboard)
+   ============================================================
+   One generic table + modal-form engine reused across all 5
+   manageable content types instead of five separate CRUD
+   implementations — each type is just a config entry in
+   CMS_TYPES (columns for the list view, fields for the form).
+
+   Each type's live data is the same `let` array used everywhere
+   else on the site (productsData, bannerSlides, newsItems,
+   videoItems, projects), persisted via CONTENT STORE — so an
+   edit here is immediately what every public page reads next
+   time it renders.
+   ============================================================ */
+
+// Dotted-path get/set — lets form fields target nested values like
+// "title.en" (products) as easily as flat ones like "titleEn" (news).
+function getByPath(obj, path) {
+  return path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
+}
+
+function setByPath(obj, path, value) {
+  const keys = path.split(".");
+  let cur = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    if (cur[keys[i]] == null) cur[keys[i]] = {};
+    cur = cur[keys[i]];
+  }
+  cur[keys[keys.length - 1]] = value;
+}
+
+const CMS_TYPES = {
+  products: {
+    label: { en: "Products", ar: "المنتجات" },
+    icon: "fas fa-box",
+    idKey: "id",
+    getAll: () => productsData,
+    setAll: (arr) => {
+      productsData = arr;
+      saveContentStore("products", arr);
+    },
+    newItem: () => ({
+      id: `product-${Date.now()}`,
+      title: { en: "", ar: "" },
+      desc: { en: "", ar: "" },
+      sub_category: { en: "", ar: "" },
+      price: 0,
+      oldPrice: null,
+      url: "/images/prd-1.webp",
+      gallery: ["/images/prd-1.webp"],
+      categoryId: categoriesData[0]?.categoryId || "",
+      subCategoryId: null,
+      colors: [],
+      sizes: [],
+      specGroups: [],
+      stockQty: 20,
+      rating: 0,
+      reviewCount: 0,
+    }),
+    columns: [
+      { label: { en: "Image", ar: "الصورة" }, render: (p) => `<img src="${p.url}" class="cms-thumb" alt="">` },
+      { label: { en: "Title", ar: "الاسم" }, render: (p) => getLabel(p.title?.en, p.title?.ar) || "—" },
+      { label: { en: "Category", ar: "الفئة" }, render: (p) => p.categoryId || "—" },
+      { label: { en: "Price", ar: "السعر" }, render: (p) => formatEGP(p.price || 0) },
+      { label: { en: "Stock", ar: "المخزون" }, render: (p) => (p.stockQty ?? "—") },
+    ],
+    fields: [
+      { key: "title.en", label: { en: "Title (English)", ar: "الاسم (إنجليزي)" }, type: "text", required: true },
+      { key: "title.ar", label: { en: "Title (Arabic)", ar: "الاسم (عربي)" }, type: "text", required: true },
+      { key: "desc.en", label: { en: "Description (English)", ar: "الوصف (إنجليزي)" }, type: "textarea" },
+      { key: "desc.ar", label: { en: "Description (Arabic)", ar: "الوصف (عربي)" }, type: "textarea" },
+      { key: "price", label: { en: "Price (EGP)", ar: "السعر" }, type: "number", required: true },
+      { key: "oldPrice", label: { en: "Old Price (EGP, optional)", ar: "السعر القديم (اختياري)" }, type: "number" },
+      {
+        key: "categoryId",
+        label: { en: "Category", ar: "الفئة" },
+        type: "select",
+        options: () => categoriesData.map((c) => ({ value: c.categoryId, label: getLabel(c.name.en, c.name.ar) })),
+      },
+      { key: "stockQty", label: { en: "Stock Quantity", ar: "الكمية بالمخزون" }, type: "number" },
+      { key: "url", label: { en: "Image", ar: "الصورة" }, type: "image", required: true },
+    ],
+  },
+
+  banner: {
+    label: { en: "Home Banner", ar: "بانر الرئيسية" },
+    icon: "fas fa-images",
+    idKey: "id",
+    getAll: () => bannerSlides,
+    setAll: (arr) => {
+      bannerSlides = arr;
+      saveContentStore("bannerSlides", arr);
+    },
+    // Unlike News/Videos/Machinery, the home page banner is built once
+    // at app boot and doesn't re-render on navigation — so without this,
+    // a CMS edit wouldn't show up until a full page reload.
+    afterChange: () => {
+      if (typeof initializeSlider === "function") initializeSlider();
+    },
+    newItem: () => ({
+      id: `slide-${Date.now()}`,
+      titleEn: "",
+      titleAr: "",
+      subTitleEn: "",
+      subTitleAr: "",
+      textEn: "",
+      textAr: "",
+      url: "/images/b-1.webp",
+      cta: "",
+      path: "/",
+    }),
+    columns: [
+      { label: { en: "Image", ar: "الصورة" }, render: (s) => `<img src="${s.url}" class="cms-thumb" alt="">` },
+      { label: { en: "Title", ar: "العنوان" }, render: (s) => getLabel(s.titleEn, s.titleAr) || "—" },
+      { label: { en: "Subtitle", ar: "العنوان الفرعي" }, render: (s) => getLabel(s.subTitleEn, s.subTitleAr) || "—" },
+    ],
+    fields: [
+      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text" },
+      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text" },
+      { key: "subTitleEn", label: { en: "Subtitle (English)", ar: "العنوان الفرعي (إنجليزي)" }, type: "text" },
+      { key: "subTitleAr", label: { en: "Subtitle (Arabic)", ar: "العنوان الفرعي (عربي)" }, type: "text" },
+      { key: "textEn", label: { en: "Body Text (English)", ar: "النص (إنجليزي)" }, type: "textarea" },
+      { key: "textAr", label: { en: "Body Text (Arabic)", ar: "النص (عربي)" }, type: "textarea" },
+      { key: "cta", label: { en: "Button Label", ar: "نص الزر" }, type: "text" },
+      { key: "url", label: { en: "Image", ar: "الصورة" }, type: "image", required: true },
+    ],
+  },
+
+  news: {
+    label: { en: "News", ar: "الأخبار" },
+    icon: "fas fa-newspaper",
+    idKey: "id",
+    getAll: () => newsItems,
+    setAll: (arr) => {
+      newsItems = arr;
+      saveContentStore("newsItems", arr);
+    },
+    newItem: () => {
+      const now = new Date();
+      return {
+        id: `news-${Date.now()}`,
+        img: "/images/news-1.webp",
+        dateRaw: now.toISOString().slice(0, 10),
+        dateEn: now.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+        dateAr: now.toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" }),
+        titleEn: "",
+        titleAr: "",
+        excerptEn: "",
+        excerptAr: "",
+      };
+    },
+    columns: [
+      { label: { en: "Image", ar: "الصورة" }, render: (n) => `<img src="${n.img}" class="cms-thumb" alt="">` },
+      { label: { en: "Title", ar: "العنوان" }, render: (n) => getLabel(n.titleEn, n.titleAr) || "—" },
+      { label: { en: "Date", ar: "التاريخ" }, render: (n) => getLabel(n.dateEn, n.dateAr) },
+    ],
+    fields: [
+      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text", required: true },
+      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text", required: true },
+      { key: "excerptEn", label: { en: "Excerpt (English)", ar: "الملخص (إنجليزي)" }, type: "textarea" },
+      { key: "excerptAr", label: { en: "Excerpt (Arabic)", ar: "الملخص (عربي)" }, type: "textarea" },
+      { key: "dateRaw", label: { en: "Date", ar: "التاريخ" }, type: "date", required: true },
+      { key: "img", label: { en: "Image", ar: "الصورة" }, type: "image" },
+    ],
+    // Keep dateEn/dateAr in sync with dateRaw on save — the public News
+    // page displays the formatted labels, not the raw ISO date.
+    beforeSave: (item) => {
+      const d = new Date(item.dateRaw);
+      if (!isNaN(d)) {
+        item.dateEn = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+        item.dateAr = d.toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" });
+      }
+    },
+  },
+
+  videos: {
+    label: { en: "Videos", ar: "الفيديوهات" },
+    icon: "fas fa-video",
+    idKey: "id",
+    getAll: () => videoItems,
+    setAll: (arr) => {
+      videoItems = arr;
+      saveContentStore("videoItems", arr);
+    },
+    newItem: () => ({
+      id: `video-${Date.now()}`,
+      titleEn: "",
+      titleAr: "",
+      category: VIDEO_CATEGORIES[0].key,
+      youtubeId: "",
+    }),
+    columns: [
+      { label: { en: "Title", ar: "العنوان" }, render: (v) => getLabel(v.titleEn, v.titleAr) || "—" },
+      {
+        label: { en: "Category", ar: "الفئة" },
+        render: (v) => {
+          const c = VIDEO_CATEGORIES.find((c) => c.key === v.category);
+          return c ? getLabel(c.en, c.ar) : v.category;
+        },
+      },
+      { label: { en: "YouTube ID", ar: "معرف يوتيوب" }, render: (v) => v.youtubeId || "—" },
+    ],
+    fields: [
+      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text", required: true },
+      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text", required: true },
+      {
+        key: "category",
+        label: { en: "Category", ar: "الفئة" },
+        type: "select",
+        options: () => VIDEO_CATEGORIES.map((c) => ({ value: c.key, label: getLabel(c.en, c.ar) })),
+      },
+      { key: "youtubeId", label: { en: "YouTube Video ID", ar: "معرف فيديو يوتيوب" }, type: "text", required: true },
+    ],
+  },
+
+  machinery: {
+    label: { en: "Machinery", ar: "الآلات" },
+    icon: "fas fa-industry",
+    idKey: "id",
+    getAll: () => projects,
+    setAll: (arr) => {
+      projects = arr;
+      saveContentStore("projects", arr);
+    },
+    newItem: () => ({
+      id: `machine-${Date.now()}`,
+      img: "/images/prj-1.webp",
+      titleEn: "",
+      titleAr: "",
+      descEn: "",
+      descAr: "",
+    }),
+    columns: [
+      { label: { en: "Image", ar: "الصورة" }, render: (p) => `<img src="${p.img}" class="cms-thumb" alt="">` },
+      { label: { en: "Title", ar: "العنوان" }, render: (p) => getLabel(p.titleEn, p.titleAr) || "—" },
+    ],
+    fields: [
+      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text", required: true },
+      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text", required: true },
+      { key: "descEn", label: { en: "Description (English)", ar: "الوصف (إنجليزي)" }, type: "textarea" },
+      { key: "descAr", label: { en: "Description (Arabic)", ar: "الوصف (عربي)" }, type: "textarea" },
+      { key: "img", label: { en: "Image", ar: "الصورة" }, type: "image", required: true },
+    ],
+  },
+};
+
+let cmsActiveType = null;
+let cmsEditingId = null;
+
+function renderCmsSection(typeKey) {
+  const type = CMS_TYPES[typeKey];
+  const container = document.getElementById("adminSectionBody");
+  if (!container || !type) return;
+
+  const items = type.getAll();
+
+  const rowsHtml =
+    items.length === 0
+      ? `<tr><td colspan="${type.columns.length + 1}" class="text-center text-muted py-5">${getLabel("No items yet.", "لا توجد عناصر بعد.")}</td></tr>`
+      : items
+          .map(
+            (item) => `
+        <tr>
+          ${type.columns.map((col) => `<td>${col.render(item)}</td>`).join("")}
+          <td class="text-end text-nowrap">
+            <button type="button" class="btn btn-sm btn-outline-secondary cms-edit-btn" data-cms-type="${typeKey}" data-cms-id="${item[type.idKey]}" aria-label="${getLabel("Edit", "تعديل")}">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-danger cms-delete-btn" data-cms-type="${typeKey}" data-cms-id="${item[type.idKey]}" aria-label="${getLabel("Delete", "حذف")}">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `,
+          )
+          .join("");
+
+  container.innerHTML = `
+    <div class="bg-white rounded-3 p-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h5 class="fw-bold mb-0">${getLabel(type.label.en, type.label.ar)}</h5>
+        <button type="button" class="btn btn-primary btn-sm cms-add-btn" data-cms-type="${typeKey}">
+          <i class="fas fa-plus me-1"></i> ${getLabel("Add New", "إضافة جديد")}
+        </button>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-middle admin-orders-table">
+          <thead>
+            <tr>
+              ${type.columns.map((col) => `<th>${getLabel(col.label.en, col.label.ar)}</th>`).join("")}
+              <th class="text-end">${getLabel("Actions", "إجراءات")}</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  bindCmsListEvents(container);
+}
+
+function bindCmsListEvents(container) {
+  container.querySelectorAll(".cms-add-btn").forEach((btn) => {
+    btn.addEventListener("click", () => openCmsForm(btn.dataset.cmsType, null));
+  });
+  container.querySelectorAll(".cms-edit-btn").forEach((btn) => {
+    btn.addEventListener("click", () => openCmsForm(btn.dataset.cmsType, btn.dataset.cmsId));
+  });
+  container.querySelectorAll(".cms-delete-btn").forEach((btn) => {
+    btn.addEventListener("click", () => deleteCmsItem(btn.dataset.cmsType, btn.dataset.cmsId));
+  });
+}
+
+function deleteCmsItem(typeKey, itemId) {
+  const type = CMS_TYPES[typeKey];
+  const confirmed = confirm(
+    getLabel(
+      "Delete this item? This cannot be undone.",
+      "هل تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
+    ),
+  );
+  if (!confirmed) return;
+
+  type.setAll(type.getAll().filter((i) => i[type.idKey] !== itemId));
+  if (type.afterChange) type.afterChange();
+  renderCmsSection(typeKey);
+}
+
+function cmsFieldInputHtml(field, item) {
+  const value = getByPath(item, field.key) ?? "";
+  const label = getLabel(field.label.en, field.label.ar);
+  const requiredAttr = field.required ? "required" : "";
+
+  let inputHtml;
+  if (field.type === "textarea") {
+    inputHtml = `<textarea class="form-control" data-cms-field="${field.key}" rows="3" ${requiredAttr}>${value}</textarea>`;
+  } else if (field.type === "select") {
+    const options = field.options();
+    inputHtml = `
+      <select class="form-select" data-cms-field="${field.key}" ${requiredAttr}>
+        ${options.map((o) => `<option value="${o.value}" ${String(o.value) === String(value) ? "selected" : ""}>${o.label}</option>`).join("")}
+      </select>`;
+  } else if (field.type === "image") {
+    inputHtml = `
+      <div class="cms-image-field">
+        <img src="${value || "/images/prd-1.webp"}" class="cms-image-preview mb-2" data-cms-image-preview alt="">
+        <input type="text" class="form-control mb-2" data-cms-field="${field.key}" value="${value}" placeholder="/images/example.webp" ${requiredAttr}>
+        <input type="file" class="form-control form-control-sm" accept="image/*" data-cms-image-file>
+      </div>`;
+  } else if (field.type === "date") {
+    inputHtml = `<input type="date" class="form-control" data-cms-field="${field.key}" value="${value}" ${requiredAttr}>`;
+  } else if (field.type === "number") {
+    inputHtml = `<input type="number" class="form-control" data-cms-field="${field.key}" value="${value}" ${requiredAttr}>`;
+  } else {
+    inputHtml = `<input type="text" class="form-control" data-cms-field="${field.key}" value="${value}" ${requiredAttr}>`;
+  }
+
+  return `
+    <div class="mb-3">
+      <label class="form-label small fw-semibold">${label}${field.required ? " *" : ""}</label>
+      ${inputHtml}
+    </div>
+  `;
+}
+
+function openCmsForm(typeKey, itemId) {
+  const type = CMS_TYPES[typeKey];
+  const items = type.getAll();
+  const isEdit = itemId != null;
+  const item = isEdit
+    ? items.find((i) => String(i[type.idKey]) === String(itemId))
+    : type.newItem();
+  if (!item) return;
+
+  cmsActiveType = typeKey;
+  cmsEditingId = isEdit ? itemId : null;
+
+  document.getElementById("modalTitle").textContent = isEdit
+    ? getLabel(`Edit ${type.label.en}`, `تعديل ${type.label.ar}`)
+    : getLabel(`Add ${type.label.en}`, `إضافة ${type.label.ar}`);
+
+  document.getElementById("modalBody").innerHTML = `
+    <form id="cmsForm">
+      ${type.fields.map((f) => cmsFieldInputHtml(f, item)).join("")}
+      <div class="d-flex gap-2 justify-content-end mt-4">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">${getLabel("Cancel", "إلغاء")}</button>
+        <button type="submit" class="btn btn-primary">${getLabel("Save", "حفظ")}</button>
+      </div>
+    </form>
+  `;
+
+  bindCmsFormEvents(item);
+
+  new bootstrap.Modal(document.getElementById("overlayModal")).show();
+}
+
+function bindCmsFormEvents(item) {
+  const modalBody = document.getElementById("modalBody");
+
+  modalBody.querySelectorAll("[data-cms-image-file]").forEach((fileInput) => {
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const wrapper = fileInput.closest(".cms-image-field");
+        const textInput = wrapper.querySelector("[data-cms-field]");
+        const preview = wrapper.querySelector("[data-cms-image-preview]");
+        textInput.value = reader.result;
+        preview.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  document.getElementById("cmsForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    saveCmsForm(item);
+  });
+}
+
+function saveCmsForm(originalItem) {
+  const type = CMS_TYPES[cmsActiveType];
+  const modalBody = document.getElementById("modalBody");
+
+  let valid = true;
+  modalBody.querySelectorAll("[data-cms-field][required]").forEach((el) => {
+    if (!el.value.trim()) {
+      el.classList.add("is-invalid");
+      valid = false;
+    } else {
+      el.classList.remove("is-invalid");
+    }
+  });
+  if (!valid) return;
+
+  const updated = { ...originalItem };
+  modalBody.querySelectorAll("[data-cms-field]").forEach((el) => {
+    let value = el.value;
+    if (el.type === "number") value = value === "" ? null : Number(value);
+    setByPath(updated, el.dataset.cmsField, value);
+  });
+
+  if (type.beforeSave) type.beforeSave(updated);
+
+  const items = type.getAll();
+  if (cmsEditingId != null) {
+    const idx = items.findIndex(
+      (i) => String(i[type.idKey]) === String(cmsEditingId),
+    );
+    if (idx !== -1) items[idx] = updated;
+  } else {
+    items.push(updated);
+  }
+  type.setAll(items);
+  if (type.afterChange) type.afterChange();
+
+  const modalInstance = bootstrap.Modal.getInstance(
+    document.getElementById("overlayModal"),
+  );
+  if (modalInstance) modalInstance.hide();
+
+  renderCmsSection(cmsActiveType);
+}
+
+/* ============================================================
+   ADMIN DASHBOARD
+   ============================================================
+   Route-guarded: redirects to Login if signed out, or Home if
+   signed in without the "admin" role (see DEMO_ADMIN_EMAIL above
+   for how to reach it). Reads the same ORDER STORAGE as Profile.
+
+   Financial analytics: every KPI + chart reacts to the 7D/30D/All
+   period switcher. KPIs compare against the PRIOR equal-length
+   period (e.g. this week vs last week) — the standard pattern in
+   Stripe/analytics-style dashboards. "All" has no prior window to
+   compare against, so its KPIs show no trend arrow.
+   ============================================================ */
+const ADMIN_PERIOD_DAYS = { "7d": 7, "30d": 30, all: null };
+let adminPeriod = "7d";
+
+// Orders whose `date` falls in the window ending `windowsAgo` periods back.
+// days === null means "all time" (only meaningful for windowsAgo 0).
+function ordersInWindow(orders, days, windowsAgo = 0) {
+  if (days == null) return windowsAgo === 0 ? orders : [];
+  const dayMs = 86400000;
+  const end = Date.now() - windowsAgo * days * dayMs;
+  const start = end - days * dayMs;
+  return orders.filter((o) => {
+    const t = new Date(o.date).getTime();
+    return t > start && t <= end;
+  });
+}
+
+function sumRevenue(orders) {
+  return orders.reduce((sum, o) => sum + (o.total || 0), 0);
+}
+
+function countCustomers(orders) {
+  return new Set(orders.map((o) => (o.email || "").toLowerCase()).filter(Boolean))
+    .size;
+}
+
+// % change of current vs previous — null when there's nothing to compare against
+function computeTrendPct(current, previous, hasPreviousWindow) {
+  if (!hasPreviousWindow) return null;
+  if (previous === 0) return current === 0 ? 0 : 100;
+  return Math.round(((current - previous) / previous) * 100);
+}
+
+// Daily revenue buckets for the last `days` days, oldest first
+function groupRevenueByDay(orders, days) {
+  const buckets = new Map();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    buckets.set(d.toISOString().slice(0, 10), 0);
+  }
+
+  orders.forEach((o) => {
+    const key = new Date(o.date).toISOString().slice(0, 10);
+    if (buckets.has(key)) buckets.set(key, buckets.get(key) + (o.total || 0));
+  });
+
+  return {
+    labels: [...buckets.keys()].map((k) =>
+      new Date(k).toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+      }),
+    ),
+    values: [...buckets.values()],
+  };
+}
+
+function topProductsFromOrders(orders, limit = 5) {
+  const totals = new Map();
+  orders.forEach((o) => {
+    (o.items || []).forEach((item) => {
+      const title =
+        typeof item.title === "string"
+          ? item.title
+          : getLabel(item.title.en, item.title.ar);
+      totals.set(title, (totals.get(title) || 0) + (item.price || 0) * (item.qty || 0));
+    });
+  });
+  return [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit);
+}
+
+function adminKpiCardHtml(icon, label, value, trendPct) {
+  const trendHtml =
+    trendPct === null
+      ? `<span class="admin-kpi-trend text-muted">${getLabel("All time", "كل الوقت")}</span>`
+      : `<span class="admin-kpi-trend ${trendPct >= 0 ? "text-success" : "text-danger"}">
+           <i class="fas fa-arrow-${trendPct >= 0 ? "up" : "down"}"></i> ${Math.abs(trendPct)}%
+         </span>
+         <span class="text-muted small"> ${getLabel("vs prior period", "مقارنة بالفترة السابقة")}</span>`;
+
+  return `
+    <div class="col-6 col-lg-3">
+      <div class="admin-kpi-card bg-white rounded-3 p-4">
+        <div class="admin-kpi-icon mb-2"><i class="${icon}"></i></div>
+        <div class="fs-4 fw-bold">${value}</div>
+        <div class="small text-muted mb-2">${label}</div>
+        <div class="admin-kpi-trend-row">${trendHtml}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- Orders table: status filter, column sort, urgency ----------
+   Urgency is derived purely from "days since order date" vs current
+   status (there's no per-status timestamp history in this demo), so
+   it's a proxy for "how long has this been sitting" rather than a
+   real SLA breach — good enough to spot what needs attention first. */
+let adminStatusFilter = "all";
+let adminSortKey = "date";
+let adminSortDir = "desc"; // "asc" | "desc"
+
+const URGENCY_RANK = { late: 3, duesoon: 2, ontrack: 1, done: 0 };
+const URGENCY_LABELS = {
+  done: { en: "Delivered", ar: "تم التوصيل", badgeClass: "bg-light text-muted" },
+  ontrack: { en: "On Track", ar: "في الموعد", badgeClass: "bg-success" },
+  duesoon: { en: "Due Soon", ar: "قريباً", badgeClass: "bg-warning text-dark" },
+  late: { en: "Late", ar: "متأخر", badgeClass: "bg-danger" },
+};
+
+// Hour-level granularity — day-level made every order placed in the last
+// 24h show "0d" regardless of whether it was 5 minutes or 23 hours old,
+// which made the priority column look frozen for anything recent.
+function getOrderUrgency(order) {
+  const hours = Math.floor(
+    (Date.now() - new Date(order.date).getTime()) / 3600000,
+  );
+  if (order.status === "delivered") return { level: "done", hours };
+  if (hours >= 72) return { level: "late", hours };
+  if (hours >= 24) return { level: "duesoon", hours };
+  return { level: "ontrack", hours };
+}
+
+// "Just now" / "2h" for anything under a day, "3d" once it's been a while
+function formatElapsed(hours) {
+  if (hours < 1) return getLabel("Just now", "الآن");
+  if (hours < 24) return getLabel(`${hours}h`, `${hours} س`);
+  return getLabel(`${Math.floor(hours / 24)}d`, `${Math.floor(hours / 24)} يوم`);
+}
+
+function orderUrgencyBadge(order) {
+  const { level, hours } = getOrderUrgency(order);
+  const u = URGENCY_LABELS[level];
+  const elapsedLabel = level === "done" ? "" : ` · ${formatElapsed(hours)}`;
+  return `<span class="badge ${u.badgeClass}">${getLabel(u.en, u.ar)}${elapsedLabel}</span>`;
+}
+
+function sortOrders(orders, key, dir) {
+  const factor = dir === "asc" ? 1 : -1;
+  return [...orders].sort((a, b) => {
+    let av, bv;
+    if (key === "total") {
+      av = a.total || 0;
+      bv = b.total || 0;
+    } else if (key === "status") {
+      av = ORDER_STATUSES.findIndex((s) => s.key === a.status);
+      bv = ORDER_STATUSES.findIndex((s) => s.key === b.status);
+    } else if (key === "priority") {
+      const ua = getOrderUrgency(a);
+      const ub = getOrderUrgency(b);
+      av = URGENCY_RANK[ua.level] * 100000 + ua.hours;
+      bv = URGENCY_RANK[ub.level] * 100000 + ub.hours;
+    } else {
+      av = new Date(a.date).getTime();
+      bv = new Date(b.date).getTime();
+    }
+    return (av - bv) * factor;
+  });
+}
+
+function adminSortIconHtml(key) {
+  if (adminSortKey !== key)
+    return '<i class="fas fa-sort text-muted opacity-50 small"></i>';
+  return adminSortDir === "asc"
+    ? '<i class="fas fa-sort-up small"></i>'
+    : '<i class="fas fa-sort-down small"></i>';
+}
+
+const ADMIN_SECTIONS = [
+  { key: "overview", en: "Overview", ar: "نظرة عامة", icon: "fas fa-chart-line" },
+  { key: "products", en: "Products", ar: "المنتجات", icon: "fas fa-box" },
+  { key: "banner", en: "Home Banner", ar: "بانر الرئيسية", icon: "fas fa-images" },
+  { key: "news", en: "News", ar: "الأخبار", icon: "fas fa-newspaper" },
+  { key: "videos", en: "Videos", ar: "الفيديوهات", icon: "fas fa-video" },
+  { key: "machinery", en: "Machinery", ar: "الآلات", icon: "fas fa-industry" },
+];
+let adminSection = "overview";
+
+function loadAdminPage() {
+  const container = document.getElementById("adminPageContent");
+  if (!container) return;
+
+  if (!appState.user) {
+    setCurrentPage("login");
+    return;
+  }
+  if (appState.user.role !== "admin") {
+    setCurrentPage("home");
+    return;
+  }
+
+  const sectionTabsHtml = ADMIN_SECTIONS.map(
+    (s) => `
+      <button type="button" class="admin-section-tab ${adminSection === s.key ? "active" : ""}" data-admin-section="${s.key}">
+        <i class="${s.icon} me-1"></i> ${getLabel(s.en, s.ar)}
+      </button>
+    `,
+  ).join("");
+
+  container.innerHTML = `
+    ${createBanner(getLabel("Admin Dashboard", "لوحة التحكم"))}
+    <div class="container-fluid py-5 bg-light">
+      <div class="container">
+        <div class="admin-section-tabs mb-4">${sectionTabsHtml}</div>
+        <div id="adminSectionBody"></div>
+      </div>
+    </div>
+  `;
+
+  if (adminSection === "overview") {
+    renderAdminOverview();
+  } else {
+    renderCmsSection(adminSection);
+  }
+
+  bindAdminPageEvents();
+}
+
+function renderAdminOverview() {
+  const container = document.getElementById("adminSectionBody");
+  if (!container) return;
+
+  const allOrders = getOrders();
+  const days = ADMIN_PERIOD_DAYS[adminPeriod];
+  const hasPreviousWindow = days != null;
+
+  const periodOrders = ordersInWindow(allOrders, days, 0);
+  const prevPeriodOrders = ordersInWindow(allOrders, days, 1);
+
+  const revenue = sumRevenue(periodOrders);
+  const prevRevenue = sumRevenue(prevPeriodOrders);
+  const aov = periodOrders.length ? revenue / periodOrders.length : 0;
+  const prevAov = prevPeriodOrders.length
+    ? prevRevenue / prevPeriodOrders.length
+    : 0;
+  const customers = countCustomers(periodOrders);
+  const prevCustomers = countCustomers(prevPeriodOrders);
+
+  const kpiHtml = [
+    adminKpiCardHtml(
+      "fas fa-sack-dollar",
+      getLabel("Revenue", "الإيرادات"),
+      formatEGP(revenue),
+      computeTrendPct(revenue, prevRevenue, hasPreviousWindow),
+    ),
+    adminKpiCardHtml(
+      "fas fa-receipt",
+      getLabel("Orders", "الطلبات"),
+      periodOrders.length,
+      computeTrendPct(periodOrders.length, prevPeriodOrders.length, hasPreviousWindow),
+    ),
+    adminKpiCardHtml(
+      "fas fa-chart-simple",
+      getLabel("Avg. Order Value", "متوسط قيمة الطلب"),
+      formatEGP(Math.round(aov)),
+      computeTrendPct(aov, prevAov, hasPreviousWindow),
+    ),
+    adminKpiCardHtml(
+      "fas fa-users",
+      getLabel("Customers", "العملاء"),
+      customers,
+      computeTrendPct(customers, prevCustomers, hasPreviousWindow),
+    ),
+  ].join("");
+
+  const periodButtonsHtml = [
+    { key: "7d", en: "7D", ar: "٧ أيام" },
+    { key: "30d", en: "30D", ar: "٣٠ يوماً" },
+    { key: "all", en: "All", ar: "الكل" },
+  ]
+    .map(
+      (p) => `
+      <button type="button" class="filter-chip ${adminPeriod === p.key ? "active" : ""}" data-admin-period="${p.key}">
+        ${getLabel(p.en, p.ar)}
+      </button>
+    `,
+    )
+    .join("");
+
+  const statusFilterChipsHtml = [
+    { key: "all", en: "All", ar: "الكل", count: allOrders.length },
+    ...ORDER_STATUSES.map((s) => ({
+      ...s,
+      count: allOrders.filter((o) => o.status === s.key).length,
+    })),
+  ]
+    .map(
+      (s) => `
+      <button type="button" class="filter-chip ${adminStatusFilter === s.key ? "active" : ""}" data-status-filter="${s.key}">
+        ${getLabel(s.en, s.ar)} <span class="badge bg-light text-dark ms-1">${s.count}</span>
+      </button>
+    `,
+    )
+    .join("");
+
+  const filteredOrders =
+    adminStatusFilter === "all"
+      ? allOrders
+      : allOrders.filter((o) => o.status === adminStatusFilter);
+  const tableOrders = sortOrders(filteredOrders, adminSortKey, adminSortDir);
+
+  const ordersRowsHtml =
+    tableOrders.length === 0
+      ? `
+      <tr>
+        <td colspan="7" class="text-center text-muted py-5">
+          ${getLabel("No orders in this status.", "لا توجد طلبات بهذه الحالة.")}
+        </td>
+      </tr>
+    `
+      : tableOrders
+          .map(
+            (order) => `
+      <tr>
+        <td dir="ltr" class="fw-semibold">${order.id}</td>
+        <td>
+          <div class="fw-semibold">${order.name || "-"}</div>
+          <div class="small text-muted" dir="ltr">${order.phone || ""}</div>
+        </td>
+        <td>${new Date(order.date).toLocaleDateString()}</td>
+        <td>${(order.items || []).length}</td>
+        <td class="fw-semibold">${formatEGP(order.total)}</td>
+        <td>${orderUrgencyBadge(order)}</td>
+        <td>
+          <select class="form-select form-select-sm admin-status-select" style="min-width:9rem;" data-order-id="${order.id}">
+            ${ORDER_STATUSES.map(
+              (s) =>
+                `<option value="${s.key}" ${order.status === s.key ? "selected" : ""}>${getLabel(s.en, s.ar)}</option>`,
+            ).join("")}
+          </select>
+        </td>
+      </tr>
+    `,
+          )
+          .join("");
+
+  container.innerHTML = `
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+      <h4 class="fw-bold mb-0">${getLabel("Overview", "نظرة عامة")}</h4>
+      <div class="d-flex gap-2" id="adminPeriodSelector">${periodButtonsHtml}</div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      ${kpiHtml}
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-lg-7">
+        <div class="bg-white rounded-3 p-4 h-100">
+          <h6 class="fw-bold mb-3">${getLabel("Revenue Trend", "اتجاه الإيرادات")}</h6>
+          <div class="admin-chart-wrap"><canvas id="revenueTrendChart"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="bg-white rounded-3 p-4 h-100">
+          <h6 class="fw-bold mb-3">${getLabel("Orders by Status", "الطلبات حسب الحالة")}</h6>
+          <div class="admin-chart-wrap admin-chart-wrap-sm"><canvas id="orderStatusChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-lg-12">
+        <div class="bg-white rounded-3 p-4">
+          <h6 class="fw-bold mb-3">${getLabel("Top Products by Revenue", "أفضل المنتجات حسب الإيرادات")}</h6>
+          <div class="admin-chart-wrap admin-chart-wrap-sm"><canvas id="topProductsChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-lg-12">
+        <div class="bg-white rounded-3 p-4">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <h5 class="fw-bold mb-0">${getLabel("Orders", "الطلبات")}</h5>
+            <div class="d-flex flex-wrap gap-2" id="adminStatusFilter">${statusFilterChipsHtml}</div>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle admin-orders-table">
+              <thead>
+                <tr>
+                  <th>${getLabel("Order ID", "رقم الطلب")}</th>
+                  <th>${getLabel("Customer", "العميل")}</th>
+                  <th class="sortable-th" data-sort-key="date">${getLabel("Date", "التاريخ")} ${adminSortIconHtml("date")}</th>
+                  <th>${getLabel("Items", "المنتجات")}</th>
+                  <th class="sortable-th" data-sort-key="total">${getLabel("Total", "الإجمالي")} ${adminSortIconHtml("total")}</th>
+                  <th class="sortable-th" data-sort-key="priority">${getLabel("Priority", "الأولوية")} ${adminSortIconHtml("priority")}</th>
+                  <th class="sortable-th" data-sort-key="status">${getLabel("Status", "الحالة")} ${adminSortIconHtml("status")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${ordersRowsHtml}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  renderAdminCharts(allOrders, periodOrders, days);
+}
+
+/* ---------- Chart.js rendering — instances stored on window so
+   re-renders (period switch, status change) destroy the old ones
+   first instead of stacking duplicate charts on the same canvas ---------- */
+function renderAdminCharts(allOrders, periodOrders, days) {
+  if (typeof Chart === "undefined") return; // CDN blocked/offline — dashboard still works without charts
+
+  window.adminCharts = window.adminCharts || {};
+  Object.values(window.adminCharts).forEach((chart) => chart?.destroy());
+
+  const chartDays = days || 30;
+  const revenueSeries = groupRevenueByDay(allOrders, chartDays);
+
+  window.adminCharts.revenue = new Chart(
+    document.getElementById("revenueTrendChart"),
+    {
+      type: "line",
+      data: {
+        labels: revenueSeries.labels,
+        datasets: [
+          {
+            label: getLabel("Revenue", "الإيرادات"),
+            data: revenueSeries.values,
+            borderColor: "#ff6600",
+            backgroundColor: "rgba(255, 102, 0, 0.1)",
+            fill: true,
+            tension: 0.3,
+            pointRadius: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } },
+      },
+    },
+  );
+
+  window.adminCharts.status = new Chart(document.getElementById("orderStatusChart"), {
+    type: "doughnut",
+    data: {
+      labels: ORDER_STATUSES.map((s) => getLabel(s.en, s.ar)),
+      datasets: [
+        {
+          data: ORDER_STATUSES.map(
+            (s) => periodOrders.filter((o) => o.status === s.key).length,
+          ),
+          backgroundColor: ["#ffc107", "#0dcaf0", "#0d6efd", "#198754"],
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom" } },
+    },
+  });
+
+  const topProducts = topProductsFromOrders(periodOrders, 5);
+  window.adminCharts.topProducts = new Chart(
+    document.getElementById("topProductsChart"),
+    {
+      type: "bar",
+      data: {
+        labels: topProducts.map(([name]) => name),
+        datasets: [
+          {
+            label: getLabel("Revenue", "الإيرادات"),
+            data: topProducts.map(([, revenue]) => revenue),
+            backgroundColor: "#003049",
+          },
+        ],
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { beginAtZero: true } },
+      },
+    },
+  );
+}
+
+function bindAdminPageEvents() {
+  const container = document.getElementById("adminPageContent");
+
+  container.querySelectorAll(".admin-status-select").forEach((select) => {
+    select.addEventListener("change", function () {
+      updateOrderStatus(this.dataset.orderId, this.value);
+    });
+  });
+
+  container.querySelectorAll("[data-admin-period]").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      adminPeriod = this.dataset.adminPeriod;
+      loadAdminPage();
+    });
+  });
+
+  container.querySelectorAll("[data-status-filter]").forEach((chip) => {
+    chip.addEventListener("click", function () {
+      adminStatusFilter = this.dataset.statusFilter;
+      loadAdminPage();
+    });
+  });
+
+  container.querySelectorAll("[data-sort-key]").forEach((th) => {
+    th.addEventListener("click", function () {
+      const key = this.dataset.sortKey;
+      if (adminSortKey === key) {
+        adminSortDir = adminSortDir === "asc" ? "desc" : "asc";
+      } else {
+        adminSortKey = key;
+        adminSortDir = "desc";
+      }
+      loadAdminPage();
+    });
+  });
+
+  container.querySelectorAll("[data-admin-section]").forEach((tab) => {
+    tab.addEventListener("click", function () {
+      adminSection = this.dataset.adminSection;
+      loadAdminPage();
+    });
+  });
+}
+
+/* ============================================================
+   CHECKOUT PAGE
+   ============================================================
+   Business model notes:
+     - Reservation flow lives on the single-product page and only
+       appears when stockQty === 0. Checkout is for in-stock purchases.
+     - Payment methods: InstaPay / bank transfer (proof screenshot),
+       card via gateway redirect (Paymob/Fawry), or cash on delivery.
+
+   SECURITY: there are deliberately NO card number / CVV inputs here.
+   Collecting raw card data in your own form makes you liable for PCI
+   DSS compliance. The "Card" option should redirect to a hosted
+   gateway page (Paymob / Fawry) — see startGatewayPayment() below.
+
+   LIMITATION: wa.me deep links can only pre-fill TEXT. The uploaded
+   screenshot cannot be auto-attached — the customer attaches it in
+   WhatsApp themselves, or you POST it to your backend (see
+   uploadProofToBackend() stub).
+   ============================================================ */
+
+const CHECKOUT_INSTAPAY_HANDLE = "kaderfactory@instapay"; // TODO: real handle
+const CHECKOUT_BANK_ACCOUNT = "EG00 0000 0000 0000 0000 0000"; // TODO: real IBAN
+const CHECKOUT_SHIPPING_FLAT = 0; // set a flat shipping fee, or 0 for free
+
+const EGYPT_GOVERNORATES = [
+  { en: "Cairo", ar: "القاهرة" },
+  { en: "Giza", ar: "الجيزة" },
+  { en: "Alexandria", ar: "الإسكندرية" },
+  { en: "Qalyubia", ar: "القليوبية" },
+  { en: "Sharqia", ar: "الشرقية" },
+  { en: "Dakahlia", ar: "الدقهلية" },
+  { en: "Beheira", ar: "البحيرة" },
+  { en: "Gharbia", ar: "الغربية" },
+  { en: "Monufia", ar: "المنوفية" },
+  { en: "Kafr El Sheikh", ar: "كفر الشيخ" },
+  { en: "Damietta", ar: "دمياط" },
+  { en: "Port Said", ar: "بورسعيد" },
+  { en: "Ismailia", ar: "الإسماعيلية" },
+  { en: "Suez", ar: "السويس" },
+  { en: "North Sinai", ar: "شمال سيناء" },
+  { en: "South Sinai", ar: "جنوب سيناء" },
+  { en: "Beni Suef", ar: "بني سويف" },
+  { en: "Faiyum", ar: "الفيوم" },
+  { en: "Minya", ar: "المنيا" },
+  { en: "Asyut", ar: "أسيوط" },
+  { en: "Sohag", ar: "سوهاج" },
+  { en: "Qena", ar: "قنا" },
+  { en: "Luxor", ar: "الأقصر" },
+  { en: "Aswan", ar: "أسوان" },
+  { en: "Red Sea", ar: "البحر الأحمر" },
+  { en: "New Valley", ar: "الوادي الجديد" },
+  { en: "Matrouh", ar: "مطروح" },
+];
+
+let checkoutState = {
+  paymentMethod: "instapay", // instapay | card | cod
+  proofFile: null,
+};
+
+/* ============================================================
+   ORDER STORAGE (localStorage) — shared by Profile order history
+   and the Admin Dashboard orders table. Stands in for a real
+   orders table/API in this backend-less demo.
+   ============================================================ */
+const ORDER_STATUSES = [
+  { key: "pending", en: "Pending", ar: "قيد الانتظار", badgeClass: "bg-warning text-dark" },
+  { key: "confirmed", en: "Confirmed", ar: "مؤكد", badgeClass: "bg-info text-dark" },
+  { key: "shipped", en: "Shipped", ar: "تم الشحن", badgeClass: "bg-primary" },
+  { key: "delivered", en: "Delivered", ar: "تم التوصيل", badgeClass: "bg-success" },
+];
+
+function getOrders() {
+  try {
+    return JSON.parse(localStorage.getItem("orders") || "[]");
+  } catch (e) {
+    console.error("Failed to load orders", e);
+    return [];
+  }
+}
+
+function saveOrders(orders) {
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+/* ============================================================
+   CONTENT STORE (localStorage) — backs the Admin Dashboard's
+   content-management tabs (Products / Home Banner / News /
+   Videos / Machinery). First run seeds localStorage from the
+   in-memory defaults above; every run after that reads/writes
+   localStorage exclusively, so admin edits persist across reloads.
+   ============================================================ */
+function loadContentStore(key, seedData) {
+  const raw = localStorage.getItem(`cms_${key}`);
+  if (raw === null) {
+    saveContentStore(key, seedData);
+    return JSON.parse(JSON.stringify(seedData)); // deep clone, avoids aliasing the seed
+  }
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    console.error(`Failed to load content store "${key}"`, e);
+    return JSON.parse(JSON.stringify(seedData));
+  }
+}
+
+function saveContentStore(key, data) {
+  localStorage.setItem(`cms_${key}`, JSON.stringify(data));
+}
+
+// Turns a checkout order into a persisted record and returns it
+function recordOrder(order) {
+  const orders = getOrders();
+  const record = {
+    id: `ORD-${Date.now()}`,
+    date: new Date().toISOString(),
+    status: "pending", // pending -> confirmed -> shipped -> delivered
+    ...order,
+  };
+  orders.unshift(record);
+  saveOrders(orders);
+  return record;
+}
+
+function updateOrderStatus(orderId, status) {
+  const orders = getOrders();
+  const order = orders.find((o) => o.id === orderId);
+  if (!order) return;
+  order.status = status;
+  saveOrders(orders);
+  if (appState.currentPage === "admin") loadAdminPage();
+}
+
+/* ============================================================
+   ENTRY POINT — call from loadPageContent() case "checkout"
+   ============================================================ */
+function loadCheckoutPage() {
+  const container = document.getElementById("checkoutPageContent");
+  if (!container) return;
+
+  const cart = appState.cart || [];
+
+  // Empty cart → nothing to check out
+  if (cart.length === 0) {
+    container.innerHTML = `
+      ${createBanner(getLabel("Checkout", "إتمام الطلب"))}
+      <div class="container py-5">
+        <div class="text-center py-5">
+          <i class="fas fa-cart-shopping text-muted" style="font-size:3rem;"></i>
+          <h4 class="mt-3">${getLabel("Your cart is empty", "سلتك فارغة")}</h4>
+          <p class="text-muted mb-4">${getLabel("Add some products before checking out.", "أضف بعض المنتجات قبل إتمام الطلب.")}</p>
+          <button type="button" class="btn btn-primary px-5" data-nav-page-id="products">
+            ${getLabel("Browse Products", "تصفح المنتجات")}
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  checkoutState = { paymentMethod: "instapay", proofFile: null };
+
+  container.innerHTML = `
+    ${createBanner(getLabel("Checkout", "إتمام الطلب"))}
+
+    <div class="container-fluid py-5 bg-light">
+      <div class="container">
+        <div class="row g-4">
+
+          <!-- ============ LEFT: forms ============ -->
+          <div class="col-lg-8">
+
+            <!-- 1. Contact -->
+            <div class="checkout-section bg-white rounded-3 p-4 mb-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="checkout-step-num">1</span>
+                <h5 class="fw-bold mb-0">${getLabel("Contact Details", "بيانات التواصل")}</h5>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">${getLabel("Full Name", "الاسم الكامل")} *</label>
+                  <input type="text" class="form-control" id="checkoutName" required>
+                  <div class="invalid-feedback">${getLabel("Please enter your name", "يرجى إدخال الاسم")}</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">${getLabel("Phone Number", "رقم الهاتف")} *</label>
+                  <input type="tel" class="form-control" id="checkoutPhone" dir="ltr" required>
+                  <div class="invalid-feedback">${getLabel("Please enter a valid phone number", "يرجى إدخال رقم هاتف صحيح")}</div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label small fw-semibold">${getLabel("Email", "البريد الإلكتروني")}</label>
+                  <input type="email" class="form-control" id="checkoutEmail" dir="ltr">
+                  <div class="invalid-feedback">${getLabel("Please enter a valid email", "يرجى إدخال بريد صحيح")}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Delivery -->
+            <div class="checkout-section bg-white rounded-3 p-4 mb-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="checkout-step-num">2</span>
+                <h5 class="fw-bold mb-0">${getLabel("Delivery Address", "عنوان التوصيل")}</h5>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">${getLabel("Governorate", "المحافظة")} *</label>
+                  <select class="form-select" id="checkoutGovernorate" required>
+                    <option value="">${getLabel("Select…", "اختر…")}</option>
+                    ${EGYPT_GOVERNORATES.map(
+                      (g) => `<option value="${g.en}">${getLabel(g.en, g.ar)}</option>`,
+                    ).join("")}
+                  </select>
+                  <div class="invalid-feedback">${getLabel("Please select a governorate", "يرجى اختيار المحافظة")}</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">${getLabel("City / Area", "المدينة / المنطقة")} *</label>
+                  <input type="text" class="form-control" id="checkoutCity" required>
+                  <div class="invalid-feedback">${getLabel("Please enter your city", "يرجى إدخال المدينة")}</div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label small fw-semibold">${getLabel("Street Address", "العنوان بالتفصيل")} *</label>
+                  <input type="text" class="form-control" id="checkoutAddress" required>
+                  <div class="invalid-feedback">${getLabel("Please enter your address", "يرجى إدخال العنوان")}</div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label small fw-semibold">${getLabel("Order Notes (optional)", "ملاحظات الطلب (اختياري)")}</label>
+                  <textarea class="form-control" id="checkoutNotes" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Payment -->
+            <div class="checkout-section bg-white rounded-3 p-4 mb-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="checkout-step-num">3</span>
+                <h5 class="fw-bold mb-0">${getLabel("Payment Method", "طريقة الدفع")}</h5>
+              </div>
+
+              <div class="payment-methods">
+                <label class="payment-option active" data-payment-option="instapay">
+                  <input type="radio" name="paymentMethod" value="instapay" checked hidden>
+                  <i class="fas fa-mobile-screen-button"></i>
+                  <div>
+                    <div class="fw-semibold">${getLabel("InstaPay / Bank Transfer", "إنستاباي / تحويل بنكي")}</div>
+                    <div class="small text-muted">${getLabel("Transfer, then upload your receipt", "حوّل المبلغ ثم ارفع إيصال التحويل")}</div>
+                  </div>
+                </label>
+
+                <label class="payment-option" data-payment-option="card">
+                  <input type="radio" name="paymentMethod" value="card" hidden>
+                  <i class="fas fa-credit-card"></i>
+                  <div>
+                    <div class="fw-semibold">${getLabel("Credit / Debit Card", "بطاقة ائتمان / خصم")}</div>
+                    <div class="small text-muted">${getLabel("Secure payment via gateway", "دفع آمن عبر بوابة الدفع")}</div>
+                  </div>
+                </label>
+
+                <label class="payment-option" data-payment-option="cod">
+                  <input type="radio" name="paymentMethod" value="cod" hidden>
+                  <i class="fas fa-money-bill-wave"></i>
+                  <div>
+                    <div class="fw-semibold">${getLabel("Cash on Delivery", "الدفع عند الاستلام")}</div>
+                    <div class="small text-muted">${getLabel("Pay when your order arrives", "ادفع عند وصول طلبك")}</div>
+                  </div>
+                </label>
+              </div>
+
+              <!-- InstaPay panel -->
+              <div class="payment-panel mt-4" id="panel-instapay">
+                <div class="alert alert-light border small mb-3">
+                  <div class="fw-semibold mb-2">${getLabel("Transfer to:", "حوّل إلى:")}</div>
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="text-muted">${getLabel("InstaPay", "إنستاباي")}</span>
+                    <span class="d-flex align-items-center gap-2">
+                      <code dir="ltr">${CHECKOUT_INSTAPAY_HANDLE}</code>
+                      <button type="button" class="btn btn-sm btn-link p-0" data-copy-text="${CHECKOUT_INSTAPAY_HANDLE}">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted">${getLabel("Bank Account", "الحساب البنكي")}</span>
+                    <span class="d-flex align-items-center gap-2">
+                      <code dir="ltr">${CHECKOUT_BANK_ACCOUNT}</code>
+                      <button type="button" class="btn btn-sm btn-link p-0" data-copy-text="${CHECKOUT_BANK_ACCOUNT}">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+
+                <label class="form-label small fw-semibold">
+                  ${getLabel("Upload Transfer Receipt", "ارفع إيصال التحويل")} *
+                </label>
+                <div class="proof-upload" id="proofUploadZone">
+                  <input type="file" id="checkoutProof" accept="image/*,application/pdf" hidden>
+                  <div class="proof-placeholder" id="proofPlaceholder">
+                    <i class="fas fa-cloud-arrow-up"></i>
+                    <div class="fw-semibold">${getLabel("Click to upload screenshot", "اضغط لرفع لقطة الشاشة")}</div>
+                    <div class="small text-muted">${getLabel("PNG, JPG or PDF · max 5MB", "PNG أو JPG أو PDF · بحد أقصى 5 ميجا")}</div>
+                  </div>
+                  <div class="proof-preview d-none" id="proofPreview"></div>
+                </div>
+                <div class="form-text text-danger small d-none" id="proofError"></div>
+              </div>
+
+              <!-- Card panel -->
+              <div class="payment-panel mt-4 d-none" id="panel-card">
+                <div class="alert alert-light border small mb-0">
+                  <i class="fas fa-lock me-2"></i>
+                  ${getLabel(
+                    "You will be redirected to our secure payment provider to complete the payment. We never see or store your card details.",
+                    "سيتم تحويلك إلى بوابة الدفع الآمنة لإتمام العملية. نحن لا نرى أو نحتفظ ببيانات بطاقتك.",
+                  )}
+                </div>
+              </div>
+
+              <!-- COD panel -->
+              <div class="payment-panel mt-4 d-none" id="panel-cod">
+                <div class="alert alert-light border small mb-0">
+                  <i class="fas fa-circle-info me-2"></i>
+                  ${getLabel(
+                    "Please have the exact amount ready. Our delivery agent will contact you before arrival.",
+                    "يرجى تجهيز المبلغ بالكامل. سيتواصل معك مندوب التوصيل قبل الوصول.",
+                  )}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ============ RIGHT: sticky order summary ============ -->
+          <div class="col-lg-4">
+            <div class="checkout-summary bg-white rounded-3 p-4">
+              <h5 class="fw-bold mb-3">${getLabel("Order Summary", "ملخص الطلب")}</h5>
+
+              <div class="checkout-items mb-3">
+                ${cart.map((item) => renderCheckoutItem(item)).join("")}
+              </div>
+
+              <hr>
+
+              <div class="d-flex justify-content-between small mb-2">
+                <span class="text-muted">${getLabel("Subtotal", "المجموع الفرعي")}</span>
+                <span id="summarySubtotal">${formatEGP(getCartTotal())}</span>
+              </div>
+              <div class="d-flex justify-content-between small mb-2">
+                <span class="text-muted">${getLabel("Shipping", "الشحن")}</span>
+                <span>${CHECKOUT_SHIPPING_FLAT > 0 ? formatEGP(CHECKOUT_SHIPPING_FLAT) : getLabel("Free", "مجاني")}</span>
+              </div>
+
+              <hr>
+
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <span class="fw-bold">${getLabel("Total", "الإجمالي")}</span>
+                <span class="fs-4 fw-bold text-primary" id="summaryTotal">
+                  ${formatEGP(getCartTotal() + CHECKOUT_SHIPPING_FLAT)}
+                </span>
+              </div>
+
+              <button type="button" class="btn btn-primary w-100 py-2 mb-2" id="placeOrderBtn">
+                ${getLabel("Place Order", "تأكيد الطلب")}
+              </button>
+
+              <button type="button" class="btn btn-success w-100 py-2" id="sendOrderWhatsapp">
+                <i class="fab fa-whatsapp me-2"></i>${getLabel("Send via WhatsApp", "إرسال عبر واتساب")}
+              </button>
+
+              <p class="small text-muted text-center mt-3 mb-0">
+                ${getLabel("By placing this order you agree to our terms.", "بتأكيد الطلب أنت توافق على الشروط والأحكام.")}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  `;
+
+  bindCheckoutEvents();
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function formatEGP(amount) {
+  return `${getLabel("EGP", "ج.م")} ${Number(amount).toLocaleString()}`;
+}
+
+function renderCheckoutItem(item) {
+  // Handles both new {en,ar} titles and legacy string titles from old carts
+  const title =
+    typeof item.title === "string"
+      ? item.title
+      : getLabel(item.title.en, item.title.ar);
+
+  const variants = [item.color, item.size].filter(Boolean).join(" · ");
+
+  return `
+    <div class="checkout-item d-flex gap-3 mb-3"
+         data-product-id="${item.productId}"
+         data-color="${item.color || ""}"
+         data-size="${item.size || ""}">
+      <img src="${item.img}" alt="${title}" class="checkout-item-img">
+      <div class="flex-grow-1 min-width-0">
+        <div class="small fw-semibold text-truncate">${title}</div>
+        ${variants ? `<div class="small text-muted">${variants}</div>` : ""}
+        <div class="d-flex align-items-center gap-2 mt-1">
+          <div class="qty-stepper qty-stepper-sm d-flex align-items-center gap-1">
+            <button type="button" class="qty-btn qty-btn-sm" data-qty-action="decrease" aria-label="${getLabel("Decrease quantity", "تقليل الكمية")}">−</button>
+            <span class="qty-value small">${item.qty}</span>
+            <button type="button" class="qty-btn qty-btn-sm" data-qty-action="increase" aria-label="${getLabel("Increase quantity", "زيادة الكمية")}">+</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-link text-danger p-0" data-cart-remove aria-label="${getLabel("Remove item", "إزالة المنتج")}">
+            <i class="fas fa-trash small"></i>
+          </button>
+        </div>
+      </div>
+      <div class="small fw-semibold text-nowrap">${formatEGP(item.price * item.qty)}</div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+let checkoutEventsBound = false;
+
+function bindCheckoutEvents() {
+  if (checkoutEventsBound) return;
+  checkoutEventsBound = true;
+
+  document.addEventListener("click", (e) => {
+    /* Payment method selection */
+    const paymentOption = e.target.closest("[data-payment-option]");
+    if (paymentOption) {
+      selectPaymentMethod(paymentOption.dataset.paymentOption);
+      return;
+    }
+
+    /* Order summary: qty stepper / remove item — reload the whole
+       checkout page afterward so totals and the empty-cart state
+       (if the last item was removed) stay correct */
+    const summaryRow = e.target.closest(".checkout-items [data-product-id]");
+    if (summaryRow) {
+      const productId = summaryRow.dataset.productId;
+      const color = summaryRow.dataset.color || null;
+      const size = summaryRow.dataset.size || null;
+
+      const qtyBtn = e.target.closest("[data-qty-action]");
+      if (qtyBtn) {
+        const currentItem = appState.cart.find(
+          (i) =>
+            i.productId === productId && i.color === color && i.size === size,
+        );
+        if (currentItem) {
+          const newQty =
+            qtyBtn.dataset.qtyAction === "increase"
+              ? currentItem.qty + 1
+              : currentItem.qty - 1;
+          updateCartItemQty(productId, color, size, newQty);
+          loadCheckoutPage();
+        }
+        return;
+      }
+
+      if (e.target.closest("[data-cart-remove]")) {
+        removeFromCart(productId, color, size);
+        loadCheckoutPage();
+        return;
+      }
+    }
+
+    /* Copy InstaPay handle / bank account */
+    const copyBtn = e.target.closest("[data-copy-text]");
+    if (copyBtn) {
+      navigator.clipboard.writeText(copyBtn.dataset.copyText);
+      const icon = copyBtn.querySelector("i");
+      icon.className = "fas fa-check";
+      setTimeout(() => (icon.className = "fas fa-copy"), 1500);
+      return;
+    }
+
+    /* Open file picker */
+    if (e.target.closest("#proofUploadZone")) {
+      document.getElementById("checkoutProof")?.click();
+      return;
+    }
+
+    /* Remove uploaded proof */
+    if (e.target.closest("#removeProofBtn")) {
+      e.stopPropagation();
+      clearProofFile();
+      return;
+    }
+
+    /* Place order */
+    if (e.target.closest("#placeOrderBtn")) {
+      handlePlaceOrder();
+      return;
+    }
+
+    /* Send via WhatsApp */
+    if (e.target.closest("#sendOrderWhatsapp")) {
+      handleSendViaWhatsapp();
+      return;
+    }
+  });
+
+  document.addEventListener("change", (e) => {
+    if (e.target.id === "checkoutProof") {
+      handleProofUpload(e.target.files[0]);
+    }
+  });
+}
+
+function selectPaymentMethod(method) {
+  checkoutState.paymentMethod = method;
+
+  document.querySelectorAll("[data-payment-option]").forEach((el) => {
+    el.classList.toggle("active", el.dataset.paymentOption === method);
+    const radio = el.querySelector("input[type=radio]");
+    if (radio) radio.checked = el.dataset.paymentOption === method;
+  });
+
+  ["instapay", "card", "cod"].forEach((m) => {
+    document.getElementById(`panel-${m}`)?.classList.toggle("d-none", m !== method);
+  });
+}
+
+/* ============================================================
+   PROOF UPLOAD
+   ============================================================ */
+function handleProofUpload(file) {
+  const errorEl = document.getElementById("proofError");
+  const placeholder = document.getElementById("proofPlaceholder");
+  const preview = document.getElementById("proofPreview");
+
+  if (!file) return;
+
+  const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+  const ALLOWED = ["image/png", "image/jpeg", "image/jpg", "image/webp", "application/pdf"];
+
+  if (!ALLOWED.includes(file.type)) {
+    showProofError(getLabel("Only PNG, JPG or PDF files are allowed", "يُسمح فقط بملفات PNG أو JPG أو PDF"));
+    return;
+  }
+
+  if (file.size > MAX_SIZE) {
+    showProofError(getLabel("File is too large (max 5MB)", "حجم الملف كبير جداً (بحد أقصى 5 ميجا)"));
+    return;
+  }
+
+  errorEl?.classList.add("d-none");
+  checkoutState.proofFile = file;
+
+  const isPdf = file.type === "application/pdf";
+  const sizeKb = Math.round(file.size / 1024);
+
+  preview.innerHTML = `
+    <div class="d-flex align-items-center gap-3">
+      ${
+        isPdf
+          ? `<div class="proof-pdf-icon"><i class="fas fa-file-pdf"></i></div>`
+          : `<img src="${URL.createObjectURL(file)}" class="proof-thumb" alt="receipt">`
+      }
+      <div class="flex-grow-1 min-width-0">
+        <div class="small fw-semibold text-truncate">${file.name}</div>
+        <div class="small text-muted">${sizeKb} KB</div>
+      </div>
+      <button type="button" class="btn btn-sm btn-link text-danger" id="removeProofBtn">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  `;
+
+  placeholder.classList.add("d-none");
+  preview.classList.remove("d-none");
+}
+
+function clearProofFile() {
+  checkoutState.proofFile = null;
+  const input = document.getElementById("checkoutProof");
+  if (input) input.value = "";
+  document.getElementById("proofPlaceholder")?.classList.remove("d-none");
+  const preview = document.getElementById("proofPreview");
+  if (preview) {
+    preview.classList.add("d-none");
+    preview.innerHTML = "";
+  }
+}
+
+function showProofError(msg) {
+  const errorEl = document.getElementById("proofError");
+  if (!errorEl) return;
+  errorEl.textContent = msg;
+  errorEl.classList.remove("d-none");
+}
+
+/* ============================================================
+   VALIDATION
+   ============================================================ */
+function validateCheckoutForm() {
+  const fields = [
+    { id: "checkoutName", test: (v) => v.trim().length >= 2 },
+    { id: "checkoutPhone", test: (v) => /^[0-9+\s-]{8,}$/.test(v.trim()) },
+    { id: "checkoutGovernorate", test: (v) => v !== "" },
+    { id: "checkoutCity", test: (v) => v.trim().length >= 2 },
+    { id: "checkoutAddress", test: (v) => v.trim().length >= 5 },
+  ];
+
+  const email = document.getElementById("checkoutEmail");
+  if (email && email.value.trim() !== "") {
+    fields.push({ id: "checkoutEmail", test: (v) => /^\S+@\S+\.\S+$/.test(v.trim()) });
+  }
+
+  let valid = true;
+  let firstInvalid = null;
+
+  fields.forEach(({ id, test }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const ok = test(el.value);
+    el.classList.toggle("is-invalid", !ok);
+    if (!ok) {
+      valid = false;
+      if (!firstInvalid) firstInvalid = el;
+    }
+  });
+
+  // InstaPay requires a receipt
+  if (checkoutState.paymentMethod === "instapay" && !checkoutState.proofFile) {
+    showProofError(getLabel("Please upload your transfer receipt", "يرجى رفع إيصال التحويل"));
+    valid = false;
+    if (!firstInvalid) firstInvalid = document.getElementById("proofUploadZone");
+  }
+
+  if (firstInvalid) {
+    firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+    firstInvalid.focus?.();
+  }
+
+  return valid;
+}
+
+function collectCheckoutData() {
+  return {
+    name: document.getElementById("checkoutName").value.trim(),
+    phone: document.getElementById("checkoutPhone").value.trim(),
+    email: document.getElementById("checkoutEmail").value.trim(),
+    governorate: document.getElementById("checkoutGovernorate").value,
+    city: document.getElementById("checkoutCity").value.trim(),
+    address: document.getElementById("checkoutAddress").value.trim(),
+    notes: document.getElementById("checkoutNotes").value.trim(),
+    paymentMethod: checkoutState.paymentMethod,
+    items: appState.cart,
+    subtotal: getCartTotal(),
+    shipping: CHECKOUT_SHIPPING_FLAT,
+    total: getCartTotal() + CHECKOUT_SHIPPING_FLAT,
+  };
+}
+
+/* ============================================================
+   ORDER SUBMISSION
+   ============================================================ */
+function handlePlaceOrder() {
+  if (!validateCheckoutForm()) return;
+
+  const order = collectCheckoutData();
+
+  if (order.paymentMethod === "card") {
+    startGatewayPayment(order);
+    return;
+  }
+
+  // InstaPay or COD → submit to your backend
+  submitOrder(order, checkoutState.proofFile);
+}
+
+function handleSendViaWhatsapp() {
+  if (!validateCheckoutForm()) return;
+
+  const order = collectCheckoutData();
+  const message = encodeURIComponent(buildOrderMessage(order));
+
+  window.open(`https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`, "_blank");
+
+  // Reminder: wa.me can't attach the receipt file — the customer must
+  // attach it manually in the WhatsApp chat that just opened.
+  if (checkoutState.proofFile) {
+    alert(
+      getLabel(
+        "Please attach your transfer receipt in the WhatsApp chat that just opened.",
+        "يرجى إرفاق إيصال التحويل في محادثة واتساب التي تم فتحها.",
+      ),
+    );
+  }
+}
+
+function buildOrderMessage(order) {
+  const itemLines = order.items
+    .map((item) => {
+      const title =
+        typeof item.title === "string"
+          ? item.title
+          : getLabel(item.title.en, item.title.ar);
+      const variants = [item.color, item.size].filter(Boolean).join(" / ");
+      return `• ${title}${variants ? ` (${variants})` : ""} × ${item.qty} — ${formatEGP(item.price * item.qty)}`;
+    })
+    .join("\n");
+
+  const methodLabel = {
+    instapay: getLabel("InstaPay / Bank Transfer", "إنستاباي / تحويل بنكي"),
+    card: getLabel("Card", "بطاقة"),
+    cod: getLabel("Cash on Delivery", "الدفع عند الاستلام"),
+  }[order.paymentMethod];
+
+  return getLabel(
+    `New Order\n\n${itemLines}\n\nSubtotal: ${formatEGP(order.subtotal)}\nShipping: ${order.shipping > 0 ? formatEGP(order.shipping) : "Free"}\nTotal: ${formatEGP(order.total)}\n\nPayment: ${methodLabel}\n\nName: ${order.name}\nPhone: ${order.phone}\nEmail: ${order.email || "-"}\nAddress: ${order.address}, ${order.city}, ${order.governorate}\nNotes: ${order.notes || "-"}`,
+    `طلب جديد\n\n${itemLines}\n\nالمجموع الفرعي: ${formatEGP(order.subtotal)}\nالشحن: ${order.shipping > 0 ? formatEGP(order.shipping) : "مجاني"}\nالإجمالي: ${formatEGP(order.total)}\n\nطريقة الدفع: ${methodLabel}\n\nالاسم: ${order.name}\nالهاتف: ${order.phone}\nالبريد: ${order.email || "-"}\nالعنوان: ${order.address}، ${order.city}، ${order.governorate}\nملاحظات: ${order.notes || "-"}`,
+  );
+}
+
+/* ============================================================
+   BACKEND STUBS — wire these to your server
+   ============================================================ */
+
+/**
+ * Sends the order + receipt file to your backend.
+ * Replace the fetch URL with your real endpoint.
+ */
+async function submitOrder(order, proofFile) {
+  const btn = document.getElementById("placeOrderBtn");
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>${getLabel("Processing…", "جارٍ المعالجة…")}`;
+
+  try {
+    const formData = new FormData();
+    formData.append("order", JSON.stringify(order));
+    if (proofFile) formData.append("proof", proofFile);
+
+    // TODO: replace with your real endpoint
+    // const response = await fetch("/api/orders", { method: "POST", body: formData });
+    // if (!response.ok) throw new Error("Order submission failed");
+
+    // Placeholder success path until the backend exists:
+    console.log("Order ready to submit:", order, proofFile);
+    await new Promise((r) => setTimeout(r, 800));
+
+    const record = recordOrder(order);
+    clearCart();
+    showOrderSuccess(record);
+  } catch (err) {
+    console.error(err);
+    alert(getLabel("Something went wrong. Please try again or contact us on WhatsApp.", "حدث خطأ ما. يرجى المحاولة مرة أخرى أو التواصل عبر واتساب."));
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }
+}
+
+/**
+ * Redirects to a hosted payment gateway (Paymob / Fawry).
+ * Your backend creates the payment intent and returns a redirect URL —
+ * card details are entered on the GATEWAY's page, never on yours.
+ */
+async function startGatewayPayment(order) {
+  try {
+    // TODO: replace with your real endpoint
+    // const res = await fetch("/api/payments/create", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(order),
+    // });
+    // const { redirectUrl } = await res.json();
+    // window.location.href = redirectUrl;
+
+    alert(
+      getLabel(
+        "Card payment gateway is not configured yet. Please use InstaPay or Cash on Delivery.",
+        "بوابة الدفع بالبطاقة غير مفعّلة بعد. يرجى استخدام إنستاباي أو الدفع عند الاستلام.",
+      ),
+    );
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function showOrderSuccess(order) {
+  const container = document.getElementById("checkoutPageContent");
+  container.innerHTML = `
+    ${createBanner(getLabel("Order Confirmed", "تم تأكيد الطلب"))}
+    <div class="container py-5">
+      <div class="text-center py-5">
+        <div class="order-success-icon mb-4"><i class="fas fa-check"></i></div>
+        <h3 class="fw-bold mb-2">${getLabel("Thank you for your order!", "شكراً لطلبك!")}</h3>
+        <p class="text-muted mb-1">
+          ${getLabel(
+            `We've received your order and will contact you on ${order.phone} shortly to confirm.`,
+            `لقد استلمنا طلبك وسنتواصل معك على ${order.phone} قريباً للتأكيد.`,
+          )}
+        </p>
+        ${order.id ? `<p class="text-muted small mb-4">${getLabel("Order reference", "رقم الطلب")}: <span class="fw-semibold" dir="ltr">${order.id}</span></p>` : ""}
+        <div class="d-flex gap-2 justify-content-center flex-wrap">
+          <button type="button" class="btn btn-primary px-5" data-nav-page-id="products">
+            ${getLabel("Continue Shopping", "متابعة التسوق")}
+          </button>
+          <button type="button" class="btn btn-outline-secondary px-5" onclick="goToProfileTab('orders')">
+            ${getLabel("View My Orders", "عرض طلباتي")}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 /**
  * Initialize home page sections
@@ -4203,114 +6676,6 @@ function initializeHomePageSections() {
   // Initialize News Section
   const newsSection = document.getElementById("newsSection");
   if (newsSection) {
-    const newsItems = [
-      {
-        id: "news-1",
-        img: "/images/news-1.webp",
-        dateRaw: "2026-07-12",
-        dateEn: "July 12, 2026",
-        dateAr: "12 يوليو 2026",
-        titleEn: "Latest News",
-        titleAr: "أحدث خبر",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر الأول مع شرح موجز عن الموضوع.",
-      },
-      {
-        id: "news-2",
-        img: "/images/news-2.webp",
-        dateRaw: "2026-07-08",
-        dateEn: "July 8, 2026",
-        dateAr: "8 يوليو 2026",
-        titleEn: "Company Update",
-        titleAr: "تحديث الشركة",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر الثاني مع شرح موجز عن الموضوع.",
-      },
-      {
-        id: "news-3",
-        img: "/images/news-3.webp",
-        dateRaw: "2026-07-02",
-        dateEn: "July 2, 2026",
-        dateAr: "2 يوليو 2026",
-        titleEn: "New Partnership",
-        titleAr: "شراكة جديدة",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر الثالث مع شرح موجز عن الموضوع.",
-      },
-      {
-        id: "news-4",
-        img: "/images/news-4.webp",
-        dateRaw: "2026-06-25",
-        dateEn: "June 25, 2026",
-        dateAr: "25 يونيو 2026",
-        titleEn: "Facility Expansion",
-        titleAr: "توسعة المنشأة",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر الرابع مع شرح موجز عن الموضوع.",
-      },
-      {
-        id: "news-5",
-        img: "/images/news-5.webp",
-        dateRaw: "2026-06-18",
-        dateEn: "June 18, 2026",
-        dateAr: "18 يونيو 2026",
-        titleEn: "New Product Line Launch",
-        titleAr: "إطلاق خط إنتاج جديد",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر الخامس مع شرح موجز عن الموضوع.",
-      },
-      {
-        id: "news-6",
-        img: "/images/news-6.webp",
-        dateRaw: "2026-06-10",
-        dateEn: "June 10, 2026",
-        dateAr: "10 يونيو 2026",
-        titleEn: "Safety Certification Achieved",
-        titleAr: "الحصول على شهادة السلامة",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر السادس مع شرح موجز عن الموضوع.",
-      },
-      {
-        id: "news-7",
-        img: "/images/news-7.webp",
-        dateRaw: "2026-05-30",
-        dateEn: "May 30, 2026",
-        dateAr: "30 مايو 2026",
-        titleEn: "Regional Expo Participation",
-        titleAr: "المشاركة في المعرض الإقليمي",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر السابع مع شرح موجز عن الموضوع.",
-      },
-      {
-        id: "news-8",
-        img: "/images/news-8.webp",
-        dateRaw: "2026-05-20",
-        dateEn: "May 20, 2026",
-        dateAr: "20 مايو 2026",
-        titleEn: "Sustainability Initiative",
-        titleAr: "مبادرة الاستدامة",
-        excerptEn:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        excerptAr:
-          "نص تجريبي عربي يوضح تفاصيل الخبر الثامن مع شرح موجز عن الموضوع.",
-      },
-      // ...add as many news items as you need
-    ];
-
     const sortedNews = [...newsItems].sort(
       (a, b) => new Date(b.dateRaw) - new Date(a.dateRaw),
     );
@@ -4722,12 +7087,21 @@ async function initializeApp() {
   document.documentElement.lang = appState.language;
   document.documentElement.dir = appState.direction;
   document.body.setAttribute("data-theme", appState.theme);
+  initializeAuth();
 
   // ============================
   // UI Components
   // ============================
   await loadProductsData();
   await loadCategoriesData();
+
+  // Layer the localStorage content store on top of the defaults above,
+  // so admin-added/edited/deleted content persists across reloads.
+  productsData = loadContentStore("products", productsData);
+  bannerSlides = loadContentStore("bannerSlides", bannerSlides);
+  newsItems = loadContentStore("newsItems", newsItems);
+  videoItems = loadContentStore("videoItems", videoItems);
+  projects = loadContentStore("projects", projects);
 
   // Build the Products mega menu from categoriesData.
   // MUST be after loadCategoriesData() and before initializeNavigation().
@@ -4786,7 +7160,8 @@ function setupEventListeners() {
     });
   }
 
-  // Sticky navbar on scroll
+  // Copy-link buttons (product share row) — delegated so it works
+  // for content injected later, and binds exactly once
   document.addEventListener("click", async (e) => {
     const btn = e.target.closest(".copy-link");
     if (!btn) return;
@@ -4829,3 +7204,5 @@ window.setCurrentPage = setCurrentPage;
 window.toggleTheme = toggleTheme;
 window.toggleLanguage = toggleLanguage;
 window.scrollToTop = scrollToTop;
+window.goToProfileTab = goToProfileTab;
+window.updateOrderStatus = updateOrderStatus;
