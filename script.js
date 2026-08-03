@@ -99,6 +99,15 @@ const navigationLinks = [
     label_ar: "معرض الفيديوهات",
     path: "#videos",
   },
+
+  {
+    id: "military",
+    label_en: "Military",
+    label_ar: "عسكري",
+    path: "#products",
+    categoryId: "military",
+    restricted: true,
+  },
 ];
 
 /* ============================================================
@@ -115,7 +124,7 @@ let bannerSlides = [
     subTitleAr: "",
     textEn: "",
     textAr: "",
-    url: "/images/b-0.png",
+    url: "/images/b-0.webp",
     cta: "",
     path: "",
   },
@@ -125,8 +134,10 @@ let bannerSlides = [
     titleAr: "مراكز التكنولوجيا",
     subTitleEn: "Diverse Industries, Unified Excellence",
     subTitleAr: "صناعات متنوعة، تميز موحد",
-    textEn: "Explore our state-of-the-art technology centers, equipped with cutting-edge tools and innovations.",
-    textAr: "اكتشف مراكز التكنولوجيا الحديثة لدينا والمجهزة بأحدث الأدوات والابتكارات.",
+    textEn:
+      "Explore our state-of-the-art technology centers, equipped with cutting-edge tools and innovations.",
+    textAr:
+      "اكتشف مراكز التكنولوجيا الحديثة لدينا والمجهزة بأحدث الأدوات والابتكارات.",
     url: "/images/cat-9.webp",
     cta: "",
     path: "/",
@@ -149,7 +160,8 @@ let bannerSlides = [
     titleAr: "أثاث مكتبي",
     subTitleEn: "Diverse Industries, Unified Excellence",
     subTitleAr: "صناعات متنوعة، تميز موحد",
-    textEn: "Transform your living spaces with our premium home furniture collection.",
+    textEn:
+      "Transform your living spaces with our premium home furniture collection.",
     textAr: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
     url: "/images/b-3.webp",
     cta: "",
@@ -161,7 +173,8 @@ let bannerSlides = [
     titleAr: "مبادرة البنك الأهلي المصري",
     subTitleEn: "Furnish Your Home, Your Way",
     subTitleAr: "صناعات متنوعة، تميز موحد",
-    textEn: "Get everything you need for your home with instant financing and hassle-free procedures from NBE.",
+    textEn:
+      "Get everything you need for your home with instant financing and hassle-free procedures from NBE.",
     textAr: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
     url: "/images/b-2.webp",
     cta: "",
@@ -230,8 +243,7 @@ let newsItems = [
     titleAr: "أحدث خبر",
     excerptEn:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر الأول مع شرح موجز عن الموضوع.",
+    excerptAr: "نص تجريبي عربي يوضح تفاصيل الخبر الأول مع شرح موجز عن الموضوع.",
   },
   {
     id: "news-2",
@@ -339,14 +351,62 @@ const VIDEO_CATEGORIES = [
 ];
 
 let videoItems = [
-  { id: "v1", titleEn: "Inside Kader Factory", titleAr: "داخل مصنع قادر", category: "facility", youtubeId: "dY3t90L_q3Q" },
-  { id: "v2", titleEn: "CNC Machining Line Tour", titleAr: "جولة في خط تشغيل CNC", category: "facility", youtubeId: "dY3t90L_q3Q" },
-  { id: "v3", titleEn: "Electric Scooter Assembly", titleAr: "تجميع السكوتر الكهربائي", category: "product", youtubeId: "dY3t90L_q3Q" },
-  { id: "v4", titleEn: "Furniture Manufacturing Process", titleAr: "عملية تصنيع الأثاث", category: "product", youtubeId: "dY3t90L_q3Q" },
-  { id: "v5", titleEn: "Message from Management", titleAr: "كلمة الإدارة", category: "corporate", youtubeId: "dY3t90L_q3Q" },
-  { id: "v6", titleEn: "70 Years of Industry", titleAr: "70 عاماً من الصناعة", category: "corporate", youtubeId: "dY3t90L_q3Q" },
-  { id: "v7", titleEn: "Regional Expo Highlights", titleAr: "أبرز لحظات المعرض الإقليمي", category: "event", youtubeId: "dY3t90L_q3Q" },
-  { id: "v8", titleEn: "Safety Certification Ceremony", titleAr: "حفل اعتماد شهادة السلامة", category: "event", youtubeId: "dY3t90L_q3Q" },
+  {
+    id: "v1",
+    titleEn: "Inside Kader Factory",
+    titleAr: "داخل مصنع قادر",
+    category: "facility",
+    youtubeId: "dY3t90L_q3Q",
+  },
+  {
+    id: "v2",
+    titleEn: "CNC Machining Line Tour",
+    titleAr: "جولة في خط تشغيل CNC",
+    category: "facility",
+    youtubeId: "dY3t90L_q3Q",
+  },
+  {
+    id: "v3",
+    titleEn: "Electric Scooter Assembly",
+    titleAr: "تجميع السكوتر الكهربائي",
+    category: "product",
+    youtubeId: "dY3t90L_q3Q",
+  },
+  {
+    id: "v4",
+    titleEn: "Furniture Manufacturing Process",
+    titleAr: "عملية تصنيع الأثاث",
+    category: "product",
+    youtubeId: "dY3t90L_q3Q",
+  },
+  {
+    id: "v5",
+    titleEn: "Message from Management",
+    titleAr: "كلمة الإدارة",
+    category: "corporate",
+    youtubeId: "dY3t90L_q3Q",
+  },
+  {
+    id: "v6",
+    titleEn: "70 Years of Industry",
+    titleAr: "70 عاماً من الصناعة",
+    category: "corporate",
+    youtubeId: "dY3t90L_q3Q",
+  },
+  {
+    id: "v7",
+    titleEn: "Regional Expo Highlights",
+    titleAr: "أبرز لحظات المعرض الإقليمي",
+    category: "event",
+    youtubeId: "dY3t90L_q3Q",
+  },
+  {
+    id: "v8",
+    titleEn: "Safety Certification Ceremony",
+    titleAr: "حفل اعتماد شهادة السلامة",
+    category: "event",
+    youtubeId: "dY3t90L_q3Q",
+  },
 ];
 
 /* ============================================================
@@ -675,6 +735,148 @@ function logout() {
 }
 
 /* ============================================================
+   MILITARY ACCESS GATE (OTP)
+   ============================================================ */
+const MILITARY_OTP_STORAGE_KEY = "militaryOtpCodes";
+const MILITARY_ACCESS_STORAGE_KEY = "militaryAccessGrant";
+const MILITARY_ATTEMPTS_STORAGE_KEY = "militaryOtpAttempts";
+const MILITARY_OTP_TTL_MINUTES = 15;
+const MILITARY_ACCESS_TTL_HOURS = 24;
+const MILITARY_MAX_ATTEMPTS = 5;
+const MILITARY_LOCKOUT_MINUTES = 15;
+
+function getMilitaryOtpCodes() {
+  try {
+    return JSON.parse(localStorage.getItem(MILITARY_OTP_STORAGE_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveMilitaryOtpCodes(codes) {
+  localStorage.setItem(MILITARY_OTP_STORAGE_KEY, JSON.stringify(codes));
+}
+
+function militaryOtpStatus(record) {
+  if (record.revoked) return "revoked";
+  if (record.used) return "used";
+  if (record.expiresAt < Date.now()) return "expired";
+  return "active";
+}
+
+// Admin: issue a new code for a specific recipient. Returns the plain
+// code once — relay it out-of-band (phone/email/in person). It is not
+// recoverable from here after the admin navigates away from the notice.
+function generateMilitaryOtpCode(recipientName, recipientContact) {
+  const now = Date.now();
+  const record = {
+    id: `motp_${now}_${Math.floor(Math.random() * 1000)}`,
+    code: String(Math.floor(100000 + Math.random() * 900000)),
+    recipientName,
+    recipientContact,
+    issuedBy: appState.user ? appState.user.email : "",
+    createdAt: now,
+    expiresAt: now + MILITARY_OTP_TTL_MINUTES * 60 * 1000,
+    used: false,
+    usedAt: null,
+    revoked: false,
+  };
+  const codes = getMilitaryOtpCodes();
+  codes.push(record);
+  saveMilitaryOtpCodes(codes);
+  return record;
+}
+
+// Admin: invalidate a code before it's used or expires
+function revokeMilitaryOtpCode(id) {
+  const codes = getMilitaryOtpCodes().map((c) =>
+    c.id === id ? { ...c, revoked: true } : c,
+  );
+  saveMilitaryOtpCodes(codes);
+}
+
+function getMilitaryLockout() {
+  try {
+    return (
+      JSON.parse(localStorage.getItem(MILITARY_ATTEMPTS_STORAGE_KEY)) || {
+        count: 0,
+        lockedUntil: 0,
+      }
+    );
+  } catch (e) {
+    return { count: 0, lockedUntil: 0 };
+  }
+}
+
+function setMilitaryLockout(state) {
+  localStorage.setItem(MILITARY_ATTEMPTS_STORAGE_KEY, JSON.stringify(state));
+}
+
+// Customer: submit a code from the military-access gate page.
+// Returns { ok: true } on success, or { ok: false, reason } where
+// reason is "locked" | "invalid".
+function verifyMilitaryOtpCode(inputCode) {
+  const lockout = getMilitaryLockout();
+  if (lockout.lockedUntil && lockout.lockedUntil > Date.now()) {
+    return { ok: false, reason: "locked" };
+  }
+
+  const codes = getMilitaryOtpCodes();
+  const match = codes.find(
+    (c) => c.code === inputCode && militaryOtpStatus(c) === "active",
+  );
+
+  if (!match) {
+    const attempts = (lockout.count || 0) + 1;
+    if (attempts >= MILITARY_MAX_ATTEMPTS) {
+      setMilitaryLockout({
+        count: 0,
+        lockedUntil: Date.now() + MILITARY_LOCKOUT_MINUTES * 60 * 1000,
+      });
+    } else {
+      setMilitaryLockout({ count: attempts, lockedUntil: 0 });
+    }
+    return { ok: false, reason: "invalid" };
+  }
+
+  match.used = true;
+  match.usedAt = Date.now();
+  saveMilitaryOtpCodes(codes);
+  setMilitaryLockout({ count: 0, lockedUntil: 0 });
+  grantMilitaryAccess();
+  return { ok: true };
+}
+
+function grantMilitaryAccess() {
+  localStorage.setItem(
+    MILITARY_ACCESS_STORAGE_KEY,
+    JSON.stringify({
+      grantedAt: Date.now(),
+      expiresAt: Date.now() + MILITARY_ACCESS_TTL_HOURS * 60 * 60 * 1000,
+    }),
+  );
+}
+
+function hasMilitaryAccess() {
+  try {
+    const grant = JSON.parse(localStorage.getItem(MILITARY_ACCESS_STORAGE_KEY));
+    return !!grant && grant.expiresAt > Date.now();
+  } catch (e) {
+    return false;
+  }
+}
+
+// Redirect to the OTP gate if the military catalog hasn't been
+// unlocked on this device yet. Called from every entry point into
+// the "military" category (goToProductsWithFilter via loadProductsPage,
+// and the on-page category filter).
+function requireMilitaryAccess() {
+  if (hasMilitaryAccess()) return true;
+  setCurrentPage("military-access");
+  return false;
+}
+
+/* ============================================================
    CART SYSTEM
    ============================================================
    Fixes:
@@ -821,7 +1023,6 @@ function updateCartCount() {
   if (mobileCartCountEl) mobileCartCountEl.textContent = count;
 }
 
-
 let navigationEventsBound = false;
 
 /* ============================================================
@@ -839,12 +1040,11 @@ const MEGA_MENU_COLUMNS = [
     categoryIds: ["home-furniture", "office-furniture", "furnish-home"],
   },
   {
-    title_en: "Corporate & Military",
-    title_ar: "منتجات الشركات والعسكرية",
+    title_en: "Corporate",
+    title_ar: "منتجات الشركات",
     categoryIds: [
       "cash-transfer",
       "vehicle-conversions",
-      "military",
       "firefighting",
       "ambulance",
     ],
@@ -890,8 +1090,12 @@ function buildProductsMegaMenuColumns() {
     );
   }
 
-  /* --- Guard 3: flag real categories missing from every column --- */
-  const missing = [...realIds].filter((id) => !seen.has(id));
+  /* --- Guard 3: flag real categories missing from every column ---
+     "military" is deliberately excluded — it has its own top-level nav
+     link (see navigationLinks) instead of living in the mega menu. */
+  const missing = [...realIds].filter(
+    (id) => !seen.has(id) && id !== "military",
+  );
   if (missing.length > 0) {
     console.warn(
       "MEGA_MENU_COLUMNS: these categories aren't in any column —",
@@ -964,7 +1168,7 @@ function initializeNavigation() {
                 </span>
             </a>
             <div class="dropdown-menu mega-menu p-4">
-                <div class="container d-lg-flex justify-content-lg-evenly align-items-lg-start">
+                <div class="container d-lg-flex justify-content-lg-evenly align-items-lg-start ">
                     ${link.megaMenu
                       .map(
                         (column) => `
@@ -975,12 +1179,13 @@ function initializeNavigation() {
                             ${column.items
                               .map(
                                 (item) => `
-                                <a class="dropdown-item"
+                                <a class="dropdown-item ${item.categoryId === "military" ? "dropdown-item-restricted" : ""}"
                                    href="${item.path}"
                                    data-nav-page-id="products"
                                    ${item.categoryId ? `data-category-id="${item.categoryId}"` : ""}
                                    ${item.subCategoryId ? `data-sub-category-id="${item.subCategoryId}"` : ""}>
                                     ${getLabel(item.label_en, item.label_ar)}
+                                    ${item.categoryId === "military" ? '<i class="fas fa-lock ms-2 small text-danger"></i>' : ""}
                                 </a>
                             `,
                               )
@@ -998,14 +1203,17 @@ function initializeNavigation() {
         <a class="nav-item nav-link py-4 text-white"
            href="${link.path}"
            data-nav-page-id="${link.id}"
+           ${link.categoryId ? `data-category-id="${link.categoryId}"` : ""}
            id="nav-${link.id}">
             ${getLabel(link.label_en, link.label_ar)}
+            ${link.restricted ? '<i class="fa-solid fa-fingerprint small"></i>' : ""}
         </a>
       `;
     }
   });
 
   const topRightControls = document.getElementById("topRightControls");
+  if (topRightControls) topRightControls.innerHTML = "";
 
   /* ---- Desktop search ---- */
   const searchInput = document.getElementById("searchInput");
@@ -1041,12 +1249,14 @@ function initializeNavigation() {
 
   /* ---- Cart ---- */
   topRightControls.innerHTML += `
-    <a class="nav-link position-relative" href="#" data-nav-page-id="cart" id="cartBtn">
-        <i class="fas fa-shopping-cart mx-1"></i>
-        ${getLabel("Cart", "السلة")}
-        <span class="badge bg-primary rounded-pill position-absolute top-0 start-100 translate-middle" id="cartCount" style="font-size: 0.65rem;">
-            ${typeof getCartCount === "function" ? getCartCount() : 0}
+    <a class="nav-link" href="#" data-nav-page-id="cart" id="cartBtn">
+        <span class="position-relative d-inline-block">
+            <i class="fas fa-shopping-cart mx-1"></i>
+            <span class="badge bg-danger rounded-pill cart-count-badge" id="cartCount">
+                ${typeof getCartCount === "function" ? getCartCount() : 0}
+            </span>
         </span>
+        ${getLabel("Cart", "السلة")}
     </a>
   `;
 
@@ -1057,7 +1267,7 @@ function initializeNavigation() {
             <i class="fas fa-user mx-1"></i>
             ${appState.user ? appState.user.name : getLabel("Account", "الحساب")}
         </a>
-        <div class="dropdown-menu ${appState.language === "ar" ? "text-end" : "text-start"}" style="min-width: fit-content;">
+        <div class="dropdown-menu">
             ${
               appState.user
                 ? `
@@ -1086,7 +1296,7 @@ function initializeNavigation() {
             <i class="fas fa-${appState.theme === "dark" ? "moon" : "sun"} mx-1"></i>
             ${getLabel("Theme", "الوضع")}
         </a>
-        <div class="dropdown-menu" style="min-width: 6rem;">
+        <div class="dropdown-menu">
             <a class="dropdown-item" href="#" data-action="toggle-theme">
                 ${appState.theme === "dark" ? getLabel("Light", "الوضع الفاتح") : getLabel("Dark", "الوضع الداكن")}
             </a>
@@ -1101,7 +1311,7 @@ function initializeNavigation() {
             <i class="fas fa-globe mx-1"></i>
             ${appState.language === "ar" ? "ع" : "EN"}
         </a>
-        <div class="dropdown-menu ${appState.language === "ar" ? "text-start" : "text-end"}" style="min-width: 6rem;">
+        <div class="dropdown-menu ${appState.language === "ar" ? "text-start" : "text-end"}">
             <a class="dropdown-item" href="#" data-action="toggle-language">
                 ${appState.language === "ar" ? "English" : "العربية"}
             </a>
@@ -1170,7 +1380,9 @@ function bindNavigationEvents() {
       // Clear both search inputs/dropdowns — whichever one was used
       const searchInput = document.getElementById("searchInput");
       const mobileSearchInput = document.getElementById("mobileSearchInput");
-      const mobileSearchDropdown = document.getElementById("mobileSearchDropdown");
+      const mobileSearchDropdown = document.getElementById(
+        "mobileSearchDropdown",
+      );
       if (searchInput) searchInput.value = "";
       if (mobileSearchInput) mobileSearchInput.value = "";
       if (searchDropdown) {
@@ -1276,8 +1488,10 @@ function initializeMobileMenu() {
                     </a>`;
                 }
                 return `
-                    <a href="#" class="overlay-link" data-nav-page-id="${link.id}">
+                    <a href="#" class="overlay-link" data-nav-page-id="${link.id}"
+                       ${link.categoryId ? `data-category-id="${link.categoryId}"` : ""}>
                         ${getLabel(link.label_en, link.label_ar)}
+                        ${link.restricted ? '<i class="fa-solid fa-fingerprint small"></i>' : ""}
                     </a>`;
               })
               .join("")}
@@ -1309,11 +1523,13 @@ function initializeMobileMenu() {
 
             <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 h-100"
                href="#" data-nav-page-id="cart" id="mobileCartBtn">
-                <i class="fas fa-shopping-cart"></i>
-                ${getLabel("Cart", "السلة")}
-                <span class="badge bg-primary rounded-pill" id="mobileCartCount">
-                    ${typeof getCartCount === "function" ? getCartCount() : 0}
+                <span class="position-relative d-inline-block">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge bg-danger rounded-pill cart-count-badge" id="mobileCartCount">
+                        ${typeof getCartCount === "function" ? getCartCount() : 0}
+                    </span>
                 </span>
+                ${getLabel("Cart", "السلة")}
             </a>
         </div>
     </div>
@@ -1409,10 +1625,12 @@ function openMegaMenu(link) {
                       .map(
                         (item) => `
                         <a href="${item.path}"
+                           class="${item.categoryId === "military" ? "dropdown-item-restricted" : ""}"
                            data-nav-page-id="products"
                            ${item.categoryId ? `data-category-id="${item.categoryId}"` : ""}
                            ${item.subCategoryId ? `data-sub-category-id="${item.subCategoryId}"` : ""}>
                             ${getLabel(item.label_en, item.label_ar)}
+                            ${item.categoryId === "military" ? '<i class="fas fa-lock ms-2 small text-danger"></i>' : ""}
                         </a>`,
                       )
                       .join("")}
@@ -1767,7 +1985,7 @@ function setCurrentPage(pageId, productId) {
     window.scrollTo(0, 0);
 
     // Show/hide nav and footer for chrome-free pages (e.g. auth pages)
-    const pagesWithoutChrome = ["register", "login"];
+    const pagesWithoutChrome = ["register", "login", "military-access"];
     const mainNav = document.getElementById("mainNav");
     const mainFooter = document.getElementById("mainFooter");
     const mainHeader = document.getElementById("navLinksRow");
@@ -1827,6 +2045,9 @@ function loadPageContent(pageId) {
       break;
     case "login":
       loadLoginPage();
+      break;
+    case "military-access":
+      loadMilitaryAccessPage();
       break;
     case "contact":
       loadContactPage();
@@ -2237,6 +2458,13 @@ function loadProductsPage() {
   const container = document.getElementById("productsPageContent");
   if (!container) return;
 
+  const incomingCategoryId = appState.pendingProductFilter
+    ? appState.pendingProductFilter.categoryId
+    : filterState.categoryId;
+  if (incomingCategoryId === "military" && !requireMilitaryAccess()) {
+    return;
+  }
+
   const productHTML = `
         ${createBanner(getLabel("Products", "المنتجات"))}
         <div class="container-fluid service overflow-hidden py-5 bg-light">
@@ -2379,7 +2607,11 @@ function renderCategoryFilter() {
     document.getElementById("category-filter-container-mobile"),
   ].filter(Boolean);
 
+  // "military" is deliberately excluded here — it's a restricted, OTP-gated
+  // category reached only via the mega menu / homepage category section
+  // (see requireMilitaryAccess()), not offered as a filter option here.
   const itemsHtml = categoriesData
+    .filter((cat) => cat.categoryId !== "military")
     .map(
       (cat) => `
         <div class="form-check">
@@ -2412,6 +2644,7 @@ function renderCategoryFilter() {
 }
 
 function onCategoryFilterChange(categoryId) {
+  if (categoryId === "military" && !requireMilitaryAccess()) return;
   filterState.categoryId = categoryId;
   filterState.subCategoryId = null;
   displayedProductsCount = PRODUCTS_PAGE_SIZE;
@@ -3525,13 +3758,153 @@ function loadLoginPage() {
 
     // DEMO: no real password check / backend — see AUTH SYSTEM notes above
     const isAdmin = email.toLowerCase() === DEMO_ADMIN_EMAIL;
-    const namePart = email.split("@")[0].replace(/[._-]+/g, " ").trim();
+    const namePart = email
+      .split("@")[0]
+      .replace(/[._-]+/g, " ")
+      .trim();
     const displayName = isAdmin
       ? "Admin"
       : namePart.replace(/\b\w/g, (c) => c.toUpperCase());
 
-    loginUser({ name: displayName, email, phone: "", role: isAdmin ? "admin" : "customer" });
+    loginUser({
+      name: displayName,
+      email,
+      phone: "",
+      role: isAdmin ? "admin" : "customer",
+    });
     setCurrentPage(isAdmin ? "admin" : "profile");
+  });
+}
+
+/**
+ * Military Access Gate — OTP-only entry to the "military" category.
+ * See MILITARY ACCESS GATE section above for the storage/verify logic.
+ */
+function loadMilitaryAccessPage() {
+  const container = document.getElementById("militaryAccessPageContent");
+  if (!container) return;
+
+  // Already unlocked on this device — skip straight to the catalog
+  if (hasMilitaryAccess()) {
+    goToProductsWithFilter("military");
+    return;
+  }
+
+  const lockout = getMilitaryLockout();
+  const isLocked = lockout.lockedUntil && lockout.lockedUntil > Date.now();
+
+  container.innerHTML = /*html*/ `
+        <div class="container-fluid p-0">
+            <div class="row g-0 min-vh-100">
+
+                <!-- Left: Branded visual panel -->
+                <div class="col-lg-4 d-none d-lg-flex signup-visual-panel position-relative v-100">
+                    <div class="signup-visual-overlay"></div>
+                      <div class="position-relative d-flex align-items-start flex-column justify-content-between p-5">
+                        <a href="/#home">
+                          <img src="/images/logo-kader-white.png" alt="KADER" style="max-height: 3.2rem; object-fit:contain;">
+                        </a>
+                        <div>
+                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel("Restricted Access", "محتوي مقيد")}</h2>
+                            <p class="text-white-50 mb-4" style="max-width: 400px;">
+                                ${getLabel(
+                                  "Military & defense equipment is available to verified government and corporate buyers only.",
+                                  "معدات الدفاع والقطاع العسكري متاحة فقط للمشترين الحكوميين والمؤسسيين الموثقين.",
+                                )}
+                            </p>
+                        </div>
+                        <span class="text-white-50 small">${getLabel("© 2026 Kader Factory for Advanced Industries", "© 2026 مصنع قادر للصناعات المتطورة")}</span>
+                    </div>
+                </div>
+
+                <!-- Right: OTP form -->
+                <div class="col-lg-8 d-flex align-items-center justify-content-center py-5">
+                    <div class="w-100 px-4 px-md-5" style="max-width: 420px;">
+
+                        <div class="mb-4">
+                            <span class="badge bg-danger d-inline-flex align-items-center gap-2 px-3 py-2 mb-3">
+                                <i class="fa-solid fa-fingerprint"></i>
+                                ${getLabel("RESTRICTED ACCESS — AUTHORIZED PERSONNEL ONLY", "وصول مقيد — الوصول للمصرح به فقط")}
+                            </span>
+                            <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel("VERIFICATION REQUIRED", "التحقق مطلوب")}</h5>
+                            <h2 class="fw-bold mb-2">${getLabel("Enter Access Code", "أدخل رمز الوصول")}</h2>
+                            <p class="text-muted mb-0">
+                                ${getLabel(
+                                  "Enter the one-time code provided by your Kader Factory contact to view military & defense products.",
+                                  "أدخل الرمز المؤقت الذي حصلت عليه من ممثل مصنع قادر لعرض المنتجات العسكرية والدفاعية.",
+                                )}
+                            </p>
+                        </div>
+
+                        <form id="militaryAccessForm" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold" for="militaryOtpInput">${getLabel("Access Code", "رمز الوصول")}</label>
+                                <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6"
+                                       class="form-control py-2 text-center fw-bold" style="letter-spacing:0.5em; font-size:1.4rem;"
+                                       id="militaryOtpInput" ${isLocked ? "disabled" : ""} required>
+                                <div class="invalid-feedback" id="militaryOtpInput-error"></div>
+                            </div>
+
+                            ${
+                              isLocked
+                                ? `<div class="alert alert-danger small mb-3">
+                                     ${getLabel("Too many incorrect attempts. Please try again later.", "عدد كبير من المحاولات الخاطئة. يرجى المحاولة لاحقاً.")}
+                                   </div>`
+                                : ""
+                            }
+
+                            <button type="submit" class="btn btn-primary w-100 py-3 rounded-0 fw-semibold" ${isLocked ? "disabled" : ""}>
+                                ${getLabel("Verify", "تحقق")}
+                            </button>
+
+                            <p class="text-muted small text-center mt-4 mb-0">
+                                ${getLabel("Don't have a code?", "ليس لديك رمز؟")}
+                                <a href="#contact" class="text-primary text-decoration-none fw-semibold" onclick="setCurrentPage('contact')">
+                                    ${getLabel("Contact Us", "تواصل معنا")}
+                                </a>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+  const form = document.getElementById("militaryAccessForm");
+  const input = document.getElementById("militaryOtpInput");
+  const errorEl = document.getElementById("militaryOtpInput-error");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const code = input.value.trim();
+
+    if (!/^\d{6}$/.test(code)) {
+      input.classList.add("is-invalid");
+      errorEl.textContent = getLabel(
+        "Enter the 6-digit code exactly as provided.",
+        "أدخل الرمز المكون من 6 أرقام كما هو مرسل إليك.",
+      );
+      return;
+    }
+
+    const result = verifyMilitaryOtpCode(code);
+    if (result.ok) {
+      goToProductsWithFilter("military");
+      return;
+    }
+
+    if (result.reason === "locked") {
+      loadMilitaryAccessPage();
+      return;
+    }
+
+    input.classList.add("is-invalid");
+    errorEl.textContent = getLabel(
+      "Invalid or expired code. Please check and try again.",
+      "الرمز غير صحيح أو منتهي الصلاحية. يرجى التحقق والمحاولة مرة أخرى.",
+    );
   });
 }
 
@@ -4400,7 +4773,10 @@ function loadProfilePage() {
       .toUpperCase() || "?";
 
   const myOrders = getOrders().filter(
-    (o) => o.email && user.email && o.email.toLowerCase() === user.email.toLowerCase(),
+    (o) =>
+      o.email &&
+      user.email &&
+      o.email.toLowerCase() === user.email.toLowerCase(),
   );
 
   const ordersHtml =
@@ -4597,27 +4973,85 @@ const CMS_TYPES = {
       reviewCount: 0,
     }),
     columns: [
-      { label: { en: "Image", ar: "الصورة" }, render: (p) => `<img src="${p.url}" class="cms-thumb" alt="">` },
-      { label: { en: "Title", ar: "الاسم" }, render: (p) => getLabel(p.title?.en, p.title?.ar) || "—" },
-      { label: { en: "Category", ar: "الفئة" }, render: (p) => p.categoryId || "—" },
-      { label: { en: "Price", ar: "السعر" }, render: (p) => formatEGP(p.price || 0) },
-      { label: { en: "Stock", ar: "المخزون" }, render: (p) => (p.stockQty ?? "—") },
+      {
+        label: { en: "Image", ar: "الصورة" },
+        render: (p) => `<img src="${p.url}" class="cms-thumb" alt="">`,
+      },
+      {
+        label: { en: "Title", ar: "الاسم" },
+        render: (p) => getLabel(p.title?.en, p.title?.ar) || "—",
+      },
+      {
+        label: { en: "Category", ar: "الفئة" },
+        render: (p) => p.categoryId || "—",
+      },
+      {
+        label: { en: "Price", ar: "السعر" },
+        render: (p) => formatEGP(p.price || 0),
+      },
+      {
+        label: { en: "Stock", ar: "المخزون" },
+        render: (p) => p.stockQty ?? "—",
+      },
     ],
     fields: [
-      { key: "title.en", label: { en: "Title (English)", ar: "الاسم (إنجليزي)" }, type: "text", required: true },
-      { key: "title.ar", label: { en: "Title (Arabic)", ar: "الاسم (عربي)" }, type: "text", required: true },
-      { key: "desc.en", label: { en: "Description (English)", ar: "الوصف (إنجليزي)" }, type: "textarea" },
-      { key: "desc.ar", label: { en: "Description (Arabic)", ar: "الوصف (عربي)" }, type: "textarea" },
-      { key: "price", label: { en: "Price (EGP)", ar: "السعر" }, type: "number", required: true },
-      { key: "oldPrice", label: { en: "Old Price (EGP, optional)", ar: "السعر القديم (اختياري)" }, type: "number" },
+      {
+        key: "title.en",
+        label: { en: "Title (English)", ar: "الاسم (إنجليزي)" },
+        type: "text",
+        required: true,
+      },
+      {
+        key: "title.ar",
+        label: { en: "Title (Arabic)", ar: "الاسم (عربي)" },
+        type: "text",
+        required: true,
+      },
+      {
+        key: "desc.en",
+        label: { en: "Description (English)", ar: "الوصف (إنجليزي)" },
+        type: "textarea",
+      },
+      {
+        key: "desc.ar",
+        label: { en: "Description (Arabic)", ar: "الوصف (عربي)" },
+        type: "textarea",
+      },
+      {
+        key: "price",
+        label: { en: "Price (EGP)", ar: "السعر" },
+        type: "number",
+        required: true,
+      },
+      {
+        key: "oldPrice",
+        label: {
+          en: "Old Price (EGP, optional)",
+          ar: "السعر القديم (اختياري)",
+        },
+        type: "number",
+      },
       {
         key: "categoryId",
         label: { en: "Category", ar: "الفئة" },
         type: "select",
-        options: () => categoriesData.map((c) => ({ value: c.categoryId, label: getLabel(c.name.en, c.name.ar) })),
+        options: () =>
+          categoriesData.map((c) => ({
+            value: c.categoryId,
+            label: getLabel(c.name.en, c.name.ar),
+          })),
       },
-      { key: "stockQty", label: { en: "Stock Quantity", ar: "الكمية بالمخزون" }, type: "number" },
-      { key: "url", label: { en: "Image", ar: "الصورة" }, type: "image", required: true },
+      {
+        key: "stockQty",
+        label: { en: "Stock Quantity", ar: "الكمية بالمخزون" },
+        type: "number",
+      },
+      {
+        key: "url",
+        label: { en: "Image", ar: "الصورة" },
+        type: "image",
+        required: true,
+      },
     ],
   },
 
@@ -4649,19 +5083,61 @@ const CMS_TYPES = {
       path: "/",
     }),
     columns: [
-      { label: { en: "Image", ar: "الصورة" }, render: (s) => `<img src="${s.url}" class="cms-thumb" alt="">` },
-      { label: { en: "Title", ar: "العنوان" }, render: (s) => getLabel(s.titleEn, s.titleAr) || "—" },
-      { label: { en: "Subtitle", ar: "العنوان الفرعي" }, render: (s) => getLabel(s.subTitleEn, s.subTitleAr) || "—" },
+      {
+        label: { en: "Image", ar: "الصورة" },
+        render: (s) => `<img src="${s.url}" class="cms-thumb" alt="">`,
+      },
+      {
+        label: { en: "Title", ar: "العنوان" },
+        render: (s) => getLabel(s.titleEn, s.titleAr) || "—",
+      },
+      {
+        label: { en: "Subtitle", ar: "العنوان الفرعي" },
+        render: (s) => getLabel(s.subTitleEn, s.subTitleAr) || "—",
+      },
     ],
     fields: [
-      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text" },
-      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text" },
-      { key: "subTitleEn", label: { en: "Subtitle (English)", ar: "العنوان الفرعي (إنجليزي)" }, type: "text" },
-      { key: "subTitleAr", label: { en: "Subtitle (Arabic)", ar: "العنوان الفرعي (عربي)" }, type: "text" },
-      { key: "textEn", label: { en: "Body Text (English)", ar: "النص (إنجليزي)" }, type: "textarea" },
-      { key: "textAr", label: { en: "Body Text (Arabic)", ar: "النص (عربي)" }, type: "textarea" },
-      { key: "cta", label: { en: "Button Label", ar: "نص الزر" }, type: "text" },
-      { key: "url", label: { en: "Image", ar: "الصورة" }, type: "image", required: true },
+      {
+        key: "titleEn",
+        label: { en: "Title (English)", ar: "العنوان (إنجليزي)" },
+        type: "text",
+      },
+      {
+        key: "titleAr",
+        label: { en: "Title (Arabic)", ar: "العنوان (عربي)" },
+        type: "text",
+      },
+      {
+        key: "subTitleEn",
+        label: { en: "Subtitle (English)", ar: "العنوان الفرعي (إنجليزي)" },
+        type: "text",
+      },
+      {
+        key: "subTitleAr",
+        label: { en: "Subtitle (Arabic)", ar: "العنوان الفرعي (عربي)" },
+        type: "text",
+      },
+      {
+        key: "textEn",
+        label: { en: "Body Text (English)", ar: "النص (إنجليزي)" },
+        type: "textarea",
+      },
+      {
+        key: "textAr",
+        label: { en: "Body Text (Arabic)", ar: "النص (عربي)" },
+        type: "textarea",
+      },
+      {
+        key: "cta",
+        label: { en: "Button Label", ar: "نص الزر" },
+        type: "text",
+      },
+      {
+        key: "url",
+        label: { en: "Image", ar: "الصورة" },
+        type: "image",
+        required: true,
+      },
     ],
   },
 
@@ -4680,8 +5156,16 @@ const CMS_TYPES = {
         id: `news-${Date.now()}`,
         img: "/images/news-1.webp",
         dateRaw: now.toISOString().slice(0, 10),
-        dateEn: now.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
-        dateAr: now.toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" }),
+        dateEn: now.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        dateAr: now.toLocaleDateString("ar-EG", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
         titleEn: "",
         titleAr: "",
         excerptEn: "",
@@ -4689,16 +5173,48 @@ const CMS_TYPES = {
       };
     },
     columns: [
-      { label: { en: "Image", ar: "الصورة" }, render: (n) => `<img src="${n.img}" class="cms-thumb" alt="">` },
-      { label: { en: "Title", ar: "العنوان" }, render: (n) => getLabel(n.titleEn, n.titleAr) || "—" },
-      { label: { en: "Date", ar: "التاريخ" }, render: (n) => getLabel(n.dateEn, n.dateAr) },
+      {
+        label: { en: "Image", ar: "الصورة" },
+        render: (n) => `<img src="${n.img}" class="cms-thumb" alt="">`,
+      },
+      {
+        label: { en: "Title", ar: "العنوان" },
+        render: (n) => getLabel(n.titleEn, n.titleAr) || "—",
+      },
+      {
+        label: { en: "Date", ar: "التاريخ" },
+        render: (n) => getLabel(n.dateEn, n.dateAr),
+      },
     ],
     fields: [
-      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text", required: true },
-      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text", required: true },
-      { key: "excerptEn", label: { en: "Excerpt (English)", ar: "الملخص (إنجليزي)" }, type: "textarea" },
-      { key: "excerptAr", label: { en: "Excerpt (Arabic)", ar: "الملخص (عربي)" }, type: "textarea" },
-      { key: "dateRaw", label: { en: "Date", ar: "التاريخ" }, type: "date", required: true },
+      {
+        key: "titleEn",
+        label: { en: "Title (English)", ar: "العنوان (إنجليزي)" },
+        type: "text",
+        required: true,
+      },
+      {
+        key: "titleAr",
+        label: { en: "Title (Arabic)", ar: "العنوان (عربي)" },
+        type: "text",
+        required: true,
+      },
+      {
+        key: "excerptEn",
+        label: { en: "Excerpt (English)", ar: "الملخص (إنجليزي)" },
+        type: "textarea",
+      },
+      {
+        key: "excerptAr",
+        label: { en: "Excerpt (Arabic)", ar: "الملخص (عربي)" },
+        type: "textarea",
+      },
+      {
+        key: "dateRaw",
+        label: { en: "Date", ar: "التاريخ" },
+        type: "date",
+        required: true,
+      },
       { key: "img", label: { en: "Image", ar: "الصورة" }, type: "image" },
     ],
     // Keep dateEn/dateAr in sync with dateRaw on save — the public News
@@ -4706,8 +5222,16 @@ const CMS_TYPES = {
     beforeSave: (item) => {
       const d = new Date(item.dateRaw);
       if (!isNaN(d)) {
-        item.dateEn = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-        item.dateAr = d.toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" });
+        item.dateEn = d.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        item.dateAr = d.toLocaleDateString("ar-EG", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
       }
     },
   },
@@ -4729,7 +5253,10 @@ const CMS_TYPES = {
       youtubeId: "",
     }),
     columns: [
-      { label: { en: "Title", ar: "العنوان" }, render: (v) => getLabel(v.titleEn, v.titleAr) || "—" },
+      {
+        label: { en: "Title", ar: "العنوان" },
+        render: (v) => getLabel(v.titleEn, v.titleAr) || "—",
+      },
       {
         label: { en: "Category", ar: "الفئة" },
         render: (v) => {
@@ -4737,18 +5264,40 @@ const CMS_TYPES = {
           return c ? getLabel(c.en, c.ar) : v.category;
         },
       },
-      { label: { en: "YouTube ID", ar: "معرف يوتيوب" }, render: (v) => v.youtubeId || "—" },
+      {
+        label: { en: "YouTube ID", ar: "معرف يوتيوب" },
+        render: (v) => v.youtubeId || "—",
+      },
     ],
     fields: [
-      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text", required: true },
-      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text", required: true },
+      {
+        key: "titleEn",
+        label: { en: "Title (English)", ar: "العنوان (إنجليزي)" },
+        type: "text",
+        required: true,
+      },
+      {
+        key: "titleAr",
+        label: { en: "Title (Arabic)", ar: "العنوان (عربي)" },
+        type: "text",
+        required: true,
+      },
       {
         key: "category",
         label: { en: "Category", ar: "الفئة" },
         type: "select",
-        options: () => VIDEO_CATEGORIES.map((c) => ({ value: c.key, label: getLabel(c.en, c.ar) })),
+        options: () =>
+          VIDEO_CATEGORIES.map((c) => ({
+            value: c.key,
+            label: getLabel(c.en, c.ar),
+          })),
       },
-      { key: "youtubeId", label: { en: "YouTube Video ID", ar: "معرف فيديو يوتيوب" }, type: "text", required: true },
+      {
+        key: "youtubeId",
+        label: { en: "YouTube Video ID", ar: "معرف فيديو يوتيوب" },
+        type: "text",
+        required: true,
+      },
     ],
   },
 
@@ -4770,18 +5319,214 @@ const CMS_TYPES = {
       descAr: "",
     }),
     columns: [
-      { label: { en: "Image", ar: "الصورة" }, render: (p) => `<img src="${p.img}" class="cms-thumb" alt="">` },
-      { label: { en: "Title", ar: "العنوان" }, render: (p) => getLabel(p.titleEn, p.titleAr) || "—" },
+      {
+        label: { en: "Image", ar: "الصورة" },
+        render: (p) => `<img src="${p.img}" class="cms-thumb" alt="">`,
+      },
+      {
+        label: { en: "Title", ar: "العنوان" },
+        render: (p) => getLabel(p.titleEn, p.titleAr) || "—",
+      },
     ],
     fields: [
-      { key: "titleEn", label: { en: "Title (English)", ar: "العنوان (إنجليزي)" }, type: "text", required: true },
-      { key: "titleAr", label: { en: "Title (Arabic)", ar: "العنوان (عربي)" }, type: "text", required: true },
-      { key: "descEn", label: { en: "Description (English)", ar: "الوصف (إنجليزي)" }, type: "textarea" },
-      { key: "descAr", label: { en: "Description (Arabic)", ar: "الوصف (عربي)" }, type: "textarea" },
-      { key: "img", label: { en: "Image", ar: "الصورة" }, type: "image", required: true },
+      {
+        key: "titleEn",
+        label: { en: "Title (English)", ar: "العنوان (إنجليزي)" },
+        type: "text",
+        required: true,
+      },
+      {
+        key: "titleAr",
+        label: { en: "Title (Arabic)", ar: "العنوان (عربي)" },
+        type: "text",
+        required: true,
+      },
+      {
+        key: "descEn",
+        label: { en: "Description (English)", ar: "الوصف (إنجليزي)" },
+        type: "textarea",
+      },
+      {
+        key: "descAr",
+        label: { en: "Description (Arabic)", ar: "الوصف (عربي)" },
+        type: "textarea",
+      },
+      {
+        key: "img",
+        label: { en: "Image", ar: "الصورة" },
+        type: "image",
+        required: true,
+      },
     ],
   },
 };
+
+/* ============================================================
+   ADMIN: MILITARY ACCESS SECTION
+   ============================================================
+   Lets an admin issue OTP codes (15-min expiry, one-time use) for
+   the military-access gate — see MILITARY ACCESS GATE above for the
+   underlying storage/verify functions.
+   ============================================================ */
+function renderMilitaryOtpSection() {
+  const container = document.getElementById("adminSectionBody");
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="bg-white rounded-3 p-4 mb-4">
+      <h5 class="fw-bold mb-3">${getLabel("Issue Access Code", "إصدار رمز وصول")}</h5>
+      <p class="text-muted small mb-3">
+        ${getLabel(
+          "Generate a one-time code for a verified military/corporate contact. It expires in 15 minutes and can only be used once — relay it directly to the recipient (phone/email), not over any public channel.",
+          "أصدر رمزاً مؤقتاً لجهة اتصال عسكرية/مؤسسية موثقة. ينتهي خلال 15 دقيقة ويُستخدم مرة واحدة فقط — أرسله مباشرة إلى المستلم (هاتف/بريد إلكتروني) وليس عبر أي قناة عامة.",
+        )}
+      </p>
+      <form id="militaryOtpGenerateForm" class="row g-2 align-items-end" novalidate>
+        <div class="col-md-4">
+          <label class="form-label small fw-semibold">${getLabel("Recipient Name", "اسم المستلم")}</label>
+          <input type="text" class="form-control" id="motpRecipientName" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label small fw-semibold">${getLabel("Phone or Email", "الهاتف أو البريد الإلكتروني")}</label>
+          <input type="text" class="form-control" id="motpRecipientContact" required>
+        </div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-key me-1"></i> ${getLabel("Generate Code", "إصدار رمز")}
+          </button>
+        </div>
+      </form>
+      <div id="motpGeneratedNotice" class="mt-3"></div>
+    </div>
+
+    <div class="bg-white rounded-3 p-4">
+      <h5 class="fw-bold mb-3">${getLabel("Issued Codes", "الرموز الصادرة")}</h5>
+      <div class="table-responsive">
+        <table class="table align-middle admin-orders-table">
+          <thead>
+            <tr>
+              <th>${getLabel("Recipient", "المستلم")}</th>
+              <th>${getLabel("Code", "الرمز")}</th>
+              <th>${getLabel("Status", "الحالة")}</th>
+              <th>${getLabel("Issued", "تاريخ الإصدار")}</th>
+              <th>${getLabel("Expires", "تاريخ الانتهاء")}</th>
+              <th class="text-end">${getLabel("Actions", "إجراءات")}</th>
+            </tr>
+          </thead>
+          <tbody id="motpCodesTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  renderMilitaryOtpTable();
+  bindMilitaryOtpFormEvents();
+}
+
+function renderMilitaryOtpTable() {
+  const tbody = document.getElementById("motpCodesTableBody");
+  if (!tbody) return;
+
+  const statusBadge = {
+    active: `<span class="badge bg-success">${getLabel("Active", "نشط")}</span>`,
+    used: `<span class="badge bg-secondary">${getLabel("Used", "مستخدم")}</span>`,
+    expired: `<span class="badge bg-warning text-dark">${getLabel("Expired", "منتهي")}</span>`,
+    revoked: `<span class="badge bg-danger">${getLabel("Revoked", "ملغى")}</span>`,
+  };
+
+  const codes = getMilitaryOtpCodes()
+    .slice()
+    .sort((a, b) => b.createdAt - a.createdAt);
+
+  tbody.innerHTML =
+    codes.length === 0
+      ? `<tr><td colspan="6" class="text-center text-muted py-5">${getLabel("No codes issued yet.", "لم يتم إصدار أي رموز بعد.")}</td></tr>`
+      : codes
+          .map((c) => {
+            const status = militaryOtpStatus(c);
+            return `
+        <tr>
+          <td>
+            <div class="fw-semibold">${c.recipientName || "-"}</div>
+            <div class="small text-muted">${c.recipientContact || ""}</div>
+          </td>
+          <td><code class="fs-6">${c.code}</code></td>
+          <td>${statusBadge[status]}</td>
+          <td class="small text-muted">${new Date(c.createdAt).toLocaleString()}</td>
+          <td class="small text-muted">${new Date(c.expiresAt).toLocaleString()}</td>
+          <td class="text-end">
+            ${
+              status === "active"
+                ? `<button type="button" class="btn btn-sm btn-outline-danger military-revoke-btn" data-otp-id="${c.id}">
+                     ${getLabel("Revoke", "إلغاء")}
+                   </button>`
+                : ""
+            }
+          </td>
+        </tr>
+      `;
+          })
+          .join("");
+
+  tbody.querySelectorAll(".military-revoke-btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      revokeMilitaryOtpCode(this.dataset.otpId);
+      renderMilitaryOtpTable();
+    });
+  });
+}
+
+function bindMilitaryOtpFormEvents() {
+  const form = document.getElementById("militaryOtpGenerateForm");
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const nameInput = document.getElementById("motpRecipientName");
+    const contactInput = document.getElementById("motpRecipientContact");
+    const name = nameInput.value.trim();
+    const contact = contactInput.value.trim();
+    if (!name || !contact) return;
+
+    const record = generateMilitaryOtpCode(name, contact);
+
+    document.getElementById("motpGeneratedNotice").innerHTML = `
+      <div class="alert alert-success d-flex justify-content-between align-items-center mb-0">
+        <span>
+          ${getLabel("Code for", "رمز لـ")} <strong>${name}</strong>:
+          <code class="fs-5 ms-2">${record.code}</code>
+          <span class="d-block small">${getLabel("Expires in 15 minutes and can only be used once. Relay it now — it will not be shown again.", "ينتهي خلال 15 دقيقة ويُستخدم مرة واحدة. أرسله الآن — لن يظهر مرة أخرى.")}</span>
+        </span>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="motpCopyBtn" data-code="${record.code}">
+          <i class="fas fa-copy"></i> <span class="motp-copy-label">${getLabel("Copy", "نسخ")}</span>
+        </button>
+      </div>
+    `;
+    const copyBtn = document.getElementById("motpCopyBtn");
+    copyBtn.addEventListener("click", function () {
+      navigator.clipboard.writeText(this.dataset.code);
+
+      const icon = this.querySelector("i");
+      const label = this.querySelector(".motp-copy-label");
+      this.classList.remove("btn-outline-secondary");
+      this.classList.add("btn-success");
+      icon.className = "fas fa-check";
+      label.textContent = getLabel("Copied", "تم النسخ");
+
+      clearTimeout(this._motpResetTimer);
+      this._motpResetTimer = setTimeout(() => {
+        this.classList.remove("btn-success");
+        this.classList.add("btn-outline-secondary");
+        icon.className = "fas fa-copy";
+        label.textContent = getLabel("Copy", "نسخ");
+      }, 1500);
+    });
+
+    nameInput.value = "";
+    contactInput.value = "";
+    renderMilitaryOtpTable();
+  });
+}
 
 let cmsActiveType = null;
 let cmsEditingId = null;
@@ -4844,10 +5589,14 @@ function bindCmsListEvents(container) {
     btn.addEventListener("click", () => openCmsForm(btn.dataset.cmsType, null));
   });
   container.querySelectorAll(".cms-edit-btn").forEach((btn) => {
-    btn.addEventListener("click", () => openCmsForm(btn.dataset.cmsType, btn.dataset.cmsId));
+    btn.addEventListener("click", () =>
+      openCmsForm(btn.dataset.cmsType, btn.dataset.cmsId),
+    );
   });
   container.querySelectorAll(".cms-delete-btn").forEach((btn) => {
-    btn.addEventListener("click", () => deleteCmsItem(btn.dataset.cmsType, btn.dataset.cmsId));
+    btn.addEventListener("click", () =>
+      deleteCmsItem(btn.dataset.cmsType, btn.dataset.cmsId),
+    );
   });
 }
 
@@ -5037,8 +5786,9 @@ function sumRevenue(orders) {
 }
 
 function countCustomers(orders) {
-  return new Set(orders.map((o) => (o.email || "").toLowerCase()).filter(Boolean))
-    .size;
+  return new Set(
+    orders.map((o) => (o.email || "").toLowerCase()).filter(Boolean),
+  ).size;
 }
 
 // % change of current vs previous — null when there's nothing to compare against
@@ -5084,7 +5834,10 @@ function topProductsFromOrders(orders, limit = 5) {
         typeof item.title === "string"
           ? item.title
           : getLabel(item.title.en, item.title.ar);
-      totals.set(title, (totals.get(title) || 0) + (item.price || 0) * (item.qty || 0));
+      totals.set(
+        title,
+        (totals.get(title) || 0) + (item.price || 0) * (item.qty || 0),
+      );
     });
   });
   return [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit);
@@ -5122,7 +5875,11 @@ let adminSortDir = "desc"; // "asc" | "desc"
 
 const URGENCY_RANK = { late: 3, duesoon: 2, ontrack: 1, done: 0 };
 const URGENCY_LABELS = {
-  done: { en: "Delivered", ar: "تم التوصيل", badgeClass: "bg-light text-muted" },
+  done: {
+    en: "Delivered",
+    ar: "تم التوصيل",
+    badgeClass: "bg-light text-muted",
+  },
   ontrack: { en: "On Track", ar: "في الموعد", badgeClass: "bg-success" },
   duesoon: { en: "Due Soon", ar: "قريباً", badgeClass: "bg-warning text-dark" },
   late: { en: "Late", ar: "متأخر", badgeClass: "bg-danger" },
@@ -5145,7 +5902,10 @@ function getOrderUrgency(order) {
 function formatElapsed(hours) {
   if (hours < 1) return getLabel("Just now", "الآن");
   if (hours < 24) return getLabel(`${hours}h`, `${hours} س`);
-  return getLabel(`${Math.floor(hours / 24)}d`, `${Math.floor(hours / 24)} يوم`);
+  return getLabel(
+    `${Math.floor(hours / 24)}d`,
+    `${Math.floor(hours / 24)} يوم`,
+  );
 }
 
 function orderUrgencyBadge(order) {
@@ -5187,12 +5947,28 @@ function adminSortIconHtml(key) {
 }
 
 const ADMIN_SECTIONS = [
-  { key: "overview", en: "Overview", ar: "نظرة عامة", icon: "fas fa-chart-line" },
+  {
+    key: "overview",
+    en: "Overview",
+    ar: "نظرة عامة",
+    icon: "fas fa-chart-line",
+  },
   { key: "products", en: "Products", ar: "المنتجات", icon: "fas fa-box" },
-  { key: "banner", en: "Home Banner", ar: "بانر الرئيسية", icon: "fas fa-images" },
+  {
+    key: "banner",
+    en: "Home Banner",
+    ar: "بانر الرئيسية",
+    icon: "fas fa-images",
+  },
   { key: "news", en: "News", ar: "الأخبار", icon: "fas fa-newspaper" },
   { key: "videos", en: "Videos", ar: "الفيديوهات", icon: "fas fa-video" },
   { key: "machinery", en: "Machinery", ar: "الآلات", icon: "fas fa-industry" },
+  {
+    key: "military-otp",
+    en: "Military Access",
+    ar: "الوصول العسكري",
+    icon: "fas fa-shield-halved",
+  },
 ];
 let adminSection = "overview";
 
@@ -5229,6 +6005,8 @@ function loadAdminPage() {
 
   if (adminSection === "overview") {
     renderAdminOverview();
+  } else if (adminSection === "military-otp") {
+    renderMilitaryOtpSection();
   } else {
     renderCmsSection(adminSection);
   }
@@ -5267,7 +6045,11 @@ function renderAdminOverview() {
       "fas fa-receipt",
       getLabel("Orders", "الطلبات"),
       periodOrders.length,
-      computeTrendPct(periodOrders.length, prevPeriodOrders.length, hasPreviousWindow),
+      computeTrendPct(
+        periodOrders.length,
+        prevPeriodOrders.length,
+        hasPreviousWindow,
+      ),
     ),
     adminKpiCardHtml(
       "fas fa-chart-simple",
@@ -5460,25 +6242,28 @@ function renderAdminCharts(allOrders, periodOrders, days) {
     },
   );
 
-  window.adminCharts.status = new Chart(document.getElementById("orderStatusChart"), {
-    type: "doughnut",
-    data: {
-      labels: ORDER_STATUSES.map((s) => getLabel(s.en, s.ar)),
-      datasets: [
-        {
-          data: ORDER_STATUSES.map(
-            (s) => periodOrders.filter((o) => o.status === s.key).length,
-          ),
-          backgroundColor: ["#ffc107", "#0dcaf0", "#0d6efd", "#198754"],
-        },
-      ],
+  window.adminCharts.status = new Chart(
+    document.getElementById("orderStatusChart"),
+    {
+      type: "doughnut",
+      data: {
+        labels: ORDER_STATUSES.map((s) => getLabel(s.en, s.ar)),
+        datasets: [
+          {
+            data: ORDER_STATUSES.map(
+              (s) => periodOrders.filter((o) => o.status === s.key).length,
+            ),
+            backgroundColor: ["#ffc107", "#0dcaf0", "#0d6efd", "#198754"],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: "bottom" } },
+      },
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { position: "bottom" } },
-    },
-  });
+  );
 
   const topProducts = topProductsFromOrders(periodOrders, 5);
   window.adminCharts.topProducts = new Chart(
@@ -5615,10 +6400,25 @@ let checkoutState = {
    orders table/API in this backend-less demo.
    ============================================================ */
 const ORDER_STATUSES = [
-  { key: "pending", en: "Pending", ar: "قيد الانتظار", badgeClass: "bg-warning text-dark" },
-  { key: "confirmed", en: "Confirmed", ar: "مؤكد", badgeClass: "bg-info text-dark" },
+  {
+    key: "pending",
+    en: "Pending",
+    ar: "قيد الانتظار",
+    badgeClass: "bg-warning text-dark",
+  },
+  {
+    key: "confirmed",
+    en: "Confirmed",
+    ar: "مؤكد",
+    badgeClass: "bg-info text-dark",
+  },
   { key: "shipped", en: "Shipped", ar: "تم الشحن", badgeClass: "bg-primary" },
-  { key: "delivered", en: "Delivered", ar: "تم التوصيل", badgeClass: "bg-success" },
+  {
+    key: "delivered",
+    en: "Delivered",
+    ar: "تم التوصيل",
+    badgeClass: "bg-success",
+  },
 ];
 
 function getOrders() {
@@ -5758,7 +6558,8 @@ function loadCheckoutPage() {
                   <select class="form-select" id="checkoutGovernorate" required>
                     <option value="">${getLabel("Select…", "اختر…")}</option>
                     ${EGYPT_GOVERNORATES.map(
-                      (g) => `<option value="${g.en}">${getLabel(g.en, g.ar)}</option>`,
+                      (g) =>
+                        `<option value="${g.en}">${getLabel(g.en, g.ar)}</option>`,
                     ).join("")}
                   </select>
                   <div class="invalid-feedback">${getLabel("Please select a governorate", "يرجى اختيار المحافظة")}</div>
@@ -6075,7 +6876,9 @@ function selectPaymentMethod(method) {
   });
 
   ["instapay", "card", "cod"].forEach((m) => {
-    document.getElementById(`panel-${m}`)?.classList.toggle("d-none", m !== method);
+    document
+      .getElementById(`panel-${m}`)
+      ?.classList.toggle("d-none", m !== method);
   });
 }
 
@@ -6090,15 +6893,31 @@ function handleProofUpload(file) {
   if (!file) return;
 
   const MAX_SIZE = 5 * 1024 * 1024; // 5MB
-  const ALLOWED = ["image/png", "image/jpeg", "image/jpg", "image/webp", "application/pdf"];
+  const ALLOWED = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/webp",
+    "application/pdf",
+  ];
 
   if (!ALLOWED.includes(file.type)) {
-    showProofError(getLabel("Only PNG, JPG or PDF files are allowed", "يُسمح فقط بملفات PNG أو JPG أو PDF"));
+    showProofError(
+      getLabel(
+        "Only PNG, JPG or PDF files are allowed",
+        "يُسمح فقط بملفات PNG أو JPG أو PDF",
+      ),
+    );
     return;
   }
 
   if (file.size > MAX_SIZE) {
-    showProofError(getLabel("File is too large (max 5MB)", "حجم الملف كبير جداً (بحد أقصى 5 ميجا)"));
+    showProofError(
+      getLabel(
+        "File is too large (max 5MB)",
+        "حجم الملف كبير جداً (بحد أقصى 5 ميجا)",
+      ),
+    );
     return;
   }
 
@@ -6162,7 +6981,10 @@ function validateCheckoutForm() {
 
   const email = document.getElementById("checkoutEmail");
   if (email && email.value.trim() !== "") {
-    fields.push({ id: "checkoutEmail", test: (v) => /^\S+@\S+\.\S+$/.test(v.trim()) });
+    fields.push({
+      id: "checkoutEmail",
+      test: (v) => /^\S+@\S+\.\S+$/.test(v.trim()),
+    });
   }
 
   let valid = true;
@@ -6181,9 +7003,12 @@ function validateCheckoutForm() {
 
   // InstaPay requires a receipt
   if (checkoutState.paymentMethod === "instapay" && !checkoutState.proofFile) {
-    showProofError(getLabel("Please upload your transfer receipt", "يرجى رفع إيصال التحويل"));
+    showProofError(
+      getLabel("Please upload your transfer receipt", "يرجى رفع إيصال التحويل"),
+    );
     valid = false;
-    if (!firstInvalid) firstInvalid = document.getElementById("proofUploadZone");
+    if (!firstInvalid)
+      firstInvalid = document.getElementById("proofUploadZone");
   }
 
   if (firstInvalid) {
@@ -6234,7 +7059,10 @@ function handleSendViaWhatsapp() {
   const order = collectCheckoutData();
   const message = encodeURIComponent(buildOrderMessage(order));
 
-  window.open(`https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`, "_blank");
+  window.open(
+    `https://wa.me/${RESERVATION_WHATSAPP}?text=${message}`,
+    "_blank",
+  );
 
   // Reminder: wa.me can't attach the receipt file — the customer must
   // attach it manually in the WhatsApp chat that just opened.
@@ -6304,7 +7132,12 @@ async function submitOrder(order, proofFile) {
     showOrderSuccess(record);
   } catch (err) {
     console.error(err);
-    alert(getLabel("Something went wrong. Please try again or contact us on WhatsApp.", "حدث خطأ ما. يرجى المحاولة مرة أخرى أو التواصل عبر واتساب."));
+    alert(
+      getLabel(
+        "Something went wrong. Please try again or contact us on WhatsApp.",
+        "حدث خطأ ما. يرجى المحاولة مرة أخرى أو التواصل عبر واتساب.",
+      ),
+    );
     btn.disabled = false;
     btn.innerHTML = originalText;
   }

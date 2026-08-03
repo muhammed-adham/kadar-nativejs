@@ -151,9 +151,45 @@ a {
   max-width: 100%;
 }
 
+/* Bootstrap's own .dropdown-menu CSS (LTR-only CDN build) hardcodes
+   text-align: left — a physical property that doesn't flip with dir/
+   direction the way start/end do. Override with the logical value so
+   dropdowns (incl. the mega menu) align correctly in RTL. */
+.dropdown-menu {
+  text-align: start;
+  width: fit-content;
+}
+
 .dropdown-item {
   color: var(--text-primary);
   transition: var(--transition);
+}
+
+/* Amazon-style cart counter: a tight circular badge sitting right on the
+   icon's corner, not stretched across the icon+label link.
+   Positioned with logical properties (not Bootstrap's start-100/translate-
+   middle utilities, which this CDN's LTR-only build compiles to physical
+   left/right and so never mirror under dir="rtl") so it lands on the
+   correct upper corner in both directions. Transforms don't follow
+   `direction` on their own, hence the explicit [dir="rtl"] override below. */
+.cart-count-badge {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  transform: translate(50%, -50%);
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+[dir="rtl"] .cart-count-badge {
+  transform: translate(-50%, -50%);
 }
 
 .dropdown-item:hover {
@@ -198,6 +234,10 @@ a {
 .mega-menu .dropdown-item:hover {
   background: transparent;
   color: var(--primary);
+}
+
+.dropdown-item-restricted:hover {
+  color: #dc3545 !important;
 }
 
 /* ============================================================
@@ -330,16 +370,6 @@ html[dir="rtl"] .swiper-button-prev {
 /* ============================================================
    ABOUT SECTION STYLES
    ============================================================ */
-
-/* Founded year overlay badge */
-.about-founded-badge {
-  position: absolute;
-  bottom: 0;
-  background: var(--white);
-  padding: 1rem 2rem;
-  backdrop-filter: blur(4px);
-}
-
 /* Sector cards (What We Manufacture — unchanged) */
 .sector-card-defense {
   background: linear-gradient(135deg, var(--secondary) 0%, #1a2a3d 100%);
