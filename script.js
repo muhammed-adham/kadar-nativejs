@@ -1206,11 +1206,27 @@ function initializeNavigation() {
            ${link.categoryId ? `data-category-id="${link.categoryId}"` : ""}
            id="nav-${link.id}">
             ${getLabel(link.label_en, link.label_ar)}
-            ${link.restricted ? '<i class="fa-solid fa-fingerprint small"></i>' : ""}
+            ${
+              link.restricted
+                ? `<i class="fa-solid fa-fingerprint" 
+   data-bs-toggle="popover" 
+   data-bs-trigger="hover"
+   data-bs-html="true"
+   title="RESTRICTED ACCESS" 
+   data-bs-content="<strong> AUTHORIZED PERSONNEL ONLY</strong> <br> Military & defense equipment is available to verified government and corporate buyers only.">
+</i>`
+                : ""
+            }
         </a>
       `;
     }
   });
+
+  /* ---- Initialize Bootstrap popovers for restricted links ---- */
+  const popoverTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="popover"]',
+  );
+  [...popoverTriggerList].forEach((el) => new bootstrap.Popover(el));
 
   const topRightControls = document.getElementById("topRightControls");
   if (topRightControls) topRightControls.innerHTML = "";
@@ -1247,17 +1263,34 @@ function initializeNavigation() {
     });
   }
 
-  /* ---- Cart ---- */
+  /* ---- Theme ---- */
   topRightControls.innerHTML += `
-    <a class="nav-link" href="#" data-nav-page-id="cart" id="cartBtn">
-        <span class="position-relative d-inline-block">
-            <i class="fas fa-shopping-cart mx-1"></i>
-            <span class="badge bg-danger rounded-pill cart-count-badge" id="cartCount">
-                ${typeof getCartCount === "function" ? getCartCount() : 0}
-            </span>
-        </span>
-        ${getLabel("Cart", "السلة")}
-    </a>
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            ${getLabel("Theme", "الوضع")}
+        </a>
+        <div class="dropdown-menu">
+           <input type="radio" id="dark-theme" name="fav_language" value="dark">
+            <label for="dark-theme">Light</label><br>
+            <a class="dropdown-item" href="#" data-action="toggle-theme">
+                ${appState.theme === "dark" ? getLabel("Light", "الوضع الفاتح") : getLabel("Dark", "الوضع الداكن")}
+            </a>
+        </div>
+    </div>
+  `;
+
+  /* ---- Language ---- */
+  topRightControls.innerHTML += `
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            ${appState.language === "ar" ? "ع" : "EN"}
+        </a>
+        <div class="dropdown-menu ${appState.language === "ar" ? "text-start" : "text-end"}">
+            <a class="dropdown-item" href="#" data-action="toggle-language">
+                ${appState.language === "ar" ? "English" : "العربية"}
+            </a>
+        </div>
+    </div>
   `;
 
   /* ---- Account ---- */
@@ -1289,34 +1322,16 @@ function initializeNavigation() {
     </div>
   `;
 
-  /* ---- Theme ---- */
+  /* ---- Cart ---- */
   topRightControls.innerHTML += `
-    <div class="nav-item dropdown">
-        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="fas fa-${appState.theme === "dark" ? "moon" : "sun"} mx-1"></i>
-            ${getLabel("Theme", "الوضع")}
-        </a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="#" data-action="toggle-theme">
-                ${appState.theme === "dark" ? getLabel("Light", "الوضع الفاتح") : getLabel("Dark", "الوضع الداكن")}
-            </a>
-        </div>
-    </div>
-  `;
-
-  /* ---- Language ---- */
-  topRightControls.innerHTML += `
-    <div class="nav-item dropdown">
-        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="fas fa-globe mx-1"></i>
-            ${appState.language === "ar" ? "ع" : "EN"}
-        </a>
-        <div class="dropdown-menu ${appState.language === "ar" ? "text-start" : "text-end"}">
-            <a class="dropdown-item" href="#" data-action="toggle-language">
-                ${appState.language === "ar" ? "English" : "العربية"}
-            </a>
-        </div>
-    </div>
+    <a class="nav-link border-${getDirectionClass("start", "end")} p${getDirectionClass("s", "e")}-3" href="#" data-nav-page-id="cart" id="cartBtn">
+        <span class="position-relative d-inline-block">
+            <i class="bi bi-bag-fill fs-3"></i>
+            <span class="badge rounded-circle cart-count-badge" id="cartCount">
+                ${typeof getCartCount === "function" ? getCartCount() : 0}
+            </span>
+        </span>
+    </a>
   `;
 
   bindNavigationEvents();

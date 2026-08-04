@@ -50,7 +50,7 @@
   --white-transparent: #ffffffe7;
   --border-color: #eef3f7;
   --transition: all 0.3s ease;
-  --disabled:#e9ecef;
+  --disabled: #e9ecef;
 }
 
 body[data-theme="dark"] {
@@ -62,7 +62,7 @@ body[data-theme="dark"] {
   --text-secondary: #cccccc;
   --white: #2c2c3c;
   --border-color: #404050;
-  --disabled:#e9ecef;
+  --disabled: #e9ecef;
 }
 
 /* ============================================================
@@ -127,11 +127,15 @@ a {
 .nav-link {
   color: var(--text-primary) !important;
   font-weight: 600;
-  margin: 0 10px;
+  font-size: 0.9rem;
   position: relative;
   transition: var(--transition);
   text-transform: uppercase;
-  letter-spacing: 0.15rem;
+  margin-inline: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  height: 100%;
 }
 
 .nav-link:hover {
@@ -142,13 +146,25 @@ a {
   color: var(--primary) !important;
 }
 
+.popover-header {
+  background-color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 0;
+}
+
+.popover-body {
+  background-color: var(--white);
+  font-size: 0.7rem;
+}
+
 .dropdown-menu {
   background-color: var(--light);
   border-radius: 0px !important;
   min-width: 6rem !important;
   padding: 1rem !important;
+  top: 1.75rem;
   left: 0 !important;
-  max-width: 100%;
 }
 
 /* Bootstrap's own .dropdown-menu CSS (LTR-only CDN build) hardcodes
@@ -174,12 +190,13 @@ a {
    `direction` on their own, hence the explicit [dir="rtl"] override below. */
 .cart-count-badge {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: 0;
+  inset-block-start: 55%;
+  inset-inline-end: 50%;
   transform: translate(50%, -50%);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.01rem;
   font-weight: 700;
-  min-width: 1.05rem;
+  width: 1.05rem;
   height: 1.05rem;
   padding: 0 0.3rem;
   display: flex;
@@ -533,16 +550,16 @@ p {
 }
 
 .btn-primary:disabled {
-    background-color: #e9ecef;
-    border-color: #e9ecef;
-    color: #9aa0a6;
-    cursor: not-allowed;
+  background-color: #e9ecef;
+  border-color: #e9ecef;
+  color: #9aa0a6;
+  cursor: not-allowed;
 }
 .btn-secondary:disabled {
-    background-color: #e9ecef;
-    border-color: #e9ecef;
-    color: #9aa0a6;
-    cursor: not-allowed;
+  background-color: #e9ecef;
+  border-color: #e9ecef;
+  color: #9aa0a6;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
