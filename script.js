@@ -2076,6 +2076,9 @@ function loadPageContent(pageId) {
     case "machinery":
       loadProjectsPage();
       break;
+    case "military":
+      loadMilitaryPage();
+      break;
     case "news":
       loadNewsPage();
       break;
@@ -2490,8 +2493,18 @@ let displayedProductsCount = PRODUCTS_PAGE_SIZE;
  *
  * Example: goToProductsWithFilter('plastic')
  * Example: goToProductsWithFilter('plastic', 'plastic-storage-boxes')
+ *
+ * "military" is special-cased to its own dedicated, OTP-gated page (see
+ * MILITARY PRODUCTS PAGE below) instead of the generic Products page —
+ * every entry point (top nav link, homepage category card, the access
+ * gate's post-verify redirect) already calls this same function, so this
+ * one branch is enough to route all of them correctly.
  */
 function goToProductsWithFilter(categoryId, subCategoryId = null) {
+  if (categoryId === "military") {
+    goToMilitaryPage(subCategoryId);
+    return;
+  }
   appState.pendingProductFilter = { categoryId, subCategoryId };
   setCurrentPage("products");
 }
@@ -2974,6 +2987,238 @@ function loadProjectsPage() {
       </div>
     </div>
   `;
+}
+
+/* ============================================================
+   MILITARY PRODUCTS PAGE
+   ============================================================
+   Its own dedicated page (not the generic Products page) — OTP-
+   gated via requireMilitaryAccess() (see MILITARY ACCESS GATE).
+   Quick sub-category filter tabs, one wide detail-rich card per
+   row (image / title+desc / price+specs / CTA) instead of a
+   grid — these are considered/researched purchases, not impulse
+   buys, so the layout favors scannable detail over density.
+   ============================================================ */
+let militarySubFilter = "all";
+let militaryPageEventsBound = false;
+const MILITARY_PAGE_SIZE = 5; // smaller than PRODUCTS_PAGE_SIZE — these cards are much taller
+let displayedMilitaryCount = MILITARY_PAGE_SIZE;
+
+// Call from nav/category entry points — goToProductsWithFilter("military", ...)
+// already forwards here, so this rarely needs to be called directly.
+function goToMilitaryPage(subCategoryId = null) {
+  appState.pendingMilitarySubCategory = subCategoryId || "all";
+  setCurrentPage("military");
+}
+
+function loadMilitaryPage() {
+  const container = document.getElementById("militaryPageContent");
+  if (!container) return;
+
+  if (!requireMilitaryAccess()) return;
+
+  if (appState.pendingMilitarySubCategory !== undefined) {
+    militarySubFilter = appState.pendingMilitarySubCategory;
+    appState.pendingMilitarySubCategory = undefined;
+  }
+  displayedMilitaryCount = MILITARY_PAGE_SIZE;
+
+  container.innerHTML = `
+    ${createBanner(getLabel("Military & Defense", "عسكري ودفاعي"))}
+    <div class="container-fluid overflow-hidden py-5 bg-light">
+      <div class="container">
+        <div class="section-title text-center mb-4">
+          <h5 class="sub-title px-3">${getLabel("Restricted Catalog", "كتالوج مقيد")}</h5>
+          <h1 class="display-5 mb-3">${getLabel("Military & Defense Equipment", "المعدات العسكرية والدفاعية")}</h1>
+          <p class="text-muted mb-0">${getLabel("Available to verified government and corporate buyers only.", "متاح فقط للمشترين الحكوميين والشركات المعتمدين.")}</p>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" id="militaryFilterTabs"></div>
+        <div id="militaryProductsList" class="d-flex flex-column gap-4"></div>
+      </div>
+    </div>
+  `;
+
+  renderMilitaryFilterTabs();
+  renderMilitaryProductsList();
+  bindMilitaryPageEvents();
+}
+
+function renderMilitaryFilterTabs() {
+  const container = document.getElementById("militaryFilterTabs");
+  if (!container) return;
+
+  const militaryCategory = categoriesData.find((c) => c.categoryId === "military");
+  const subCategories = militaryCategory?.subCategories || [];
+  const tabs = [
+    { subCategoryId: "all", name: { en: "All", ar: "الكل" } },
+    ...subCategories,
+  ];
+
+  container.innerHTML = tabs
+    .map(
+      (s) => `
+      <button type="button" class="filter-chip ${militarySubFilter === s.subCategoryId ? "active" : ""}" data-military-subcategory="${s.subCategoryId}">
+        ${getLabel(s.name.en, s.name.ar)}
+      </button>
+    `,
+    )
+    .join("");
+}
+
+function renderMilitaryProductsList() {
+  const container = document.getElementById("militaryProductsList");
+  if (!container) return;
+
+  const products = productsData.filter(
+    (p) =>
+      p.categoryId === "military" &&
+      (militarySubFilter === "all" || p.subCategoryId === militarySubFilter),
+  );
+
+  if (products.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-5 text-muted">
+        ${getLabel("No products in this category yet.", "لا توجد منتجات في هذه الفئة بعد.")}
+      </div>
+    `;
+    return;
+  }
+
+  const visibleProducts = products.slice(0, displayedMilitaryCount);
+  const hasMore = displayedMilitaryCount < products.length;
+
+  const cardsHtml = visibleProducts
+    .map((p) => renderMilitaryProductCard(p))
+    .join("");
+
+  const showMoreHtml = hasMore
+    ? `
+      <div class="text-center mt-2">
+        <button type="button" class="btn btn-primary px-5 py-2" id="show-more-military-btn">
+          ${getLabel("Show More", "عرض المزيد")}
+        </button>
+      </div>
+    `
+    : "";
+
+  container.innerHTML = cardsHtml + showMoreHtml;
+}
+
+function renderMilitaryProductCard(p) {
+  const stockBadge =
+    p.stockQty === 0
+      ? { cls: "bg-danger", en: "Out of Stock", ar: "غير متاح" }
+      : p.stockQty <= 3
+        ? { cls: "bg-warning text-dark", en: "Limited Stock", ar: "كمية محدودة" }
+        : { cls: "bg-success", en: "In Stock", ar: "متوفر" };
+
+  const starsHtml = Array.from({ length: 5 }, (_, i) => {
+    const filled = i + 1 <= Math.round(p.rating || 0);
+    return `<i class="fa${filled ? "s" : "r"} fa-star"></i>`;
+  }).join("");
+
+  const colorsHtml = (p.colors || [])
+    .map(
+      (c) =>
+        `<span class="military-color-dot" style="background:${c.hex};" title="${getLabel(c.name, c.nameAr)}"></span>`,
+    )
+    .join("");
+
+  const sizesHtml = (p.sizes || [])
+    .map(
+      (s) =>
+        `<span class="badge bg-light text-dark border">${getLabel(s.en, s.ar)}</span>`,
+    )
+    .join(" ");
+
+  const specHighlightsHtml = (p.specGroups || [])
+    .flatMap((g) => g.items || [])
+    .slice(0, 3)
+    .map(
+      (item) =>
+        `<li><i class="fas fa-check text-primary ${getDirectionClass("me-1", "ms-1")}"></i>${getLabel(item.en, item.ar)}</li>`,
+    )
+    .join("");
+
+  return `
+    <div class="military-product-card bg-white rounded-3 shadow-sm">
+      <div class="row g-0 align-items-stretch">
+
+        <!-- Image -->
+        <div class="col-md-3">
+          <div class="military-card-img">
+            <img src="${p.url}" alt="${getLabel(p.title.en, p.title.ar)}" loading="lazy">
+            <span class="badge ${stockBadge.cls} military-stock-badge">${getLabel(stockBadge.en, stockBadge.ar)}</span>
+            <span class="military-lock-badge" title="${getLabel("Restricted item", "عنصر مقيد")}"><i class="fas fa-lock"></i></span>
+          </div>
+        </div>
+
+        <!-- Title + Description -->
+        <div class="col-md-3 p-4 military-card-col">
+          <span class="badge bg-light text-dark mb-2">${getLabel(p.sub_category.en, p.sub_category.ar)}</span>
+          <h5 class="fw-bold mb-2">${getLabel(p.title.en, p.title.ar)}</h5>
+          <p class="text-muted small mb-2">${getLabel(p.desc.en, p.desc.ar)}</p>
+          <div class="military-rating small text-warning">${starsHtml} <span class="text-muted">(${p.reviewCount || 0})</span></div>
+        </div>
+
+        <!-- Price + Details -->
+        <div class="col-md-4 p-4 military-card-col">
+          <div class="mb-2">
+            ${p.oldPrice ? `<span class="text-danger small me-2">-${Math.round((1 - p.price / p.oldPrice) * 100)}%</span>` : ""}
+            <span class="fs-4 fw-bold text-primary">${formatEGP(p.price)}</span>
+            ${p.oldPrice ? `<span class="old-price ms-2">${formatEGP(p.oldPrice)}</span>` : ""}
+          </div>
+          ${
+            colorsHtml
+              ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small text-muted">${getLabel("Colors", "الألوان")}:</span> ${colorsHtml}</div>`
+              : ""
+          }
+          ${
+            sizesHtml
+              ? `<div class="mb-2 d-flex flex-wrap align-items-center gap-1"><span class="small text-muted ${getDirectionClass("me-1", "ms-1")}">${getLabel("Config", "التكوين")}:</span> ${sizesHtml}</div>`
+              : ""
+          }
+          ${specHighlightsHtml ? `<ul class="list-unstyled small text-muted mb-0 mt-2">${specHighlightsHtml}</ul>` : ""}
+        </div>
+
+        <!-- CTA -->
+        <div class="col-md-2 p-4 military-card-col d-flex flex-column justify-content-center align-items-stretch gap-2">
+          <button type="button" class="btn btn-primary" data-military-product-id="${p.id}">
+            ${getLabel("View Details", "عرض التفاصيل")}
+          </button>
+          <span class="text-center small text-muted">${getLabel("Verified buyers only", "للمشترين المعتمدين فقط")}</span>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+function bindMilitaryPageEvents() {
+  if (militaryPageEventsBound) return;
+  militaryPageEventsBound = true;
+
+  document.addEventListener("click", (e) => {
+    const tab = e.target.closest("[data-military-subcategory]");
+    if (tab) {
+      militarySubFilter = tab.dataset.militarySubcategory;
+      displayedMilitaryCount = MILITARY_PAGE_SIZE;
+      renderMilitaryFilterTabs();
+      renderMilitaryProductsList();
+      return;
+    }
+
+    if (e.target.closest("#show-more-military-btn")) {
+      displayedMilitaryCount += MILITARY_PAGE_SIZE;
+      renderMilitaryProductsList();
+      return;
+    }
+
+    const cta = e.target.closest("[data-military-product-id]");
+    if (cta) {
+      setCurrentPage("single-product", cta.dataset.militaryProductId);
+    }
+  });
 }
 
 /* ============================================================

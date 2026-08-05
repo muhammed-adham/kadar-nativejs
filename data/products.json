@@ -20,9 +20,7 @@
         "ar": "يتميز هذا السكوتر الكهربائي بتصميم عملي وأداء قوي، مما يجعله مثالياً للاستخدام اليومي والتنقل الحضري المريح."
       },
       "url": "/images/prd-1.webp",
-      "gallery": [
-        "/images/prd-1.webp"
-      ],
+      "gallery": ["/images/prd-1.webp"],
       "price": 75000,
       "oldPrice": null,
       "stockQty": 8,
@@ -108,9 +106,7 @@
         "ar": "دراجة كهربائية خفيفة الوزن مصممة للتنقل الفعال داخل المدينة ببطارية طويلة العمر."
       },
       "url": "/images/prd-6.webp",
-      "gallery": [
-        "/images/prd-6.webp"
-      ],
+      "gallery": ["/images/prd-6.webp"],
       "price": 32000,
       "oldPrice": 36000,
       "stockQty": 14,
@@ -178,9 +174,7 @@
         "ar": "سكوتر تنقل رباعي العجلات ثابت ومصمم للراحة وسهولة الاستخدام اليومي."
       },
       "url": "/images/prd-7.webp",
-      "gallery": [
-        "/images/prd-7.webp"
-      ],
+      "gallery": ["/images/prd-7.webp"],
       "price": 41000,
       "oldPrice": null,
       "stockQty": 6,
@@ -243,9 +237,7 @@
         "ar": "مركبة مصفحة بالكامل مصممة لنقل الأموال والمقتنيات الثمينة بأمان، ومصنعة وفق أعلى معايير السلامة."
       },
       "url": "/images/prd-2.webp",
-      "gallery": [
-        "/images/prd-2.webp"
-      ],
+      "gallery": ["/images/prd-2.webp"],
       "price": 850000,
       "oldPrice": null,
       "stockQty": 3,
@@ -313,9 +305,7 @@
         "ar": "مركبة دورية قوية مصممة للعمليات الأمنية، توفر حماية موثوقة وحركة عالية."
       },
       "url": "/images/prd-8.webp",
-      "gallery": [
-        "/images/prd-8.webp"
-      ],
+      "gallery": ["/images/prd-8.webp"],
       "price": 720000,
       "oldPrice": null,
       "stockQty": 2,
@@ -378,9 +368,7 @@
         "ar": "سيارة إسعاف مجهزة بالكامل مصممة للاستجابة السريعة للطوارئ وتقديم رعاية متقدمة للمرضى أثناء النقل."
       },
       "url": "/images/prd-3.webp",
-      "gallery": [
-        "/images/prd-3.webp"
-      ],
+      "gallery": ["/images/prd-3.webp"],
       "price": 620000,
       "oldPrice": 680000,
       "stockQty": 5,
@@ -443,9 +431,7 @@
         "ar": "سيارة إسعاف موثوقة لنقل المرضى في الحالات غير الحرجة وتقديم الرعاية الأولية."
       },
       "url": "/images/prd-9.webp",
-      "gallery": [
-        "/images/prd-9.webp"
-      ],
+      "gallery": ["/images/prd-9.webp"],
       "price": 480000,
       "oldPrice": null,
       "stockQty": 7,
@@ -508,9 +494,7 @@
         "ar": "مركبة إطفاء سهلة المناورة مصممة للاستجابة السريعة في البيئات الحضرية والصناعية."
       },
       "url": "/images/prd-4.webp",
-      "gallery": [
-        "/images/prd-4.webp"
-      ],
+      "gallery": ["/images/prd-4.webp"],
       "price": 950000,
       "oldPrice": null,
       "stockQty": 2,
@@ -573,9 +557,7 @@
         "ar": "مركبة إنقاذ وإطفاء ثقيلة مصممة للاستجابة السريعة في منشآت المطارات."
       },
       "url": "/images/prd-10.webp",
-      "gallery": [
-        "/images/prd-10.webp"
-      ],
+      "gallery": ["/images/prd-10.webp"],
       "price": 1450000,
       "oldPrice": null,
       "stockQty": 1,
@@ -638,9 +620,7 @@
         "ar": "وحدة متنقلة مجهزة بالكامل للعمليات الفنية والاتصالات الميدانية."
       },
       "url": "/images/prd-11.webp",
-      "gallery": [
-        "/images/prd-11.webp"
-      ],
+      "gallery": ["/images/prd-11.webp"],
       "price": 980000,
       "oldPrice": null,
       "stockQty": 2,
@@ -703,9 +683,7 @@
         "ar": "وحدة عيادة متنقلة مجهزة لتقديم الخدمات الطبية في المناطق النائية أو الأقل خدمة."
       },
       "url": "/images/prd-12.webp",
-      "gallery": [
-        "/images/prd-12.webp"
-      ],
+      "gallery": ["/images/prd-12.webp"],
       "price": 890000,
       "oldPrice": null,
       "stockQty": 2,
@@ -764,9 +742,7 @@
         "ar": "طقم كنب عصري يجمع بين الراحة والمظهر الأنيق المناسب لأي غرفة معيشة."
       },
       "url": "/images/prd-13.webp",
-      "gallery": [
-        "/images/prd-13.webp"
-      ],
+      "gallery": ["/images/prd-13.webp"],
       "price": 8500,
       "oldPrice": 10200,
       "stockQty": 10,
@@ -838,9 +814,7 @@
         "ar": "طقم سفرة متين مصنوع من الخشب الصلب، يتسع لست أشخاص براحة."
       },
       "url": "/images/prd-14.webp",
-      "gallery": [
-        "/images/prd-14.webp"
-      ],
+      "gallery": ["/images/prd-14.webp"],
       "price": 12500,
       "oldPrice": null,
       "stockQty": 5,
@@ -903,9 +877,7 @@
         "ar": "دولاب واسع بعدة أقسام، مصمم لتخزين فعال في غرفة النوم."
       },
       "url": "/images/prd-15.webp",
-      "gallery": [
-        "/images/prd-15.webp"
-      ],
+      "gallery": ["/images/prd-15.webp"],
       "price": 9800,
       "oldPrice": null,
       "stockQty": 8,
@@ -977,9 +949,7 @@
         "ar": "مكتب تنفيذي عصري يجمع بين المواد المتينة والتصميم الأنيق والاحترافي."
       },
       "url": "/images/prd-5.webp",
-      "gallery": [
-        "/images/prd-5.webp"
-      ],
+      "gallery": ["/images/prd-5.webp"],
       "price": 4200,
       "oldPrice": null,
       "stockQty": 15,
@@ -1055,9 +1025,7 @@
         "ar": "كرسي مكتب مريح بنظام تعديل ارتفاع هيدروليكي ودعم لأسفل الظهر لراحة طوال اليوم."
       },
       "url": "/images/prd-16.webp",
-      "gallery": [
-        "/images/prd-16.webp"
-      ],
+      "gallery": ["/images/prd-16.webp"],
       "price": 2400,
       "oldPrice": 2800,
       "stockQty": 25,
@@ -1125,9 +1093,7 @@
         "ar": "طاولة اجتماعات واسعة مناسبة لقاعات الاجتماعات، تتسع حتى 10 أشخاص."
       },
       "url": "/images/prd-17.webp",
-      "gallery": [
-        "/images/prd-17.webp"
-      ],
+      "gallery": ["/images/prd-17.webp"],
       "price": 15000,
       "oldPrice": null,
       "stockQty": 4,
@@ -1186,9 +1152,7 @@
         "ar": "صندوق تخزين متين وقابل للتكديس، مناسب للاستخدام المنزلي والمكتبي والصناعي."
       },
       "url": "/images/prd-18.webp",
-      "gallery": [
-        "/images/prd-18.webp"
-      ],
+      "gallery": ["/images/prd-18.webp"],
       "price": 350,
       "oldPrice": 420,
       "stockQty": 60,
@@ -1264,9 +1228,7 @@
         "ar": "منصة نقالة بلاستيكية ثقيلة الخدمة مصممة لعمليات المستودعات والخدمات اللوجستية."
       },
       "url": "/images/prd-19.webp",
-      "gallery": [
-        "/images/prd-19.webp"
-      ],
+      "gallery": ["/images/prd-19.webp"],
       "price": 950,
       "oldPrice": null,
       "stockQty": 40,
@@ -1329,9 +1291,7 @@
         "ar": "خزان تخزين مياه مقاوم للأشعة فوق البنفسجية مصمم للاستخدام الخارجي طويل الأمد."
       },
       "url": "/images/prd-20.webp",
-      "gallery": [
-        "/images/prd-20.webp"
-      ],
+      "gallery": ["/images/prd-20.webp"],
       "price": 4800,
       "oldPrice": null,
       "stockQty": 12,
@@ -1381,6 +1341,447 @@
         }
       ],
       "subCategoryId": "plastic-water-tank"
+    },
+    {
+      "id": "military-apc-8x8",
+      "category": {
+        "en": "Military",
+        "ar": "المعدات العسكرية"
+      },
+      "categoryId": "military",
+      "sub_category": {
+        "en": "Armored Personnel Carrier",
+        "ar": "ناقلة جنود مدرعة"
+      },
+      "title": {
+        "en": "8x8 Armored Personnel Carrier",
+        "ar": "ناقلة جنود مدرعة 8×8"
+      },
+      "desc": {
+        "en": "Heavy-duty armored personnel carrier designed for tactical transport and mission support.",
+        "ar": "ناقلة جنود مدرعة ثقيلة مصممة للنقل التكتيكي ودعم المهام."
+      },
+      "url": "/images/mt-1.webp",
+      "gallery": ["/images/mt-1.webp"],
+      "price": 1650000,
+      "oldPrice": null,
+      "stockQty": 2,
+      "rating": 4.9,
+      "reviewCount": 12,
+      "colors": [
+        {
+          "name": "Desert Tan",
+          "nameAr": "رملي",
+          "hex": "#C2A36B"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "8x8 Configuration",
+          "ar": "تكوين 8×8"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Protection",
+          "titleAr": "الحماية",
+          "items": [
+            {
+              "en": "Ballistic armored hull",
+              "ar": "هيكل مدرع مقاوم للمقذوفات"
+            },
+            {
+              "en": "Mine-resistant underbody",
+              "ar": "قاعدة مقاومة للألغام"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "3-year manufacturer warranty",
+          "ar": "ضمان المصنع لمدة 3 سنوات"
+        }
+      ],
+      "subCategoryId": "military-armored-carriers"
+    },
+    {
+      "id": "military-tactical-uav",
+      "category": {
+        "en": "Military",
+        "ar": "المعدات العسكرية"
+      },
+      "categoryId": "military",
+      "sub_category": {
+        "en": "Unmanned Aerial Vehicle",
+        "ar": "طائرة بدون طيار"
+      },
+      "title": {
+        "en": "Tactical Surveillance UAV",
+        "ar": "طائرة استطلاع تكتيكية بدون طيار"
+      },
+      "desc": {
+        "en": "Medium-range UAV equipped for reconnaissance and intelligence missions.",
+        "ar": "طائرة بدون طيار متوسطة المدى مخصصة للاستطلاع وجمع المعلومات."
+      },
+      "url": "/images/mt-2.webp",
+      "gallery": ["/images/mt-2.webp"],
+      "price": 420000,
+      "oldPrice": null,
+      "stockQty": 4,
+      "rating": 4.8,
+      "reviewCount": 18,
+      "colors": [
+        {
+          "name": "Light Gray",
+          "nameAr": "رمادي فاتح",
+          "hex": "#B5B7BA"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Medium Range",
+          "ar": "متوسطة المدى"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Mission Equipment",
+          "titleAr": "معدات المهمة",
+          "items": [
+            {
+              "en": "Electro-optical sensor payload",
+              "ar": "حمولة استشعار كهروبصرية"
+            },
+            {
+              "en": "Autonomous waypoint navigation",
+              "ar": "ملاحة ذاتية عبر نقاط المسار"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year system warranty",
+          "ar": "ضمان النظام لمدة سنتين"
+        }
+      ],
+      "subCategoryId": "military-command-vehicles"
+    },
+    {
+      "id": "military-ifv",
+      "category": {
+        "en": "Military",
+        "ar": "المعدات العسكرية"
+      },
+      "categoryId": "military",
+      "sub_category": {
+        "en": "Infantry Fighting Vehicle",
+        "ar": "مركبة قتال مشاة"
+      },
+      "title": {
+        "en": "Tracked Infantry Fighting Vehicle",
+        "ar": "مركبة قتال مشاة مجنزرة"
+      },
+      "desc": {
+        "en": "Tracked combat platform designed for troop transport and battlefield support.",
+        "ar": "منصة قتالية مجنزرة مخصصة لنقل القوات ودعم العمليات."
+      },
+      "url": "/images/mt-3.webp",
+      "gallery": ["/images/mt-3.webp"],
+      "price": 2950000,
+      "oldPrice": null,
+      "stockQty": 1,
+      "rating": 5,
+      "reviewCount": 8,
+      "colors": [
+        {
+          "name": "Military Gray",
+          "nameAr": "رمادي عسكري",
+          "hex": "#7A7F83"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Tracked Platform",
+          "ar": "منصة مجنزرة"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Combat Systems",
+          "titleAr": "أنظمة القتال",
+          "items": [
+            {
+              "en": "Remote weapon station",
+              "ar": "محطة سلاح يتم التحكم بها عن بعد"
+            },
+            {
+              "en": "Modular armor package",
+              "ar": "حزمة تدريع معيارية"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "3-year structural warranty",
+          "ar": "ضمان هيكلي لمدة 3 سنوات"
+        }
+      ],
+      "subCategoryId": "military-armored-carriers"
+    },
+    {
+      "id": "military-recovery-truck",
+      "category": {
+        "en": "Military",
+        "ar": "المعدات العسكرية"
+      },
+      "categoryId": "military",
+      "sub_category": {
+        "en": "Recovery Vehicle",
+        "ar": "مركبة إنقاذ واسترداد"
+      },
+      "title": {
+        "en": "Armored Tactical Recovery Truck",
+        "ar": "شاحنة استرداد تكتيكية مدرعة"
+      },
+      "desc": {
+        "en": "Heavy tactical truck with integrated recovery crane for field operations.",
+        "ar": "شاحنة تكتيكية ثقيلة مزودة برافعة استرداد للعمليات الميدانية."
+      },
+      "url": "/images/mt-4.webp",
+      "gallery": ["/images/mt-4.webp"],
+      "price": 890000,
+      "oldPrice": null,
+      "stockQty": 3,
+      "rating": 4.7,
+      "reviewCount": 11,
+      "colors": [
+        {
+          "name": "Desert Tan",
+          "nameAr": "رملي",
+          "hex": "#C8AE76"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "6x6",
+          "ar": "6×6"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Recovery Equipment",
+          "titleAr": "معدات الاسترداد",
+          "items": [
+            {
+              "en": "Hydraulic recovery crane",
+              "ar": "رافعة هيدروليكية للاسترداد"
+            },
+            {
+              "en": "Heavy-duty winch system",
+              "ar": "نظام ونش عالي التحمل"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "3-year manufacturer warranty",
+          "ar": "ضمان المصنع لمدة 3 سنوات"
+        }
+      ],
+      "subCategoryId": "military-field-trucks"
+    },
+    {
+      "id": "military-ugv",
+      "category": {
+        "en": "Military",
+        "ar": "المعدات العسكرية"
+      },
+      "categoryId": "military",
+      "sub_category": {
+        "en": "Unmanned Ground Vehicle",
+        "ar": "مركبة برية غير مأهولة"
+      },
+      "title": {
+        "en": "Tactical Unmanned Ground Vehicle",
+        "ar": "مركبة برية تكتيكية غير مأهولة"
+      },
+      "desc": {
+        "en": "Remote-operated ground vehicle for reconnaissance and security missions.",
+        "ar": "مركبة برية يتم التحكم بها عن بعد لمهام الاستطلاع والحماية."
+      },
+      "url": "/images/mt-5.webp",
+      "gallery": ["/images/mt-5.webp"],
+      "price": 245000,
+      "oldPrice": null,
+      "stockQty": 5,
+      "rating": 4.8,
+      "reviewCount": 14,
+      "colors": [
+        {
+          "name": "Olive Green",
+          "nameAr": "أخضر زيتوني",
+          "hex": "#4B5A43"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "4x4",
+          "ar": "4×4"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Autonomous Systems",
+          "titleAr": "الأنظمة الذاتية",
+          "items": [
+            {
+              "en": "Remote weapon station compatible",
+              "ar": "متوافق مع محطة سلاح يتم التحكم بها عن بعد"
+            },
+            {
+              "en": "Day/night surveillance sensors",
+              "ar": "مستشعرات مراقبة نهارية وليلية"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "2-year electronics warranty",
+          "ar": "ضمان إلكترونيات لمدة سنتين"
+        }
+      ],
+      "subCategoryId": "military-command-vehicles"
+    },
+    {
+      "id": "military-armored-swat",
+      "category": {
+        "en": "Military",
+        "ar": "المعدات العسكرية"
+      },
+      "categoryId": "military",
+      "sub_category": {
+        "en": "Special Operations Vehicle",
+        "ar": "مركبة عمليات خاصة"
+      },
+      "title": {
+        "en": "Armored Tactical Assault Vehicle",
+        "ar": "مركبة هجومية تكتيكية مدرعة"
+      },
+      "desc": {
+        "en": "Armored tactical vehicle engineered for special operations and urban deployment.",
+        "ar": "مركبة تكتيكية مدرعة مصممة للعمليات الخاصة والانتشار الحضري."
+      },
+      "url": "/images/mt-6.webp",
+      "gallery": ["/images/mt-6.webp"],
+      "price": 980000,
+      "oldPrice": null,
+      "stockQty": 2,
+      "rating": 4.9,
+      "reviewCount": 16,
+      "colors": [
+        {
+          "name": "Matte Black",
+          "nameAr": "أسود مطفي",
+          "hex": "#1B1B1B"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "Standard",
+          "ar": "قياسي"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Vehicle Features",
+          "titleAr": "مواصفات المركبة",
+          "items": [
+            {
+              "en": "Armored cabin with reinforced ram",
+              "ar": "مقصورة مدرعة مع كاسحة أمامية معززة"
+            },
+            {
+              "en": "Roof-mounted tactical equipment",
+              "ar": "معدات تكتيكية مثبتة على السقف"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "3-year structural warranty",
+          "ar": "ضمان هيكلي لمدة 3 سنوات"
+        }
+      ],
+      "subCategoryId": "military-armored-carriers"
+    },
+    {
+      "id": "military-mrap",
+      "category": {
+        "en": "Military",
+        "ar": "المعدات العسكرية"
+      },
+      "categoryId": "military",
+      "sub_category": {
+        "en": "Mine Resistant Vehicle",
+        "ar": "مركبة مقاومة للألغام"
+      },
+      "title": {
+        "en": "Mine Resistant Patrol Vehicle",
+        "ar": "مركبة دورية مقاومة للألغام"
+      },
+      "desc": {
+        "en": "Armored patrol vehicle providing enhanced crew protection and off-road mobility.",
+        "ar": "مركبة دورية مدرعة توفر حماية عالية للطاقم وقدرة ممتازة على الحركة خارج الطرق."
+      },
+      "url": "/images/mt-7.webp",
+      "gallery": ["/images/mt-7.webp"],
+      "price": 1350000,
+      "oldPrice": null,
+      "stockQty": 2,
+      "rating": 4.9,
+      "reviewCount": 20,
+      "colors": [
+        {
+          "name": "Sand",
+          "nameAr": "رملي",
+          "hex": "#BFA46A"
+        }
+      ],
+      "sizes": [
+        {
+          "en": "4x4",
+          "ar": "4×4"
+        }
+      ],
+      "specGroups": [
+        {
+          "titleEn": "Protection Systems",
+          "titleAr": "أنظمة الحماية",
+          "items": [
+            {
+              "en": "Blast-resistant hull",
+              "ar": "هيكل مقاوم للانفجارات"
+            },
+            {
+              "en": "Run-flat tire capability",
+              "ar": "إطارات مقاومة للثقب"
+            }
+          ]
+        }
+      ],
+      "warranty": [
+        {
+          "en": "3-year manufacturer warranty",
+          "ar": "ضمان المصنع لمدة 3 سنوات"
+        }
+      ],
+      "subCategoryId": "military-armored-carriers"
     }
   ]
 }
