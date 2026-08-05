@@ -655,14 +655,19 @@ function getDirectionClass(enClass, arClass) {
 }
 
 /**
- * Toggle theme (light/dark)
+ * Set theme to a specific value ("light" | "dark") and refresh the nav
+ * so the Theme dropdown's radio reflects the new selection.
  */
-function toggleTheme() {
-  const newTheme = appState.theme === "light" ? "dark" : "light";
-  appState.theme = newTheme;
-  localStorage.setItem("theme", newTheme);
-  document.body.setAttribute("data-theme", newTheme);
+function setTheme(theme) {
+  appState.theme = theme;
+  localStorage.setItem("theme", theme);
+  document.body.setAttribute("data-theme", theme);
   updateLogoBasedOnTheme();
+  initializeNavigation();
+}
+
+function toggleTheme() {
+  setTheme(appState.theme === "light" ? "dark" : "light");
 }
 
 /**
@@ -680,22 +685,27 @@ function updateLogoBasedOnTheme() {
 }
 
 /**
- * Toggle language and direction
+ * Set language to a specific value ("en" | "ar") and derive direction from
+ * it. A full reload is still the simplest way to re-render every getLabel()
+ * string throughout the app in the new language.
  */
-function toggleLanguage() {
-  const newLang = appState.language === "ar" ? "en" : "ar";
-  const newDir = appState.direction === "ltr" ? "rtl" : "ltr";
+function setLanguage(lang) {
+  const newDir = lang === "ar" ? "rtl" : "ltr";
 
-  appState.language = newLang;
+  appState.language = lang;
   appState.direction = newDir;
 
-  localStorage.setItem("language", newLang);
+  localStorage.setItem("language", lang);
   localStorage.setItem("direction", newDir);
 
-  document.documentElement.lang = newLang;
+  document.documentElement.lang = lang;
   document.documentElement.dir = newDir;
 
   location.reload();
+}
+
+function toggleLanguage() {
+  setLanguage(appState.language === "ar" ? "en" : "ar");
 }
 
 /* ============================================================
@@ -1269,12 +1279,16 @@ function initializeNavigation() {
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             ${getLabel("Theme", "الوضع")}
         </a>
-        <div class="dropdown-menu">
-           <input type="radio" id="dark-theme" name="fav_language" value="dark">
-            <label for="dark-theme">Light</label><br>
-            <a class="dropdown-item" href="#" data-action="toggle-theme">
-                ${appState.theme === "dark" ? getLabel("Light", "الوضع الفاتح") : getLabel("Dark", "الوضع الداكن")}
-            </a>
+        <div class="dropdown-menu toggle-menu p-3">
+            <span class="form-check-header border-bottom pb-1">${getLabel("Change Theme","تغيير المظهر")}</span>
+            <div class="form-check py-1">
+                <input class="form-check-input" type="radio" name="themeOption" id="theme-light" value="light" ${appState.theme === "light" ? "checked" : ""}>
+                <label class="form-check-label" for="theme-light">${getLabel("Light", "فاتح")}</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="themeOption" id="theme-dark" value="dark" ${appState.theme === "dark" ? "checked" : ""}>
+                <label class="form-check-label" for="theme-dark">${getLabel("Dark", "داكن")}</label>
+            </div>
         </div>
     </div>
   `;
@@ -1285,10 +1299,16 @@ function initializeNavigation() {
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             ${appState.language === "ar" ? "ع" : "EN"}
         </a>
-        <div class="dropdown-menu ${appState.language === "ar" ? "text-start" : "text-end"}">
-            <a class="dropdown-item" href="#" data-action="toggle-language">
-                ${appState.language === "ar" ? "English" : "العربية"}
-            </a>
+        <div class="dropdown-menu toggle-menu p-3 ${appState.language === "ar" ? "text-start" : "text-end"}">
+            <span class="form-check-header border-bottom pb-1">${getLabel("Change Language","تغيير اللغة")}</span>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="languageOption" id="lang-ar" value="ar" ${appState.language === "ar" ? "checked" : ""}>
+                <label class="form-check-label" for="lang-ar">العربية - AR</label>
+            </div>
+            <div class="form-check py-1">
+                <input class="form-check-input" type="radio" name="languageOption" id="lang-en" value="en" ${appState.language === "en" ? "checked" : ""}>
+                <label class="form-check-label" for="lang-en">English - EN</label>
+            </div>
         </div>
     </div>
   `;
@@ -1362,6 +1382,16 @@ function getSearchSuggestions(query) {
 function bindNavigationEvents() {
   if (navigationEventsBound) return;
   navigationEventsBound = true;
+
+  /* Theme / language radios in the nav dropdowns */
+  document.addEventListener("change", (e) => {
+    if (e.target.matches('input[name="themeOption"]')) {
+      setTheme(e.target.value);
+    }
+    if (e.target.matches('input[name="languageOption"]')) {
+      setLanguage(e.target.value);
+    }
+  });
 
   document.addEventListener("click", (e) => {
     const searchWrapper = document.getElementById("searchWrapper");

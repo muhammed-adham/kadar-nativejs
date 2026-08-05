@@ -181,6 +181,61 @@ a {
   transition: var(--transition);
 }
 
+.toggle-menu{
+  display: flex !important;
+  flex-direction: column;
+  align-items: start;
+  gap: .4rem;
+  width: 8rem;
+}
+
+.form-check-header{
+  text-align: start !important;
+  width: 100%;
+  font-size: .6rem;
+  text-align: end;
+}
+
+.form-check-label{
+  font-size: 0.8rem;
+}
+
+.form-check-label, .form-check-input{
+  cursor: pointer;
+}
+
+/* Color already follows from .form-check:hover below (it covers the whole
+   row), but text-decoration only targeted the label itself — hovering the
+   input circle didn't underline its label. Input comes before label in the
+   markup, so the general sibling combinator reaches it from there. */
+.form-check-input:hover ~ .form-check-label {
+    text-decoration: underline;
+}
+
+.form-check:hover{
+  color: var(--primary);
+}
+
+/* accent-color alone has no effect here: Bootstrap sets appearance: none
+   on .form-check-input and custom-draws the checked state itself via
+   background-color/border-color (hardcoded to its own blue), so the
+   native accent never gets a chance to paint. Override what it actually
+   draws with instead. */
+
+.form-check-input:checked {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.form-check-input:hover {
+  box-shadow:inset 0 0 0 0.2rem color-mix(in srgb, var(--primary) 70%, transparent);
+}
+
+.form-check-input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
 /* Amazon-style cart counter: a tight circular badge sitting right on the
    icon's corner, not stretched across the icon+label link.
    Positioned with logical properties (not Bootstrap's start-100/translate-
