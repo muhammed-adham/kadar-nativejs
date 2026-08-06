@@ -1280,7 +1280,7 @@ function initializeNavigation() {
             ${getLabel("Theme", "الوضع")}
         </a>
         <div class="dropdown-menu toggle-menu p-3">
-            <span class="form-check-header border-bottom pb-1">${getLabel("Change Theme","تغيير المظهر")}</span>
+            <span class="form-check-header border-bottom pb-1">${getLabel("Change Theme", "تغيير المظهر")}</span>
             <div class="form-check py-1">
                 <input class="form-check-input" type="radio" name="themeOption" id="theme-light" value="light" ${appState.theme === "light" ? "checked" : ""}>
                 <label class="form-check-label" for="theme-light">${getLabel("Light", "فاتح")}</label>
@@ -1300,7 +1300,7 @@ function initializeNavigation() {
             ${appState.language === "ar" ? "ع" : "EN"}
         </a>
         <div class="dropdown-menu toggle-menu p-3 ${appState.language === "ar" ? "text-start" : "text-end"}">
-            <span class="form-check-header border-bottom pb-1">${getLabel("Change Language","تغيير اللغة")}</span>
+            <span class="form-check-header border-bottom pb-1">${getLabel("Change Language", "تغيير اللغة")}</span>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="languageOption" id="lang-ar" value="ar" ${appState.language === "ar" ? "checked" : ""}>
                 <label class="form-check-label" for="lang-ar">العربية - AR</label>
@@ -3047,7 +3047,9 @@ function renderMilitaryFilterTabs() {
   const container = document.getElementById("militaryFilterTabs");
   if (!container) return;
 
-  const militaryCategory = categoriesData.find((c) => c.categoryId === "military");
+  const militaryCategory = categoriesData.find(
+    (c) => c.categoryId === "military",
+  );
   const subCategories = militaryCategory?.subCategories || [];
   const tabs = [
     { subCategoryId: "all", name: { en: "All", ar: "الكل" } },
@@ -3109,7 +3111,11 @@ function renderMilitaryProductCard(p) {
     p.stockQty === 0
       ? { cls: "bg-danger", en: "Out of Stock", ar: "غير متاح" }
       : p.stockQty <= 3
-        ? { cls: "bg-warning text-dark", en: "Limited Stock", ar: "كمية محدودة" }
+        ? {
+            cls: "bg-warning text-dark",
+            en: "Limited Stock",
+            ar: "كمية محدودة",
+          }
         : { cls: "bg-success", en: "In Stock", ar: "متوفر" };
 
   const starsHtml = Array.from({ length: 5 }, (_, i) => {
@@ -3125,10 +3131,7 @@ function renderMilitaryProductCard(p) {
     .join("");
 
   const sizesHtml = (p.sizes || [])
-    .map(
-      (s) =>
-        `<span class="badge bg-light text-dark border">${getLabel(s.en, s.ar)}</span>`,
-    )
+    .map((s) => `<span class="small">${getLabel(s.en, s.ar)}</span>`)
     .join(" ");
 
   const specHighlightsHtml = (p.specGroups || [])
@@ -3136,12 +3139,12 @@ function renderMilitaryProductCard(p) {
     .slice(0, 3)
     .map(
       (item) =>
-        `<li><i class="fas fa-check text-primary ${getDirectionClass("me-1", "ms-1")}"></i>${getLabel(item.en, item.ar)}</li>`,
+        `<li><i class="fas fa-minus text-bs-black ${getDirectionClass("me-1", "ms-1")}"></i>${getLabel(item.en, item.ar)}</li>`,
     )
     .join("");
 
   return `
-    <div class="military-product-card bg-white rounded-3 shadow-sm">
+    <div class="military-product-card bg-white rounded-1 shadow-sm">
       <div class="row g-0 align-items-stretch">
 
         <!-- Image -->
@@ -3158,35 +3161,39 @@ function renderMilitaryProductCard(p) {
           <span class="badge bg-light text-dark mb-2">${getLabel(p.sub_category.en, p.sub_category.ar)}</span>
           <h5 class="fw-bold mb-2">${getLabel(p.title.en, p.title.ar)}</h5>
           <p class="text-muted small mb-2">${getLabel(p.desc.en, p.desc.ar)}</p>
-          <div class="military-rating small text-warning">${starsHtml} <span class="text-muted">(${p.reviewCount || 0})</span></div>
         </div>
 
         <!-- Price + Details -->
-        <div class="col-md-4 p-4 military-card-col">
-          <div class="mb-2">
+        <div class="col-md-3 p-4 military-card-col">
+          <div class="pb-4">
             ${p.oldPrice ? `<span class="text-danger small me-2">-${Math.round((1 - p.price / p.oldPrice) * 100)}%</span>` : ""}
-            <span class="fs-4 fw-bold text-primary">${formatEGP(p.price)}</span>
+            <span class="fs-4 fw-bold text-secondary">${formatEGP(p.price)}</span>
             ${p.oldPrice ? `<span class="old-price ms-2">${formatEGP(p.oldPrice)}</span>` : ""}
           </div>
-          ${
-            colorsHtml
-              ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small text-muted">${getLabel("Colors", "الألوان")}:</span> ${colorsHtml}</div>`
-              : ""
-          }
-          ${
-            sizesHtml
-              ? `<div class="mb-2 d-flex flex-wrap align-items-center gap-1"><span class="small text-muted ${getDirectionClass("me-1", "ms-1")}">${getLabel("Config", "التكوين")}:</span> ${sizesHtml}</div>`
-              : ""
-          }
-          ${specHighlightsHtml ? `<ul class="list-unstyled small text-muted mb-0 mt-2">${specHighlightsHtml}</ul>` : ""}
+            ${
+              p.weight
+                ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small fw-bold"><i class="fas fa-weight-hanging ${getDirectionClass("me-1", "ms-1")}"></i>${getLabel("Weight", "الوزن")}:</span> <span class="small text-muted">${p.weight} ${getLabel("kg", "كجم")}</span></div>`
+                : ""
+            }
+            ${
+              colorsHtml
+                ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small fw-bold">${getLabel("Colors", "الألوان")}:</span> ${colorsHtml}</div>`
+                : ""
+            }
+            ${
+              sizesHtml
+                ? `<div class="mb-2 d-flex flex-wrap align-items-center gap-1"><span class="small fw-bold ${getDirectionClass("me-1", "ms-1")}">${getLabel("Config", "التكوين")}:</span> ${sizesHtml}</div>`
+                : ""
+            }
+            ${specHighlightsHtml ? `<div class="d-flex align-items-start gap-4 pt-2 border-top"><span class="small fw-bold">${getLabel("Details", "التفالصيل")}: </span> <ul class="list-unstyled small text-muted mb-0 ">${specHighlightsHtml}</ul></div>` : ""}
         </div>
 
         <!-- CTA -->
-        <div class="col-md-2 p-4 military-card-col d-flex flex-column justify-content-center align-items-stretch gap-2">
-          <button type="button" class="btn btn-primary" data-military-product-id="${p.id}">
-            ${getLabel("View Details", "عرض التفاصيل")}
+        <div class="col-md-3 p-4 military-card-col d-flex flex-column justify-content-center align-items-stretch gap-2">
+          <button type="button" class="btn btn-secondary" data-military-product-id="${p.id}">
+            ${getLabel("More Details", "عرض التفاصيل")}
           </button>
-          <span class="text-center small text-muted">${getLabel("Verified buyers only", "للمشترين المعتمدين فقط")}</span>
+          <span class="text-center small text-danger">${getLabel("Verified buyers only", "للمشترين المعتمدين فقط")}</span>
         </div>
 
       </div>
@@ -4464,6 +4471,11 @@ function loadSingleProductPage(productId) {
                         <hr>
 
                         <h5 class="sub-title p-0 pt-3">${getLabel("Details", "مواصفات المنتج")}</h5>
+                        ${
+                          product.weight
+                            ? `<p class="text-muted small mb-2"><i class="fas fa-weight-hanging me-1"></i>${getLabel("Weight", "الوزن")}: ${product.weight} ${getLabel("kg", "كجم")}</p>`
+                            : ""
+                        }
                         <div class="spec-groups-wrapper">
                             ${specGroupsHtml}
                         </div>
@@ -5261,6 +5273,7 @@ const CMS_TYPES = {
       stockQty: 20,
       rating: 0,
       reviewCount: 0,
+      weight: null,
     }),
     columns: [
       {
@@ -5334,6 +5347,11 @@ const CMS_TYPES = {
       {
         key: "stockQty",
         label: { en: "Stock Quantity", ar: "الكمية بالمخزون" },
+        type: "number",
+      },
+      {
+        key: "weight",
+        label: { en: "Weight (kg, optional)", ar: "الوزن (كجم، اختياري)" },
         type: "number",
       },
       {
@@ -5675,10 +5693,12 @@ function renderMilitaryOtpSection() {
         <div class="col-md-4">
           <label class="form-label small fw-semibold">${getLabel("Recipient Name", "اسم المستلم")}</label>
           <input type="text" class="form-control" id="motpRecipientName" required>
+          <div class="invalid-feedback" id="motpRecipientName-error"></div>
         </div>
         <div class="col-md-4">
           <label class="form-label small fw-semibold">${getLabel("Phone or Email", "الهاتف أو البريد الإلكتروني")}</label>
           <input type="text" class="form-control" id="motpRecipientContact" required>
+          <div class="invalid-feedback" id="motpRecipientContact-error"></div>
         </div>
         <div class="col-md-4">
           <button type="submit" class="btn btn-primary w-100">
@@ -5770,13 +5790,66 @@ function bindMilitaryOtpFormEvents() {
   const form = document.getElementById("militaryOtpGenerateForm");
   if (!form) return;
 
+  function showError(field, message) {
+    field.classList.add("is-invalid");
+    const errorEl = document.getElementById(`${field.id}-error`);
+    if (errorEl) errorEl.textContent = message;
+  }
+
+  function clearError(field) {
+    field.classList.remove("is-invalid");
+    const errorEl = document.getElementById(`${field.id}-error`);
+    if (errorEl) errorEl.textContent = "";
+  }
+
+  function validateGenerateForm(nameInput, contactInput) {
+    let isValid = true;
+    clearError(nameInput);
+    clearError(contactInput);
+
+    if (!nameInput.value.trim()) {
+      showError(
+        nameInput,
+        getLabel("Recipient name is required", "اسم المستلم مطلوب"),
+      );
+      isValid = false;
+    }
+
+    const contact = contactInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[+\d][\d\s-]{6,}$/;
+    if (!contact) {
+      showError(
+        contactInput,
+        getLabel(
+          "Phone or email is required",
+          "الهاتف أو البريد الإلكتروني مطلوب",
+        ),
+      );
+      isValid = false;
+    } else if (!emailRegex.test(contact) && !phoneRegex.test(contact)) {
+      showError(
+        contactInput,
+        getLabel(
+          "Enter a valid phone number or email address",
+          "أدخل رقم هاتف أو بريداً إلكترونياً صحيحاً",
+        ),
+      );
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     const nameInput = document.getElementById("motpRecipientName");
     const contactInput = document.getElementById("motpRecipientContact");
+
+    if (!validateGenerateForm(nameInput, contactInput)) return;
+
     const name = nameInput.value.trim();
     const contact = contactInput.value.trim();
-    if (!name || !contact) return;
 
     const record = generateMilitaryOtpCode(name, contact);
 
@@ -8257,7 +8330,7 @@ async function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("home");
+  setCurrentPage("military");
 }
 
 /**

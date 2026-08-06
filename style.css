@@ -581,7 +581,7 @@ p {
    BUTTON STYLES
    ============================================================ */
 .btn {
-  border-radius: 5px;
+  border-radius: 3px;
   font-weight: 600;
   padding: 10px 20px;
   transition: var(--transition);
@@ -1843,7 +1843,7 @@ html[dir="rtl"] .nav-btn-custom {
 .color-swatch {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
+  border-radius: .1rem;
   border: 2px solid #dee2e6;
   cursor: pointer;
   padding: 0;
@@ -2265,7 +2265,7 @@ html[dir="rtl"] .nav-btn-custom {
   display: inline-block;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
+  border-radius: .1rem;
   border: 1px solid rgba(0, 0, 0, 0.15);
 }
 

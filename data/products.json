@@ -84,7 +84,8 @@
           "ar": "ضمان سنتين ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "electric-transport-electric-scooter"
+      "subCategoryId": "electric-transport-electric-scooter",
+      "weight": 45
     },
     {
       "id": "urban-e-bike-x2",
@@ -152,7 +153,8 @@
           "ar": "ضمان سنتين على البطارية"
         }
       ],
-      "subCategoryId": "electric-transport-electric-bike"
+      "subCategoryId": "electric-transport-electric-bike",
+      "weight": 28
     },
     {
       "id": "mobility-scooter-comfort",
@@ -215,7 +217,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "electric-transport-mobility-scooter"
+      "subCategoryId": "electric-transport-mobility-scooter",
+      "weight": 35
     },
     {
       "id": "cash-transit-van-01",
@@ -283,7 +286,8 @@
           "ar": "ضمان سنتين من الشركة المصنعة على سلامة التصفيح"
         }
       ],
-      "subCategoryId": "cash-transfer-cash-in-transit-van"
+      "subCategoryId": "cash-transfer-cash-in-transit-van",
+      "weight": 4500
     },
     {
       "id": "armored-patrol-vehicle",
@@ -346,7 +350,8 @@
           "ar": "ضمان سنتين ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "cash-transfer-patrol-vehicle"
+      "subCategoryId": "cash-transfer-patrol-vehicle",
+      "weight": 5200
     },
     {
       "id": "ambulance-als-01",
@@ -409,7 +414,8 @@
           "ar": "ضمان سنتين على تجهيز المركبة ومعداتها"
         }
       ],
-      "subCategoryId": "ambulance-advanced-life-support-ambulance"
+      "subCategoryId": "ambulance-advanced-life-support-ambulance",
+      "weight": 3200
     },
     {
       "id": "ambulance-bls-01",
@@ -472,7 +478,8 @@
           "ar": "ضمان سنة واحدة على تجهيز المركبة"
         }
       ],
-      "subCategoryId": "ambulance-basic-life-support-ambulance"
+      "subCategoryId": "ambulance-basic-life-support-ambulance",
+      "weight": 2900
     },
     {
       "id": "firefighting-truck-01",
@@ -535,7 +542,8 @@
           "ar": "ضمان سنتين ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "firefighting-compact-firefighting-truck"
+      "subCategoryId": "firefighting-compact-firefighting-truck",
+      "weight": 8000
     },
     {
       "id": "airport-firefighting-vehicle",
@@ -598,7 +606,8 @@
           "ar": "ضمان 3 سنوات ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "firefighting-airport-rescue-vehicle"
+      "subCategoryId": "firefighting-airport-rescue-vehicle",
+      "weight": 30000
     },
     {
       "id": "mobile-tech-center",
@@ -661,7 +670,8 @@
           "ar": "ضمان سنتين على الأنظمة الداخلية"
         }
       ],
-      "subCategoryId": "vehicle-conversions-mobile-technology-unit"
+      "subCategoryId": "vehicle-conversions-mobile-technology-unit",
+      "weight": 6000
     },
     {
       "id": "mobile-clinic-unit",
@@ -720,7 +730,8 @@
           "ar": "ضمان سنتين على المعدات والتجهيز"
         }
       ],
-      "subCategoryId": "vehicle-conversions-mobile-clinic"
+      "subCategoryId": "vehicle-conversions-mobile-clinic",
+      "weight": 5500
     },
     {
       "id": "home-sofa-set",
@@ -792,7 +803,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "home-furniture-sofa-set"
+      "subCategoryId": "home-furniture-sofa-set",
+      "weight": 65
     },
     {
       "id": "dining-table-set",
@@ -855,7 +867,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "home-furniture-dining-set"
+      "subCategoryId": "home-furniture-dining-set",
+      "weight": 80
     },
     {
       "id": "bedroom-wardrobe",
@@ -927,7 +940,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "home-furniture-wardrobe"
+      "subCategoryId": "home-furniture-wardrobe",
+      "weight": 95
     },
     {
       "id": "office-desk-executive",
@@ -1003,7 +1017,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "office-furniture-executive-desk"
+      "subCategoryId": "office-furniture-executive-desk",
+      "weight": 55
     },
     {
       "id": "hydraulic-office-chair",
@@ -1071,7 +1086,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "office-furniture-hydraulic-chair"
+      "subCategoryId": "office-furniture-hydraulic-chair",
+      "weight": 18
     },
     {
       "id": "conference-table-large",
@@ -1130,7 +1146,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "office-furniture-conference-table"
+      "subCategoryId": "office-furniture-conference-table",
+      "weight": 120
     },
     {
       "id": "plastic-storage-box",
@@ -1206,7 +1223,8 @@
           "ar": "ضمان 6 أشهر ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "plastic-storage-box"
+      "subCategoryId": "plastic-storage-box",
+      "weight": 2.5
     },
     {
       "id": "industrial-plastic-pallet",
@@ -1269,7 +1287,8 @@
           "ar": "ضمان سنة واحدة ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "plastic-pallet"
+      "subCategoryId": "plastic-pallet",
+      "weight": 12
     },
     {
       "id": "plastic-water-tank",
@@ -1340,7 +1359,8 @@
           "ar": "ضمان 5 سنوات ضد عيوب التصنيع"
         }
       ],
-      "subCategoryId": "plastic-water-tank"
+      "subCategoryId": "plastic-water-tank",
+      "weight": 40
     },
     {
       "id": "military-apc-8x8",
@@ -1403,7 +1423,8 @@
           "ar": "ضمان المصنع لمدة 3 سنوات"
         }
       ],
-      "subCategoryId": "military-armored-carriers"
+      "subCategoryId": "military-armored-carriers",
+      "weight": 24000
     },
     {
       "id": "military-tactical-uav",
@@ -1466,7 +1487,8 @@
           "ar": "ضمان النظام لمدة سنتين"
         }
       ],
-      "subCategoryId": "military-command-vehicles"
+      "subCategoryId": "military-command-vehicles",
+      "weight": 25
     },
     {
       "id": "military-ifv",
@@ -1529,7 +1551,8 @@
           "ar": "ضمان هيكلي لمدة 3 سنوات"
         }
       ],
-      "subCategoryId": "military-armored-carriers"
+      "subCategoryId": "military-armored-carriers",
+      "weight": 28000
     },
     {
       "id": "military-recovery-truck",
@@ -1592,7 +1615,8 @@
           "ar": "ضمان المصنع لمدة 3 سنوات"
         }
       ],
-      "subCategoryId": "military-field-trucks"
+      "subCategoryId": "military-field-trucks",
+      "weight": 15000
     },
     {
       "id": "military-ugv",
@@ -1655,7 +1679,8 @@
           "ar": "ضمان إلكترونيات لمدة سنتين"
         }
       ],
-      "subCategoryId": "military-command-vehicles"
+      "subCategoryId": "military-command-vehicles",
+      "weight": 450
     },
     {
       "id": "military-armored-swat",
@@ -1718,7 +1743,8 @@
           "ar": "ضمان هيكلي لمدة 3 سنوات"
         }
       ],
-      "subCategoryId": "military-armored-carriers"
+      "subCategoryId": "military-armored-carriers",
+      "weight": 9000
     },
     {
       "id": "military-mrap",
@@ -1781,7 +1807,8 @@
           "ar": "ضمان المصنع لمدة 3 سنوات"
         }
       ],
-      "subCategoryId": "military-armored-carriers"
+      "subCategoryId": "military-armored-carriers",
+      "weight": 16000
     }
   ]
 }
