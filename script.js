@@ -16,7 +16,7 @@ const appState = {
 /* ============================================================================
    TABLE OF CONTENTS
    ============================================================================
-   1.  MAIN APP DATA            — nav/slider/projects/clients/news/video data,
+   1.  MAIN APP DATA            — nav/slider/machinery/clients/news/video data,
                                    about-us/social/share/policy content,
                                    products.json & categories.json loaders
    2.  UTILITY FUNCTIONS         — getLabel, getDirectionClass, theme, language
@@ -183,50 +183,23 @@ let bannerSlides = [
 ];
 
 /* ============================================================
-   PROJECTS DATA (machinery rental)
+   MACHINERY DATA — loaded from /data/machinery.json (like
+   productsData/categoriesData below). Renamed from the old
+   "projects" — this is the factory's machine capabilities
+   catalog (CNC lathes, milling machines, etc.), not projects.
    ============================================================ */
-let projects = [
-  {
-    id: "cnc-horizontal-lathe",
-    img: "/images/prj-1.webp",
-    titleEn: "CNC Horizontal Lathe",
-    titleAr: "مخرطة أفقية CNC",
-    descEn:
-      "High-precision CNC horizontal lathe available for rental, ideal for machining shafts, cylinders, and precision metal components.",
-    descAr:
-      "مخرطة أفقية CNC عالية الدقة متاحة للإيجار، مثالية لتشغيل الأعمدة والأسطوانات والقطع المعدنية الدقيقة.",
-  },
-  {
-    id: "cnc-turning-center",
-    img: "/images/prj-2.webp",
-    titleEn: "CNC Turning Center",
-    titleAr: "مركز خراطة CNC",
-    descEn:
-      "Advanced CNC turning center designed for complex turning operations with exceptional accuracy and productivity.",
-    descAr:
-      "مركز خراطة CNC متطور متاح للإيجار لتنفيذ عمليات الخراطة المعقدة بدقة وكفاءة عالية.",
-  },
-  {
-    id: "cnc-vertical-milling-machine",
-    img: "/images/prj-3.webp",
-    titleEn: "CNC Vertical Milling Machine",
-    titleAr: "فريزة رأسية CNC",
-    descEn:
-      "Professional CNC vertical milling machine for precision milling, drilling, and machining of various metal parts.",
-    descAr:
-      "فريزة رأسية CNC احترافية متاحة للإيجار لتنفيذ عمليات التفريز والثقب وتشغيل المعادن بدقة عالية.",
-  },
-  {
-    id: "cnc-boring-machine",
-    img: "/images/prj-4.webp",
-    titleEn: "CNC Boring Machine",
-    titleAr: "فريزة بورينج CNC",
-    descEn:
-      "Heavy-duty CNC boring machine suitable for large-scale precision boring and machining applications.",
-    descAr:
-      "فريزة بورينج CNC متاحة للإيجار، مناسبة لعمليات التجويف وتشغيل القطع الكبيرة بأعلى مستويات الدقة.",
-  },
-];
+let machineryData = [];
+
+async function loadMachineryData() {
+  try {
+    const response = await fetch("/data/machinery.json");
+    const data = await response.json();
+    machineryData = data.machinery;
+  } catch (e) {
+    console.error("Failed to load machinery.json", e);
+    machineryData = [];
+  }
+}
 
 /* ============================================================
    NEWS DATA — shared by the homepage News section and the full
@@ -853,24 +826,45 @@ function verifyMilitaryOtpCode(inputCode) {
   match.usedAt = Date.now();
   saveMilitaryOtpCodes(codes);
   setMilitaryLockout({ count: 0, lockedUntil: 0 });
-  grantMilitaryAccess();
+  grantMilitaryAccess(match.id);
   return { ok: true };
 }
 
-function grantMilitaryAccess() {
+// codeId links this grant back to the OTP that created it, so revoking
+// an already-used code (see revokeMilitaryOtpCode) also kills the access
+// it granted — see the cross-device caveat on hasMilitaryAccess() below.
+function grantMilitaryAccess(codeId = null) {
   localStorage.setItem(
     MILITARY_ACCESS_STORAGE_KEY,
     JSON.stringify({
       grantedAt: Date.now(),
       expiresAt: Date.now() + MILITARY_ACCESS_TTL_HOURS * 60 * 60 * 1000,
+      grantedByCodeId: codeId,
     }),
   );
 }
 
+// NOTE — same-device only: this whole gate is localStorage-based with no
+// backend, so "revoking" a code only blocks access in the SAME browser
+// that holds both the code list and the grant (e.g. testing, a shared/
+// kiosk device). It can't reach a different device the customer used to
+// redeem the code — that needs a real server tracking sessions.
 function hasMilitaryAccess() {
   try {
     const grant = JSON.parse(localStorage.getItem(MILITARY_ACCESS_STORAGE_KEY));
-    return !!grant && grant.expiresAt > Date.now();
+    if (!grant || grant.expiresAt <= Date.now()) return false;
+
+    if (grant.grantedByCodeId) {
+      const code = getMilitaryOtpCodes().find(
+        (c) => c.id === grant.grantedByCodeId,
+      );
+      if (code && code.revoked) {
+        localStorage.removeItem(MILITARY_ACCESS_STORAGE_KEY);
+        return false;
+      }
+    }
+
+    return true;
   } catch (e) {
     return false;
   }
@@ -1569,7 +1563,6 @@ function initializeMobileMenu() {
             <a class="footer-row btn btn-white col-3 d-flex align-items-center gap-1 h-100"
                href="#" data-nav-page-id="cart" id="mobileCartBtn">
                 <span class="position-relative d-inline-block">
-                    <i class="fas fa-shopping-cart"></i>
                     <span class="badge bg-danger rounded-pill cart-count-badge" id="mobileCartCount">
                         ${typeof getCartCount === "function" ? getCartCount() : 0}
                     </span>
@@ -2074,7 +2067,7 @@ function loadPageContent(pageId) {
       loadProductsPage();
       break;
     case "machinery":
-      loadProjectsPage();
+      loadMachineryPage();
       break;
     case "military":
       loadMilitaryPage();
@@ -2937,19 +2930,15 @@ function renderProductsGrid(products) {
     PRODUCTS PAGE END
     ============================================================= */
 
-/**
- * Load projects page
- */
 /* ============================================================
-   MACHINERY PAGE — full catalog over the `projects` data (see
-   PROJECTS DATA). Previously ignored that data entirely and
-   showed one hardcoded Lorem-ipsum card.
+   MACHINERY PAGE — full catalog over `machineryData` (see
+   MACHINERY DATA above, loaded from /data/machinery.json).
    ============================================================ */
-function loadProjectsPage() {
+function loadMachineryPage() {
   const container = document.getElementById("projectsPageContent");
   if (!container) return;
 
-  const cardsHtml = projects
+  const cardsHtml = machineryData
     .map(
       (p) => `
       <div class="col-md-6 col-lg-4">
@@ -2960,9 +2949,9 @@ function loadProjectsPage() {
           <div class="bg-secondary rounded-bottom p-4 h-100 d-flex flex-column">
             <h4 class="text-white">${getLabel(p.titleEn, p.titleAr)}</h4>
             <p class="text-white-50 flex-grow-1">${getLabel(p.descEn, p.descAr)}</p>
-            <a href="#" class="btn btn-secondary rounded-pill text-white p-0 align-self-start" onclick="setCurrentPage('contact')">
-              ${getLabel("Request Quote", "اطلب عرض سعر")} <i class="fas fa-arrow-${getDirectionClass("right", "left")} px-1"></i>
-            </a>
+            <button type="button" class="btn btn-secondary rounded-pill text-white p-0 align-self-start" data-machine-id="${p.id}">
+              ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-${getDirectionClass("right", "left")} px-1"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -2973,13 +2962,10 @@ function loadProjectsPage() {
   container.innerHTML = `
     ${createBanner(getLabel("Machinery", "الآلات"))}
     <div class="container-fluid overflow-hidden py-5">
-      <div class="container py-5">
+      <div class="container">
         <div class="section-title text-left mb-5">
-          <div class="sub-style">
-            <h5 class="sub-title px-3">${getLabel("Our Machinery", "آلاتنا")}</h5>
-          </div>
-          <h1 class="display-5 mb-4">${getLabel("Industrial Machinery Available for Rental", "آلات صناعية متاحة للإيجار")}</h1>
-          <p class="mb-0">${getLabel("Precision CNC equipment for rent, maintained to the highest standards.", "معدات CNC دقيقة متاحة للإيجار بأعلى معايير الصيانة.")}</p>
+          <h5 class="sub-title pb-0">${getLabel("Industrial Technology & Capabilities", "التقنيات والقدرات الصناعية")}</h5>
+          <p class="mb-0">${getLabel("Advanced CNC systems supporting precision manufacturing.", " أنظمة CNC متقدمة تدعم التصنيع الدقيق والمتطور.")}</p>
         </div>
         <div class="row g-4">
           ${cardsHtml}
@@ -2987,6 +2973,201 @@ function loadProjectsPage() {
       </div>
     </div>
   `;
+
+  bindMachineryPageEvents();
+}
+
+/* "Read More" opens the shared #overlayModal on a Swiper carousel — one
+   slide per machine, starting at the one clicked — so visitors can swipe
+   or use the arrow/keyboard controls to browse the whole catalog without
+   closing the overlay each time. Reuses the same modal the News page's
+   quick-view uses, just temporarily widened (modal-xl) while open. */
+let machineryPageEventsBound = false;
+
+function bindMachineryPageEvents() {
+  if (machineryPageEventsBound) return;
+  machineryPageEventsBound = true;
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-machine-id]");
+    if (!btn) return;
+    openMachineDetailOverlay(btn.dataset.machineId);
+  });
+}
+
+function machineSpecGroupHtml(group) {
+  return `
+    <div class="machine-detail-spec-group">
+      <h6 class="fw-bold text-primary mb-2">${getLabel(group.titleEn, group.titleAr)}</h6>
+      <ul class="machine-detail-spec-list">
+        ${group.items
+          .map(
+            (item) => `
+          <li><i class="fas fa-check-circle text-primary ${getDirectionClass("me-2", "ms-2")}"></i>${getLabel(item.en, item.ar)}</li>
+        `,
+          )
+          .join("")}
+      </ul>
+    </div>
+  `;
+}
+
+function machineDetailSpecsHtml(m) {
+  return (m.specGroups || []).map(machineSpecGroupHtml).join("");
+}
+
+/* Fades `el` out, swaps its content via `updateFn`, then fades it back in.
+   Used on machine switch so the title/subtitle and spec panel don't just
+   snap to the new machine's content. */
+function animateMachineDetailSwap(el, updateFn) {
+  if (!el) return;
+  el.classList.add("machine-detail-swap-out");
+  setTimeout(() => {
+    updateFn();
+    el.classList.remove("machine-detail-swap-out");
+  }, 180);
+}
+
+function updateMachineDetailContent(index) {
+  const m = machineryData[index];
+  if (!m) return;
+
+  animateMachineDetailSwap(document.getElementById("machineDetailHeading"), () => {
+    document.getElementById("machineDetailTitle").textContent = getLabel(
+      m.titleEn,
+      m.titleAr,
+    );
+    document.getElementById("machineDetailSubtitle").textContent = getLabel(
+      m.descEn,
+      m.descAr,
+    );
+  });
+
+  animateMachineDetailSwap(
+    document.getElementById("machineDetailSpecsWrap"),
+    () => {
+      document.getElementById("machineDetailSpecsWrap").innerHTML =
+        machineDetailSpecsHtml(m);
+    },
+  );
+}
+
+/* A single image Swiper drives the current machine (via pagination dots,
+   the bottom nav buttons, swipe, or keyboard). Title/subtitle (above the
+   image) and the spec panel (right column) aren't swiper slides — they're
+   plain DOM updated on slideChange, faded via animateMachineDetailSwap(). */
+function openMachineDetailOverlay(machineId) {
+  const startIndex = machineryData.findIndex((m) => m.id === machineId);
+  if (startIndex === -1) return;
+
+  const startMachine = machineryData[startIndex];
+
+  document.getElementById("modalTitle").textContent = getLabel(
+    "Machine Details",
+    "تفاصيل الماكينة",
+  );
+
+  const dialog = document.querySelector("#overlayModal .modal-dialog");
+  dialog.classList.add("modal-xl");
+
+  document.getElementById("modalBody").innerHTML = `
+    <div class="machine-detail-wrap">
+      <div class="machine-detail-pagination-top"></div>
+
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="machine-detail-heading" id="machineDetailHeading">
+            <h4 class="fw-bold mb-1" id="machineDetailTitle">${getLabel(startMachine.titleEn, startMachine.titleAr)}</h4>
+            <p class="text-muted small mb-0" id="machineDetailSubtitle">${getLabel(startMachine.descEn, startMachine.descAr)}</p>
+          </div>
+
+          <div class="swiper machineDetailMainSwiper mt-3">
+            <div class="swiper-wrapper">
+              ${machineryData
+                .map(
+                  (m) => `
+                <div class="swiper-slide">
+                  <img src="${m.img}" class="machine-detail-img" alt="${getLabel(m.titleEn, m.titleAr)}">
+                </div>
+              `,
+                )
+                .join("")}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="machine-detail-specs-wrap" id="machineDetailSpecsWrap">
+            ${machineDetailSpecsHtml(startMachine)}
+          </div>
+          <div class="text-end mt-4">
+            <button type="button" class="btn btn-primary" onclick="setCurrentPage('contact')" data-bs-dismiss="modal">
+              ${getLabel("Request a Quote", "اطلب عرض سعر")}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="machine-detail-nav-bottom d-flex justify-content-center gap-3">
+        <button type="button" class="nav-btn-custom machineDetailPrev" aria-label="${getLabel("Previous machine", "الماكينة السابقة")}">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button type="button" class="nav-btn-custom machineDetailNext" aria-label="${getLabel("Next machine", "الماكينة التالية")}">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  `;
+
+  const modalEl = document.getElementById("overlayModal");
+  const modal = new bootstrap.Modal(modalEl);
+
+  // Swiper measures the container's width to position slides — the modal
+  // is still mid fade-in (effectively zero-width) right after show(), so
+  // constructing it immediately silently leaves it stuck on slide 0.
+  // Waiting for "shown.bs.modal" (fires once the transition completes)
+  // fixes that.
+  modalEl.addEventListener(
+    "shown.bs.modal",
+    () => {
+      if (window.machineDetailSwiperInstance) {
+        window.machineDetailSwiperInstance.destroy(true, true);
+      }
+
+      window.machineDetailSwiperInstance = new Swiper(".machineDetailMainSwiper", {
+        initialSlide: startIndex,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        rtl: document.documentElement.dir === "rtl",
+        keyboard: { enabled: true },
+        a11y: { enabled: true },
+        pagination: {
+          el: ".machine-detail-pagination-top",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".machineDetailNext",
+          prevEl: ".machineDetailPrev",
+        },
+        on: {
+          slideChange(swiper) {
+            updateMachineDetailContent(swiper.activeIndex);
+          },
+        },
+      });
+    },
+    { once: true },
+  );
+
+  modal.show();
+
+  // Reset to the default modal size once closed, so the News "Read More"
+  // quick view (same shared modal) goes back to its normal compact width.
+  modalEl.addEventListener(
+    "hidden.bs.modal",
+    () => dialog.classList.remove("modal-xl"),
+    { once: true },
+  );
 }
 
 /* ============================================================
@@ -3028,11 +3209,12 @@ function loadMilitaryPage() {
     <div class="container-fluid overflow-hidden py-5 bg-light">
       <div class="container">
         <div class="section-title text-center mb-4">
-          <h5 class="sub-title px-3">${getLabel("Restricted Catalog", "كتالوج مقيد")}</h5>
-          <h1 class="display-5 mb-3">${getLabel("Military & Defense Equipment", "المعدات العسكرية والدفاعية")}</h1>
-          <p class="text-muted mb-0">${getLabel("Available to verified government and corporate buyers only.", "متاح فقط للمشترين الحكوميين والشركات المعتمدين.")}</p>
+          <h5 class="sub-title pb-0">${getLabel("Military & Defense Equipment", "المعدات العسكرية والدفاعية")}</h5>
+          <p class="text-muted mb-0">
+          <i class="fa-solid fa-circle-exclamation pe-1"></i>
+          ${getLabel("Access restricted to verified government and corporate entities only.", "الوصول مقصور على الجهات الحكومية والشركات الموثقة فقط.")}</p>
         </div>
-        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" id="militaryFilterTabs"></div>
+        <div class="d-flex flex-wrap justify-content-start gap-2 mb-4" id="militaryFilterTabs"></div>
         <div id="militaryProductsList" class="d-flex flex-column gap-4"></div>
       </div>
     </div>
@@ -3041,6 +3223,32 @@ function loadMilitaryPage() {
   renderMilitaryFilterTabs();
   renderMilitaryProductsList();
   bindMilitaryPageEvents();
+  startMilitaryAccessWatch();
+}
+
+// Without this, a code revoked WHILE someone is already sitting on this
+// page has no effect until they navigate away and back — nothing else
+// re-checks hasMilitaryAccess() in between. Polls instead of relying on
+// a "storage" event, since that only fires in OTHER tabs, not this one.
+function startMilitaryAccessWatch() {
+  stopMilitaryAccessWatch();
+  window.militaryAccessWatchInterval = setInterval(() => {
+    if (appState.currentPage !== "military") {
+      stopMilitaryAccessWatch();
+      return;
+    }
+    if (!hasMilitaryAccess()) {
+      stopMilitaryAccessWatch();
+      setCurrentPage("military-access");
+    }
+  }, 3000);
+}
+
+function stopMilitaryAccessWatch() {
+  if (window.militaryAccessWatchInterval) {
+    clearInterval(window.militaryAccessWatchInterval);
+    window.militaryAccessWatchInterval = null;
+  }
 }
 
 function renderMilitaryFilterTabs() {
@@ -3109,14 +3317,14 @@ function renderMilitaryProductsList() {
 function renderMilitaryProductCard(p) {
   const stockBadge =
     p.stockQty === 0
-      ? { cls: "bg-danger", en: "Out of Stock", ar: "غير متاح" }
+      ? { cls: "bg-warning text-dark", en: "AVAILABLE ON REQUEST", ar: "متوفر عند الطلب" }
       : p.stockQty <= 3
         ? {
             cls: "bg-warning text-dark",
-            en: "Limited Stock",
-            ar: "كمية محدودة",
+            en: "AVAILABLE ON REQUEST",
+            ar: "متوفر عند الطلب",
           }
-        : { cls: "bg-success", en: "In Stock", ar: "متوفر" };
+        : { cls: "", en: "", ar: "" };
 
   const starsHtml = Array.from({ length: 5 }, (_, i) => {
     const filled = i + 1 <= Math.round(p.rating || 0);
@@ -3144,7 +3352,7 @@ function renderMilitaryProductCard(p) {
     .join("");
 
   return `
-    <div class="military-product-card bg-white rounded-1 shadow-sm">
+    <div class="military-product-card bg-white rounded-1">
       <div class="row g-0 align-items-stretch">
 
         <!-- Image -->
@@ -3152,7 +3360,7 @@ function renderMilitaryProductCard(p) {
           <div class="military-card-img">
             <img src="${p.url}" alt="${getLabel(p.title.en, p.title.ar)}" loading="lazy">
             <span class="badge ${stockBadge.cls} military-stock-badge">${getLabel(stockBadge.en, stockBadge.ar)}</span>
-            <span class="military-lock-badge" title="${getLabel("Restricted item", "عنصر مقيد")}"><i class="fas fa-lock"></i></span>
+            <span class="military-lock-badge" title="${getLabel("AUTHORIZED ACCESS", "دخول مصرح")}"><i class="fas fa-lock"></i></span>
           </div>
         </div>
 
@@ -3170,11 +3378,7 @@ function renderMilitaryProductCard(p) {
             <span class="fs-4 fw-bold text-secondary">${formatEGP(p.price)}</span>
             ${p.oldPrice ? `<span class="old-price ms-2">${formatEGP(p.oldPrice)}</span>` : ""}
           </div>
-            ${
-              p.weight
-                ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small fw-bold"><i class="fas fa-weight-hanging ${getDirectionClass("me-1", "ms-1")}"></i>${getLabel("Weight", "الوزن")}:</span> <span class="small text-muted">${p.weight} ${getLabel("kg", "كجم")}</span></div>`
-                : ""
-            }
+
             ${
               colorsHtml
                 ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small fw-bold">${getLabel("Colors", "الألوان")}:</span> ${colorsHtml}</div>`
@@ -3185,6 +3389,11 @@ function renderMilitaryProductCard(p) {
                 ? `<div class="mb-2 d-flex flex-wrap align-items-center gap-1"><span class="small fw-bold ${getDirectionClass("me-1", "ms-1")}">${getLabel("Config", "التكوين")}:</span> ${sizesHtml}</div>`
                 : ""
             }
+                        ${
+              p.weight
+                ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small fw-bold">${getLabel("Weight", "الوزن")}:</span> <span class="small text-muted">${p.weight} ${getLabel("kg", "كجم")}</span></div>`
+                : ""
+            }
             ${specHighlightsHtml ? `<div class="d-flex align-items-start gap-4 pt-2 border-top"><span class="small fw-bold">${getLabel("Details", "التفالصيل")}: </span> <ul class="list-unstyled small text-muted mb-0 ">${specHighlightsHtml}</ul></div>` : ""}
         </div>
 
@@ -3193,7 +3402,10 @@ function renderMilitaryProductCard(p) {
           <button type="button" class="btn btn-secondary" data-military-product-id="${p.id}">
             ${getLabel("More Details", "عرض التفاصيل")}
           </button>
-          <span class="text-center small text-danger">${getLabel("Verified buyers only", "للمشترين المعتمدين فقط")}</span>
+          <span class="text-center small text-muted">
+          <i class="fa-solid fa-circle-info"></i>
+          ${getLabel("Technical specifications are not publicly disclosed.", "المواصفات الفنية غير معلنة للعامة.")}
+          </span>
         </div>
 
       </div>
@@ -4119,7 +4331,7 @@ function loadMilitaryAccessPage() {
                     <div class="w-100 px-4 px-md-5" style="max-width: 420px;">
 
                         <div class="mb-4">
-                            <span class="badge bg-danger d-inline-flex align-items-center gap-2 px-3 py-2 mb-3">
+                            <span class="badge bg-info d-inline-flex align-items-center gap-2 px-3 py-2 mb-3">
                                 <i class="fa-solid fa-fingerprint"></i>
                                 ${getLabel("RESTRICTED ACCESS — AUTHORIZED PERSONNEL ONLY", "وصول مقيد — الوصول للمصرح به فقط")}
                             </span>
@@ -4150,7 +4362,7 @@ function loadMilitaryAccessPage() {
                                 : ""
                             }
 
-                            <button type="submit" class="btn btn-primary w-100 py-3 rounded-0 fw-semibold" ${isLocked ? "disabled" : ""}>
+                            <button type="submit" class="btn btn-secondary w-100 py-3 rounded-0 fw-semibold" ${isLocked ? "disabled" : ""}>
                                 ${getLabel("Verify", "تحقق")}
                             </button>
 
@@ -4463,18 +4675,35 @@ function loadSingleProductPage(productId) {
                             }
                         </div>
 
+                        ${
+                          product.categoryId === "military"
+                            ? ""
+                            : `
                         <div class="d-flex justify-content-start align-items-center">
                         <p class="m-0 pe-2">Share</p>
                         ${shareLinksHtml}
                         </div>
+                        `
+                        }
 
                         <hr>
 
                         <h5 class="sub-title p-0 pt-3">${getLabel("Details", "مواصفات المنتج")}</h5>
                         ${
                           product.weight
-                            ? `<p class="text-muted small mb-2"><i class="fas fa-weight-hanging me-1"></i>${getLabel("Weight", "الوزن")}: ${product.weight} ${getLabel("kg", "كجم")}</p>`
-                            : ""
+                            ?`<div class="spec-group-item border-bottom border-black-25">
+                              <button class="spec-group-toggle d-flex align-items-center justify-content-between w-100 bg-transparent border-0 py-3" type="button" data-bs-toggle="collapse" data-bs-target="#specWeight">
+                                <h6 class="fw-bold mb-0">${getLabel("Weight", "الوزن")}</h6>
+                                <i class="fas fa-chevron-down spec-chevron"></i>
+                              </button>
+                              <div class="collapse" id="specWeight">
+                                <ul class="text-muted small mb-3 ps-0">
+                                <i class="fas fa-weight-hanging me-1"></i>
+                                    ${product.weight} ${getLabel("kg", "كجم")}
+                                </ul>
+                              </div>
+                            </div>`
+                          : ""
                         }
                         <div class="spec-groups-wrapper">
                             ${specGroupsHtml}
@@ -4540,20 +4769,14 @@ function loadSingleProductPage(productId) {
                             <hr>
 
                             <div class="d-flex align-items-start gap-2 mb-3">
-                                <i class="fas fa-shield-alt text-primary mt-1"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#333333">
+                                  <path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z"/></svg>
                                 <div>
                                     <div class="small fw-semibold">${getLabel("Quality Guaranteed", "جودة مضمونة")}</div>
                                     <div class="small text-muted">${getLabel("Manufactured to international standards", "مُصنّع وفق المعايير الدولية")}</div>
                                 </div>
                             </div>
 
-                            <div class="d-flex align-items-start gap-2">
-                                <i class="fas fa-undo text-primary mt-1"></i>
-                                <div>
-                                    <div class="small fw-semibold">${getLabel("Return Policy", "سياسة الإرجاع")}</div>
-                                    <div class="small text-muted">${getLabel("14-day return window", "فترة إرجاع 14 يوماً")}</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -5225,7 +5448,7 @@ function bindProfilePageEvents(container) {
 
    Each type's live data is the same `let` array used everywhere
    else on the site (productsData, bannerSlides, newsItems,
-   videoItems, projects), persisted via CONTENT STORE — so an
+   videoItems, machineryData), persisted via CONTENT STORE — so an
    edit here is immediately what every public page reads next
    time it renders.
    ============================================================ */
@@ -5613,11 +5836,15 @@ const CMS_TYPES = {
     label: { en: "Machinery", ar: "الآلات" },
     icon: "fas fa-industry",
     idKey: "id",
-    getAll: () => projects,
+    getAll: () => machineryData,
     setAll: (arr) => {
-      projects = arr;
-      saveContentStore("projects", arr);
+      machineryData = arr;
+      saveContentStore("machineryData", arr);
     },
+    // specGroups isn't editable through this generic form (it's a nested
+    // array of {title, items[]} — beyond what the simple field types
+    // here support), so CMS-added machines start with none. The overlay
+    // already handles that gracefully (no spec section rendered).
     newItem: () => ({
       id: `machine-${Date.now()}`,
       img: "/images/prj-1.webp",
@@ -5625,6 +5852,7 @@ const CMS_TYPES = {
       titleAr: "",
       descEn: "",
       descAr: "",
+      specGroups: [],
     }),
     columns: [
       {
@@ -5733,6 +5961,29 @@ function renderMilitaryOtpSection() {
   bindMilitaryOtpFormEvents();
 }
 
+// Expired/revoked codes are already inert — nothing left to revoke, so the
+// button is shown disabled (not hidden) with a reason, instead of just
+// vanishing and leaving the admin guessing why.
+function militaryRevokeActionHtml(code, status) {
+  if (status === "active") {
+    return `<button type="button" class="btn btn-sm btn-outline-danger military-revoke-btn" data-otp-id="${code.id}">
+      ${getLabel("Revoke", "إلغاء")}
+    </button>`;
+  }
+  if (status === "used") {
+    return `<button type="button" class="btn btn-sm btn-outline-danger military-revoke-btn" data-otp-id="${code.id}" title="${getLabel("Also blocks the access this code already granted — same browser/device only", "يمنع أيضاً الوصول الذي منحه هذا الرمز بالفعل — لنفس المتصفح/الجهاز فقط")}">
+      ${getLabel("Revoke Access", "إلغاء الوصول")}
+    </button>`;
+  }
+  const reason =
+    status === "expired"
+      ? getLabel("Already expired", "منتهي الصلاحية بالفعل")
+      : getLabel("Already revoked", "ملغى بالفعل");
+  return `<button type="button" class="btn btn-sm btn-outline-secondary" disabled title="${reason}">
+    ${getLabel("Revoke", "إلغاء")}
+  </button>`;
+}
+
 function renderMilitaryOtpTable() {
   const tbody = document.getElementById("motpCodesTableBody");
   if (!tbody) return;
@@ -5765,13 +6016,7 @@ function renderMilitaryOtpTable() {
           <td class="small text-muted">${new Date(c.createdAt).toLocaleString()}</td>
           <td class="small text-muted">${new Date(c.expiresAt).toLocaleString()}</td>
           <td class="text-end">
-            ${
-              status === "active"
-                ? `<button type="button" class="btn btn-sm btn-outline-danger military-revoke-btn" data-otp-id="${c.id}">
-                     ${getLabel("Revoke", "إلغاء")}
-                   </button>`
-                : ""
-            }
+            ${militaryRevokeActionHtml(c, status)}
           </td>
         </tr>
       `;
@@ -7977,14 +8222,15 @@ function initializeHomePageSections() {
     });
   }
 
-  // Initialize Project Section
+  // Initialize Machinery Section (DOM ids kept as "projects*" — this is
+  // display/CSS wiring only, unrelated to the machineryData rename above)
   const projectsSection = document.getElementById("projectsSection");
   if (projectsSection) {
     projectsSection.innerHTML = `
     <div class="container overflow-hidden rounded-1 p-5 position-relative" id="projectsBgWrapper">
 
         <!-- Background image layer -->
-        <div class="projects-bg-image" id="projectsBgImage" style="background-image: url('${projects[0].img}');"></div>
+        <div class="projects-bg-image" id="projectsBgImage" style="background-image: url('${machineryData[0].img}');"></div>
 
         <!-- Dark overlay for readability -->
         <div class="projects-bg-overlay"></div>
@@ -7998,11 +8244,11 @@ function initializeHomePageSections() {
                 <div class="col-lg-4 d-flex">
                     <div class="d-flex flex-column justify-content-center h-100 w-100">
                         <div class="section-title text-start flex-grow-1">
-                            <h1 class="display-5 text-white" id="activeProjectTitle">${getLabel(projects[0].titleEn, projects[0].titleAr)}</h1>
-                            <p class="text-white-50 mb-0" id="activeProjectDesc">${getLabel(projects[0].descEn, projects[0].descAr)}</p>
+                            <h1 class="display-5 text-white" id="activeProjectTitle">${getLabel(machineryData[0].titleEn, machineryData[0].titleAr)}</h1>
+                            <p class="text-white-50 mb-0" id="activeProjectDesc">${getLabel(machineryData[0].descEn, machineryData[0].descAr)}</p>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-link text-primary border-secondary rounded-0 ps-0 py-0 mb-4" id="activeProjectLink" onclick="setCurrentPage('projects', '${projects[0].id}')">
+                            <a href="#" class="btn btn-link text-primary border-secondary rounded-0 ps-0 py-0 mb-4" id="activeProjectLink" onclick="openMachineDetailOverlay('${machineryData[0].id}')">
                                 ${getLabel("Read More", "اقرأ المزيد")}
                             </a>
                             <div class="d-flex gap-3">
@@ -8032,7 +8278,7 @@ function initializeHomePageSections() {
 
     function updateActiveProject(index) {
       activeIndex = index;
-      const activeProject = projects[index];
+      const activeMachine = machineryData[index];
 
       const titleEl = document.getElementById("activeProjectTitle");
       const descEl = document.getElementById("activeProjectDesc");
@@ -8040,17 +8286,17 @@ function initializeHomePageSections() {
 
       // Swap background image
       document.getElementById("projectsBgImage").style.backgroundImage =
-        `url('${activeProject.img}')`;
+        `url('${activeMachine.img}')`;
 
       // Update text content
       titleEl.textContent = getLabel(
-        activeProject.titleEn,
-        activeProject.titleAr,
+        activeMachine.titleEn,
+        activeMachine.titleAr,
       );
-      descEl.textContent = getLabel(activeProject.descEn, activeProject.descAr);
+      descEl.textContent = getLabel(activeMachine.descEn, activeMachine.descAr);
       linkEl.setAttribute(
         "onclick",
-        `setCurrentPage('projects', '${activeProject.id}')`,
+        `openMachineDetailOverlay('${activeMachine.id}')`,
       );
 
       // Retrigger slide-in animation
@@ -8065,7 +8311,7 @@ function initializeHomePageSections() {
 
     function renderDots() {
       const pag = document.querySelector(".projects-pagination");
-      pag.innerHTML = projects
+      pag.innerHTML = machineryData
         .map(
           (_, i) => `
             <span class="stack-dot ${i === activeIndex ? "active" : ""}" data-index="${i}"></span>
@@ -8082,14 +8328,14 @@ function initializeHomePageSections() {
     document
       .querySelector(".projects-button-next")
       .addEventListener("click", () => {
-        updateActiveProject((activeIndex + 1) % projects.length);
+        updateActiveProject((activeIndex + 1) % machineryData.length);
       });
 
     document
       .querySelector(".projects-button-prev")
       .addEventListener("click", () => {
         updateActiveProject(
-          (activeIndex - 1 + projects.length) % projects.length,
+          (activeIndex - 1 + machineryData.length) % machineryData.length,
         );
       });
 
@@ -8290,6 +8536,7 @@ async function initializeApp() {
   // ============================
   await loadProductsData();
   await loadCategoriesData();
+  await loadMachineryData();
 
   // Layer the localStorage content store on top of the defaults above,
   // so admin-added/edited/deleted content persists across reloads.
@@ -8297,7 +8544,7 @@ async function initializeApp() {
   bannerSlides = loadContentStore("bannerSlides", bannerSlides);
   newsItems = loadContentStore("newsItems", newsItems);
   videoItems = loadContentStore("videoItems", videoItems);
-  projects = loadContentStore("projects", projects);
+  machineryData = loadContentStore("machineryData", machineryData);
 
   // Build the Products mega menu from categoriesData.
   // MUST be after loadCategoriesData() and before initializeNavigation().
@@ -8330,7 +8577,7 @@ async function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("military");
+  setCurrentPage("machinery");
 }
 
 /**
@@ -8402,3 +8649,4 @@ window.toggleLanguage = toggleLanguage;
 window.scrollToTop = scrollToTop;
 window.goToProfileTab = goToProfileTab;
 window.updateOrderStatus = updateOrderStatus;
+window.openMachineDetailOverlay = openMachineDetailOverlay;

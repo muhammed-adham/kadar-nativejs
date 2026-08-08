@@ -1,69 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kader Factory - Advanced Industries</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=workspace_premium" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"
+    />
     <style>
-        .material-symbols-outlined {
-            font-variation-settings:
-                'FILL' 2,
-                'wght' 700,
-                'GRAD' 0,
-                'opsz' 48
-        }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 2,
+          "wght" 700,
+          "GRAD" 0,
+          "opsz" 48;
+      }
     </style>
-</head>
+  </head>
 
-<body data-theme="light">
+  <body data-theme="light">
     <!-- Navigation Header -->
     <!-- Top Row: Logo + Cart/Profile -->
     <header id="mainNav" class="top-nav-row p-3 bg-white">
-        <div class="container-fluid d-flex align-items-center justify-content-center">
-            <a class="navbar-brand p-0" href="#" id="homeLogo">
-                <img src="/images/LOGO_AKARIA-1.jpg" class="img-fluid" alt="KADER" id="logoImg" style="height: 4.5rem;">
-            </a>
+      <div
+        class="container-fluid d-flex align-items-center justify-content-center"
+      >
+        <a class="navbar-brand p-0" href="#" id="homeLogo">
+          <img
+            src="/images/LOGO_AKARIA-1.jpg"
+            class="img-fluid"
+            alt="KADER"
+            id="logoImg"
+            style="height: 4.5rem"
+          />
+        </a>
 
-            <!-- Search Bar with Dropdown -->
-            <div class="position-relative flex-grow-1 d-none d-md-block px-4" style="max-width: 60rem;"
-                id="searchWrapper">
-                <div class="input-group">
-                    <input type="search" class="form-control p-2" placeholder="Search by keywords.." id="searchInput"
-                        autocomplete="off">
-                    <span class="input-group-text bg-primary text-white p-3" id="searchIcon"><i
-                            class="fa fa-search"></i></span>
-                </div>
+        <!-- Search Bar with Dropdown -->
+        <div
+          class="position-relative flex-grow-1 d-none d-md-block px-4"
+          style="max-width: 60rem"
+          id="searchWrapper"
+        >
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control p-2"
+              placeholder="Search by keywords.."
+              id="searchInput"
+              autocomplete="off"
+            />
+            <span
+              class="input-group-text bg-primary text-white p-3"
+              id="searchIcon"
+              ><i class="fa fa-search"></i
+            ></span>
+          </div>
 
-                <!-- Suggestions Dropdown -->
-                <div class="list-group position-absolute w-100 shadow-sm d-none" id="searchDropdown"
-                    style="top: 100%; z-index: 1050; max-height: 300px; overflow-y: auto;">
-                    <!-- Suggestions injected here by JS -->
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center d-none d-lg-flex" id="topRightControls">
-                <!-- Theme / Language / Cart / Profile injected here by JS -->
-            </div>
+          <!-- Suggestions Dropdown -->
+          <div
+            class="list-group position-absolute w-100 shadow-sm d-none"
+            id="searchDropdown"
+            style="
+              top: 100%;
+              z-index: 1050;
+              max-height: 300px;
+              overflow-y: auto;
+            "
+          >
+            <!-- Suggestions injected here by JS -->
+          </div>
         </div>
+
+        <div
+          class="d-flex align-items-center d-none d-lg-flex"
+          id="topRightControls"
+        >
+          <!-- Theme / Language / Cart / Profile injected here by JS -->
+        </div>
+      </div>
     </header>
 
     <!-- Second Row: Nav Links -->
-    <nav class="navbar navbar-expand-lg navbar-light py-1" style="background-color: #003049;" ; id="navLinksRow">
-        <div class="container-fluid" style="background-color: #003049;" ;>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav py-0 mx-auto" id="navLinksContainer">
-                    <!-- Nav Links Will Be Generated by JS -->
-                </div>
-            </div>
+    <nav
+      class="navbar navbar-expand-lg navbar-light py-1"
+      style="background-color: #003049"
+      ;
+      id="navLinksRow"
+    >
+      <div class="container-fluid" style="background-color: #003049" ;>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav py-0 mx-auto" id="navLinksContainer">
+            <!-- Nav Links Will Be Generated by JS -->
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Desktop Navigation -->
@@ -80,136 +125,132 @@
 
     <!-- Main Page Container -->
     <main id="mainContent">
-
-        <!-- Home Page -->
-        <div class="page" id="home-page" style="display: block;">
-            <!-- Slider Component -->
-            <div class="carousel-header">
-                <div class="swiper bannerSwiper">
-                    <div class="swiper-wrapper" id="bannerWrapper">
-                        <!-- Slides injected by JS -->
-                    </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                </div>
+      <!-- Home Page -->
+      <div class="page" id="home-page" style="display: block">
+        <!-- Slider Component -->
+        <div class="carousel-header">
+          <div class="swiper bannerSwiper">
+            <div class="swiper-wrapper" id="bannerWrapper">
+              <!-- Slides injected by JS -->
             </div>
-
-
-            <!-- Categories Section -->
-            <div id="categorySection"></div>
-
-            <!-- Products Section -->
-            <div id="productSection"></div>
-
-            <!-- Equipment Section -->
-            <div id="projectsSection" class="bg-light py-5"></div>
-
-            <!-- Map Section -->
-            <!-- <div id="mapSection"></div> -->
-            
-            <!-- Trusted Section -->
-            <div id="trustedSection"></div>
-            
-            <!-- About Section -->
-            <div id="aboutSection"></div>
-            
-            <!-- News Section -->
-            <div id="newsSection"></div>
-            
-            <!-- Social Section -->
-            <div id="socialSection"></div>
-            
-            <!-- Payment Section -->
-            <div id="paymentPartnersSection"></div>
-
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
         </div>
 
-        <!-- About Page -->
-        <div class="page" id="about-page" style="display: none;">
-            <div id="aboutPageContent"></div>
-        </div>
+        <!-- Categories Section -->
+        <div id="categorySection"></div>
 
-        <!-- Products Page -->
-        <div class="page" id="products-page" style="display: none;">
-            <div id="productsPageContent"></div>
-        </div>
+        <!-- Products Section -->
+        <div id="productSection"></div>
 
-        <!-- Category Page -->
-        <div class="page" id="category-page" style="display: none;">
-            <div id="categoryPageContent"></div>
-        </div>
+        <!-- Equipment Section -->
+        <div id="projectsSection" class="bg-light py-5"></div>
 
-        <!-- Machinery Page -->
-        <div class="page" id="machinery-page" style="display: none;">
-            <div id="projectsPageContent"></div>
-        </div>
+        <!-- Map Section -->
+        <!-- <div id="mapSection"></div> -->
 
-        <!-- Military Products Page (OTP-gated, see requireMilitaryAccess()) -->
-        <div class="page" id="military-page" style="display: none;">
-            <div id="militaryPageContent"></div>
-        </div>
+        <!-- Trusted Section -->
+        <div id="trustedSection"></div>
 
-        <!-- News Page -->
-        <div class="page" id="news-page" style="display: none;">
-            <div id="newsPageContent"></div>
-        </div>
+        <!-- About Section -->
+        <div id="aboutSection"></div>
 
-        <!-- Videos Page -->
-        <div class="page" id="videos-page" style="display: none;">
-            <div id="videosPageContent"></div>
-        </div>
+        <!-- News Section -->
+        <div id="newsSection"></div>
 
-        <!-- Contact Page -->
-        <div class="page" id="contact-page" style="display: none;">
-            <div id="contactPageContent"></div>
-        </div>
+        <!-- Social Section -->
+        <div id="socialSection"></div>
 
-        <!-- Sign Up Page -->
-        <div class="page" id="register-page" style="display: block;">
-            <div id="registerPageContent"></div>
-        </div>
+        <!-- Payment Section -->
+        <div id="paymentPartnersSection"></div>
+      </div>
 
-        <!-- Sign In Page -->
-        <div class="page" id="login-page" style="display: block;">
-            <div id="loginPageContent"></div>
-        </div>
+      <!-- About Page -->
+      <div class="page" id="about-page" style="display: none">
+        <div id="aboutPageContent"></div>
+      </div>
 
-        <!-- Military Access Gate Page -->
-        <div class="page" id="military-access-page" style="display: none;">
-            <div id="militaryAccessPageContent"></div>
-        </div>
+      <!-- Products Page -->
+      <div class="page" id="products-page" style="display: none">
+        <div id="productsPageContent"></div>
+      </div>
 
-        <!-- Single Product Page -->
-        <div class="page" id="single-product-page" style="display: none;">
-            <div id="singleProductContent"></div>
-        </div>
+      <!-- Category Page -->
+      <div class="page" id="category-page" style="display: none">
+        <div id="categoryPageContent"></div>
+      </div>
 
-        <!-- Single Project Page -->
-        <div class="page" id="single-project-page" style="display: none;">
-            <div id="singleProjectContent"></div>
-        </div>
+      <!-- Machinery Page -->
+      <div class="page" id="machinery-page" style="display: none">
+        <div id="projectsPageContent"></div>
+      </div>
 
-        <!-- Cart Page -->
-        <div class="page" id="cart-page" style="display: none;">
-            <div id="cartPageContent"></div>
-        </div>
+      <!-- Military Products Page (OTP-gated, see requireMilitaryAccess()) -->
+      <div class="page" id="military-page" style="display: none">
+        <div id="militaryPageContent"></div>
+      </div>
 
-        <!-- Profile Page -->
-        <div class="page" id="profile-page" style="display: none;">
-            <div id="profilePageContent"></div>
-        </div>
+      <!-- News Page -->
+      <div class="page" id="news-page" style="display: none">
+        <div id="newsPageContent"></div>
+      </div>
 
-        <!-- Admin Dashboard Page -->
-        <div class="page" id="admin-page" style="display: none;">
-            <div id="adminPageContent"></div>
-        </div>
+      <!-- Videos Page -->
+      <div class="page" id="videos-page" style="display: none">
+        <div id="videosPageContent"></div>
+      </div>
 
-        <!-- Checkout Page -->
-        <div class="page" id="checkout-page" style="display: none;">
-            <div id="checkoutPageContent"></div>
-        </div>
+      <!-- Contact Page -->
+      <div class="page" id="contact-page" style="display: none">
+        <div id="contactPageContent"></div>
+      </div>
 
+      <!-- Sign Up Page -->
+      <div class="page" id="register-page" style="display: block">
+        <div id="registerPageContent"></div>
+      </div>
+
+      <!-- Sign In Page -->
+      <div class="page" id="login-page" style="display: block">
+        <div id="loginPageContent"></div>
+      </div>
+
+      <!-- Military Access Gate Page -->
+      <div class="page" id="military-access-page" style="display: none">
+        <div id="militaryAccessPageContent"></div>
+      </div>
+
+      <!-- Single Product Page -->
+      <div class="page" id="single-product-page" style="display: none">
+        <div id="singleProductContent"></div>
+      </div>
+
+      <!-- Single Project Page -->
+      <div class="page" id="single-project-page" style="display: none">
+        <div id="singleProjectContent"></div>
+      </div>
+
+      <!-- Cart Page -->
+      <div class="page" id="cart-page" style="display: none">
+        <div id="cartPageContent"></div>
+      </div>
+
+      <!-- Profile Page -->
+      <div class="page" id="profile-page" style="display: none">
+        <div id="profilePageContent"></div>
+      </div>
+
+      <!-- Admin Dashboard Page -->
+      <div class="page" id="admin-page" style="display: none">
+        <div id="adminPageContent"></div>
+      </div>
+
+      <!-- Checkout Page -->
+      <div class="page" id="checkout-page" style="display: none">
+        <div id="checkoutPageContent"></div>
+      </div>
     </main>
 
     <!-- Footer -->
@@ -217,15 +258,20 @@
 
     <!-- Modal for Images and Videos -->
     <div class="modal fade" id="overlayModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="modalBody"></div>
-            </div>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="modalBody"></div>
         </div>
+      </div>
     </div>
 
     <!-- Scripts -->
@@ -233,6 +279,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>

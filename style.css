@@ -181,26 +181,27 @@ a {
   transition: var(--transition);
 }
 
-.toggle-menu{
+.toggle-menu {
   display: flex !important;
   flex-direction: column;
   align-items: start;
-  gap: .4rem;
+  gap: 0.4rem;
   width: 8rem;
 }
 
-.form-check-header{
+.form-check-header {
   text-align: start !important;
   width: 100%;
-  font-size: .6rem;
+  font-size: 0.6rem;
   text-align: end;
 }
 
-.form-check-label{
+.form-check-label {
   font-size: 0.8rem;
 }
 
-.form-check-label, .form-check-input{
+.form-check-label,
+.form-check-input {
   cursor: pointer;
 }
 
@@ -209,10 +210,10 @@ a {
    input circle didn't underline its label. Input comes before label in the
    markup, so the general sibling combinator reaches it from there. */
 .form-check-input:hover ~ .form-check-label {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-.form-check:hover{
+.form-check:hover {
   color: var(--primary);
 }
 
@@ -228,7 +229,8 @@ a {
 }
 
 .form-check-input:hover {
-  box-shadow:inset 0 0 0 0.2rem color-mix(in srgb, var(--primary) 70%, transparent);
+  box-shadow: inset 0 0 0 0.2rem
+    color-mix(in srgb, var(--primary) 70%, transparent);
 }
 
 .form-check-input:focus {
@@ -1447,6 +1449,7 @@ html[dir="rtl"] .nav-btn-custom {
   transform: translateY(0px) !important;
   box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0) !important;
   outline: 1.5px solid var(--primary) !important;
+  scale: .995;
 }
 
 .product-img-wrap {
@@ -1843,7 +1846,7 @@ html[dir="rtl"] .nav-btn-custom {
 .color-swatch {
   width: 36px;
   height: 36px;
-  border-radius: .1rem;
+  border-radius: 0.1rem;
   border: 2px solid #dee2e6;
   cursor: pointer;
   padding: 0;
@@ -1860,7 +1863,7 @@ html[dir="rtl"] .nav-btn-custom {
 .size-option {
   border: 1px solid #dee2e6;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 0.1rem;
   padding: 0.4rem 0.9rem;
   font-size: 0.85rem;
   cursor: pointer;
@@ -1869,8 +1872,8 @@ html[dir="rtl"] .nav-btn-custom {
 
 .size-option.active {
   border-color: var(--bs-primary);
-  background: var(--bs-primary);
-  color: #fff;
+  /* background: var(--bs-primary); */
+  /* color: #fff; */
 }
 
 .buy-box {
@@ -2205,15 +2208,105 @@ html[dir="rtl"] .nav-btn-custom {
   object-fit: cover;
 }
 
+/* ---------- Machinery detail overlay (image Swiper inside #overlayModal,
+   title/subtitle + specs animate on change, nav buttons pinned to the
+   bottom of the whole overlay) ---------- */
+.machine-detail-wrap {
+  padding: 0.25rem 0.25rem 1rem;
+}
+
+/* Pagination lives above everything, not overlaid on the image like
+   Swiper's default — it's not nested in a .swiper container so it needs
+   position reset back to normal flow. */
+.machine-detail-pagination-top {
+  position: static;
+  display: flex;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.machine-detail-heading,
+.machine-detail-specs-wrap {
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.machine-detail-swap-out {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.machine-detail-img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+
+.machine-detail-nav-bottom {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.machine-detail-specs-wrap {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-inline-end: 0.5rem;
+}
+
+.machine-detail-spec-group {
+  margin-bottom: 1.25rem;
+}
+
+.machine-detail-spec-group:last-child {
+  margin-bottom: 0;
+}
+
+.machine-detail-spec-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.machine-detail-spec-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.machine-detail-spec-list li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 767.98px) {
+  .machine-detail-img {
+    height: 220px;
+  }
+
+  .machine-detail-specs-wrap {
+    max-height: none;
+  }
+}
+
 /* ---------- Military products page ---------- */
 .military-product-card {
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  outline: 1.5px solid transparent !important;
   transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .military-product-card:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0);
+  outline: 1.5px solid var(--primary) !important;
+  scale: 0.995;
 }
 
 .military-card-img {
@@ -2265,7 +2358,7 @@ html[dir="rtl"] .nav-btn-custom {
   display: inline-block;
   width: 18px;
   height: 18px;
-  border-radius: .1rem;
+  border-radius: 0.1rem;
   border: 1px solid rgba(0, 0, 0, 0.15);
 }
 

@@ -1,0 +1,546 @@
+{
+  "machinery": [
+    {
+      "id": "cnc-turning-machine-1",
+      "titleEn": "CNC Turning Machine — Up to 2000 mm / 2,000 kg",
+      "titleAr": "مخرطة CNC — حتى 2000 مم / 2000 كجم",
+      "img": "/images/prj-1.webp",
+      "descEn": "High-capacity CNC turning machine for long, heavy workpieces — up to 2000 mm and 2,000 kg between centers.",
+      "descAr": "مخرطة CNC عالية القدرة لتشغيل القطع الطويلة والثقيلة — حتى 2000 مم و2000 كجم بين المراكز.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum length of the workpiece: Up to 2000 mm, allowing for the precise manufacturing of long parts.",
+              "ar": "الحد الأقصى لطول القطعة: حتى 2000 مم، مما يتيح التصنيع الدقيق للأجزاء الطويلة."
+            },
+            {
+              "en": "Maximum transverse movement of the turning tool: 800 mm, enabling greater flexibility in transverse processing.",
+              "ar": "الحد الأقصى للحركة العرضية لأداة الخراطة: 800 مم، مما يوفر مرونة أكبر في التشغيل العرضي."
+            },
+            {
+              "en": "Maximum longitudinal movement of the turning tool: 1100 mm, providing a wide range for longitudinal operations.",
+              "ar": "الحد الأقصى للحركة الطولية لأداة الخراطة: 1100 مم، مما يوفر مجالاً واسعاً للعمليات الطولية."
+            },
+            {
+              "en": "Diameter of the spindle bore: 160 mm, ensuring stability for large parts and enhanced durability.",
+              "ar": "قطر تجويف المغزل: 160 مم، مما يضمن الثبات للأجزاء الكبيرة ومتانة أعلى."
+            },
+            {
+              "en": "Maximum weight of the workpiece between centers: Up to 2000 kg, accommodating heavy parts with ease and precision.",
+              "ar": "الحد الأقصى لوزن القطعة بين المراكز: حتى 2000 كجم، لاستيعاب الأجزاء الثقيلة بسهولة ودقة."
+            },
+            {
+              "en": "Maximum weight of the workpiece on the chuck: Up to 600 kg, facilitating stable handling of large components.",
+              "ar": "الحد الأقصى لوزن القطعة على الظرف: حتى 600 كجم، لتسهيل التعامل الثابت مع المكونات الكبيرة."
+            },
+            {
+              "en": "Maximum spindle speed: 800 r.p.m (rotations per minute), delivering high rotational speed for exceptional production efficiency.",
+              "ar": "الحد الأقصى لسرعة المغزل: 800 دورة/دقيقة، لتقديم سرعة دوران عالية وكفاءة إنتاج استثنائية."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cnc-turning-machine-2",
+      "titleEn": "CNC Turning Machine — Siemens 840 DSL",
+      "titleAr": "مخرطة CNC — Siemens 840 DSL",
+      "img": "/images/prj-2.webp",
+      "descEn": "Precision CNC turning machine with Siemens 840 DSL control, ideal for high-speed 2-axis operations up to 2000 mm.",
+      "descAr": "مخرطة CNC دقيقة بنظام تحكم Siemens 840 DSL، مثالية لعمليات المحورين عالية السرعة حتى 2000 مم.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum length of the workpiece: Up to 2000 mm, offering high flexibility for machining long parts.",
+              "ar": "الحد الأقصى لطول القطعة: حتى 2000 مم، مما يوفر مرونة عالية لتشغيل الأجزاء الطويلة."
+            },
+            {
+              "en": "Maximum transverse movement of the turning tool: 370 mm, ensuring precise and efficient transverse processing.",
+              "ar": "الحد الأقصى للحركة العرضية لأداة الخراطة: 370 مم، لضمان تشغيل عرضي دقيق وفعال."
+            },
+            {
+              "en": "Maximum longitudinal movement of the turning tool: 630 mm, achieving full longitudinal coverage with optimal precision.",
+              "ar": "الحد الأقصى للحركة الطولية لأداة الخراطة: 630 مم، لتحقيق تغطية طولية كاملة بدقة مثالية."
+            },
+            {
+              "en": "Maximum weight of the workpiece between centers: Up to 2000 kg, allowing for stability during the machining of heavy parts.",
+              "ar": "الحد الأقصى لوزن القطعة بين المراكز: حتى 2000 كجم، مما يضمن الثبات أثناء تشغيل الأجزاء الثقيلة."
+            },
+            {
+              "en": "Maximum weight of the workpiece on the chuck: 60 kg, supporting large parts effectively and stably.",
+              "ar": "الحد الأقصى لوزن القطعة على الظرف: 60 كجم، لدعم الأجزاء الكبيرة بفعالية وثبات."
+            },
+            {
+              "en": "Maximum spindle speed: Up to 2500 r.p.m (rotations per minute), enhancing efficiency in high-speed manufacturing operations.",
+              "ar": "الحد الأقصى لسرعة المغزل: حتى 2500 دورة/دقيقة، لتعزيز الكفاءة في عمليات التصنيع عالية السرعة."
+            },
+            {
+              "en": "Diameter of the spindle bore: 105 mm, providing additional stability for large workpieces.",
+              "ar": "قطر تجويف المغزل: 105 مم، لتوفير ثبات إضافي للقطع الكبيرة."
+            },
+            {
+              "en": "Control system: Siemens 840 DSL, a reliable and advanced system ensuring ease of operation and precise control.",
+              "ar": "نظام التحكم: Siemens 840 DSL، نظام موثوق ومتطور يضمن سهولة التشغيل ودقة التحكم."
+            },
+            {
+              "en": "Number of axes: Two axes (X and Z), supporting precise, multi-directional movements suitable for various machining tasks.",
+              "ar": "عدد المحاور: محوران (X وZ)، لدعم حركات دقيقة ومتعددة الاتجاهات تناسب مختلف مهام التشغيل."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cnc-turning-machine-3",
+      "titleEn": "CNC Turning Machine — Up to 2315 mm / 8,000 kg",
+      "titleAr": "مخرطة CNC — حتى 2315 مم / 8000 كجم",
+      "img": "/images/prj-3.webp",
+      "descEn": "Heavy-duty CNC turning machine built for workpieces up to 2315 mm and 8,000 kg.",
+      "descAr": "مخرطة CNC للخدمة الشاقة، مصممة للقطع حتى 2315 مم و8000 كجم.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum length of the workpiece: 2315 mm, providing the capability to machine long and precise parts.",
+              "ar": "الحد الأقصى لطول القطعة: 2315 مم، مما يوفر القدرة على تشغيل أجزاء طويلة ودقيقة."
+            },
+            {
+              "en": "Maximum transverse movement of the turning tool: 660 mm, ensuring high flexibility for handling transverse dimensions.",
+              "ar": "الحد الأقصى للحركة العرضية لأداة الخراطة: 660 مم، لضمان مرونة عالية في التعامل مع الأبعاد العرضية."
+            },
+            {
+              "en": "Maximum longitudinal movement of the turning tool: 1050 mm, offering complete coverage for longitudinal machining.",
+              "ar": "الحد الأقصى للحركة الطولية لأداة الخراطة: 1050 مم، لتوفير تغطية كاملة للتشغيل الطولي."
+            },
+            {
+              "en": "Maximum weight of the workpiece: Up to 8000 kg, enabling stable and safe machining of heavy components.",
+              "ar": "الحد الأقصى لوزن القطعة: حتى 8000 كجم، لتمكين تشغيل آمن وثابت للمكونات الثقيلة."
+            },
+            {
+              "en": "Maximum spindle speed: 1800 r.p.m (rotations per minute), ensuring high efficiency in turning operations.",
+              "ar": "الحد الأقصى لسرعة المغزل: 1800 دورة/دقيقة، لضمان كفاءة عالية في عمليات الخراطة."
+            },
+            {
+              "en": "Internal diameter of the spindle bore: 105 mm, delivering strong stability and support for large workpieces.",
+              "ar": "القطر الداخلي لتجويف المغزل: 105 مم، لتوفير ثبات ودعم قويين للقطع الكبيرة."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cnc-turning-machine-4",
+      "titleEn": "CNC Turning Machine — Up to 2850 mm / 6,000 kg",
+      "titleAr": "مخرطة CNC — حتى 2850 مم / 6000 كجم",
+      "img": "/images/prj-4.webp",
+      "descEn": "Extra heavy-duty CNC turning machine handling workpieces up to 2850 mm and 6,000 kg.",
+      "descAr": "مخرطة CNC للخدمة الشاقة الفائقة، تتعامل مع قطع حتى 2850 مم و6000 كجم.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum length of the workpiece: Up to 2850 mm, enabling the precise manufacturing of long components.",
+              "ar": "الحد الأقصى لطول القطعة: حتى 2850 مم، مما يتيح التصنيع الدقيق للمكونات الطويلة."
+            },
+            {
+              "en": "Maximum transverse movement of the turning tool: 730 mm, providing a wide processing range in the transverse direction.",
+              "ar": "الحد الأقصى للحركة العرضية لأداة الخراطة: 730 مم، لتوفير نطاق تشغيل واسع في الاتجاه العرضي."
+            },
+            {
+              "en": "Maximum longitudinal movement of the turning tool: 1050 mm, covering diverse requirements for longitudinal machining.",
+              "ar": "الحد الأقصى للحركة الطولية لأداة الخراطة: 1050 مم، لتغطية متطلبات متنوعة للتشغيل الطولي."
+            },
+            {
+              "en": "Maximum weight of the workpiece: Up to 6000 kg, ensuring stable and safe handling of heavy components.",
+              "ar": "الحد الأقصى لوزن القطعة: حتى 6000 كجم، لضمان تعامل آمن وثابت مع المكونات الثقيلة."
+            },
+            {
+              "en": "Maximum spindle speed: 630 r.p.m (rotations per minute), offering an excellent balance between speed and precision.",
+              "ar": "الحد الأقصى لسرعة المغزل: 630 دورة/دقيقة، لتقديم توازن ممتاز بين السرعة والدقة."
+            },
+            {
+              "en": "Internal diameter of the spindle bore: 128 mm, supporting large workpieces and delivering robust stability during operation.",
+              "ar": "القطر الداخلي لتجويف المغزل: 128 مم، لدعم القطع الكبيرة وتوفير ثبات قوي أثناء التشغيل."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cnc-turning-machine-5",
+      "titleEn": "CNC Turning Machine — Compact / 4,000 RPM",
+      "titleAr": "مخرطة CNC — مدمجة / 4000 دورة",
+      "img": "/images/prj-1.webp",
+      "descEn": "Compact, high-speed CNC turning machine reaching 4000 RPM for small to medium components.",
+      "descAr": "مخرطة CNC مدمجة وعالية السرعة تصل إلى 4000 دورة/دقيقة للمكونات الصغيرة إلى المتوسطة.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum length of the workpiece: 550 mm, making it ideal for manufacturing small to medium-sized components.",
+              "ar": "الحد الأقصى لطول القطعة: 550 مم، مما يجعلها مثالية لتصنيع المكونات الصغيرة إلى المتوسطة."
+            },
+            {
+              "en": "Maximum transverse movement of the turning tool (X-axis): 260 mm, ensuring high precision in transverse processing.",
+              "ar": "الحد الأقصى للحركة العرضية لأداة الخراطة (المحور X): 260 مم، لضمان دقة عالية في التشغيل العرضي."
+            },
+            {
+              "en": "Maximum longitudinal movement of the turning tool on the bed (Z-axis): 530 mm, guaranteeing comprehensive longitudinal coverage.",
+              "ar": "الحد الأقصى للحركة الطولية لأداة الخراطة على القاعدة (المحور Z): 530 مم، لضمان تغطية طولية شاملة."
+            },
+            {
+              "en": "Maximum weight of the workpiece: Up to 200 kg, suitable for machining medium-weight components.",
+              "ar": "الحد الأقصى لوزن القطعة: حتى 200 كجم، مناسبة لتشغيل المكونات متوسطة الوزن."
+            },
+            {
+              "en": "Maximum spindle speed: 4000 r.p.m (rotations per minute), enabling high-speed operation to enhance production efficiency.",
+              "ar": "الحد الأقصى لسرعة المغزل: 4000 دورة/دقيقة، لتمكين التشغيل عالي السرعة وتعزيز كفاءة الإنتاج."
+            },
+            {
+              "en": "Internal diameter of the spindle bore: 45 mm, providing good stability for small workpieces.",
+              "ar": "القطر الداخلي لتجويف المغزل: 45 مم، لتوفير ثبات جيد للقطع الصغيرة."
+            },
+            {
+              "en": "Chuck size: 210 mm, ensuring precise control and flexibility in securing components.",
+              "ar": "حجم الظرف: 210 مم، لضمان تحكم دقيق ومرونة في تثبيت المكونات."
+            },
+            {
+              "en": "Control system: Siemens 840 DSL, delivering reliable and user-friendly operation.",
+              "ar": "نظام التحكم: Siemens 840 DSL، لتقديم تشغيل موثوق وسهل الاستخدام."
+            },
+            {
+              "en": "Number of axes: Two axes (X and Z), meeting fundamental machining requirements with high accuracy.",
+              "ar": "عدد المحاور: محوران (X وZ)، لتلبية المتطلبات الأساسية للتشغيل بدقة عالية."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "horizontal-lathe-machine",
+      "titleEn": "Horizontal Lathe Machine — Up to 9000 mm / 26 Tons",
+      "titleAr": "مخرطة أفقية — حتى 9000 مم / 26 طناً",
+      "img": "/images/prj-2.webp",
+      "descEn": "Large-scale horizontal lathe for exceptionally long, heavy components — up to 9000 mm and 26 tons.",
+      "descAr": "مخرطة أفقية كبيرة الحجم للمكونات الطويلة والثقيلة للغاية — حتى 9000 مم و26 طناً.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum length of the workpiece: Up to 9000 mm, meeting the requirements for machining long components efficiently and precisely.",
+              "ar": "الحد الأقصى لطول القطعة: حتى 9000 مم، لتلبية متطلبات تشغيل المكونات الطويلة بكفاءة ودقة."
+            },
+            {
+              "en": "Maximum transverse movement of the turning tool: 1700 mm, offering optimal flexibility in transverse processing.",
+              "ar": "الحد الأقصى للحركة العرضية لأداة الخراطة: 1700 مم، لتوفير مرونة مثالية في التشغيل العرضي."
+            },
+            {
+              "en": "Maximum longitudinal movement of the turning tool on the bed: 2000 mm, ensuring full and accurate coverage for longitudinal machining.",
+              "ar": "الحد الأقصى للحركة الطولية لأداة الخراطة على القاعدة: 2000 مم، لضمان تغطية كاملة ودقيقة للتشغيل الطولي."
+            },
+            {
+              "en": "Maximum weight of the workpiece: Up to 26 tons, making it ideal for machining heavy components with efficiency and stability.",
+              "ar": "الحد الأقصى لوزن القطعة: حتى 26 طناً، مما يجعلها مثالية لتشغيل المكونات الثقيلة بكفاءة وثبات."
+            },
+            {
+              "en": "Maximum spindle speed: 4000 r.p.m (rotations per minute), enhancing productivity while maintaining precision.",
+              "ar": "الحد الأقصى لسرعة المغزل: 4000 دورة/دقيقة، لتعزيز الإنتاجية مع الحفاظ على الدقة."
+            },
+            {
+              "en": "Internal diameter of the spindle bore: 105 mm, providing robust support for large workpieces.",
+              "ar": "القطر الداخلي لتجويف المغزل: 105 مم، لتوفير دعم قوي للقطع الكبيرة."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spinning-cnc-machine",
+      "titleEn": "Spinning CNC Machine — Up to Ø700 mm",
+      "titleAr": "ماكينة سبينينج CNC — حتى قطر 700 مم",
+      "img": "/images/prj-3.webp",
+      "descEn": "CNC spinning machine for shaping aluminum, iron, and stainless steel sheet up to Ø700 mm.",
+      "descAr": "ماكينة سبينينج CNC لتشكيل صفائح الألومنيوم والحديد والستانلس ستيل حتى قطر 700 مم.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum workpiece diameter: 700 mm, meeting the requirements for large-scale machining.",
+              "ar": "الحد الأقصى لقطر القطعة: 700 مم، لتلبية متطلبات التشغيل واسع النطاق."
+            },
+            {
+              "en": "Maximum workpiece length: 620 mm, offering flexibility and precision for machining medium-sized parts.",
+              "ar": "الحد الأقصى لطول القطعة: 620 مم، لتوفير مرونة ودقة في تشغيل الأجزاء متوسطة الحجم."
+            },
+            {
+              "en": "Maximum thickness for machining — Aluminum: 3 mm, making it ideal for applications requiring lightweight materials.",
+              "ar": "الحد الأقصى لسمك التشغيل — ألومنيوم: 3 مم، مما يجعلها مثالية للتطبيقات التي تتطلب مواد خفيفة الوزن."
+            },
+            {
+              "en": "Maximum thickness for machining — Iron: 2.5 mm, ensuring excellent machining capability for solid materials.",
+              "ar": "الحد الأقصى لسمك التشغيل — حديد: 2.5 مم، لضمان قدرة تشغيل ممتازة للمواد الصلبة."
+            },
+            {
+              "en": "Maximum thickness for machining — Stainless Steel: 1.5 mm, meeting the precise machining requirements for rust-resistant materials.",
+              "ar": "الحد الأقصى لسمك التشغيل — ستانلس ستيل: 1.5 مم، لتلبية متطلبات التشغيل الدقيق للمواد المقاومة للصدأ."
+            },
+            {
+              "en": "Control type: Num, ensuring easy and precise control of operations.",
+              "ar": "نوع التحكم: Num، لضمان تحكم سهل ودقيق في العمليات."
+            },
+            {
+              "en": "Number of axes: 2 axes (X & Z), providing accurate control and flexibility in movement.",
+              "ar": "عدد المحاور: محوران (X وZ)، لتوفير تحكم دقيق ومرونة في الحركة."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "horizontal-lathe-cnc",
+      "titleEn": "Horizontal Lathe CNC — Up to 650 mm",
+      "titleAr": "مخرطة أفقية CNC — حتى 650 مم",
+      "img": "/images/prj-4.webp",
+      "descEn": "Horizontal CNC lathe for precise medium-sized workpieces up to 650 mm.",
+      "descAr": "مخرطة أفقية CNC لتشغيل القطع متوسطة الحجم بدقة حتى 650 مم.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Maximum workpiece length: 650 mm, meeting the requirements for precise machining of medium-sized components.",
+              "ar": "الحد الأقصى لطول القطعة: 650 مم، لتلبية متطلبات التشغيل الدقيق للمكونات متوسطة الحجم."
+            },
+            {
+              "en": "Maximum workpiece weight — On the chuck: 650 kg.",
+              "ar": "الحد الأقصى لوزن القطعة — على الظرف: 650 كجم."
+            },
+            {
+              "en": "Maximum workpiece weight — Between the centers: 300 kg.",
+              "ar": "الحد الأقصى لوزن القطعة — بين المراكز: 300 كجم."
+            },
+            {
+              "en": "Maximum transverse movement of the turning tool: 400 mm, ensuring precision in transverse processing.",
+              "ar": "الحد الأقصى للحركة العرضية لأداة الخراطة: 400 مم، لضمان الدقة في التشغيل العرضي."
+            },
+            {
+              "en": "Maximum longitudinal movement of the turning tool on the bed: 600 mm, providing comprehensive operational coverage.",
+              "ar": "الحد الأقصى للحركة الطولية لأداة الخراطة على القاعدة: 600 مم، لتوفير تغطية تشغيلية شاملة."
+            },
+            {
+              "en": "Maximum spindle speed: 4000 r.p.m (rotations per minute), enhancing production efficiency.",
+              "ar": "الحد الأقصى لسرعة المغزل: 4000 دورة/دقيقة، لتعزيز كفاءة الإنتاج."
+            },
+            {
+              "en": "Internal diameter of the spindle bore: 65 mm, ensuring optimal stability during operation.",
+              "ar": "القطر الداخلي لتجويف المغزل: 65 مم، لضمان ثبات مثالي أثناء التشغيل."
+            },
+            {
+              "en": "Chuck size: 250 mm, offering strong and flexible component clamping.",
+              "ar": "حجم الظرف: 250 مم، لتوفير تثبيت قوي ومرن للمكونات."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cnc-milling-machine-1",
+      "titleEn": "CNC Milling Machine — Heidenhain TNC 426i",
+      "titleAr": "ماكينة تفريز CNC — Heidenhain TNC 426i",
+      "img": "/images/prj-1.webp",
+      "descEn": "4-axis CNC milling machine with Heidenhain TNC 426i control for heavy, high-precision work.",
+      "descAr": "ماكينة تفريز CNC رباعية المحاور بنظام تحكم Heidenhain TNC 426i للأعمال الثقيلة عالية الدقة.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Working area: 500 × 600 × 1000 mm.",
+              "ar": "مساحة العمل: 500 × 600 × 1000 مم."
+            },
+            {
+              "en": "Maximum workpiece weight: 500 kg.",
+              "ar": "الحد الأقصى لوزن القطعة: 500 كجم."
+            },
+            {
+              "en": "Maximum spindle speed: 8000 r.p.m (rotations per minute).",
+              "ar": "الحد الأقصى لسرعة المغزل: 8000 دورة/دقيقة."
+            },
+            {
+              "en": "Additional features: Equipped with an electronic sensor to ensure precision in operations.",
+              "ar": "ميزات إضافية: مزودة بمستشعر إلكتروني لضمان الدقة في العمليات."
+            },
+            {
+              "en": "Control system: Heidenhain TNC 426i.",
+              "ar": "نظام التحكم: Heidenhain TNC 426i."
+            },
+            {
+              "en": "Number of axes: 4 axes (X, Y, Z) + Rotary Index.",
+              "ar": "عدد المحاور: 4 محاور (X، Y، Z) + محور دوار."
+            }
+          ]
+        },
+        {
+          "titleEn": "Applications",
+          "titleAr": "التطبيقات",
+          "items": [
+            {
+              "en": "Designed for precise machining of metals and other materials, with a high capacity to handle heavy workpieces.",
+              "ar": "مصممة للتشغيل الدقيق للمعادن والمواد الأخرى، مع قدرة عالية على التعامل مع القطع الثقيلة."
+            },
+            {
+              "en": "Ideal for industrial applications requiring exceptional accuracy and high-speed operations.",
+              "ar": "مثالية للتطبيقات الصناعية التي تتطلب دقة استثنائية وعمليات عالية السرعة."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cnc-milling-machine-2",
+      "titleEn": "CNC Milling Machine — Heidenhain Control",
+      "titleAr": "ماكينة تفريز CNC — نظام Heidenhain",
+      "img": "/images/prj-2.webp",
+      "descEn": "4-axis CNC milling machine with Heidenhain control for medium to heavy-duty projects.",
+      "descAr": "ماكينة تفريز CNC رباعية المحاور بنظام تحكم Heidenhain للمشاريع متوسطة إلى شديدة الحمولة.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Working area: 500 × 600 × 1000 mm.",
+              "ar": "مساحة العمل: 500 × 600 × 1000 مم."
+            },
+            {
+              "en": "Maximum workpiece weight: 500 kg.",
+              "ar": "الحد الأقصى لوزن القطعة: 500 كجم."
+            },
+            {
+              "en": "Maximum spindle speed: 8000 r.p.m (rotations per minute).",
+              "ar": "الحد الأقصى لسرعة المغزل: 8000 دورة/دقيقة."
+            },
+            {
+              "en": "Additional features: Equipped with an electronic sensor ensuring operational precision and reliability.",
+              "ar": "ميزات إضافية: مزودة بمستشعر إلكتروني يضمن الدقة والموثوقية التشغيلية."
+            },
+            {
+              "en": "Control system: Heidenhain.",
+              "ar": "نظام التحكم: Heidenhain."
+            },
+            {
+              "en": "Number of axes: 4 axes (X, Y, Z) + Rotary Index.",
+              "ar": "عدد المحاور: 4 محاور (X، Y، Z) + محور دوار."
+            }
+          ]
+        },
+        {
+          "titleEn": "Applications",
+          "titleAr": "التطبيقات",
+          "items": [
+            {
+              "en": "This machine is utilized in various industrial sectors requiring precise operations and high spindle speeds.",
+              "ar": "تُستخدم هذه الماكينة في مختلف القطاعات الصناعية التي تتطلب عمليات دقيقة وسرعات مغزل عالية."
+            },
+            {
+              "en": "Suitable for shaping metals and other materials in medium to heavy-duty projects.",
+              "ar": "مناسبة لتشكيل المعادن والمواد الأخرى في المشاريع متوسطة إلى شديدة الحمولة."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cnc-versatile-machine",
+      "titleEn": "CNC Versatile Machine — Heidenhain TNC 530i",
+      "titleAr": "ماكينة CNC متعددة الاستخدامات — Heidenhain TNC 530i",
+      "img": "/images/prj-3.webp",
+      "descEn": "Versatile 4-axis CNC machine with automatic tool changer, built for complex, large-scale manufacturing.",
+      "descAr": "ماكينة CNC متعددة الاستخدامات رباعية المحاور مزودة بمغيّر أدوات أوتوماتيكي، مصممة للتصنيع المعقد وواسع النطاق.",
+      "specGroups": [
+        {
+          "titleEn": "Technical Specifications",
+          "titleAr": "المواصفات الفنية",
+          "items": [
+            {
+              "en": "Machine bed dimensions: 1800 × 2500 mm.",
+              "ar": "أبعاد قاعدة الماكينة: 1800 × 2500 مم."
+            },
+            {
+              "en": "Maximum axis movements — X-axis: 3500 mm.",
+              "ar": "الحد الأقصى لحركة المحاور — المحور X: 3500 مم."
+            },
+            {
+              "en": "Maximum axis movements — Y-axis: 2500 mm.",
+              "ar": "الحد الأقصى لحركة المحاور — المحور Y: 2500 مم."
+            },
+            {
+              "en": "Maximum axis movements — Z-axis: 1250 mm.",
+              "ar": "الحد الأقصى لحركة المحاور — المحور Z: 1250 مم."
+            },
+            {
+              "en": "Maximum workpiece weight: 5 tons.",
+              "ar": "الحد الأقصى لوزن القطعة: 5 أطنان."
+            },
+            {
+              "en": "Spindle bore diameter: 130 mm.",
+              "ar": "قطر تجويف المغزل: 130 مم."
+            },
+            {
+              "en": "Number of axes: 4 axes (X, Y, Z) + B (rotary table).",
+              "ar": "عدد المحاور: 4 محاور (X، Y، Z) + محور دوار B."
+            },
+            {
+              "en": "Additional features: Tool tilting and extension capabilities for high flexibility during operations.",
+              "ar": "ميزات إضافية: إمكانيات إمالة وتمديد الأداة لمرونة عالية أثناء التشغيل."
+            },
+            {
+              "en": "Additional features: Automatic tool changer, improving efficiency and saving time.",
+              "ar": "ميزات إضافية: مغيّر أدوات أوتوماتيكي، لتحسين الكفاءة وتوفير الوقت."
+            },
+            {
+              "en": "Control system: Heidenhain TNC 530i.",
+              "ar": "نظام التحكم: Heidenhain TNC 530i."
+            }
+          ]
+        },
+        {
+          "titleEn": "Functions and Applications",
+          "titleAr": "الوظائف والتطبيقات",
+          "items": [
+            {
+              "en": "Complex manufacturing tasks: Designed for heavy metal shaping and precise machining of large components.",
+              "ar": "مهام تصنيع معقدة: مصممة لتشكيل المعادن الثقيلة والتشغيل الدقيق للمكونات الكبيرة."
+            },
+            {
+              "en": "Multi-functionality: The four-axis configuration (including the rotary table) enables working on complex angles while ensuring high-quality results and optimal accuracy.",
+              "ar": "تعدد الوظائف: يتيح تكوين الأربعة محاور (بما في ذلك المنضدة الدوارة) العمل على زوايا معقدة مع ضمان نتائج عالية الجودة ودقة مثالية."
+            },
+            {
+              "en": "Adaptability: Ideal for sectors such as iron mold manufacturing, aerospace industries, and heavy machinery production.",
+              "ar": "قابلية التكيف: مثالية لقطاعات مثل تصنيع القوالب الحديدية، والصناعات الجوية، وإنتاج الآلات الثقيلة."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
