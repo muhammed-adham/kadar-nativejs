@@ -2943,14 +2943,16 @@ function loadMachineryPage() {
       (p) => `
       <div class="col-md-6 col-lg-4">
         <div class="machinery-card h-100">
-          <div class="machinery-card-img">
-            <img src="${p.img}" class="img-fluid w-100 h-100" alt="${getLabel(p.titleEn, p.titleAr)}" loading="lazy">
+          <div class="machinery-card-img p-4">
+            <img src="${p.img}" class="img-fluid w-100 h-100 " alt="${getLabel(p.titleEn, p.titleAr)}" loading="lazy">
           </div>
-          <div class="bg-secondary rounded-bottom p-4 h-100 d-flex flex-column">
+          <div class=" rounded-bottom p-4 h-100 d-flex flex-column justify-content-between">
+          <div class=""machinery-card-content">
             <h4 class="text-white">${getLabel(p.titleEn, p.titleAr)}</h4>
-            <p class="text-white-50 flex-grow-1">${getLabel(p.descEn, p.descAr)}</p>
-            <button type="button" class="btn btn-secondary rounded-pill text-white p-0 align-self-start" data-machine-id="${p.id}">
-              ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-${getDirectionClass("right", "left")} px-1"></i>
+            <p class="text-white-50 small">${getLabel(p.descEn, p.descAr)}</p>
+          </div>
+            <button type="button" class="btn btn-link  text-white ps-0 align-self-start" data-machine-id="${p.id}">
+              ${getLabel("Read More", "اقرأ المزيد")}
             </button>
           </div>
         </div>

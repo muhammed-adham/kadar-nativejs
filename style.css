@@ -2194,12 +2194,31 @@ html[dir="rtl"] .nav-btn-custom {
 .machinery-card {
   display: flex;
   flex-direction: column;
+  height: 32rem !important;
+  background: var(--secondary);
+  cursor: default;
+  transition: all ease .2s;
+}
+
+.machinery-card:hover{
+  scale: .985;
+  background: #151520;
+}
+
+.machinery-card:hover .machinery-card-img{
+  height: 16rem;
+}
+
+.machinery-card:hover button{
+  color: var(--primary) !important;
 }
 
 .machinery-card-img {
-  height: 18rem;
+  height: 40rem;
   overflow: hidden;
   border-radius: 0.25rem 0.25rem 0 0;
+  position: relative;
+  transition: all ease .3s;
 }
 
 .machinery-card-img img {
