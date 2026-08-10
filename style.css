@@ -392,8 +392,14 @@ a {
   bottom: 1rem !important;
 }
 
+.swiper-pagination-bullet {
+  transition: ease all .3s;
+}
+
 .swiper-pagination-bullet-active {
+  --swiper-pagination-bullet-border-radius: .4rem;
   background: var(--primary) !important;
+  --swiper-pagination-bullet-width: 1.6rem;
 }
 
 html[dir="rtl"] .swiper-button-next,
@@ -1084,6 +1090,15 @@ p {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
+.nav-btn-custom:disabled{
+  opacity: 0.5;
+  cursor: default;
+  background: #e5e7eb;
+  color: #9ca3af;
+  box-shadow: none;
+  border: none;
+}
+
 html[dir="rtl"] .nav-btn-custom {
   transform: scaleX(-1);
 }
@@ -1537,18 +1552,33 @@ html[dir="rtl"] .nav-btn-custom {
 /* ============================================================
    MODAL STYLES
    ============================================================ */
+.modal{
+  background: rgba(0, 0, 0, .5);
+  backdrop-filter: blur(3px);
+}
+
 .modal-content {
   background-color: var(--white);
   color: var(--text-primary);
 }
 
 .modal-header {
+  border-radius: 0;
   border-bottom: 1px solid var(--border-color);
-  background-color: var(--light);
+  background-color: var(--secondary);
+}
+
+.modal-header .btn-close{
+  filter: invert(1);
+}
+
+.modal-title{
+  color: var(--white);
 }
 
 .modal-body {
   padding: 30px;
+  background: var(--light);
 }
 
 .modal-footer {
@@ -2146,6 +2176,8 @@ html[dir="rtl"] .nav-btn-custom {
 .news-card {
   border: 1px solid var(--border-color);
   transition: var(--transition);
+  position: relative;
+  height: 40rem !important;
 }
 
 .news-card:hover {
@@ -2154,7 +2186,7 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 .news-card-img {
-  height: 200px;
+  height: 80%;
   overflow: hidden;
 }
 
@@ -2162,6 +2194,14 @@ html[dir="rtl"] .nav-btn-custom {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.news-card-content{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: var(--secondary);
+  border-radius: 0 4rem 0 0;
 }
 
 .news-card-excerpt {
@@ -2196,12 +2236,14 @@ html[dir="rtl"] .nav-btn-custom {
   flex-direction: column;
   height: 32rem !important;
   background: var(--secondary);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
   cursor: default;
   transition: all ease .2s;
 }
 
 .machinery-card:hover{
   scale: .985;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0);
   background: #151520;
 }
 
@@ -2242,7 +2284,7 @@ html[dir="rtl"] .nav-btn-custom {
   display: flex;
   justify-content: center;
   gap: 0.35rem;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 .machine-detail-heading,
@@ -2261,13 +2303,12 @@ html[dir="rtl"] .nav-btn-custom {
   width: 100%;
   height: 320px;
   object-fit: cover;
-  border-radius: 0.4rem;
+  border-radius: 0.1rem;
 }
 
 .machine-detail-nav-bottom {
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
 }
 
 .machine-detail-specs-wrap {

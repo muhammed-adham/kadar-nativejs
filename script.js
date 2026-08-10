@@ -2941,7 +2941,7 @@ function loadMachineryPage() {
   const cardsHtml = machineryData
     .map(
       (p) => `
-      <div class="col-md-6 col-lg-4">
+      <div class="col-md-6 col-lg-4 pb-4">
         <div class="machinery-card h-100">
           <div class="machinery-card-img p-4">
             <img src="${p.img}" class="img-fluid w-100 h-100 " alt="${getLabel(p.titleEn, p.titleAr)}" loading="lazy">
@@ -3005,7 +3005,7 @@ function machineSpecGroupHtml(group) {
         ${group.items
           .map(
             (item) => `
-          <li><i class="fas fa-check-circle text-primary ${getDirectionClass("me-2", "ms-2")}"></i>${getLabel(item.en, item.ar)}</li>
+          <li class="d-flex align-items-baseline"><i class="fas fa-check-circle text-secondary ${getDirectionClass("me-2", "ms-2")}"></i>${getLabel(item.en, item.ar)}</li>
         `,
           )
           .join("")}
@@ -3034,16 +3034,19 @@ function updateMachineDetailContent(index) {
   const m = machineryData[index];
   if (!m) return;
 
-  animateMachineDetailSwap(document.getElementById("machineDetailHeading"), () => {
-    document.getElementById("machineDetailTitle").textContent = getLabel(
-      m.titleEn,
-      m.titleAr,
-    );
-    document.getElementById("machineDetailSubtitle").textContent = getLabel(
-      m.descEn,
-      m.descAr,
-    );
-  });
+  animateMachineDetailSwap(
+    document.getElementById("machineDetailHeading"),
+    () => {
+      document.getElementById("machineDetailTitle").textContent = getLabel(
+        m.titleEn,
+        m.titleAr,
+      );
+      document.getElementById("machineDetailSubtitle").textContent = getLabel(
+        m.descEn,
+        m.descAr,
+      );
+    },
+  );
 
   animateMachineDetailSwap(
     document.getElementById("machineDetailSpecsWrap"),
@@ -3075,9 +3078,8 @@ function openMachineDetailOverlay(machineId) {
   document.getElementById("modalBody").innerHTML = `
     <div class="machine-detail-wrap">
       <div class="machine-detail-pagination-top"></div>
-
-      <div class="row g-4">
-        <div class="col-lg-5">
+      <div class="row g-4 py-3 bg-white shadow-sm">
+        <div class="col-lg-5 h-100">
           <div class="machine-detail-heading" id="machineDetailHeading">
             <h4 class="fw-bold mb-1" id="machineDetailTitle">${getLabel(startMachine.titleEn, startMachine.titleAr)}</h4>
             <p class="text-muted small mb-0" id="machineDetailSubtitle">${getLabel(startMachine.descEn, startMachine.descAr)}</p>
@@ -3103,8 +3105,8 @@ function openMachineDetailOverlay(machineId) {
             ${machineDetailSpecsHtml(startMachine)}
           </div>
           <div class="text-end mt-4">
-            <button type="button" class="btn btn-primary" onclick="setCurrentPage('contact')" data-bs-dismiss="modal">
-              ${getLabel("Request a Quote", "اطلب عرض سعر")}
+            <button type="button" class="btn btn-secondary" onclick="setCurrentPage('contact')" data-bs-dismiss="modal">
+              ${getLabel("Contact Us", "تواصل معنا")}
             </button>
           </div>
         </div>
@@ -3136,27 +3138,34 @@ function openMachineDetailOverlay(machineId) {
         window.machineDetailSwiperInstance.destroy(true, true);
       }
 
-      window.machineDetailSwiperInstance = new Swiper(".machineDetailMainSwiper", {
-        initialSlide: startIndex,
-        slidesPerView: 1,
-        spaceBetween: 0,
-        rtl: document.documentElement.dir === "rtl",
-        keyboard: { enabled: true },
-        a11y: { enabled: true },
-        pagination: {
-          el: ".machine-detail-pagination-top",
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".machineDetailNext",
-          prevEl: ".machineDetailPrev",
-        },
-        on: {
-          slideChange(swiper) {
-            updateMachineDetailContent(swiper.activeIndex);
+      window.machineDetailSwiperInstance = new Swiper(
+        ".machineDetailMainSwiper",
+        {
+          initialSlide: startIndex,
+          slidesPerView: 1,
+          spaceBetween: 0,
+          effect: "fade",
+          fadeEffect: {
+            crossFade: true,
+          },
+          rtl: document.documentElement.dir === "rtl",
+          keyboard: { enabled: true },
+          a11y: { enabled: true },
+          pagination: {
+            el: ".machine-detail-pagination-top",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".machineDetailNext",
+            prevEl: ".machineDetailPrev",
+          },
+          on: {
+            slideChange(swiper) {
+              updateMachineDetailContent(swiper.activeIndex);
+            },
           },
         },
-      });
+      );
     },
     { once: true },
   );
@@ -3319,7 +3328,11 @@ function renderMilitaryProductsList() {
 function renderMilitaryProductCard(p) {
   const stockBadge =
     p.stockQty === 0
-      ? { cls: "bg-warning text-dark", en: "AVAILABLE ON REQUEST", ar: "متوفر عند الطلب" }
+      ? {
+          cls: "bg-warning text-dark",
+          en: "AVAILABLE ON REQUEST",
+          ar: "متوفر عند الطلب",
+        }
       : p.stockQty <= 3
         ? {
             cls: "bg-warning text-dark",
@@ -3392,10 +3405,10 @@ function renderMilitaryProductCard(p) {
                 : ""
             }
                         ${
-              p.weight
-                ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small fw-bold">${getLabel("Weight", "الوزن")}:</span> <span class="small text-muted">${p.weight} ${getLabel("kg", "كجم")}</span></div>`
-                : ""
-            }
+                          p.weight
+                            ? `<div class="mb-2 d-flex align-items-center gap-2"><span class="small fw-bold">${getLabel("Weight", "الوزن")}:</span> <span class="small text-muted">${p.weight} ${getLabel("kg", "كجم")}</span></div>`
+                            : ""
+                        }
             ${specHighlightsHtml ? `<div class="d-flex align-items-start gap-4 pt-2 border-top"><span class="small fw-bold">${getLabel("Details", "التفالصيل")}: </span> <ul class="list-unstyled small text-muted mb-0 ">${specHighlightsHtml}</ul></div>` : ""}
         </div>
 
@@ -3452,6 +3465,29 @@ const NEWS_PAGE_SIZE = 6;
 let displayedNewsCount = NEWS_PAGE_SIZE;
 let newsPageEventsBound = false;
 
+// Rolling windows (days back from now), not calendar boundaries — avoids
+// locale-dependent "start of week/month" edge cases.
+const NEWS_TIME_RANGE_DAYS = { all: null, week: 7, month: 30, year: 365, lastYear:630};
+let newsTimeFilter = "all";
+let newsSortOrder = "newest"; // "newest" | "oldest"
+
+function applyNewsFilters(items) {
+  const days = NEWS_TIME_RANGE_DAYS[newsTimeFilter];
+  const filtered =
+    days == null
+      ? items
+      : items.filter(
+          (n) =>
+            new Date(n.dateRaw).getTime() >=
+            Date.now() - days * 24 * 60 * 60 * 1000,
+        );
+
+  return [...filtered].sort((a, b) => {
+    const diff = new Date(a.dateRaw) - new Date(b.dateRaw);
+    return newsSortOrder === "newest" ? -diff : diff;
+  });
+}
+
 function loadNewsPage() {
   const container = document.getElementById("newsPageContent");
   if (!container) return;
@@ -3467,22 +3503,73 @@ function loadNewsPage() {
           <h1 class="display-5 mb-3">${getLabel("Stay Informed on the Latest Updates", "ابق على اطلاع بأحدث المستجدات")}</h1>
           <p class="text-muted mb-0">${getLabel("The latest announcements, milestones, and updates from Kader Factory.", "أحدث الإعلانات والإنجازات والمستجدات من مصنع قادر.")}</p>
         </div>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4" id="newsFilterBar"></div>
         <div class="row g-4" id="newsGridContainer"></div>
       </div>
     </div>
   `;
 
+  renderNewsFilterBar();
   renderNewsGrid();
   bindNewsPageEvents();
+}
+
+function renderNewsFilterBar() {
+  const bar = document.getElementById("newsFilterBar");
+  if (!bar) return;
+
+  const timeOptions = [
+    { key: "all", en: "All", ar: "الكل" },
+    { key: "week", en: "This Week", ar: "هذا الأسبوع" },
+    { key: "month", en: "This Month", ar: "هذا الشهر" },
+    { key: "year", en: "This Year", ar: "هذا العام" },
+    { key: "lastYear", en: "Last Year", ar: "العام الماضي" },
+  ];
+
+  bar.innerHTML = `
+    <div class="d-flex flex-wrap gap-2">
+      ${timeOptions
+        .map(
+          (o) => `
+        <button type="button" class="filter-chip ${newsTimeFilter === o.key ? "active" : ""}" data-news-time="${o.key}">
+          ${getLabel(o.en, o.ar)}
+        </button>
+      `,
+        )
+        .join("")}
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <label for="newsSortSelect" class="small fw-semibold text-muted mb-0">${getLabel("Sort by", "ترتيب حسب")}</label>
+      <select id="newsSortSelect" class="form-select form-select-sm" style="width:auto;">
+        <option value="newest" ${newsSortOrder === "newest" ? "selected" : ""}>${getLabel("Newest First", "الأحدث أولاً")}</option>
+        <option value="oldest" ${newsSortOrder === "oldest" ? "selected" : ""}>${getLabel("Oldest First", "الأقدم أولاً")}</option>
+      </select>
+    </div>
+  `;
 }
 
 function renderNewsGrid() {
   const grid = document.getElementById("newsGridContainer");
   if (!grid) return;
 
-  const sorted = [...newsItems].sort(
-    (a, b) => new Date(b.dateRaw) - new Date(a.dateRaw),
-  );
+  const sorted = applyNewsFilters(newsItems);
+
+  if (sorted.length === 0) {
+    grid.innerHTML = `
+      <div class="col-12">
+        <div class="empty-state text-center py-5">
+          <i class="far fa-newspaper" style="font-size:2.5rem;color:#ced4da;"></i>
+          <h5 class="mt-3">${getLabel("No news in this range", "لا توجد أخبار في هذه الفترة")}</h5>
+          <p class="mb-3">${getLabel("Try a different time range.", "جرّب فترة زمنية مختلفة.")}</p>
+          <button type="button" class="btn btn-outline-primary btn-sm" id="clearNewsFilterBtn">
+            ${getLabel("Clear Filter", "مسح الفلتر")}
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   const visible = sorted.slice(0, displayedNewsCount);
   const hasMore = displayedNewsCount < sorted.length;
 
@@ -3494,13 +3581,18 @@ function renderNewsGrid() {
           <div class="news-card-img">
             <img src="${item.img}" class="img-fluid w-100 h-100" alt="${getLabel(item.titleEn, item.titleAr)}" loading="lazy">
           </div>
-          <div class="p-4">
-            <span class="text-muted small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
-            <h5 class="fw-bold mt-2 mb-2">${getLabel(item.titleEn, item.titleAr)}</h5>
-            <p class="text-muted small mb-3 news-card-excerpt">${getLabel(item.excerptEn, item.excerptAr)}</p>
-            <a href="#" class="btn btn-link small ps-0" data-news-id="${item.id}">
-              ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-${getDirectionClass("right", "left")}"></i>
-            </a>
+          <div class="p-4 news-card-content">
+          <div class="col-md-6 col-lg-6">
+            <i class="fa-solid fa-quote-left"></i>
+          </div>
+          <div class="col-md-6 col-lg-6">
+              <span class="text-white-50 small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
+              <h5 class="fw-bold text-white mt-2 mb-2">${getLabel(item.titleEn, item.titleAr)}</h5>
+              <p class="text-white-50 small mb-3 news-card-excerpt">${getLabel(item.excerptEn, item.excerptAr)}</p>
+              <a href="#" class="btn btn-link small ps-0" data-news-id="${item.id}">
+                ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-${getDirectionClass("right", "left")}"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -3532,6 +3624,23 @@ function bindNewsPageEvents() {
       return;
     }
 
+    const timeChip = e.target.closest("[data-news-time]");
+    if (timeChip) {
+      newsTimeFilter = timeChip.dataset.newsTime;
+      displayedNewsCount = NEWS_PAGE_SIZE;
+      renderNewsFilterBar();
+      renderNewsGrid();
+      return;
+    }
+
+    if (e.target.closest("#clearNewsFilterBtn")) {
+      newsTimeFilter = "all";
+      displayedNewsCount = NEWS_PAGE_SIZE;
+      renderNewsFilterBar();
+      renderNewsGrid();
+      return;
+    }
+
     const readMoreLink = e.target.closest("[data-news-id]");
     if (readMoreLink) {
       e.preventDefault();
@@ -3548,6 +3657,13 @@ function bindNewsPageEvents() {
         <p>${getLabel(item.excerptEn, item.excerptAr)}</p>
       `;
       new bootstrap.Modal(document.getElementById("overlayModal")).show();
+    }
+  });
+
+  document.addEventListener("change", (e) => {
+    if (e.target.matches("#newsSortSelect")) {
+      newsSortOrder = e.target.value;
+      renderNewsGrid();
     }
   });
 }
@@ -4693,7 +4809,7 @@ function loadSingleProductPage(productId) {
                         <h5 class="sub-title p-0 pt-3">${getLabel("Details", "مواصفات المنتج")}</h5>
                         ${
                           product.weight
-                            ?`<div class="spec-group-item border-bottom border-black-25">
+                            ? `<div class="spec-group-item border-bottom border-black-25">
                               <button class="spec-group-toggle d-flex align-items-center justify-content-between w-100 bg-transparent border-0 py-3" type="button" data-bs-toggle="collapse" data-bs-target="#specWeight">
                                 <h6 class="fw-bold mb-0">${getLabel("Weight", "الوزن")}</h6>
                                 <i class="fas fa-chevron-down spec-chevron"></i>
@@ -4705,7 +4821,7 @@ function loadSingleProductPage(productId) {
                                 </ul>
                               </div>
                             </div>`
-                          : ""
+                            : ""
                         }
                         <div class="spec-groups-wrapper">
                             ${specGroupsHtml}
@@ -8579,7 +8695,7 @@ async function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("machinery");
+  setCurrentPage("news");
 }
 
 /**
