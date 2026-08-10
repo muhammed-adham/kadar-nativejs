@@ -752,7 +752,7 @@ p {
 }
 
 .category-card {
-  border-radius: 0.2rem;
+  border-radius: 0.1rem;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease all;
@@ -763,7 +763,7 @@ p {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  outline: 0px solid var(--primary);
+  outline: .15rem solid transparent;
 }
 
 .category-card::after {
@@ -785,7 +785,7 @@ p {
 
 .category-card:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
-  outline: 1.5px solid var(--secondary);
+  outline: .15rem solid var(--primary);
 }
 
 .category-card-img {
@@ -866,7 +866,8 @@ p {
 
 .category-card-link:hover .category-card-name {
   text-shadow: none;
-  background-color: var(--secondary);
+  background: #151520;
+  background-color: var(--primary);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
   padding: 0.4rem;
   border-radius: 0.2rem;
@@ -1454,7 +1455,7 @@ html[dir="rtl"] .nav-btn-custom {
   transition: all 0.2s ease;
   height: 32rem !important;
   background-color: var(--white);
-  outline: 1.5px solid transparent !important;
+  outline: .15rem solid transparent !important;
   cursor: pointer;
   overflow: hidden;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
@@ -1463,7 +1464,7 @@ html[dir="rtl"] .nav-btn-custom {
 .product-card:hover {
   transform: translateY(0px) !important;
   box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0) !important;
-  outline: 1.5px solid var(--primary) !important;
+  outline: .15rem solid var(--primary) !important;
   scale: .995;
 }
 
@@ -2174,20 +2175,25 @@ html[dir="rtl"] .nav-btn-custom {
 
 /* ---------- News page ---------- */
 .news-card {
-  border: 1px solid var(--border-color);
-  transition: var(--transition);
+  transition: all ease .3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
   position: relative;
   height: 40rem !important;
 }
 
 .news-card:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.0);
   transform: translateY(-2px);
 }
 
 .news-card-img {
   height: 80%;
   overflow: hidden;
+  transition: all ease .3s;
+}
+
+.news-card:hover .news-card-img{
+  height: 70%;
 }
 
 .news-card-img img {
@@ -2200,15 +2206,63 @@ html[dir="rtl"] .nav-btn-custom {
   position: absolute;
   bottom: 0;
   left: 0;
+  height: 13rem;
+  overflow: hidden;
   background: var(--secondary);
-  border-radius: 0 4rem 0 0;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 40px) 0,
+    100% 40px,
+    100% 100%,
+    0 100%
+  );
+  display: flex;
+  gap: 1.2rem;
+  box-shadow: -8px 0 40px 4px rgba(0, 0, 0, 1);
+  transition: all 0.3s ease;
+}
+
+.news-card:hover .news-card-content{
+  height: 24rem;
+  background: #151520;
+}
+
+.news-card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.news-card-title{
+  font-size: 1rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.0);
+}
+
+.news-card:hover .news-card-title{
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.news-card-readmore {
+  margin-top: auto;
+  padding-left: 4.6rem !important;
+  padding-block: 1.6rem;
+}
+
+.news-card:hover .news-card-readmore{
+  color: var(--primary) !important;
 }
 
 .news-card-excerpt {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  max-height: 0;
+  opacity: 0;
   overflow: hidden;
+  transition: all .2s ease;
+}
+
+.news-card:hover .news-card-excerpt {
+  max-height: 15rem;
+  opacity: 1;
 }
 
 /* ---------- Videos page ---------- */
@@ -2253,6 +2307,42 @@ html[dir="rtl"] .nav-btn-custom {
 
 .machinery-card:hover button{
   color: var(--primary) !important;
+}
+
+/* Hidden by default, revealed into the room the shrinking image (above)
+   frees up on hover — a few spec highlights so the extra space is
+   actually used for something, not just empty. */
+.machinery-card-hover-specs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease;
+}
+
+.machinery-card:hover .machinery-card-hover-specs {
+  max-height: 10rem;
+  opacity: 1;
+  margin-top: 0.75rem;
+}
+
+.machinery-card-hover-specs li {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.machinery-card-hover-specs li:last-child {
+  border-bottom: none;
+}
+
+.machinery-card-hover-specs i {
+  color: var(--primary);
 }
 
 .machinery-card-img {
@@ -2986,4 +3076,11 @@ main,
 .row,
 [class*="col-"] {
   overflow: visible !important;
+}
+
+/* The blanket "visible" above beats Bootstrap's own .modal-open rule
+   (theirs isn't !important), which is why the page kept scrolling behind
+   an open modal/overlay — body.modal-open has to win that fight back. */
+body.modal-open {
+  overflow: hidden !important;
 }

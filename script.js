@@ -202,115 +202,23 @@ async function loadMachineryData() {
 }
 
 /* ============================================================
-   NEWS DATA — shared by the homepage News section and the full
-   News page. Sorted newest-first wherever it's rendered.
+   NEWS DATA — loaded from /data/news.json (like productsData/
+   categoriesData/machineryData). Shared by the homepage News
+   section and the full News page, sorted newest-first wherever
+   it's rendered.
    ============================================================ */
-let newsItems = [
-  {
-    id: "news-1",
-    img: "/images/news-1.webp",
-    dateRaw: "2026-07-12",
-    dateEn: "July 12, 2026",
-    dateAr: "12 يوليو 2026",
-    titleEn: "Latest News",
-    titleAr: "أحدث خبر",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr: "نص تجريبي عربي يوضح تفاصيل الخبر الأول مع شرح موجز عن الموضوع.",
-  },
-  {
-    id: "news-2",
-    img: "/images/news-2.webp",
-    dateRaw: "2026-07-08",
-    dateEn: "July 8, 2026",
-    dateAr: "8 يوليو 2026",
-    titleEn: "Company Update",
-    titleAr: "تحديث الشركة",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر الثاني مع شرح موجز عن الموضوع.",
-  },
-  {
-    id: "news-3",
-    img: "/images/news-3.webp",
-    dateRaw: "2026-07-02",
-    dateEn: "July 2, 2026",
-    dateAr: "2 يوليو 2026",
-    titleEn: "New Partnership",
-    titleAr: "شراكة جديدة",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر الثالث مع شرح موجز عن الموضوع.",
-  },
-  {
-    id: "news-4",
-    img: "/images/news-4.webp",
-    dateRaw: "2026-06-25",
-    dateEn: "June 25, 2026",
-    dateAr: "25 يونيو 2026",
-    titleEn: "Facility Expansion",
-    titleAr: "توسعة المنشأة",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر الرابع مع شرح موجز عن الموضوع.",
-  },
-  {
-    id: "news-5",
-    img: "/images/news-5.webp",
-    dateRaw: "2026-06-18",
-    dateEn: "June 18, 2026",
-    dateAr: "18 يونيو 2026",
-    titleEn: "New Product Line Launch",
-    titleAr: "إطلاق خط إنتاج جديد",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر الخامس مع شرح موجز عن الموضوع.",
-  },
-  {
-    id: "news-6",
-    img: "/images/news-6.webp",
-    dateRaw: "2026-06-10",
-    dateEn: "June 10, 2026",
-    dateAr: "10 يونيو 2026",
-    titleEn: "Safety Certification Achieved",
-    titleAr: "الحصول على شهادة السلامة",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر السادس مع شرح موجز عن الموضوع.",
-  },
-  {
-    id: "news-7",
-    img: "/images/news-7.webp",
-    dateRaw: "2026-05-30",
-    dateEn: "May 30, 2026",
-    dateAr: "30 مايو 2026",
-    titleEn: "Regional Expo Participation",
-    titleAr: "المشاركة في المعرض الإقليمي",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر السابع مع شرح موجز عن الموضوع.",
-  },
-  {
-    id: "news-8",
-    img: "/images/news-8.webp",
-    dateRaw: "2026-05-20",
-    dateEn: "May 20, 2026",
-    dateAr: "20 مايو 2026",
-    titleEn: "Sustainability Initiative",
-    titleAr: "مبادرة الاستدامة",
-    excerptEn:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    excerptAr:
-      "نص تجريبي عربي يوضح تفاصيل الخبر الثامن مع شرح موجز عن الموضوع.",
-  },
-  // ...add as many news items as you need
-];
+let newsItems = [];
+
+async function loadNewsData() {
+  try {
+    const response = await fetch("/data/news.json");
+    const data = await response.json();
+    newsItems = data.news;
+  } catch (e) {
+    console.error("Failed to load news.json", e);
+    newsItems = [];
+  }
+}
 
 /* ============================================================
    VIDEO DATA — same placeholder embed reused across entries
@@ -2939,26 +2847,46 @@ function loadMachineryPage() {
   if (!container) return;
 
   const cardsHtml = machineryData
-    .map(
-      (p) => `
+    .map((p) => {
+      // Extra spec bullets revealed on hover, once the shrinking image
+      // (see .machinery-card:hover .machinery-card-img) frees up room —
+      // reuses the same spec data shown in the detail overlay instead of
+      // needing a separate "long description" field.
+      const hoverSpecItems = (p.specGroups?.[0]?.items || []).slice(0, 3);
+      const hoverSpecsHtml = hoverSpecItems.length
+        ? `
+          <ul class="machinery-card-hover-specs">
+            ${hoverSpecItems
+              .map(
+                (item) => `
+              <li><i class="fas fa-check ${getDirectionClass("me-2", "ms-2")}"></i>${getLabel(item.en, item.ar)}</li>
+            `,
+              )
+              .join("")}
+          </ul>
+        `
+        : "";
+
+      return `
       <div class="col-md-6 col-lg-4 pb-4">
         <div class="machinery-card h-100">
           <div class="machinery-card-img p-4">
             <img src="${p.img}" class="img-fluid w-100 h-100 " alt="${getLabel(p.titleEn, p.titleAr)}" loading="lazy">
           </div>
           <div class=" rounded-bottom p-4 h-100 d-flex flex-column justify-content-between">
-          <div class=""machinery-card-content">
+          <div class="machinery-card-content">
             <h4 class="text-white">${getLabel(p.titleEn, p.titleAr)}</h4>
             <p class="text-white-50 small">${getLabel(p.descEn, p.descAr)}</p>
+            ${hoverSpecsHtml}
           </div>
-            <button type="button" class="btn btn-link  text-white ps-0 align-self-start" data-machine-id="${p.id}">
+            <button type="button" class="btn btn-link text-white ps-0 pt-4 align-self-start" data-machine-id="${p.id}">
               ${getLabel("Read More", "اقرأ المزيد")}
             </button>
           </div>
         </div>
       </div>
-    `,
-    )
+    `;
+    })
     .join("");
 
   container.innerHTML = `
@@ -2999,8 +2927,8 @@ function bindMachineryPageEvents() {
 
 function machineSpecGroupHtml(group) {
   return `
-    <div class="machine-detail-spec-group">
-      <h6 class="fw-bold text-primary mb-2">${getLabel(group.titleEn, group.titleAr)}</h6>
+    <div class="machine-detail-spec-group pb-2">
+      <h5 class="sub-title fw-bold fs-6 pb-0">${getLabel(group.titleEn, group.titleAr)}</h5>
       <ul class="machine-detail-spec-list">
         ${group.items
           .map(
@@ -3577,23 +3505,21 @@ function renderNewsGrid() {
     .map(
       (item) => `
       <div class="col-md-6 col-lg-4">
-        <div class="news-card bg-white rounded-3 overflow-hidden h-100 shadow-sm">
+        <div class="news-card bg-white rounded-1 overflow-hidden h-100 d-flex flex-column align-items-start">
           <div class="news-card-img">
             <img src="${item.img}" class="img-fluid w-100 h-100" alt="${getLabel(item.titleEn, item.titleAr)}" loading="lazy">
           </div>
           <div class="p-4 news-card-content">
-          <div class="col-md-6 col-lg-6">
-            <i class="fa-solid fa-quote-left"></i>
-          </div>
-          <div class="col-md-6 col-lg-6">
+            <i class="fa-solid fa-quote-left text-primary border-end border-white border-opacity-25 pe-3"></i>
+            <div class="col-md-10 col-lg-10 news-card-body">
               <span class="text-white-50 small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
-              <h5 class="fw-bold text-white mt-2 mb-2">${getLabel(item.titleEn, item.titleAr)}</h5>
-              <p class="text-white-50 small mb-3 news-card-excerpt">${getLabel(item.excerptEn, item.excerptAr)}</p>
-              <a href="#" class="btn btn-link small ps-0" data-news-id="${item.id}">
-                ${getLabel("Read More", "اقرأ المزيد")} <i class="fas fa-arrow-${getDirectionClass("right", "left")}"></i>
-              </a>
+              <h5 class="fw-bold text-primary my-2 pb-3 news-card-title">${getLabel(item.titleEn, item.titleAr)}</h5>
+              <p class="text-white small mb-3 news-card-excerpt pt-4">${getLabel(item.excerptEn, item.excerptAr)}</p>
             </div>
           </div>
+          <a href="#" class="btn btn-link text-white small ps-0 news-card-readmore" data-news-id="${item.id}">
+            ${getLabel("Read More", "اقرأ المزيد")}
+          </a>
         </div>
       </div>
     `,
@@ -3602,7 +3528,7 @@ function renderNewsGrid() {
 
   const showMoreHtml = hasMore
     ? `
-      <div class="col-12 text-center mt-2">
+      <div class="col-12 text-center pt-3 mb-3">
         <button type="button" class="btn btn-primary px-5 py-2" id="showMoreNewsBtn">
           ${getLabel("Show More", "عرض المزيد")}
         </button>
@@ -8185,7 +8111,7 @@ function initializeHomePageSections() {
         (product) => /*html*/ `
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card product-card h-100 border-0 ">
-                    <div class="product-img-wrap bg-light">
+                    <div class="product-img-wrap bg-light border-bottom">
                         <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
                     </div>
 
@@ -8193,7 +8119,7 @@ function initializeHomePageSections() {
                         <div class="price-section mt-3">
                             ${
                               product.oldPrice
-                                ? `<span class="discount-badge">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
+                                ? `<span class="discount-badge bg-danger">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
                                 : ""
                             }
 
@@ -8209,7 +8135,7 @@ function initializeHomePageSections() {
                             }
                         </div>
                     </div>
-            <span class="badge bg-light text-dark mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
+            <span class="badge bg-primary rounded-0 text-white mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
 
             <h6 class="card-title mb-1">${getLabel(product.title.en, product.title.ar)}</h6>
 
@@ -8655,6 +8581,7 @@ async function initializeApp() {
   await loadProductsData();
   await loadCategoriesData();
   await loadMachineryData();
+  await loadNewsData();
 
   // Layer the localStorage content store on top of the defaults above,
   // so admin-added/edited/deleted content persists across reloads.
@@ -8695,7 +8622,7 @@ async function initializeApp() {
   // Initial Page
   // ============================
 
-  setCurrentPage("news");
+  setCurrentPage("home");
 }
 
 /**
