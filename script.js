@@ -7885,6 +7885,17 @@ function initializeHomePageSections() {
   }
 
   document.addEventListener("click", (e) => {
+    const subLink = e.target.closest("[data-subcategory-id]");
+    if (subLink) {
+      e.preventDefault();
+      e.stopPropagation();
+      goToProductsWithFilter(
+        subLink.dataset.categoryId,
+        subLink.dataset.subcategoryId,
+      );
+      return;
+    }
+
     const catLink = e.target.closest("[data-category-id]");
     if (catLink) {
       e.preventDefault();
@@ -7899,23 +7910,24 @@ function initializeHomePageSections() {
       .map(
         (cat) => /*html*/ `
     <div class="swiper-slide">
-        <a href="#" class="category-card-link" data-category-id="${cat.categoryId}" onclick="setCurrentPage('${cat.page}', '${cat.categoryId}')">
+        <a href="#" class="category-card-link" data-category-id="${cat.categoryId}">
             <div class="category-card">
+                 <div class="category-card-name text-start w-100 p-2 rounded-0">
+                 <i class="fa-solid fa-chevron-down small pe-2 category-card-name-icon"></i>
+                  ${getLabel(cat.name.en, cat.name.ar)}
+                 </div>
                  <div class="category-card-img">
                     <img src="${cat.img}" class="img-fluid" alt="${getLabel(cat.name.en, cat.name.ar)}">
                 </div>
-                 <ul class="category-card-details">
+                 <ul class="category-card-details pt-2">
                     ${cat.subCategories
                       .map(
                         (variant, i) => `
-                        <li style="transition-delay: ${i * 80}ms;">${getLabel(variant.name.en, variant.name.ar)}</li>
+                        <li style="transition-delay: ${i * 80}ms;" data-category-id="${cat.categoryId}" data-subcategory-id="${variant.subCategoryId}">${"  "}${getLabel(variant.name.en, variant.name.ar)}</li>
                     `,
                       )
                       .join("")}
                 </ul>
-            </div>
-            <div class="category-card-name text-start">
-                ${getLabel(cat.name.en, cat.name.ar)}
             </div>
         </a>
     </div>
@@ -7994,7 +8006,7 @@ function initializeHomePageSections() {
                     <!-- Product Grid -->
                     <div class="row g-4" id="productsGrid"></div>
                     
-                    <div class="col-12 text-end p-2">
+                    <div class="col-12 text-end p-2" id="viewAllProductsSection">
                         <a class="btn btn-link border-secondary rounded-0" href="#" onclick="setCurrentPage('products')">
                             ${getLabel("View All", "عرض الكل")}
                         </a>
@@ -8083,6 +8095,7 @@ function initializeHomePageSections() {
   function renderProductsGrid() {
     const grid = document.getElementById("productsGrid");
     const emptyState = document.getElementById("emptyState");
+    const viewAll = document.getElementById("viewAllProductsSection");
     const countLabel = document.getElementById("productCount");
     if (!grid) return;
 
@@ -8101,10 +8114,12 @@ function initializeHomePageSections() {
     if (displayedProducts.length === 0) {
       grid.innerHTML = "";
       emptyState.classList.remove("d-none");
+      viewAll.classList.add("d-none");
       return;
     }
 
     emptyState.classList.add("d-none");
+    viewAll.classList.remove("d-none");
 
     grid.innerHTML = displayedProducts
       .map(

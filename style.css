@@ -42,6 +42,7 @@
 :root {
   --primary: #ff6600;
   --secondary: #003049;
+  --tertiary: #151520;
   --light: #f4f8fb;
   --dark: #2c2c3c;
   --text-primary: #333333;
@@ -90,6 +91,10 @@ body {
 
 a {
   text-decoration: none;
+}
+
+li{
+  list-style-position: outside;
 }
 
 /* ============================================================
@@ -633,8 +638,8 @@ p {
 }
 
 .btn-secondary:hover {
-  background-color: #151520;
-  border-color: #151520;
+  background-color: var(--tertiary);
+  border-color: var(--tertiary);
 }
 
 .btn-link {
@@ -752,7 +757,7 @@ p {
 }
 
 .category-card {
-  border-radius: 0.1rem;
+  /* border-radius: 0.1rem; */
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease all;
@@ -785,7 +790,7 @@ p {
 
 .category-card:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
-  outline: .15rem solid var(--primary);
+  outline: .15rem solid var(--secondary);
 }
 
 .category-card-img {
@@ -802,8 +807,10 @@ p {
 }
 
 .category-card:hover .category-card-img {
-  height: 0%;
-  box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.3);
+  /* height: 0%; */
+  /* box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.3); */
+  opacity: .2;
+  filter: blur(2px);
 }
 
 .category-card-img img {
@@ -820,7 +827,7 @@ p {
   bottom: 0;
   padding-inline: 1.2rem;
   margin-inline-start: 1.2rem;
-  color: var(--secondary);
+  /* color: var(--secondary); */
   font-size: 0.8rem;
   line-height: 1.4rem;
   transition: all ease 0.3s;
@@ -828,7 +835,11 @@ p {
   display: flex;
   flex-direction: column;
   align-items: start;
+  list-style-type: "\2013";
   width: 100%;
+  color: var(--text-primary);
+  font-weight: 700;
+  list-style-position: inside;
 }
 
 .category-card:hover .category-card-details {
@@ -840,6 +851,8 @@ p {
   opacity: 0;
   transform: translateY(8px);
   transition: all 0.3s ease;
+  padding-inline-start: .1rem;
+  cursor: pointer;
   /* transition-delay comes from the inline style set in JS */
 }
 
@@ -848,31 +861,36 @@ p {
   transform: translateY(0);
 }
 
+.category-card-details li:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 .category-card-name {
+  display: flex;
+  align-items: center;
   color: var(--white);
-  position: absolute;
-  left: 0.6rem;
-  top: 1rem;
+  font-size: .95rem;
+  background: linear-gradient(-120deg, var(--secondary), var(--tertiary) 150%);
+  border-radius: 0;
   z-index: 1;
-  text-shadow: 0px 2px 2px black;
-  background-color: rgba(0, 0, 0, 0);
-  transform: translateY(0rem);
   transition: all ease 0.2s;
-  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 12rem;
 }
 
 .category-card-link:hover .category-card-name {
-  text-shadow: none;
-  background: #151520;
-  background-color: var(--primary);
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
-  padding: 0.4rem;
-  border-radius: 0.2rem;
-  transform: translateY(-2rem);
-  left: -0.4rem;
+  background: linear-gradient(-120deg, var(--secondary), var(--tertiary) 00%);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.6);
+  font-size: .8rem;
+}
+
+.category-card-name-icon{
+  opacity: 0;
+}
+
+.category-card-link:hover .category-card-name-icon{
+    opacity: 1;
 }
 
 /* Dark mode support */
@@ -2224,7 +2242,7 @@ html[dir="rtl"] .nav-btn-custom {
 
 .news-card:hover .news-card-content{
   height: 24rem;
-  background: #151520;
+  background: var(--tertiary);
 }
 
 .news-card-body {
@@ -2298,7 +2316,7 @@ html[dir="rtl"] .nav-btn-custom {
 .machinery-card:hover{
   scale: .985;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0);
-  background: #151520;
+  background: var(--tertiary);
 }
 
 .machinery-card:hover .machinery-card-img{
