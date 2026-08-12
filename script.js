@@ -3399,6 +3399,14 @@ const NEWS_TIME_RANGE_DAYS = { all: null, week: 7, month: 30, year: 365, lastYea
 let newsTimeFilter = "all";
 let newsSortOrder = "newest"; // "newest" | "oldest"
 
+// A story is "breaking" while it's under a month old — no manual flag,
+// same rolling 30-day window as the "This Month" filter above.
+function isNewsBreaking(item) {
+  return (
+    new Date(item.dateRaw).getTime() >= Date.now() - 30 * 24 * 60 * 60 * 1000
+  );
+}
+
 function applyNewsFilters(items) {
   const days = NEWS_TIME_RANGE_DAYS[newsTimeFilter];
   const filtered =
@@ -3508,13 +3516,16 @@ function renderNewsGrid() {
         <div class="news-card bg-white rounded-1 overflow-hidden h-100 d-flex flex-column align-items-start">
           <div class="news-card-img">
             <img src="${item.img}" class="img-fluid w-100 h-100" alt="${getLabel(item.titleEn, item.titleAr)}" loading="lazy">
+            ${isNewsBreaking(item) ? `<span class="breaking-badge"><span class="breaking-badge-dot"></span>${getLabel("Breaking News", "أحدث الأخبار")}</span>` : ""}
           </div>
-          <div class="p-4 news-card-content">
-            <i class="fa-solid fa-quote-left text-primary border-end border-white border-opacity-25 pe-3"></i>
-            <div class="col-md-10 col-lg-10 news-card-body">
-              <span class="text-white-50 small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
-              <h5 class="fw-bold text-primary my-2 pb-3 news-card-title">${getLabel(item.titleEn, item.titleAr)}</h5>
-              <p class="text-white small mb-3 news-card-excerpt pt-4">${getLabel(item.excerptEn, item.excerptAr)}</p>
+          <div class="news-card-content-shadow">
+            <div class="p-4 news-card-content">
+              <i class="fa-solid fa-quote-left text-primary border-end border-white border-opacity-25 pe-3"></i>
+              <div class="col-md-10 col-lg-10 news-card-body">
+                <span class="text-white-50 small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
+                <h5 class="fw-bold text-primary my-2 pb-3 news-card-title">${getLabel(item.titleEn, item.titleAr)}</h5>
+                <p class="text-white small mb-3 news-card-excerpt pt-4">${getLabel(item.excerptEn, item.excerptAr)}</p>
+              </div>
             </div>
           </div>
           <a href="#" class="btn btn-link text-white small ps-0 news-card-readmore" data-news-id="${item.id}">
@@ -5760,6 +5771,14 @@ const CMS_TYPES = {
         label: { en: "Date", ar: "التاريخ" },
         render: (n) => getLabel(n.dateEn, n.dateAr),
       },
+      {
+        // Derived from the date, not editable — see isNewsBreaking().
+        label: { en: "Breaking News", ar: "أحدث الأخبار" },
+        render: (n) =>
+          isNewsBreaking(n)
+            ? `<span class="badge bg-danger">${getLabel("Breaking News", "أحدث الأخبار")}</span>`
+            : "—",
+      },
     ],
     fields: [
       {
@@ -7858,22 +7877,22 @@ function initializeHomePageSections() {
   const aboutSection = document.getElementById("aboutSection");
   if (aboutSection) {
     aboutSection.innerHTML = `
-            <div class="container-fluid overflow-hidden py-5 bg-light" style="width: 100%;">
-                <div class="container">
-                    <div class="row g-4">
+            <div class="container-fluid overflow-hidden pt-5 bg-light" style="width: 100%;">
+                <div class="container bg-secondary pb-5">
+                    <div class="row g-4 p-5">
                         <div class="col-xl-5 order-2 order-md-1 wow fadeInLeft" data-wow-delay="0.1s">
-                            <div class="bg-light h-100 rounded-2 overflow-hidden">
+                            <div class="bg-light h-100 rounded-0 overflow-hidden">
                                 <img src="/images/about.webp" class="img-fluid about-img w-100 h-100" style="object-fit:cover;"  alt="About">
                             </div>
                         </div>
                         <div class="col-xl-7 order-1 order-md-2 wow fadeInRight" data-wow-delay="0.3s">
-                            <h5 class="sub-title py-3 pb-0">${getLabel("About KADER", "عن مصنع قادر")}</h5>
-                            <h1 class="display-5 mb-3">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به")}</h1>
-                            <p class="mb-4">
+                            <h5 class="sub-title text-primary py-3 pb-0">${getLabel("About KADER", "عن مصنع قادر")}</h5>
+                            <h1 class="display-5 text-white mb-3">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به")}</h1>
+                            <p class="mb-4 text-white-50">
                                 ${getLabel(aboutContent.paragraphs[0].en, aboutContent.paragraphs[0].ar)}
                                 <br/>
                                 <br/>
-                                <a class="btn btn-link ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
+                                <a class="btn btn-link text-primary ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
                                  ${getLabel("Read More", "اقرأ المزيد")} 
                                 </a>
                             </p>
@@ -7920,13 +7939,20 @@ function initializeHomePageSections() {
                     <img src="${cat.img}" class="img-fluid" alt="${getLabel(cat.name.en, cat.name.ar)}">
                 </div>
                  <ul class="category-card-details pt-2">
-                    ${cat.subCategories
-                      .map(
-                        (variant, i) => `
+                    ${
+                      cat.categoryId === "military"
+                        ? `
+                        <i class="fa-solid fa-fingerprint display-1" style="opacity:.15;position:absolute;left:50%;top:50%;transform: translate(-50% ,-30%);"></i>
+                        <li class="category-card-restricted ps-0 mx-auto text-info" style="transition-delay: 0ms; list-style: none"><i class="fas fa-lock ${getDirectionClass("me-2", "ms-2")}"></i>${getLabel("Authorization Required", "يتطلب تصريح دخول")}</li>
+                        `
+                        : cat.subCategories
+                            .map(
+                              (variant, i) => `
                         <li style="transition-delay: ${i * 80}ms;" data-category-id="${cat.categoryId}" data-subcategory-id="${variant.subCategoryId}">${"  "}${getLabel(variant.name.en, variant.name.ar)}</li>
                     `,
-                      )
-                      .join("")}
+                            )
+                            .join("")
+                    }
                 </ul>
             </div>
         </a>
@@ -7993,7 +8019,7 @@ function initializeHomePageSections() {
             <div class="container py-5 pb-3 border-top border-bottom border-black-25">
                 <div class="section-title text-center d-flex align-items-center justify-content-between">
                     <h5 class="sub-title">${getLabel("Our Products", "المنتجات")}</h5>
-                    <span class="text-black-50 small border border-opacity-25 border-secondary border-1 p-2" id="productCount"></span>
+                    <span class="text-black-50 small border border-opacity-25 border-secondary border-1 py-2 px-3" id="productCount"></span>
                     </div>
                     
                     <!-- Filter Bar (Swiper) -->
@@ -8126,7 +8152,7 @@ function initializeHomePageSections() {
         (product) => /*html*/ `
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card product-card h-100 border-0 ">
-                    <div class="product-img-wrap bg-light border-bottom">
+                    <div class="product-img-wrap bg-white border">
                         <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
                     </div>
 
@@ -8139,22 +8165,22 @@ function initializeHomePageSections() {
                             }
 
                         <div class="price-row">
-                            <span class="current-price">
+                            <span class="current-price text-white">
                                 EGP ${product.price}
                             </span>
 
                             ${
                               product.oldPrice
-                                ? `<span class="old-price">EGP ${product.oldPrice}</span>`
+                                ? `<span class="old-price text-white-50">EGP ${product.oldPrice}</span>`
                                 : ""
                             }
                         </div>
                     </div>
-            <span class="badge bg-primary rounded-0 text-white mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
+            <span class="badge bg-primary rounded-0 text-black mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
 
-            <h6 class="card-title mb-1">${getLabel(product.title.en, product.title.ar)}</h6>
+            <h6 class="card-title mb-1 text-white">${getLabel(product.title.en, product.title.ar)}</h6>
 
-            <p class="card-text text-muted small product-desc">
+            <p class="card-text text-white-50 small product-desc">
                 ${getLabel(product.desc.en, product.desc.ar)}
             </p>
         </div>
@@ -8178,38 +8204,40 @@ function initializeHomePageSections() {
   if (newsSection) {
     const sortedNews = [...newsItems].sort(
       (a, b) => new Date(b.dateRaw) - new Date(a.dateRaw),
-    );
+    ).slice(0,6);
 
+    // Same markup/classes as the News page's .news-card (see renderNewsGrid)
+    // so hover behavior and styling match exactly between the two.
     const newsSlidesHtml = sortedNews
       .map(
         (item) => `
         <div class="swiper-slide">
-            <div class="card card-news border-0 overflow-hidden h-100 m-1 shadow-sm">
-                <div class="row g-0 align-items-stretch h-100">
-                    <div class="col-md-4">
-                        <img src="${item.img}" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 220px;" alt="${getLabel(item.titleEn, item.titleAr)}">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body h-100 d-flex flex-column justify-content-center align-items-start">
-                            <span class="text-muted small fw-semibold">
-                                <i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}
-                            </span>
-                            <h6 class="card-title">${getLabel(item.titleEn, item.titleAr)}</h6>
-                            <p class="card-text text-muted">${getLabel(item.excerptEn, item.excerptAr)}</p>
-                            <a href="#" class="btn btn-link small ps-0" onclick="setCurrentPage('news', '${item.id}')">
-                                ${getLabel("Read More", "اقرأ المزيد")}
-                            </a>
-                        </div>
-                    </div>
-                </div>
+          <div class="news-card bg-white rounded-1 overflow-hidden h-100 d-flex flex-column align-items-start">
+            <div class="news-card-img">
+              <img src="${item.img}" class="img-fluid w-100 h-100" alt="${getLabel(item.titleEn, item.titleAr)}" loading="lazy">
+              ${isNewsBreaking(item) ? `<span class="breaking-badge"><span class="breaking-badge-dot"></span>${getLabel("Breaking News", "أحدث الأخبار")}</span>` : ""}
             </div>
+            <div class="news-card-content-shadow">
+              <div class="p-4 news-card-content">
+                <i class="fa-solid fa-quote-left text-primary border-end border-white border-opacity-25 pe-3"></i>
+                <div class="col-md-10 col-lg-10 news-card-body">
+                  <span class="text-white-50 small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
+                  <h5 class="fw-bold text-primary my-2 pb-3 news-card-title">${getLabel(item.titleEn, item.titleAr)}</h5>
+                  <p class="text-white small mb-3 news-card-excerpt pt-4">${getLabel(item.excerptEn, item.excerptAr)}</p>
+                </div>
+              </div>
+            </div>
+            <a href="#" class="btn btn-link text-white small ps-0 news-card-readmore" onclick="setCurrentPage('news', '${item.id}')">
+              ${getLabel("Read More", "اقرأ المزيد")}
+            </a>
+          </div>
         </div>
     `,
       )
       .join("");
 
     newsSection.innerHTML = `
-        <div class="container-fluid overflow-hidden bg-light">
+        <div class="container-fluid overflow-hidden bg-light pt-5">
             <div class="container border-bottom">
 
                 <div class="d-flex align-items-center justify-content-start py-4">
@@ -8250,11 +8278,10 @@ function initializeHomePageSections() {
     }
 
     window.newsSwiperInstance = new Swiper(".newsSwiper", {
+      // No grid/rows here anymore — .news-card is the same tall (40rem)
+      // card used on the News page, so stacking 2 rows like the old short
+      // cards did would make this homepage section nearly twice as tall.
       slidesPerView: 1,
-      grid: {
-        rows: 2,
-        fill: "row",
-      },
       spaceBetween: 20,
       loop: true,
       rtl: document.documentElement.dir === "rtl",
@@ -8272,11 +8299,10 @@ function initializeHomePageSections() {
         clickable: true,
       },
       breakpoints: {
-        320: { slidesPerView: 1, grid: { rows: 1 } },
-        420: { slidesPerView: 1, grid: { rows: 1 } },
-        576: { slidesPerView: 1, grid: { rows: 1 } },
-        992: { slidesPerView: 2, grid: { rows: 1 } },
-        1200: { slidesPerView: 2, grid: { rows: 2 } },
+        320: { slidesPerView: 1 },
+        576: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1200: { slidesPerView: 3 },
       },
     });
   }
@@ -8423,7 +8449,7 @@ function initializeHomePageSections() {
       .map(
         (c) => `
             <div class="col-6 col-md-4 col-lg-4 col-xl-4">
-                <div class="trust-logo-card d-flex align-items-center justify-content-center m-1">
+                <div class="trust-logo-card bg-white d-flex align-items-center justify-content-center m-1">
                     <img src="${c.logo}" alt="${c.name}" class="img-fluid" loading="lazy">
                 </div>
             </div>
@@ -8435,7 +8461,7 @@ function initializeHomePageSections() {
       .map(
         (s) => `
             <div class="col-6 col-lg-3 d-flex g-2 m-0">
-                <div class="trust-stat-card text-center bg-white rounded-2 shadow-sm py-4 h-100 my-1">
+                <div class="trust-stat-card text-center bg-white rounded-1 shadow-sm py-4 px-1 h-100 my-1">
                     <h5 class="text-primary fw-bold mb-3">${s.value}</h5>
                     <p class="text-muted mb-0">${getLabel(s.labelEn, s.labelAr)}</p>
                 </div>
@@ -8445,14 +8471,14 @@ function initializeHomePageSections() {
       .join("");
 
     trustedSection.innerHTML = `
-            <div class="container-fluid trust overflow-hidden py-0 bg-light">
-                <div class="container py-5 d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap  border-bottom border-black-25">
+            <div class="container-fluid trust overflow-hidden py-0 bg-light pt-0">
+                <div class="container d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap bg-secondary p-5 border-top border-white border-opacity-25">
     
                     <!-- Header -->
                     <div class="section-title text-center mb-5 trust-header-block">
                         <h5 class="sub-title pb-0">${getLabel("TRUSTED BY", "موثوق به من قبل")}</h5>
-                        <h1 class="display-5 mb-4">${getLabel("Trusted by Leading Organizations", "موثوق به من قبل المؤسسات الرائدة")}</h1>
-                        <p class="text-muted" style="max-width: 700px;">
+                        <h1 class="display-5 mb-4 text-primary text-shadow">${getLabel("Trusted by Leading Organizations", "موثوق به من قبل المؤسسات الرائدة")}</h1>
+                        <p class="text-white-50" style="max-width: 700px;">
                             ${getLabel(
                               "We proudly serve government entities, industrial companies, and leading organizations with reliable manufacturing and machinery rental solutions.",
                               "نفتخر بخدمة الجهات الحكومية والشركات الصناعية والمؤسسات الرائدة بحلول موثوقة في التصنيع وتأجير المعدات.",
@@ -8472,7 +8498,7 @@ function initializeHomePageSections() {
                         </div>
     
                         <!-- CTA -->
-                        <h4 class="mb-4">
+                        <h4 class="mb-4 text-white">
                             ${getLabel(
                               "Looking for reliable industrial manufacturing or machinery rental?",
                               "تبحث عن حلول موثوقة في التصنيع الصناعي أو تأجير المعدات؟",

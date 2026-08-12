@@ -557,7 +557,7 @@ h5.sub-title {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: var(--secondary) !important;
+  color: var(--secondary);
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 800 !important;
@@ -655,7 +655,7 @@ p {
 .btn-link:hover {
   /* background-color: var(--light); */
   /* border-color: var(--light); */
-  color: var(--text-primary);
+  color: var(--primary) !important;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -809,8 +809,8 @@ p {
 .category-card:hover .category-card-img {
   /* height: 0%; */
   /* box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.3); */
-  opacity: .2;
-  filter: blur(2px);
+  opacity: .15;
+  filter: blur(3px);
 }
 
 .category-card-img img {
@@ -826,7 +826,7 @@ p {
   height: 0;
   bottom: 0;
   padding-inline: 1.2rem;
-  margin-inline-start: 1.2rem;
+  /* margin-inline-start: 1.2rem; */
   /* color: var(--secondary); */
   font-size: 0.8rem;
   line-height: 1.4rem;
@@ -850,10 +850,9 @@ p {
 .category-card-details li {
   opacity: 0;
   transform: translateY(8px);
-  transition: all 0.3s ease;
-  padding-inline-start: .1rem;
+  padding-inline-start: .3rem;
   cursor: pointer;
-  /* transition-delay comes from the inline style set in JS */
+  transition: all 0s ease;
 }
 
 .category-card:hover .category-card-details li {
@@ -986,12 +985,12 @@ p {
 .current-price {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #111;
+  /* color: #111; */
 }
 
 .old-price {
   font-size: 0.9rem;
-  color: #6c757d;
+  /* color: #6c757d; */
   text-decoration: line-through;
 }
 
@@ -1154,9 +1153,8 @@ html[dir="rtl"] .nav-btn-custom {
    TRUSTED SECTION STYLES
    ============================================================ */
 .trust-logo-card {
-  background: #fff;
   border: 1px solid #dee2e6;
-  border-radius: 0.4rem;
+  border-radius: 0.1rem;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
   padding: 1.5rem 1rem;
   height: 96px;
@@ -1186,9 +1184,8 @@ html[dir="rtl"] .nav-btn-custom {
   font-size: 0.8rem;
   line-height: 0.8rem;
   font-weight: 700;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: all 0.25s ease;
+  cursor: default;
 }
 
 .trust-stat-card:hover {
@@ -1206,13 +1203,13 @@ html[dir="rtl"] .nav-btn-custom {
 @media (min-width: 992px) {
   .trust-header-block {
     width: auto;
-    border-inline-end: 1px solid #dee2e6;
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.25);
     padding-inline-end: 1.5rem;
   }
 
   .trust-logos-block {
     width: 50%;
-    border-inline-end: 1px solid #dee2e6;
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.25);
     padding-inline-end: 1.5rem;
   }
 
@@ -1453,13 +1450,13 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 .filter-chip:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: var(--secondary);
+  color: var(--secondary);
 }
 
 .filter-chip.active {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--secondary);
+  border-color: var(--secondary);
   color: #fff;
 }
 
@@ -1469,20 +1466,19 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 .product-card {
-  border: 0.2rem;
-  transition: all 0.2s ease;
+  border-radius: 0.1rem;
   height: 32rem !important;
-  background-color: var(--white);
-  outline: .15rem solid transparent !important;
+  background-color: var(--secondary);
   cursor: pointer;
   overflow: hidden;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.2s ease;
 }
 
 .product-card:hover {
   transform: translateY(0px) !important;
-  box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0) !important;
-  outline: .15rem solid var(--primary) !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0) !important;
+  background: var(--tertiary);
   scale: .995;
 }
 
@@ -2205,6 +2201,7 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 .news-card-img {
+  position: relative; /* anchors .breaking-badge */
   height: 80%;
   overflow: hidden;
   transition: all ease .3s;
@@ -2220,11 +2217,69 @@ html[dir="rtl"] .nav-btn-custom {
   object-fit: cover;
 }
 
-.news-card-content{
+/* CNN-style "breaking" tag — solid red, uppercase, small pulsing dot
+   for urgency. inset-inline-start (not left) so it sits correctly in RTL. */
+.breaking-badge {
+  position: absolute;
+  top: 0.9rem;
+  inset-inline-start: 0.9rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #cc0000;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.breaking-badge-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: #fff;
+  animation: breaking-badge-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes breaking-badge-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+/* Per-spec paint order is filter -> clip-path -> mask, so a filter (or
+   box-shadow) on the SAME element as clip-path gets clipped away too —
+   that's why moving the shadow from box-shadow to filter alone didn't fix
+   it. The actual fix: host the filter on this unclipped wrapper instead;
+   drop-shadow reads the alpha silhouette of its (clipped) child content,
+   so the shadow still correctly follows the notched shape. */
+.news-card-content-shadow {
   position: absolute;
   bottom: 0;
   left: 0;
   height: 13rem;
+  filter: drop-shadow(0 -4px 16px rgba(0, 0, 0, 0.6));
+  transition: height 0.3s ease;
+}
+
+.news-card:hover .news-card-content-shadow{
+  filter: drop-shadow(0 -4px 16px rgba(0, 0, 0, 0.0));
+  height: 24rem;
+}
+
+.news-card-content{
+  height: 100%;
   overflow: hidden;
   background: var(--secondary);
   clip-path: polygon(
@@ -2236,12 +2291,10 @@ html[dir="rtl"] .nav-btn-custom {
   );
   display: flex;
   gap: 1.2rem;
-  box-shadow: -8px 0 40px 4px rgba(0, 0, 0, 1);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .news-card:hover .news-card-content{
-  height: 24rem;
   background: var(--tertiary);
 }
 
@@ -2729,6 +2782,10 @@ footer a:hover {
 
 .transition {
   transition: var(--transition);
+}
+
+.text-shadow {
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, .4);
 }
 
 /* ============================================================
