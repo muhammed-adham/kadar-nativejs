@@ -3389,7 +3389,7 @@ function bindMilitaryPageEvents() {
    page. "Read More" opens the shared #overlayModal for a quick
    read without a dedicated article route.
    ============================================================ */
-const NEWS_PAGE_SIZE = 6;
+const NEWS_PAGE_SIZE = 8;
 let displayedNewsCount = NEWS_PAGE_SIZE;
 let newsPageEventsBound = false;
 
@@ -3512,7 +3512,7 @@ function renderNewsGrid() {
   const cardsHtml = visible
     .map(
       (item) => `
-      <div class="col-md-6 col-lg-4">
+      <div class="col-md-6 col-lg-3">
         <div class="news-card bg-white rounded-1 overflow-hidden h-100 d-flex flex-column align-items-start">
           <div class="news-card-img">
             <img src="${item.img}" class="img-fluid w-100 h-100" alt="${getLabel(item.titleEn, item.titleAr)}" loading="lazy">
@@ -7878,21 +7878,21 @@ function initializeHomePageSections() {
   if (aboutSection) {
     aboutSection.innerHTML = `
             <div class="container-fluid overflow-hidden pt-5 bg-light" style="width: 100%;">
-                <div class="container bg-secondary pb-5">
-                    <div class="row g-4 p-5">
+                <div class="container bg-light">
+                    <div class="row g-4">
                         <div class="col-xl-5 order-2 order-md-1 wow fadeInLeft" data-wow-delay="0.1s">
                             <div class="bg-light h-100 rounded-0 overflow-hidden">
                                 <img src="/images/about.webp" class="img-fluid about-img w-100 h-100" style="object-fit:cover;"  alt="About">
                             </div>
                         </div>
                         <div class="col-xl-7 order-1 order-md-2 wow fadeInRight" data-wow-delay="0.3s">
-                            <h5 class="sub-title text-primary py-3 pb-0">${getLabel("About KADER", "عن مصنع قادر")}</h5>
-                            <h1 class="display-5 text-white mb-3">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به")}</h1>
-                            <p class="mb-4 text-white-50">
+                            <h5 class="sub-title py-3 pb-0">${getLabel("About KADER", "عن مصنع قادر")}</h5>
+                            <h1 class="display-5 mb-3">${getLabel("We're Trusted Factory Affiliated with AOI", "نحن مصنع موثوق به")}</h1>
+                            <p class="mb-4 text-muted">
                                 ${getLabel(aboutContent.paragraphs[0].en, aboutContent.paragraphs[0].ar)}
                                 <br/>
                                 <br/>
-                                <a class="btn btn-link text-primary ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
+                                <a class="btn btn-link text-secondary ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
                                  ${getLabel("Read More", "اقرأ المزيد")} 
                                 </a>
                             </p>
@@ -8237,12 +8237,12 @@ function initializeHomePageSections() {
       .join("");
 
     newsSection.innerHTML = `
-        <div class="container-fluid overflow-hidden bg-light pt-5">
+        <div class="container-fluid overflow-hidden bg-light pt-4">
             <div class="container border-bottom">
 
-                <div class="d-flex align-items-center justify-content-start py-4">
+                <div class="d-flex align-items-center justify-content-start py-3">
                     <div class="section-title mb-0">
-                        <h5 class="sub-title mb-0 pe-3 pb-0">${getLabel("Latest News", "الأخبار")}</h5>
+                        <h5 class="sub-title mb-0 pe-3 pb-0">${getLabel("News", "الأخبار")}</h5>
                     </div>
                     <div class="d-flex gap-3">
                         <div class="news-button-prev nav-btn-custom">
@@ -8299,10 +8299,10 @@ function initializeHomePageSections() {
         clickable: true,
       },
       breakpoints: {
-        320: { slidesPerView: 1 },
-        576: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1200: { slidesPerView: 3 },
+        320: { slidesPerView: 2 },
+        576: { slidesPerView: 2 },
+        768: { slidesPerView: 3 },
+        1200: { slidesPerView: 4 },
       },
     });
   }
@@ -8471,8 +8471,8 @@ function initializeHomePageSections() {
       .join("");
 
     trustedSection.innerHTML = `
-            <div class="container-fluid trust overflow-hidden py-0 bg-light pt-0">
-                <div class="container d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap bg-secondary p-5 border-top border-white border-opacity-25">
+            <div class="container-fluid trust overflow-hidden py-0 bg-secondary pt-1">
+                <div class="container d-flex flex-wrap align-items-start gap-4 flex-lg-nowrap bg-secondary p-5">
     
                     <!-- Header -->
                     <div class="section-title text-center mb-5 trust-header-block">
