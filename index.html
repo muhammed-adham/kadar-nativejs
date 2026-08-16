@@ -18,6 +18,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link rel="stylesheet" href="style.css" />
+    <!-- The loader is the first thing painted, so start fetching its artwork
+         before the parser reaches the <body> markup that uses it. -->
+    <link rel="preload" as="image" href="/images/logo_GIF.gif" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"
@@ -34,6 +37,20 @@
   </head>
 
   <body data-theme="light">
+    <!-- App loading state. Lives in the markup rather than being injected by
+         script.js so it is up on the very first paint, before the four
+         data fetches in initializeApp() start. hideAppLoader() removes it. -->
+    <div id="appLoader" class="app-loader" role="status" aria-live="polite">
+      <img
+        src="/images/logo_GIF.gif"
+        class="app-loader-logo"
+        alt=""
+        width="1080"
+        height="1080"
+      />
+      <span class="visually-hidden">Loading</span>
+    </div>
+
     <!-- Navigation Header -->
     <!-- Top Row: Logo + Cart/Profile -->
     <header id="mainNav" class="top-nav-row p-3 bg-white">
@@ -255,6 +272,17 @@
 
     <!-- Footer -->
     <footer id="mainFooter"></footer>
+
+    <!-- Scroll to top — hidden until initScrollTopButton() (script.js) sees
+         the page scrolled past its threshold. -->
+    <button
+      type="button"
+      id="scrollTopBtn"
+      class="scroll-top-btn"
+      aria-label="Scroll to top"
+    >
+      <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
 
     <!-- Modal for Images and Videos -->
     <div class="modal fade" id="overlayModal" tabindex="-1" aria-hidden="true">

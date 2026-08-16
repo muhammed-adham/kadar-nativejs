@@ -1572,6 +1572,19 @@ html[dir="rtl"] .nav-btn-custom {
   backdrop-filter: blur(3px);
 }
 
+/* Bootstrap's own fade-in reset (.modal.show .modal-dialog { transform:
+   none }) isn't taking effect here — the dialog stays stuck at its
+   pre-transition translateY(-50px), which crops the top of tall content
+   (like the overlays below) on short viewports. An active CSS transition
+   on a property wins over even !important declarations for that property
+   while it's running, so overriding the end value alone isn't enough —
+   killing the transition itself (transition: none) removes the in-flight
+   state entirely, forcing an instant jump to the final value. */
+.modal.show .modal-dialog {
+  transition: none !important;
+  transform: none !important;
+}
+
 .modal-content {
   background-color: var(--white);
   color: var(--text-primary);
@@ -2346,8 +2359,8 @@ html[dir="rtl"] .nav-btn-custom {
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   overflow: hidden;
-  border-radius: 0.4rem;
-  background: #000;
+  border-radius: 0.1rem;
+  background: var(--white);
 }
 
 .video-embed-wrap iframe {
@@ -2357,6 +2370,118 @@ html[dir="rtl"] .nav-btn-custom {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.video-card-body {
+  margin-top: 0.5rem;
+}
+
+.video-card-meta {
+  display: block;
+}
+
+/* Hairline dividers between the two view buttons and the count. Drawn as
+   pseudo-elements parked in the middle of the flex gap rather than as a
+   border + padding on each control: .videos-view-btn has a fixed 2.25rem
+   width and centres its icon with flex, so extra inline padding would knock
+   the icon off-centre. Uses inset-inline-start, so the divider lands on the
+   correct side under html[dir="rtl"]. Keep --videos-toolbar-gap in step with
+   the Bootstrap gap utility on the two containers (currently gap-4). */
+/* NOT --border-color here: that token is tuned for borders on white cards
+   (#eef3f7) and the toolbar sits on the tinted bg-light section (#f4f8fb),
+   where it measures 1.05:1 — invisible. A translucent ink tint keeps the
+   hairline visible whatever it is drawn over. */
+.videos-toolbar-left {
+  --videos-toolbar-gap: 1.5rem;
+  --videos-divider: rgba(0, 0, 0, 0.22);
+}
+
+body[data-theme="dark"] .videos-toolbar-left {
+  --videos-divider: rgba(255, 255, 255, 0.28);
+}
+
+.videos-toolbar-left > * + *,
+.videos-view-toggle > .videos-view-btn + .videos-view-btn {
+  position: relative;
+}
+
+.videos-toolbar-left > * + *::before,
+.videos-view-toggle > .videos-view-btn + .videos-view-btn::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: calc(var(--videos-toolbar-gap) / -2);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 1.5rem;
+  background: var(--videos-divider);
+}
+
+/* Grid / list toggle in the videos toolbar */
+.videos-view-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 0.3rem;
+  background: var(--white);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.videos-view-btn:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+.videos-view-btn.active {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  color: #fff;
+}
+
+/* List view: one video per row, embed on the leading side. The grid card's
+   56.25% padding-bottom trick can't do the 16:9 box here — percentage padding
+   resolves against the flex container's width, not the embed's — so the list
+   variant switches to aspect-ratio instead. */
+.videos-list-view .video-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--white);
+  border-radius: 0.4rem;
+  padding: 0.75rem;
+}
+
+.videos-list-view .video-embed-wrap {
+  flex: 0 0 clamp(11rem, 32%, 20rem);
+  padding-bottom: 0;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.videos-list-view .video-card-body {
+  margin-top: 0;
+}
+
+@media (max-width: 575.98px) {
+  /* Too narrow for side-by-side — fall back to the stacked card. */
+  .videos-list-view .video-card {
+    display: block;
+  }
+
+  .videos-list-view .video-embed-wrap {
+    aspect-ratio: auto;
+    padding-bottom: 56.25%;
+    height: 0;
+  }
+
+  .videos-list-view .video-card-body {
+    margin-top: 0.5rem;
+  }
 }
 
 /* ---------- Machinery page ---------- */
@@ -2452,8 +2577,37 @@ html[dir="rtl"] .nav-btn-custom {
   margin-bottom: 3rem;
 }
 
+/* Both detail overlays render their own sliding window of dots
+   (renderWindowedDots in script.js) instead of Swiper's dynamicBullets, so
+   the active bullet keeps the wide-pill shape from
+   .swiper-pagination-bullet-active. Bullets are <button>s here, so they need
+   the alignment + cursor Swiper's own `clickable` markup would have supplied,
+   and `flex: none` so the flex container above can't shrink them away. */
+.detail-pagination-dots {
+  align-items: center;
+}
+
+/* Explicit property list rather than inheriting the global `all .3s` — the
+   pill grow/shrink is the whole point here, so it gets its own easing. */
+.detail-pagination-dots .swiper-pagination-bullet {
+  cursor: pointer;
+  flex: none;
+  transition:
+    width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.35s ease,
+    opacity 0.35s ease;
+}
+
+/* Shrunk dot = "the list continues past this end of the window". */
+.detail-pagination-dots .swiper-pagination-bullet-edge {
+  transform: scale(0.6);
+}
+
 .machine-detail-heading,
-.machine-detail-specs-wrap {
+.machine-detail-specs-wrap,
+.news-detail-body-wrap {
   transition:
     opacity 0.18s ease,
     transform 0.18s ease;
@@ -2464,11 +2618,92 @@ html[dir="rtl"] .nav-btn-custom {
   transform: translateY(6px);
 }
 
+/* Fixed frame on the wrapper, not the <img> — same arrangement as
+   .news-detail-slide-img-wrap below, and for the same reason: `.swiper img`
+   (0,1,1) up at the top of this file forces height:100% and outranks any
+   plain .machine-detail-img (0,1,0) height, so sizing the image directly
+   silently loses and every machine renders at its own aspect ratio. Sizing
+   the wrapper puts the height somewhere that rule can't reach, and 100%
+   then resolves against it. */
+.machine-detail-img-wrap {
+  height: 320px;
+  overflow: hidden;
+  border-radius: 0.1rem;
+}
+
 .machine-detail-img {
   width: 100%;
-  height: 320px;
+  height: 100%;
   object-fit: cover;
+}
+
+/* News detail overlay: title+date ride along with each Swiper slide as a
+   caption on the image itself (left column), matching the News grid
+   card's hover-caption pattern — see .news-card-content-shadow above. */
+.news-detail-slide-img-wrap {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
   border-radius: 0.1rem;
+}
+
+.news-detail-slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-detail-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 2.5rem 1.25rem 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 40%, transparent 100%);
+  color: #fff;
+}
+
+.news-detail-caption-date {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-bottom: 0.35rem;
+}
+
+.news-detail-caption-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.news-detail-body-wrap {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 767.98px) {
+  .news-detail-slide-img-wrap {
+    height: 220px;
+  }
+
+  .news-detail-caption {
+    padding: 1.75rem 1rem 0.85rem;
+  }
+
+  .news-detail-caption-title {
+    font-size: 1rem;
+  }
+
+  .news-detail-caption-date {
+    font-size: 0.72rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .news-detail-body-wrap {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
 }
 
 .machine-detail-nav-bottom {
@@ -2511,12 +2746,26 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 @media (max-width: 767.98px) {
-  .machine-detail-img {
+  .machine-detail-img-wrap {
     height: 220px;
   }
 
   .machine-detail-specs-wrap {
     max-height: none;
+  }
+
+  .machine-detail-wrap {
+    padding: 0.1rem 0.1rem 0.5rem;
+  }
+
+  .machine-detail-pagination-top {
+    gap: 0.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .machine-detail-nav-bottom {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
   }
 }
 
@@ -2658,6 +2907,105 @@ footer a:hover {
     height: auto !important;
   }
 }
+/* ============================================================
+   SCROLL TO TOP BUTTON
+   Markup is #scrollTopBtn in index.html; visibility is driven by
+   initScrollTopButton() in script.js toggling .is-visible.
+   ============================================================ */
+.scroll-top-btn {
+  position: fixed;
+  /* Logical properties, so the button parks itself on the correct side
+     under html[dir="rtl"] without a mirrored rule. */
+  inset-block-end: 1.5rem;
+  inset-inline-end: 1.5rem;
+  /* Above page content, below the mobile nav overlays (1050/1060) and
+     Bootstrap's modal so it can't float over an open dialog. */
+  z-index: 1040;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  /* Starts hidden; visibility (not just opacity) so it can't be tabbed to
+     or clicked while faded out. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.scroll-top-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* brightness() rather than a second colour token — --primary flips between
+   the light and dark themes and this stays correct for both. */
+.scroll-top-btn:hover,
+.scroll-top-btn:focus-visible {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.32);
+}
+
+@media (max-width: 767.98px) {
+  .scroll-top-btn {
+    inset-block-end: 1rem;
+    inset-inline-end: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+/* ============================================================
+   APP LOADING STATE
+   Full-screen cover shown from first paint until initializeApp()
+   has finished fetching products/categories/machinery/news.
+   Markup lives in index.html (#appLoader); show/hide is
+   showAppLoader()/hideAppLoader() in script.js.
+   ============================================================ */
+.app-loader {
+  position: fixed;
+  inset: 0;
+  /* Above Bootstrap's modal (1055) so a slow load can't surface behind a
+     dialog that was restored from a hash route. */
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* --white flips to #2c2c3c under body[data-theme="dark"], so the cover
+     matches the theme without a second rule. */
+  background: var(--white);
+  transition: opacity 0.4s ease;
+}
+
+.app-loader-logo {
+  width: min(45vw, 16rem);
+  height: auto;
+}
+
+/* hideAppLoader() adds this, then removes the element once the fade ends. */
+.app-loader-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader {
+    transition-duration: 0.01ms;
+  }
+}
+
 /* ============================================================
    UTILITY CLASSES
    ============================================================ */

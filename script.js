@@ -2840,13 +2840,49 @@ function renderProductsGrid(products) {
 
 /* ============================================================
    MACHINERY PAGE — full catalog over `machineryData` (see
-   MACHINERY DATA above, loaded from /data/machinery.json).
+   MACHINERY DATA above, loaded from /data/machinery.json), with
+   the same "Show More" batching the News and Products pages use.
+   Cards are col-lg-4, so a page size of 9 fills exactly three
+   rows before the button appears.
    ============================================================ */
+const MACHINERY_PAGE_SIZE = 9;
+let displayedMachineryCount = MACHINERY_PAGE_SIZE;
+
 function loadMachineryPage() {
   const container = document.getElementById("projectsPageContent");
   if (!container) return;
 
-  const cardsHtml = machineryData
+  // Fresh visit starts from the first batch again.
+  displayedMachineryCount = MACHINERY_PAGE_SIZE;
+
+  container.innerHTML = `
+    ${createBanner(getLabel("Machinery", "الآلات"))}
+    <div class="container-fluid overflow-hidden py-5">
+      <div class="container">
+        <div class="section-title text-left mb-5">
+          <h5 class="sub-title pb-0">${getLabel("Industrial Technology & Capabilities", "التقنيات والقدرات الصناعية")}</h5>
+          <p class="mb-0">${getLabel("Advanced CNC systems supporting precision manufacturing.", " أنظمة CNC متقدمة تدعم التصنيع الدقيق والمتطور.")}</p>
+        </div>
+        <div class="row g-4" id="machineryGridContainer"></div>
+      </div>
+    </div>
+  `;
+
+  renderMachineryGrid();
+  bindMachineryPageEvents();
+}
+
+/* Separate from loadMachineryPage() so "Show More" can repaint just the card
+   grid — re-running the whole page would rebuild the banner and heading too.
+   Same split as renderNewsGrid() on the News page. */
+function renderMachineryGrid() {
+  const grid = document.getElementById("machineryGridContainer");
+  if (!grid) return;
+
+  const visible = machineryData.slice(0, displayedMachineryCount);
+  const hasMore = displayedMachineryCount < machineryData.length;
+
+  const cardsHtml = visible
     .map((p) => {
       // Extra spec bullets revealed on hover, once the shrinking image
       // (see .machinery-card:hover .machinery-card-img) frees up room —
@@ -2889,22 +2925,17 @@ function loadMachineryPage() {
     })
     .join("");
 
-  container.innerHTML = `
-    ${createBanner(getLabel("Machinery", "الآلات"))}
-    <div class="container-fluid overflow-hidden py-5">
-      <div class="container">
-        <div class="section-title text-left mb-5">
-          <h5 class="sub-title pb-0">${getLabel("Industrial Technology & Capabilities", "التقنيات والقدرات الصناعية")}</h5>
-          <p class="mb-0">${getLabel("Advanced CNC systems supporting precision manufacturing.", " أنظمة CNC متقدمة تدعم التصنيع الدقيق والمتطور.")}</p>
-        </div>
-        <div class="row g-4">
-          ${cardsHtml}
-        </div>
+  const showMoreHtml = hasMore
+    ? `
+      <div class="col-12 text-center pt-3 mt-0 mb-3">
+        <button type="button" class="btn btn-primary px-5 py-2" id="showMoreMachineryBtn">
+          ${getLabel("Show More", "عرض المزيد")}
+        </button>
       </div>
-    </div>
-  `;
+    `
+    : "";
 
-  bindMachineryPageEvents();
+  grid.innerHTML = cardsHtml + showMoreHtml;
 }
 
 /* "Read More" opens the shared #overlayModal on a Swiper carousel — one
@@ -2919,6 +2950,12 @@ function bindMachineryPageEvents() {
   machineryPageEventsBound = true;
 
   document.addEventListener("click", (e) => {
+    if (e.target.closest("#showMoreMachineryBtn")) {
+      displayedMachineryCount += MACHINERY_PAGE_SIZE;
+      renderMachineryGrid();
+      return;
+    }
+
     const btn = e.target.closest("[data-machine-id]");
     if (!btn) return;
     openMachineDetailOverlay(btn.dataset.machineId);
@@ -2985,6 +3022,74 @@ function updateMachineDetailContent(index) {
   );
 }
 
+/* ---------- Shared windowed pagination dots (both detail overlays) ----------
+   Renders at most DETAIL_DOT_WINDOW bullets and slides that window along as
+   you advance, so a 25-item list doesn't spill 25 dots across the overlay.
+   Swiper's own `dynamicBullets` is the off-the-shelf version of this and was
+   used here first, but it doesn't survive contact with our pagination:
+
+     - its translate math assumes every bullet is exactly one bullet-width
+       wide, which flattens the wide-pill active bullet
+       (.swiper-pagination-bullet-active in style.css); and
+     - it positions bullets by inline `left` offsets inside an inline-flow,
+       overflow:hidden strip, which collapses to zero-width bullets inside
+       .machine-detail-pagination-top's `display: flex`.
+
+   Owning the strip ourselves sidesteps both. Dots at either end of the window
+   are scaled down (.swiper-pagination-bullet-edge) whenever more slides exist
+   past them — that's the "it keeps going" cue. */
+const DETAIL_DOT_WINDOW = 5;
+
+function renderWindowedDots(container, activeIndex, total, itemLabel) {
+  if (!container) return;
+  const size = Math.min(DETAIL_DOT_WINDOW, total);
+
+  /* Build the bullets once and mutate them from then on. Re-rendering the
+     strip (innerHTML, or Swiper's renderCustom) hands back brand-new
+     elements every slide change, and a fresh element has no previous width
+     to animate from — the .swiper-pagination-bullet transition in style.css
+     silently never fires and the pill snaps between shapes. */
+  if (container.children.length !== size) {
+    container.innerHTML = Array.from(
+      { length: size },
+      () => `<button type="button" class="swiper-pagination-bullet"></button>`,
+    ).join("");
+  }
+
+  // Center the active dot in the window, clamped at both ends of the list.
+  const start = Math.max(
+    0,
+    Math.min(activeIndex - Math.floor(size / 2), total - size),
+  );
+
+  Array.from(container.children).forEach((dot, offset) => {
+    const index = start + offset;
+    const isEdge =
+      (offset === 0 && start > 0) ||
+      (offset === size - 1 && start + size < total);
+
+    dot.dataset.dotIndex = index;
+    dot.classList.toggle(
+      "swiper-pagination-bullet-active",
+      index === activeIndex,
+    );
+    dot.classList.toggle("swiper-pagination-bullet-edge", isEdge);
+    dot.setAttribute("aria-label", `${itemLabel} ${index + 1}`);
+    dot.setAttribute("aria-current", index === activeIndex);
+  });
+}
+
+/* Initial paint + click-to-jump. Delegated on the container so the handler
+   survives the dots being rebuilt when the window size changes. */
+function bindWindowedDots(container, swiper, itemLabel) {
+  if (!container || !swiper) return;
+  renderWindowedDots(container, swiper.activeIndex, swiper.slides.length, itemLabel);
+  container.addEventListener("click", (e) => {
+    const dot = e.target.closest("[data-dot-index]");
+    if (dot) swiper.slideTo(Number(dot.dataset.dotIndex));
+  });
+}
+
 /* A single image Swiper drives the current machine (via pagination dots,
    the bottom nav buttons, swipe, or keyboard). Title/subtitle (above the
    image) and the spec panel (right column) aren't swiper slides — they're
@@ -3001,11 +3106,11 @@ function openMachineDetailOverlay(machineId) {
   );
 
   const dialog = document.querySelector("#overlayModal .modal-dialog");
-  dialog.classList.add("modal-xl");
+  dialog.classList.add("modal-xl", "modal-dialog-scrollable");
 
   document.getElementById("modalBody").innerHTML = `
     <div class="machine-detail-wrap">
-      <div class="machine-detail-pagination-top"></div>
+      <div class="machine-detail-pagination-top detail-pagination-dots"></div>
       <div class="row g-4 py-3 bg-white shadow-sm">
         <div class="col-lg-5 h-100">
           <div class="machine-detail-heading" id="machineDetailHeading">
@@ -3019,7 +3124,9 @@ function openMachineDetailOverlay(machineId) {
                 .map(
                   (m) => `
                 <div class="swiper-slide">
-                  <img src="${m.img}" class="machine-detail-img" alt="${getLabel(m.titleEn, m.titleAr)}">
+                  <div class="machine-detail-img-wrap">
+                    <img src="${m.img}" class="machine-detail-img" alt="${getLabel(m.titleEn, m.titleAr)}">
+                  </div>
                 </div>
               `,
                 )
@@ -3066,6 +3173,9 @@ function openMachineDetailOverlay(machineId) {
         window.machineDetailSwiperInstance.destroy(true, true);
       }
 
+      const dotsEl = document.querySelector(".machine-detail-pagination-top");
+      const dotLabel = getLabel("Machine", "الماكينة");
+
       window.machineDetailSwiperInstance = new Swiper(
         ".machineDetailMainSwiper",
         {
@@ -3079,10 +3189,7 @@ function openMachineDetailOverlay(machineId) {
           rtl: document.documentElement.dir === "rtl",
           keyboard: { enabled: true },
           a11y: { enabled: true },
-          pagination: {
-            el: ".machine-detail-pagination-top",
-            clickable: true,
-          },
+          // No `pagination` option on purpose — see renderWindowedDots above.
           navigation: {
             nextEl: ".machineDetailNext",
             prevEl: ".machineDetailPrev",
@@ -3090,10 +3197,18 @@ function openMachineDetailOverlay(machineId) {
           on: {
             slideChange(swiper) {
               updateMachineDetailContent(swiper.activeIndex);
+              renderWindowedDots(
+                dotsEl,
+                swiper.activeIndex,
+                swiper.slides.length,
+                dotLabel,
+              );
             },
           },
         },
       );
+
+      bindWindowedDots(dotsEl, window.machineDetailSwiperInstance, dotLabel);
     },
     { once: true },
   );
@@ -3104,7 +3219,7 @@ function openMachineDetailOverlay(machineId) {
   // quick view (same shared modal) goes back to its normal compact width.
   modalEl.addEventListener(
     "hidden.bs.modal",
-    () => dialog.classList.remove("modal-xl"),
+    () => dialog.classList.remove("modal-xl", "modal-dialog-scrollable"),
     { once: true },
   );
 }
@@ -3395,9 +3510,39 @@ let newsPageEventsBound = false;
 
 // Rolling windows (days back from now), not calendar boundaries — avoids
 // locale-dependent "start of week/month" edge cases.
-const NEWS_TIME_RANGE_DAYS = { all: null, week: 7, month: 30, year: 365, lastYear:630};
+const NEWS_TIME_RANGE_DAYS = { all: null, week: 7, month: 30, quarter: 90, half: 183, year: 365, lastYear:630};
 let newsTimeFilter = "all";
 let newsSortOrder = "newest"; // "newest" | "oldest"
+
+function formatNewsDate(date) {
+  const locale = appState.language === "ar" ? "ar-EG" : "en-US";
+  return date.toLocaleDateString(locale, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+// The visible date span for the selected filter chip. "All" has no fixed
+// window, so it spans the earliest-to-latest dates actually in newsItems;
+// every other option is today back to its rolling window (see
+// NEWS_TIME_RANGE_DAYS) regardless of whether any article falls in it.
+function getNewsFilterRangeLabel() {
+  const days = NEWS_TIME_RANGE_DAYS[newsTimeFilter];
+  let start, end;
+
+  if (days == null) {
+    if (newsItems.length === 0) return "";
+    const times = newsItems.map((n) => new Date(n.dateRaw).getTime());
+    start = new Date(Math.min(...times));
+    end = new Date(Math.max(...times));
+  } else {
+    end = new Date();
+    start = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  }
+
+  return `${formatNewsDate(start)} – ${formatNewsDate(end)}`;
+}
 
 // A story is "breaking" while it's under a month old — no manual flag,
 // same rolling 30-day window as the "This Month" filter above.
@@ -3439,7 +3584,7 @@ function loadNewsPage() {
           <h1 class="display-5 mb-3">${getLabel("Stay Informed on the Latest Updates", "ابق على اطلاع بأحدث المستجدات")}</h1>
           <p class="text-muted mb-0">${getLabel("The latest announcements, milestones, and updates from Kader Factory.", "أحدث الإعلانات والإنجازات والمستجدات من مصنع قادر.")}</p>
         </div>
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4" id="newsFilterBar"></div>
+        <div class="mb-4" id="newsFilterBar"></div>
         <div class="row g-4" id="newsGridContainer"></div>
       </div>
     </div>
@@ -3458,28 +3603,36 @@ function renderNewsFilterBar() {
     { key: "all", en: "All", ar: "الكل" },
     { key: "week", en: "This Week", ar: "هذا الأسبوع" },
     { key: "month", en: "This Month", ar: "هذا الشهر" },
+    { key: "quarter", en: "Last 3 Month", ar: "آخر ثلاث أشهر" },
+    { key: "half", en: "Last 6 Month", ar: "آخر ستة أشهر" },
     { key: "year", en: "This Year", ar: "هذا العام" },
     { key: "lastYear", en: "Last Year", ar: "العام الماضي" },
   ];
 
   bar.innerHTML = `
-    <div class="d-flex flex-wrap gap-2">
-      ${timeOptions
-        .map(
-          (o) => `
-        <button type="button" class="filter-chip ${newsTimeFilter === o.key ? "active" : ""}" data-news-time="${o.key}">
-          ${getLabel(o.en, o.ar)}
-        </button>
-      `,
-        )
-        .join("")}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div class="d-flex flex-wrap gap-2">
+        ${timeOptions
+          .map(
+            (o) => `
+          <button type="button" class="filter-chip ${newsTimeFilter === o.key ? "active" : ""}" data-news-time="${o.key}">
+          <i class="fa-regular fa-calendar-days pe-1"></i>
+            ${getLabel(o.en, o.ar)}
+          </button>
+        `,
+          )
+          .join("")}
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <label for="newsSortSelect" class="small fw-semibold text-muted mb-0">⇅ ${getLabel("Sort by", "ترتيب حسب")}</label>
+        <select id="newsSortSelect" class="form-select form-select-sm" style="width:auto;">
+          <option value="newest" ${newsSortOrder === "newest" ? "selected" : ""}>${getLabel("Newest First", "الأحدث أولاً")}</option>
+          <option value="oldest" ${newsSortOrder === "oldest" ? "selected" : ""}>${getLabel("Oldest First", "الأقدم أولاً")}</option>
+        </select>
+      </div>
     </div>
-    <div class="d-flex align-items-center gap-2">
-      <label for="newsSortSelect" class="small fw-semibold text-muted mb-0">${getLabel("Sort by", "ترتيب حسب")}</label>
-      <select id="newsSortSelect" class="form-select form-select-sm" style="width:auto;">
-        <option value="newest" ${newsSortOrder === "newest" ? "selected" : ""}>${getLabel("Newest First", "الأحدث أولاً")}</option>
-        <option value="oldest" ${newsSortOrder === "oldest" ? "selected" : ""}>${getLabel("Oldest First", "الأقدم أولاً")}</option>
-      </select>
+    <div class="small text-muted mt-2 py-2 border-bottom" id="newsFilterRangeLabel">
+      <i class="far fa-calendar pe-2"></i>${getNewsFilterRangeLabel()}
     </div>
   `;
 }
@@ -3550,6 +3703,154 @@ function renderNewsGrid() {
   grid.innerHTML = cardsHtml + showMoreHtml;
 }
 
+/* "Read More" opens the shared #overlayModal on a Swiper carousel, same
+   pattern as the Machinery page's detail overlay (openMachineDetailOverlay
+   above) — one slide per article, starting at the one clicked, so visitors
+   can swipe or use the arrow/keyboard controls to browse without closing
+   the overlay. Reuses the .machine-detail-* chrome classes (wrap,
+   pagination, nav buttons) but NOT .machine-detail-img sizing: title+date
+   are baked into each slide as a caption overlaid on the image itself
+   (like the News grid card's hover caption — see .news-card-content-shadow
+   in style.css), so they ride along with Swiper's own slide transition
+   with no extra JS to keep them in sync. Only the excerpt on the right
+   needs a manual swap on slideChange. Browses through whatever set is
+   currently filtered/sorted on the page, not the full unfiltered
+   newsItems list. */
+let newsDetailList = [];
+
+function newsDetailBodyHtml(item) {
+  return `<p class="mb-0 d-flex gap-2">
+  <i class="fa-solid fa-quote-left text-primary pe-2 border-end"></i>
+  ${getLabel(item.excerptEn, item.excerptAr)}
+  </p>`;
+}
+
+function newsDetailSlideHtml(item) {
+  return `
+    <div class="swiper-slide">
+      <div class="news-detail-slide-img-wrap">
+        <img src="${item.img}" class="news-detail-slide-img" alt="${getLabel(item.titleEn, item.titleAr)}">
+        <div class="news-detail-caption pb-4">
+          ${isNewsBreaking(item) ? `<span class="breaking-badge position-relative top-0 start-0 shadow-none h-fit"><span class="breaking-badge-dot"></span>${getLabel("Breaking News", "أحدث الأخبار")}</span>` : ""}
+          <span class="news-detail-caption-date pt-2 text-primary fw-bold"><i class="far fa-calendar ${getDirectionClass("me-1", "ms-1")}"></i>${getLabel(item.dateEn, item.dateAr)}</span>
+          <h4 class="news-detail-caption-title text-white">${getLabel(item.titleEn, item.titleAr)}</h4>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function updateNewsDetailContent(index) {
+  const item = newsDetailList[index];
+  if (!item) return;
+
+  animateMachineDetailSwap(document.getElementById("newsDetailBodyWrap"), () => {
+    document.getElementById("newsDetailBodyWrap").innerHTML =
+      newsDetailBodyHtml(item);
+  });
+}
+
+function openNewsDetailOverlay(newsId) {
+  newsDetailList = applyNewsFilters(newsItems);
+  const startIndex = newsDetailList.findIndex((n) => n.id === newsId);
+  if (startIndex === -1) return;
+
+  const startItem = newsDetailList[startIndex];
+
+  document.getElementById("modalTitle").textContent = getLabel(
+    "News",
+    "الأخبار",
+  );
+
+  const dialog = document.querySelector("#overlayModal .modal-dialog");
+  dialog.classList.add("modal-xl", "modal-dialog-scrollable");
+
+  document.getElementById("modalBody").innerHTML = `
+    <div class="machine-detail-wrap">
+      <div class="machine-detail-pagination-top news-detail-pagination detail-pagination-dots pb-2"></div>
+      <div class="row g-4 py-3 bg-white shadow-sm align-items-start">
+        <div class="col-lg-6 h-100 mt-0">
+          <div class="swiper newsDetailMainSwiper">
+            <div class="swiper-wrapper">
+              ${newsDetailList.map(newsDetailSlideHtml).join("")}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 d-flex align-items-center">
+          <div class="news-detail-body-wrap" id="newsDetailBodyWrap">
+            ${newsDetailBodyHtml(startItem)}
+          </div>
+        </div>
+      </div>
+
+      <div class="machine-detail-nav-bottom d-flex justify-content-center gap-3">
+        <button type="button" class="nav-btn-custom newsDetailPrev" aria-label="${getLabel("Previous article", "الخبر السابق")}">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button type="button" class="nav-btn-custom newsDetailNext" aria-label="${getLabel("Next article", "الخبر التالي")}">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  `;
+
+  const modalEl = document.getElementById("overlayModal");
+  const modal = new bootstrap.Modal(modalEl);
+
+  // See openMachineDetailOverlay's comment above — Swiper needs the modal's
+  // fade-in transition to finish before it can measure slide width.
+  modalEl.addEventListener(
+    "shown.bs.modal",
+    () => {
+      if (window.newsDetailSwiperInstance) {
+        window.newsDetailSwiperInstance.destroy(true, true);
+      }
+
+      const dotsEl = document.querySelector(".news-detail-pagination");
+      const dotLabel = getLabel("Article", "الخبر");
+
+      window.newsDetailSwiperInstance = new Swiper(".newsDetailMainSwiper", {
+        initialSlide: startIndex,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        effect: "fade",
+        fadeEffect: { crossFade: true },
+        rtl: document.documentElement.dir === "rtl",
+        keyboard: { enabled: true },
+        a11y: { enabled: true },
+        // No `pagination` option on purpose — see renderWindowedDots above.
+        navigation: {
+          nextEl: ".newsDetailNext",
+          prevEl: ".newsDetailPrev",
+        },
+        on: {
+          slideChange(swiper) {
+            updateNewsDetailContent(swiper.activeIndex);
+            renderWindowedDots(
+              dotsEl,
+              swiper.activeIndex,
+              swiper.slides.length,
+              dotLabel,
+            );
+          },
+        },
+      });
+
+      bindWindowedDots(dotsEl, window.newsDetailSwiperInstance, dotLabel);
+    },
+    { once: true },
+  );
+
+  modal.show();
+
+  modalEl.addEventListener(
+    "hidden.bs.modal",
+    () => dialog.classList.remove("modal-xl", "modal-dialog-scrollable"),
+    { once: true },
+  );
+}
+
 function bindNewsPageEvents() {
   if (newsPageEventsBound) return;
   newsPageEventsBound = true;
@@ -3581,19 +3882,7 @@ function bindNewsPageEvents() {
     const readMoreLink = e.target.closest("[data-news-id]");
     if (readMoreLink) {
       e.preventDefault();
-      const item = newsItems.find((n) => n.id === readMoreLink.dataset.newsId);
-      if (!item) return;
-
-      document.getElementById("modalTitle").textContent = getLabel(
-        item.titleEn,
-        item.titleAr,
-      );
-      document.getElementById("modalBody").innerHTML = `
-        <img src="${item.img}" class="img-fluid rounded mb-3 w-100" alt="${getLabel(item.titleEn, item.titleAr)}">
-        <p class="text-muted small mb-2"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</p>
-        <p>${getLabel(item.excerptEn, item.excerptAr)}</p>
-      `;
-      new bootstrap.Modal(document.getElementById("overlayModal")).show();
+      openNewsDetailOverlay(readMoreLink.dataset.newsId);
     }
   });
 
@@ -3608,14 +3897,123 @@ function bindNewsPageEvents() {
 /* ============================================================
    VIDEOS PAGE — filterable grid over `videoItems` (see VIDEO DATA)
    ============================================================ */
-let activeVideoCategory = "all";
+let videoSortMode = "default";
+let videoViewLayout = "grid"; // "grid" | "list"
 let videosPageEventsBound = false;
+
+/* Grid cards are col-lg-3, so 4 is one full row — the machinery page uses 9
+   for the same reason against its 3-up grid. Deliberately smaller than the
+   8 videos currently in the catalog: any size >= the catalog means the
+   button never appears at all. */
+const VIDEOS_PAGE_SIZE = 4;
+let displayedVideosCount = VIDEOS_PAGE_SIZE;
+
+// Order here is the order in the dropdown; the first entry is the default
+// and acts as the placeholder — "Default Sorting" is the untouched catalog
+// order, so picking it again always gets you back to the authored sequence.
+const VIDEO_SORT_OPTIONS = [
+  { key: "default", en: "Default Sorting", ar: "الترتيب الافتراضي" },
+  { key: "featured", en: "Featured", ar: "المميزة" },
+  { key: "newest", en: "Newest", ar: "الأحدث" },
+  { key: "viewed", en: "Most Viewed", ar: "الأكثر مشاهدة" },
+  { key: "alpha", en: "A–Z", ar: "أ–ي" },
+];
+
+/* ---------- View counts ----------
+   videoItems carries no view data, so until a backend supplies one we count
+   the plays this browser makes and keep them in localStorage. getVideoViews()
+   reads v.views first, so the day an item arrives with a server-side count
+   that number wins with no further change here. */
+const VIDEO_VIEWS_KEY = "videoViews";
+
+let videoViewCounts = (() => {
+  try {
+    return JSON.parse(localStorage.getItem(VIDEO_VIEWS_KEY)) || {};
+  } catch (e) {
+    return {};
+  }
+})();
+
+function getVideoViews(v) {
+  return v.views ?? videoViewCounts[v.id] ?? 0;
+}
+
+// One count per video per page load — window blur can fire repeatedly (tab
+// switches) while the embed still holds focus, which would inflate it.
+const videoViewsCountedThisVisit = new Set();
+
+function recordVideoView(id) {
+  if (!id || videoViewsCountedThisVisit.has(id)) return;
+  videoViewsCountedThisVisit.add(id);
+
+  videoViewCounts[id] = (videoViewCounts[id] || 0) + 1;
+  try {
+    localStorage.setItem(VIDEO_VIEWS_KEY, JSON.stringify(videoViewCounts));
+  } catch (e) {
+    // Private mode / quota — sorting still works, it just won't persist.
+  }
+}
+
+/* Clicks inside a YouTube iframe never reach the parent document, so an
+   ordinary click handler cannot tell that a video was played. What does cross
+   the boundary is focus: clicking into an embed blurs the window and leaves
+   document.activeElement pointing at that iframe. Good enough for a play
+   signal without new dependencies — the YouTube IFrame Player API would give
+   real play/pause events, but only by replacing every embed with a scripted
+   player. */
+function bindVideoPlayTracking() {
+  window.addEventListener("blur", () => {
+    const el = document.activeElement;
+    if (!el || el.tagName !== "IFRAME") return;
+    const card = el.closest("[data-video-id]");
+    if (card) recordVideoView(card.dataset.videoId);
+  });
+}
+
+/* Titles sort under the language currently on screen, so "A–Z" means the
+   alphabet the reader is actually looking at — localeCompare with the Arabic
+   locale orders ا/ب/ت properly, which a plain > comparison does not. */
+function compareVideoTitle(a, b) {
+  const locale = appState.language === "ar" ? "ar" : "en";
+  return getLabel(a.titleEn, a.titleAr).localeCompare(
+    getLabel(b.titleEn, b.titleAr),
+    locale,
+    { sensitivity: "base", numeric: true },
+  );
+}
+
+const VIDEO_SORTERS = {
+  /* Editorial pick. No video carries `featured: true` yet, so today this is
+     simply the catalog in its authored order; flag an item and it rises. */
+  featured: (a, b) => Number(!!b.featured) - Number(!!a.featured),
+
+  viewed: (a, b) => getVideoViews(b) - getVideoViews(a),
+
+  alpha: compareVideoTitle,
+};
+
+function sortVideos(list) {
+  // The placeholder option: catalog order, untouched.
+  if (videoSortMode === "default") return list;
+
+  /* "Newest" has no date to compare — videoItems has no date field at all, so
+     the only ordering signal is position: later entries were added later.
+     Give items a `dateRaw` and this becomes a real date comparison. */
+  if (videoSortMode === "newest") return [...list].reverse();
+
+  // Array#sort is stable (ES2019), so items that tie keep catalog order
+  // instead of shuffling — that is the tiebreak for featured and viewed.
+  const sorter = VIDEO_SORTERS[videoSortMode];
+  return sorter ? [...list].sort(sorter) : list;
+}
 
 function loadVideosPage() {
   const container = document.getElementById("videosPageContent");
   if (!container) return;
 
-  activeVideoCategory = "all";
+  videoSortMode = VIDEO_SORT_OPTIONS[0].key;
+  videoViewLayout = "grid";
+  displayedVideosCount = VIDEOS_PAGE_SIZE;
 
   container.innerHTML = `
     ${createBanner(getLabel("Video Library", "معرض الفيديوهات"))}
@@ -3625,66 +4023,129 @@ function loadVideosPage() {
           <h5 class="sub-title px-3">${getLabel("Video Gallery", "معرض الفيديو")}</h5>
           <h1 class="display-5 mb-3">${getLabel("Explore Our Visual Content", "استكشف محتوانا المرئي")}</h1>
         </div>
-        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" id="videoFilterChips"></div>
+        <div class="videos-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <div class="videos-toolbar-left d-flex align-items-center gap-4">
+            <div class="videos-view-toggle d-flex gap-4" role="group" aria-label="${getLabel("View layout", "طريقة العرض")}">
+              <button type="button" class="videos-view-btn" data-video-layout="grid" aria-label="${getLabel("Grid view", "عرض شبكي")}">
+                <i class="fas fa-th-large" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="videos-view-btn" data-video-layout="list" aria-label="${getLabel("List view", "عرض قائمة")}">
+                <i class="fas fa-list" aria-hidden="true"></i>
+              </button>
+            </div>
+            <span class="small text-muted" id="videosCount"></span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <label for="videoSortSelect" class="small fw-semibold text-muted mb-0">⇅ ${getLabel("Sort by", "ترتيب حسب")}</label>
+            <select id="videoSortSelect" class="form-select form-select-sm" style="width:auto;">
+              ${VIDEO_SORT_OPTIONS.map(
+                (o) => `
+              <option value="${o.key}" ${videoSortMode === o.key ? "selected" : ""}>${getLabel(o.en, o.ar)}</option>
+              `,
+              ).join("")}
+            </select>
+          </div>
+        </div>
         <div class="row g-4" id="videosGridContainer"></div>
       </div>
     </div>
   `;
 
-  renderVideoFilterChips();
   renderVideosGrid();
   bindVideosPageEvents();
 }
 
-function renderVideoFilterChips() {
-  const container = document.getElementById("videoFilterChips");
-  if (!container) return;
-
-  const chips = [{ key: "all", en: "All", ar: "الكل" }, ...VIDEO_CATEGORIES];
-
-  container.innerHTML = chips
-    .map(
-      (c) => `
-      <button type="button" class="filter-chip ${activeVideoCategory === c.key ? "active" : ""}" data-video-category="${c.key}">
-        ${getLabel(c.en, c.ar)}
-      </button>
-    `,
-    )
-    .join("");
+function renderVideoViewToggle() {
+  document.querySelectorAll("[data-video-layout]").forEach((btn) => {
+    const isActive = btn.dataset.videoLayout === videoViewLayout;
+    btn.classList.toggle("active", isActive);
+    // aria-pressed, not aria-current: these are toggle buttons, and only one
+    // of the pair is on at a time.
+    btn.setAttribute("aria-pressed", isActive);
+  });
 }
 
 function renderVideosGrid() {
   const grid = document.getElementById("videosGridContainer");
   if (!grid) return;
 
-  const filtered =
-    activeVideoCategory === "all"
-      ? videoItems
-      : videoItems.filter((v) => v.category === activeVideoCategory);
+  renderVideoViewToggle();
 
-  if (filtered.length === 0) {
+  // List view is one full-width row per video; grid keeps the 4-up cards.
+  grid.classList.toggle("videos-list-view", videoViewLayout === "list");
+  const colClass =
+    videoViewLayout === "list" ? "col-12" : "col-md-6 col-lg-3";
+
+  if (videoItems.length === 0) {
+    renderVideosCount(0, 0);
     grid.innerHTML = `
       <div class="col-12 text-center py-5 text-muted">
-        ${getLabel("No videos in this category yet.", "لا توجد فيديوهات في هذا القسم بعد.")}
+        ${getLabel("No videos yet.", "لا توجد فيديوهات بعد.")}
       </div>
     `;
     return;
   }
 
-  grid.innerHTML = filtered
-    .map(
-      (v) => `
-      <div class="col-md-6 col-lg-3">
-        <div class="video-card">
+  // Batch after sorting, so "Show More" reveals the next items in whatever
+  // order is currently selected rather than the next entries in the catalog.
+  const sorted = sortVideos(videoItems);
+  const visible = sorted.slice(0, displayedVideosCount);
+  const hasMore = displayedVideosCount < sorted.length;
+
+  renderVideosCount(visible.length, sorted.length);
+
+  const cardsHtml = visible
+    .map((v) => {
+      // The category chips are gone, so the card carries its own category —
+      // otherwise that grouping would be invisible on the page.
+      const cat = VIDEO_CATEGORIES.find((c) => c.key === v.category);
+      return `
+      <div class="${colClass}">
+        <div class="video-card" data-video-id="${v.id}">
           <div class="video-embed-wrap">
             <iframe src="https://www.youtube.com/embed/${v.youtubeId}" title="${getLabel(v.titleEn, v.titleAr)}" allowfullscreen loading="lazy"></iframe>
           </div>
-          <h6 class="fw-semibold mt-2 mb-0">${getLabel(v.titleEn, v.titleAr)}</h6>
+          <div class="video-card-body">
+            <h6 class="fw-semibold mb-0">${getLabel(v.titleEn, v.titleAr)}</h6>
+            ${cat ? `<span class="video-card-meta small text-muted">${getLabel(cat.en, cat.ar)}</span>` : ""}
+          </div>
         </div>
       </div>
-    `,
-    )
+    `;
+    })
     .join("");
+
+  const showMoreHtml = hasMore
+    ? `
+      <div class="col-12 text-center pt-3 mb-3">
+        <button type="button" class="btn btn-primary px-5 py-2" id="showMoreVideosBtn">
+          ${getLabel("Show More", "عرض المزيد")}
+        </button>
+      </div>
+    `
+    : "";
+
+  grid.innerHTML = cardsHtml + showMoreHtml;
+}
+
+// Reads "Showing 4 of 8 videos" while batched, and settles to a plain total
+// once everything is on screen.
+function renderVideosCount(shown, total) {
+  const el = document.getElementById("videosCount");
+  if (!el) return;
+
+  if (shown < total) {
+    el.textContent = getLabel(
+      `Showing ${shown} of ${total} videos`,
+      `عرض ${shown} من ${total} فيديو`,
+    );
+    return;
+  }
+
+  el.textContent =
+    total === 1
+      ? getLabel("1 video", "فيديو واحد")
+      : getLabel(`${total} videos`, `${total} فيديو`);
 }
 
 function bindVideosPageEvents() {
@@ -3692,13 +4153,31 @@ function bindVideosPageEvents() {
   videosPageEventsBound = true;
 
   document.addEventListener("click", (e) => {
-    const chip = e.target.closest("[data-video-category]");
-    if (chip) {
-      activeVideoCategory = chip.dataset.videoCategory;
-      renderVideoFilterChips();
+    if (e.target.closest("#showMoreVideosBtn")) {
+      displayedVideosCount += VIDEOS_PAGE_SIZE;
+      renderVideosGrid();
+      return;
+    }
+
+    const layoutBtn = e.target.closest("[data-video-layout]");
+    // Layout is presentation only — how many are revealed carries over.
+    if (layoutBtn && layoutBtn.dataset.videoLayout !== videoViewLayout) {
+      videoViewLayout = layoutBtn.dataset.videoLayout;
       renderVideosGrid();
     }
   });
+
+  document.addEventListener("change", (e) => {
+    if (e.target.matches("#videoSortSelect")) {
+      videoSortMode = e.target.value;
+      // Back to the first batch — being 2 batches into the old order means
+      // nothing once the order changes underneath it.
+      displayedVideosCount = VIDEOS_PAGE_SIZE;
+      renderVideosGrid();
+    }
+  });
+
+  bindVideoPlayTracking();
 }
 
 /**
@@ -8603,67 +9082,105 @@ function initializeHomePageSections() {
   }
 }
 
+/* ============================================================
+   APP LOADING STATE — #appLoader is in index.html so it covers the
+   page from the first paint, before this file even runs. Kept up
+   until initializeApp() has its data, then faded out and removed.
+   Styles: ".app-loader" in style.css.
+   ============================================================ */
+function showAppLoader() {
+  const loader = document.getElementById("appLoader");
+  if (loader) loader.classList.remove("app-loader-hidden");
+}
+
+function hideAppLoader() {
+  const loader = document.getElementById("appLoader");
+  if (!loader) return;
+
+  loader.classList.add("app-loader-hidden");
+
+  // Drop it from the DOM after the fade so the 1080x1080 GIF stops
+  // animating and repainting behind the page for the rest of the session.
+  // transitionend alone isn't enough — it never fires if the element is
+  // already at opacity 0 or the user has reduced motion on — so a timer
+  // backs it up and whichever lands first wins.
+  const remove = () => loader.remove();
+  loader.addEventListener("transitionend", remove, { once: true });
+  setTimeout(remove, 600);
+}
+
 /**
  * Initialize the application
  */
 async function initializeApp() {
-  // ============================
-  // App Settings
-  // ============================
+  // try/finally so a failed fetch or a throw in any init step can't strand
+  // the user behind a loader that never lifts — a broken page is at least
+  // a page they can see and reload.
+  try {
+    // ============================
+    // App Settings
+    // ============================
 
-  document.documentElement.lang = appState.language;
-  document.documentElement.dir = appState.direction;
-  document.body.setAttribute("data-theme", appState.theme);
-  initializeAuth();
+    document.documentElement.lang = appState.language;
+    document.documentElement.dir = appState.direction;
+    document.body.setAttribute("data-theme", appState.theme);
+    initializeAuth();
 
-  // ============================
-  // UI Components
-  // ============================
-  await loadProductsData();
-  await loadCategoriesData();
-  await loadMachineryData();
-  await loadNewsData();
+    // ============================
+    // UI Components
+    // ============================
+    // Independent endpoints, so fetch them together rather than in series —
+    // this is the stretch the loader is covering.
+    await Promise.all([
+      loadProductsData(),
+      loadCategoriesData(),
+      loadMachineryData(),
+      loadNewsData(),
+    ]);
 
-  // Layer the localStorage content store on top of the defaults above,
-  // so admin-added/edited/deleted content persists across reloads.
-  productsData = loadContentStore("products", productsData);
-  bannerSlides = loadContentStore("bannerSlides", bannerSlides);
-  newsItems = loadContentStore("newsItems", newsItems);
-  videoItems = loadContentStore("videoItems", videoItems);
-  machineryData = loadContentStore("machineryData", machineryData);
+    // Layer the localStorage content store on top of the defaults above,
+    // so admin-added/edited/deleted content persists across reloads.
+    productsData = loadContentStore("products", productsData);
+    bannerSlides = loadContentStore("bannerSlides", bannerSlides);
+    newsItems = loadContentStore("newsItems", newsItems);
+    videoItems = loadContentStore("videoItems", videoItems);
+    machineryData = loadContentStore("machineryData", machineryData);
 
-  // Build the Products mega menu from categoriesData.
-  // MUST be after loadCategoriesData() and before initializeNavigation().
-  const productsLink = navigationLinks.find((l) => l.id === "products");
-  productsLink.megaMenu = buildProductsMegaMenuColumns();
+    // Build the Products mega menu from categoriesData.
+    // MUST be after loadCategoriesData() and before initializeNavigation().
+    const productsLink = navigationLinks.find((l) => l.id === "products");
+    productsLink.megaMenu = buildProductsMegaMenuColumns();
 
-  initializeNavigation();
-  initializeSlider();
-  initializeFooter();
+    initializeNavigation();
+    initializeSlider();
+    initializeFooter();
 
-  // ============================
-  // Pages
-  // ============================
+    // ============================
+    // Pages
+    // ============================
 
-  initializeHomePageSections();
+    initializeHomePageSections();
 
-  // ============================
-  // Theme
-  // ============================
+    // ============================
+    // Theme
+    // ============================
 
-  updateLogoBasedOnTheme();
+    updateLogoBasedOnTheme();
 
-  // ============================
-  // Events
-  // ============================
+    // ============================
+    // Events
+    // ============================
 
-  setupEventListeners();
+    setupEventListeners();
 
-  // ============================
-  // Initial Page
-  // ============================
+    // ============================
+    // Initial Page
+    // ============================
 
-  setCurrentPage("home");
+    setCurrentPage("videos");
+  } finally {
+    hideAppLoader();
+  }
 }
 
 /**
@@ -8725,8 +9242,33 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+/* Reveals #scrollTopBtn once the page is scrolled past a screenful.
+   Deliberately not part of setupEventListeners(): this is static chrome with
+   no dependency on the fetched data, so it has no business waiting on — or
+   being taken down by — the data-loading init chain. */
+const SCROLL_TOP_THRESHOLD = 400;
+
+function initScrollTopButton() {
+  const btn = document.getElementById("scrollTopBtn");
+  if (!btn) return;
+
+  btn.setAttribute("aria-label", getLabel("Scroll to top", "العودة للأعلى"));
+
+  const sync = () =>
+    btn.classList.toggle("is-visible", window.scrollY > SCROLL_TOP_THRESHOLD);
+
+  // passive: the handler only reads scrollY and toggles a class, so it must
+  // never hold up the scroll itself.
+  window.addEventListener("scroll", sync, { passive: true });
+  btn.addEventListener("click", scrollToTop);
+
+  // Catches a reload that restores a scrolled position.
+  sync();
+}
+
 // Initialize app when DOM is ready
 document.addEventListener("DOMContentLoaded", initializeApp);
+document.addEventListener("DOMContentLoaded", initScrollTopButton);
 
 // Expose functions to global scope for inline event handlers
 window.setCurrentPage = setCurrentPage;
@@ -8736,3 +9278,5 @@ window.scrollToTop = scrollToTop;
 window.goToProfileTab = goToProfileTab;
 window.updateOrderStatus = updateOrderStatus;
 window.openMachineDetailOverlay = openMachineDetailOverlay;
+window.showAppLoader = showAppLoader;
+window.hideAppLoader = hideAppLoader;
