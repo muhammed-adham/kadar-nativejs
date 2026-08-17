@@ -1,0 +1,149 @@
+{
+  "_note": "youtubeId and publishedAt are REAL — read from each video's own public YouTube page (oEmbed + watch-page metadata), not invented. Each title is built from that video's actual YouTube title, expanded with its year and a short descriptor for context; the English/Arabic counterpart of whichever language the original was in is a translation. publishedAt drives both the 'Newest' sort and the 'New' badge; it is optional, and an item without it is never badged and sorts to the end under Newest. Duration and video quality are deliberately NOT stored here: a YouTube <iframe> is cross-origin, so neither can be read back from the embed at runtime, and anything kept here would be hand-maintained and silently drift. 'featured: true' is an editorial pick: it floats the video to the top under the 'Featured' sort AND puts a Featured badge on its card. Omit the field entirely for normal videos. There is no 'badge' field — the card badge is worked out at render time (see getVideoBadge in script.js): Featured if flagged, otherwise 'New' when publishedAt is inside the last 14 days, so New expires on its own.",
+  "videos": [
+    {
+      "id": "v1",
+      "titleEn": "LED Lighting Expo 2024 — Show Floor Highlights",
+      "titleAr": "معرض إضاءة LED 2024 — أبرز لقطات أرض المعرض",
+      "youtubeId": "cs-lYJn4mN4",
+      "publishedAt": "2026-08-17"
+    },
+    {
+      "id": "v2",
+      "titleEn": "LED Lighting Expo 2024 — Exhibitor Showcase",
+      "titleAr": "معرض إضاءة LED 2024 — عروض العارضين",
+      "youtubeId": "VTkmvSGn3NE",
+      "publishedAt": "2024-02-17"
+    },
+    {
+      "id": "v3",
+      "titleEn": "Lighting Expo 2024 — Exhibition Coverage",
+      "titleAr": "معرض الإضاءة 2024 — تغطية المعرض",
+      "youtubeId": "UgCkzAam-dM",
+      "publishedAt": "2024-02-17"
+    },
+    {
+      "id": "v4",
+      "titleEn": "Anzemah at LED Middle East Lighting Expo 2024",
+      "titleAr": "أنظمة في معرض الشرق الأوسط للإضاءة LED 2024",
+      "youtubeId": "OGrT2oifSEY",
+      "publishedAt": "2024-02-17",
+      "featured": true
+    },
+    {
+      "id": "v5",
+      "titleEn": "The International Glass Show 2023 — Exhibition Coverage",
+      "titleAr": "معرض الزجاج الدولي 2023 — تغطية المعرض",
+      "youtubeId": "IXPnEaqK81Y",
+      "publishedAt": "2023-11-30"
+    },
+    {
+      "id": "v6",
+      "titleEn": "Food Africa 2023 — 8th International Food & Beverage Trade Exhibition",
+      "titleAr": "فوود آفريكا 2023 - المعرض التجاري الدولي الثامن للأغذية والمشروبات",
+      "youtubeId": "Ndv7xQvMgvQ",
+      "publishedAt": "2023-11-30",
+      "featured": true
+    },
+    {
+      "id": "v7",
+      "titleEn": "Arab Renewable Energy Company — Arab Organization for Industrialization",
+      "titleAr": "الشركة العربية للطاقة المتجددة - الهيئة العربية للتصنيع",
+      "youtubeId": "8DBr086HPO0",
+      "publishedAt": "2023-09-13"
+    },
+    {
+      "id": "v8",
+      "titleEn": "Sakr Factory for Advanced Industries — Arab Organization for Industrialization",
+      "titleAr": "مصنع صقر للصناعات المتطورة - الهيئة العربية للتصنيع",
+      "youtubeId": "Ln-3K-LeL84",
+      "publishedAt": "2023-08-08",
+      "featured": true
+    },
+    {
+      "id": "v9",
+      "titleEn": "Jeep Service Centre — Arab Organization for Industrialization",
+      "titleAr": "مركز صيانة Jeep - الهيئة العربية للتصنيع",
+      "youtubeId": "kLmmDNhFwvs",
+      "publishedAt": "2023-08-08"
+    },
+    {
+      "id": "v10",
+      "titleEn": "Engines Factory — Arab Organization for Industrialization",
+      "titleAr": "مصنع المحركات - الهيئة العربية للتصنيع",
+      "youtubeId": "oovmi47l3gk",
+      "publishedAt": "2023-07-31"
+    },
+    {
+      "id": "v11",
+      "titleEn": "United Company for Fire Systems — Company Profile",
+      "titleAr": "الشركة المتحدة لأنظمة الحرائق — نبذة عن الشركة",
+      "youtubeId": "oL_gj1OVdTg",
+      "publishedAt": "2023-06-07"
+    },
+    {
+      "id": "v12",
+      "titleEn": "Watrex Expo 2023 — Exhibition Coverage, 15–17 May",
+      "titleAr": "معرض واتركس 2023 — تغطية المعرض، 15–17 مايو",
+      "youtubeId": "eloR8sOqzes",
+      "publishedAt": "2023-05-07"
+    },
+    {
+      "id": "v13",
+      "titleEn": "LED Middle East Lighting Expo 2023 — Exhibition Coverage",
+      "titleAr": "معرض الشرق الأوسط للإضاءة LED 2023 — تغطية المعرض",
+      "youtubeId": "JsgfYYMZC84",
+      "publishedAt": "2023-03-08"
+    },
+    {
+      "id": "v14",
+      "titleEn": "Green Mobility Technology Expo 2022 — Show Highlights",
+      "titleAr": "معرض تكنولوجيا التنقل الأخضر 2022 — أبرز اللقطات",
+      "youtubeId": "gjCHFsDiOFE",
+      "publishedAt": "2022-11-28"
+    },
+    {
+      "id": "v15",
+      "titleEn": "Food Africa 2022 — Growing Every Year, 5–7 December, Cairo",
+      "titleAr": "فوود آفريكا 2022 — نحن ننمو كل عام، 5–7 ديسمبر بالقاهرة",
+      "youtubeId": "WMQuQYKjHUU",
+      "publishedAt": "2022-11-14"
+    },
+    {
+      "id": "v16",
+      "titleEn": "Power Egypt Expo 2022 — Energy Technology",
+      "titleAr": "معرض باور إيجيبت 2022 — تكنولوجيا الطاقة",
+      "youtubeId": "MOeAMjSFDtE",
+      "publishedAt": "2022-11-28"
+    },
+    {
+      "id": "v17",
+      "titleEn": "LED Middle East Lighting Expo 2022 — Exhibitor Showcase",
+      "titleAr": "معرض الشرق الأوسط للإضاءة LED 2022 — عروض العارضين",
+      "youtubeId": "J5W8HFpUqhY",
+      "publishedAt": "2022-11-28"
+    },
+    {
+      "id": "v18",
+      "titleEn": "International Industry Forum & Exhibition 2022",
+      "titleAr": "الملتقى والمعرض الدولي للصناعة 2022",
+      "youtubeId": "IsyP2UkpZK4",
+      "publishedAt": "2022-10-19"
+    },
+    {
+      "id": "v19",
+      "titleEn": "El Dawlia Trading — Al Oboor Logistics Customs Bonded Warehouse",
+      "titleAr": "الدولية تريدنج - العبور لوجيستك - مستودع العبور الجمركى",
+      "youtubeId": "qMDtAIwpyDw",
+      "publishedAt": "2022-08-13",
+      "featured": true
+    },
+    {
+      "id": "v20",
+      "titleEn": "The Italian Doors Company — Product Range",
+      "titleAr": "الشركة الإيطالية للأبواب الإيطالي — منتجات الشركة",
+      "youtubeId": "6Cjtt8lrKQ0",
+      "publishedAt": "2022-02-08"
+    }
+  ]
+}

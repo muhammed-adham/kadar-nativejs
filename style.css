@@ -2230,17 +2230,12 @@ html[dir="rtl"] .nav-btn-custom {
   object-fit: cover;
 }
 
-.news-card:hover .news-card-img img{
-  backdrop-filter: ;
-}
-
-/* CNN-style "breaking" tag — solid red, uppercase, small pulsing dot
-   for urgency. inset-inline-start (not left) so it sits correctly in RTL. */
-.breaking-badge {
-  position: absolute;
-  top: 0.9rem;
-  inset-inline-start: 0.9rem;
-  z-index: 2;
+/* CNN-style "breaking" tag — solid red, uppercase, small pulsing dot for
+   urgency. Shared with the Videos page's Trending/New badge (.video-badge)
+   so the two stay identical; only the placement differs, which is why the
+   positioning lives in the rule below rather than in here. */
+.breaking-badge,
+.video-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -2253,6 +2248,23 @@ html[dir="rtl"] .nav-btn-custom {
   padding: 0.35rem 0.75rem;
   border-radius: 0.2rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.video-badge{
+    position: absolute;
+  bottom: 0.9rem;
+  inset-inline-start: 0.9rem;
+  z-index: 2;
+}
+
+/* News pins its badge over the card image; the video card's sits inline in
+   the body next to the category, so it stays in normal flow.
+   inset-inline-start (not left) so it sits correctly in RTL. */
+.breaking-badge {
+  position: absolute;
+  top: 0.9rem;
+  inset-inline-start: 0.9rem;
+  z-index: 2;
 }
 
 .breaking-badge-dot {
@@ -2319,6 +2331,7 @@ html[dir="rtl"] .nav-btn-custom {
   display: flex;
   flex-direction: column;
   height: 100%;
+
 }
 
 .news-card-title{
@@ -2360,7 +2373,7 @@ html[dir="rtl"] .nav-btn-custom {
   height: 0;
   overflow: hidden;
   border-radius: 0.1rem;
-  background: var(--white);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, .6);
 }
 
 .video-embed-wrap iframe {
@@ -2373,12 +2386,38 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 .video-card-body {
+  position: relative;
   margin-top: 0.5rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
+  height: 7rem;
 }
 
-.video-card-meta {
-  display: block;
+.video-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #cc0000;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
+
+.video-badge{
+    position: absolute;
+  bottom: 0.9rem;
+  inset-inline-start: 0.9rem;
+  z-index: 2;
+}
+
+/* Trending / New badge — the look is defined once up in the .breaking-badge
+   rule, which this shares. .video-badge-trending / .video-badge-new are left
+   on the markup as hooks: add a background here to tell the two apart again,
+   otherwise both stay the same red as the News badge. */
 
 /* Hairline dividers between the two view buttons and the count. Drawn as
    pseudo-elements parked in the middle of the flex gap rather than as a
@@ -2425,7 +2464,7 @@ body[data-theme="dark"] .videos-toolbar-left {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border-color);
-  border-radius: 0.3rem;
+  border-radius: 0.1rem;
   background: var(--white);
   color: var(--text-secondary);
   cursor: pointer;

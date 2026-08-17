@@ -221,74 +221,23 @@ async function loadNewsData() {
 }
 
 /* ============================================================
-   VIDEO DATA — same placeholder embed reused across entries
-   until real footage exists; swap `youtubeId` per item.
+   VIDEO DATA (loaded from /data/videos.json, like productsData
+   and categoriesData above). The file carries both the category
+   list and the videos; per-item `publishedAt` is optional — see the
+   "_note" at the top of videos.json.
    ============================================================ */
-const VIDEO_CATEGORIES = [
-  { key: "facility", en: "Facility Tour", ar: "جولة المصنع" },
-  { key: "product", en: "Product Demos", ar: "عروض المنتجات" },
-  { key: "corporate", en: "Corporate", ar: "الشركة" },
-  { key: "event", en: "Events", ar: "الفعاليات" },
-];
+let videoItems = [];
 
-let videoItems = [
-  {
-    id: "v1",
-    titleEn: "Inside Kader Factory",
-    titleAr: "داخل مصنع قادر",
-    category: "facility",
-    youtubeId: "dY3t90L_q3Q",
-  },
-  {
-    id: "v2",
-    titleEn: "CNC Machining Line Tour",
-    titleAr: "جولة في خط تشغيل CNC",
-    category: "facility",
-    youtubeId: "dY3t90L_q3Q",
-  },
-  {
-    id: "v3",
-    titleEn: "Electric Scooter Assembly",
-    titleAr: "تجميع السكوتر الكهربائي",
-    category: "product",
-    youtubeId: "dY3t90L_q3Q",
-  },
-  {
-    id: "v4",
-    titleEn: "Furniture Manufacturing Process",
-    titleAr: "عملية تصنيع الأثاث",
-    category: "product",
-    youtubeId: "dY3t90L_q3Q",
-  },
-  {
-    id: "v5",
-    titleEn: "Message from Management",
-    titleAr: "كلمة الإدارة",
-    category: "corporate",
-    youtubeId: "dY3t90L_q3Q",
-  },
-  {
-    id: "v6",
-    titleEn: "70 Years of Industry",
-    titleAr: "70 عاماً من الصناعة",
-    category: "corporate",
-    youtubeId: "dY3t90L_q3Q",
-  },
-  {
-    id: "v7",
-    titleEn: "Regional Expo Highlights",
-    titleAr: "أبرز لحظات المعرض الإقليمي",
-    category: "event",
-    youtubeId: "dY3t90L_q3Q",
-  },
-  {
-    id: "v8",
-    titleEn: "Safety Certification Ceremony",
-    titleAr: "حفل اعتماد شهادة السلامة",
-    category: "event",
-    youtubeId: "dY3t90L_q3Q",
-  },
-];
+async function loadVideosData() {
+  try {
+    const response = await fetch("/data/videos.json");
+    const data = await response.json();
+    videoItems = data.videos || [];
+  } catch (e) {
+    console.error("Failed to load videos.json", e);
+    videoItems = [];
+  }
+}
 
 /* ============================================================
    CLIENTS DATA
@@ -3905,7 +3854,7 @@ let videosPageEventsBound = false;
    for the same reason against its 3-up grid. Deliberately smaller than the
    8 videos currently in the catalog: any size >= the catalog means the
    button never appears at all. */
-const VIDEOS_PAGE_SIZE = 4;
+const VIDEOS_PAGE_SIZE = 6;
 let displayedVideosCount = VIDEOS_PAGE_SIZE;
 
 // Order here is the order in the dropdown; the first entry is the default
@@ -3915,60 +3864,10 @@ const VIDEO_SORT_OPTIONS = [
   { key: "default", en: "Default Sorting", ar: "الترتيب الافتراضي" },
   { key: "featured", en: "Featured", ar: "المميزة" },
   { key: "newest", en: "Newest", ar: "الأحدث" },
-  { key: "viewed", en: "Most Viewed", ar: "الأكثر مشاهدة" },
+  // No "Most Viewed": nothing counts views any more, so it could only ever
+  // have returned catalog order dressed up as a ranking.
   { key: "alpha", en: "A–Z", ar: "أ–ي" },
 ];
-
-/* ---------- View counts ----------
-   videoItems carries no view data, so until a backend supplies one we count
-   the plays this browser makes and keep them in localStorage. getVideoViews()
-   reads v.views first, so the day an item arrives with a server-side count
-   that number wins with no further change here. */
-const VIDEO_VIEWS_KEY = "videoViews";
-
-let videoViewCounts = (() => {
-  try {
-    return JSON.parse(localStorage.getItem(VIDEO_VIEWS_KEY)) || {};
-  } catch (e) {
-    return {};
-  }
-})();
-
-function getVideoViews(v) {
-  return v.views ?? videoViewCounts[v.id] ?? 0;
-}
-
-// One count per video per page load — window blur can fire repeatedly (tab
-// switches) while the embed still holds focus, which would inflate it.
-const videoViewsCountedThisVisit = new Set();
-
-function recordVideoView(id) {
-  if (!id || videoViewsCountedThisVisit.has(id)) return;
-  videoViewsCountedThisVisit.add(id);
-
-  videoViewCounts[id] = (videoViewCounts[id] || 0) + 1;
-  try {
-    localStorage.setItem(VIDEO_VIEWS_KEY, JSON.stringify(videoViewCounts));
-  } catch (e) {
-    // Private mode / quota — sorting still works, it just won't persist.
-  }
-}
-
-/* Clicks inside a YouTube iframe never reach the parent document, so an
-   ordinary click handler cannot tell that a video was played. What does cross
-   the boundary is focus: clicking into an embed blurs the window and leaves
-   document.activeElement pointing at that iframe. Good enough for a play
-   signal without new dependencies — the YouTube IFrame Player API would give
-   real play/pause events, but only by replacing every embed with a scripted
-   player. */
-function bindVideoPlayTracking() {
-  window.addEventListener("blur", () => {
-    const el = document.activeElement;
-    if (!el || el.tagName !== "IFRAME") return;
-    const card = el.closest("[data-video-id]");
-    if (card) recordVideoView(card.dataset.videoId);
-  });
-}
 
 /* Titles sort under the language currently on screen, so "A–Z" means the
    alphabet the reader is actually looking at — localeCompare with the Arabic
@@ -3987,22 +3886,23 @@ const VIDEO_SORTERS = {
      simply the catalog in its authored order; flag an item and it rises. */
   featured: (a, b) => Number(!!b.featured) - Number(!!a.featured),
 
-  viewed: (a, b) => getVideoViews(b) - getVideoViews(a),
+  // Items without a publishedAt sort to the end rather than to 1970.
+  newest: (a, b) => videoPublishedTime(b) - videoPublishedTime(a),
 
   alpha: compareVideoTitle,
 };
+
+function videoPublishedTime(v) {
+  const t = v.publishedAt ? new Date(v.publishedAt).getTime() : NaN;
+  return Number.isNaN(t) ? -Infinity : t;
+}
 
 function sortVideos(list) {
   // The placeholder option: catalog order, untouched.
   if (videoSortMode === "default") return list;
 
-  /* "Newest" has no date to compare — videoItems has no date field at all, so
-     the only ordering signal is position: later entries were added later.
-     Give items a `dateRaw` and this becomes a real date comparison. */
-  if (videoSortMode === "newest") return [...list].reverse();
-
   // Array#sort is stable (ES2019), so items that tie keep catalog order
-  // instead of shuffling — that is the tiebreak for featured and viewed.
+  // instead of shuffling — that is the tiebreak for featured and newest.
   const sorter = VIDEO_SORTERS[videoSortMode];
   return sorter ? [...list].sort(sorter) : list;
 }
@@ -4027,7 +3927,7 @@ function loadVideosPage() {
           <div class="videos-toolbar-left d-flex align-items-center gap-4">
             <div class="videos-view-toggle d-flex gap-4" role="group" aria-label="${getLabel("View layout", "طريقة العرض")}">
               <button type="button" class="videos-view-btn" data-video-layout="grid" aria-label="${getLabel("Grid view", "عرض شبكي")}">
-                <i class="fas fa-th-large" aria-hidden="true"></i>
+                <i class="fas fa-grip-vertical" aria-hidden="true"></i>
               </button>
               <button type="button" class="videos-view-btn" data-video-layout="list" aria-label="${getLabel("List view", "عرض قائمة")}">
                 <i class="fas fa-list" aria-hidden="true"></i>
@@ -4046,7 +3946,7 @@ function loadVideosPage() {
             </select>
           </div>
         </div>
-        <div class="row g-4" id="videosGridContainer"></div>
+        <div class="row row-gap-4" id="videosGridContainer"></div>
       </div>
     </div>
   `;
@@ -4065,6 +3965,81 @@ function renderVideoViewToggle() {
   });
 }
 
+/* ---------- Card metadata ----------
+   Duration and quality used to sit here and have been removed: a YouTube
+   <iframe> is cross-origin, so neither is readable from this page whatever
+   parameters the src carries, and there is no iframe setting that exposes
+   them. (The IFrame Player API can report duration once every embed has been
+   replaced by a scripted player, and even then cannot give a static "1080p".)
+   Upload date is different — it is editorial data like the News page's dates,
+   not something scraped from the player — so it stays, and it is what the
+   "New" badge keys off. */
+
+// Descending, so the first unit the gap clears is the one worth showing.
+const VIDEO_AGE_UNITS = [
+  ["year", 31536000],
+  ["month", 2592000],
+  ["week", 604800],
+  ["day", 86400],
+  ["hour", 3600],
+  ["minute", 60],
+];
+
+/* Intl.RelativeTimeFormat rather than a hand-rolled "2h ago": Arabic has
+   dual and plural forms that a template string gets wrong. */
+function formatVideoAge(publishedAt) {
+  if (!publishedAt) return "";
+  const then = new Date(publishedAt).getTime();
+  if (Number.isNaN(then)) return "";
+
+  const deltaSec = Math.round((then - Date.now()) / 1000);
+  /* numeric:"always" — "auto" swaps in idioms like "last wk." and "yesterday",
+     which read oddly beside "2 days ago" in the same metadata row.
+
+     style: Arabic MUST use "long". CLDR's Arabic *short* forms drop the
+     direction marker, so ar-EG short renders both -3 and +3 months as
+     "خلال ٣ أشهر" ("in 3 months") — a past upload would read as a future one.
+     The long form correctly gives "قبل ٣ أشهر". English short is unambiguous
+     ("3 mo. ago") and stays compact, so it keeps short. */
+  const isArabic = appState.language === "ar";
+  const rtf = new Intl.RelativeTimeFormat(isArabic ? "ar-EG" : "en-US", {
+    numeric: "always",
+    style: isArabic ? "long" : "short",
+  });
+
+  for (const [unit, sec] of VIDEO_AGE_UNITS) {
+    if (Math.abs(deltaSec) >= sec) {
+      return rtf.format(Math.round(deltaSec / sec), unit);
+    }
+  }
+  return rtf.format(deltaSec, "minute");
+}
+
+/* ---------- Card badge ----------
+   One badge slot, two things that can fill it. "Featured" is the editorial
+   pick — the same `featured` flag the Featured sort reads, so a video marked
+   in videos.json both leads the list and says why. "New" is derived from
+   publishedAt rather than stored, because a badge that says "new" has to
+   expire on its own; a field in the data would still be claiming it a year
+   later.
+
+   Featured outranks New: it is a deliberate choice, where New is automatic
+   and every video gets it for free at some point. An item that is neither
+   shows no badge. */
+const VIDEO_NEW_DAYS = 14;
+
+function isVideoNew(v) {
+  if (!v.publishedAt) return false;
+  const age = Date.now() - new Date(v.publishedAt).getTime();
+  return age >= 0 && age <= VIDEO_NEW_DAYS * 86400000;
+}
+
+function getVideoBadge(v) {
+  if (v.featured) return { key: "featured", en: "Featured", ar: "مميز" };
+  if (isVideoNew(v)) return { key: "new", en: "New", ar: "جديد" };
+  return null;
+}
+
 function renderVideosGrid() {
   const grid = document.getElementById("videosGridContainer");
   if (!grid) return;
@@ -4074,7 +4049,7 @@ function renderVideosGrid() {
   // List view is one full-width row per video; grid keeps the 4-up cards.
   grid.classList.toggle("videos-list-view", videoViewLayout === "list");
   const colClass =
-    videoViewLayout === "list" ? "col-12" : "col-md-6 col-lg-3";
+    videoViewLayout === "list" ? "col-12" : "col-md-6 col-lg-4";
 
   if (videoItems.length === 0) {
     renderVideosCount(0, 0);
@@ -4096,18 +4071,23 @@ function renderVideosGrid() {
 
   const cardsHtml = visible
     .map((v) => {
-      // The category chips are gone, so the card carries its own category —
-      // otherwise that grouping would be invisible on the page.
-      const cat = VIDEO_CATEGORIES.find((c) => c.key === v.category);
+      const badge = getVideoBadge(v);
       return `
-      <div class="${colClass}">
-        <div class="video-card" data-video-id="${v.id}">
+      <div class="${colClass} p-3">
+        <div class="video-card bg-white" data-video-id="${v.id}">
           <div class="video-embed-wrap">
-            <iframe src="https://www.youtube.com/embed/${v.youtubeId}" title="${getLabel(v.titleEn, v.titleAr)}" allowfullscreen loading="lazy"></iframe>
+            <iframe
+                src="https://www.youtube.com/embed/${v.youtubeId}?modestbranding=1&rel=0"
+                title="${getLabel(v.titleEn, v.titleAr)}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                loading="lazy">
+            </iframe>
           </div>
-          <div class="video-card-body">
-            <h6 class="fw-semibold mb-0">${getLabel(v.titleEn, v.titleAr)}</h6>
-            ${cat ? `<span class="video-card-meta small text-muted">${getLabel(cat.en, cat.ar)}</span>` : ""}
+
+          <div class="video-card-body px-3 pt-2">
+            <h6 class="fw-semibold pt-2">${getLabel(v.titleEn, v.titleAr)}</h6>
+            ${badge ? `<span class="video-badge shadow-none text-danger bg-transparent video-badge-${badge.key}"><span class="breaking-badge-dot bg-danger"></span>${getLabel(badge.en, badge.ar)}</span>` : ""}
           </div>
         </div>
       </div>
@@ -4176,8 +4156,6 @@ function bindVideosPageEvents() {
       renderVideosGrid();
     }
   });
-
-  bindVideoPlayTracking();
 }
 
 /**
@@ -6322,8 +6300,8 @@ const CMS_TYPES = {
       id: `video-${Date.now()}`,
       titleEn: "",
       titleAr: "",
-      category: VIDEO_CATEGORIES[0].key,
       youtubeId: "",
+      publishedAt: new Date().toISOString().slice(0, 10),
     }),
     columns: [
       {
@@ -6331,11 +6309,8 @@ const CMS_TYPES = {
         render: (v) => getLabel(v.titleEn, v.titleAr) || "—",
       },
       {
-        label: { en: "Category", ar: "الفئة" },
-        render: (v) => {
-          const c = VIDEO_CATEGORIES.find((c) => c.key === v.category);
-          return c ? getLabel(c.en, c.ar) : v.category;
-        },
+        label: { en: "Published", ar: "تاريخ النشر" },
+        render: (v) => v.publishedAt || "—",
       },
       {
         label: { en: "YouTube ID", ar: "معرف يوتيوب" },
@@ -6356,20 +6331,16 @@ const CMS_TYPES = {
         required: true,
       },
       {
-        key: "category",
-        label: { en: "Category", ar: "الفئة" },
-        type: "select",
-        options: () =>
-          VIDEO_CATEGORIES.map((c) => ({
-            value: c.key,
-            label: getLabel(c.en, c.ar),
-          })),
-      },
-      {
         key: "youtubeId",
         label: { en: "YouTube Video ID", ar: "معرف فيديو يوتيوب" },
         type: "text",
         required: true,
+      },
+      {
+        // Drives the "Newest" sort and the auto-expiring "New" badge.
+        key: "publishedAt",
+        label: { en: "Published", ar: "تاريخ النشر" },
+        type: "date",
       },
     ],
   },
@@ -9136,6 +9107,7 @@ async function initializeApp() {
       loadCategoriesData(),
       loadMachineryData(),
       loadNewsData(),
+      loadVideosData(),
     ]);
 
     // Layer the localStorage content store on top of the defaults above,
