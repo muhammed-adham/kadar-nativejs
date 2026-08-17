@@ -3946,7 +3946,7 @@ function loadVideosPage() {
             </select>
           </div>
         </div>
-        <div class="row row-gap-4" id="videosGridContainer"></div>
+        <div class="row" id="videosGridContainer"></div>
       </div>
     </div>
   `;
@@ -4086,7 +4086,7 @@ function renderVideosGrid() {
           </div>
 
           <div class="video-card-body px-3 pt-2">
-            <h6 class="fw-semibold pt-2">${getLabel(v.titleEn, v.titleAr)}</h6>
+            <h6 class="fw-semibold pt-2">• ${getLabel(v.titleEn, v.titleAr)}</h6>
             ${badge ? `<span class="video-badge shadow-none text-danger bg-transparent video-badge-${badge.key}"><span class="breaking-badge-dot bg-danger"></span>${getLabel(badge.en, badge.ar)}</span>` : ""}
           </div>
         </div>
