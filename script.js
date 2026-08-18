@@ -3032,7 +3032,12 @@ function renderWindowedDots(container, activeIndex, total, itemLabel) {
    survives the dots being rebuilt when the window size changes. */
 function bindWindowedDots(container, swiper, itemLabel) {
   if (!container || !swiper) return;
-  renderWindowedDots(container, swiper.activeIndex, swiper.slides.length, itemLabel);
+  renderWindowedDots(
+    container,
+    swiper.activeIndex,
+    swiper.slides.length,
+    itemLabel,
+  );
   container.addEventListener("click", (e) => {
     const dot = e.target.closest("[data-dot-index]");
     if (dot) swiper.slideTo(Number(dot.dataset.dotIndex));
@@ -3459,7 +3464,15 @@ let newsPageEventsBound = false;
 
 // Rolling windows (days back from now), not calendar boundaries — avoids
 // locale-dependent "start of week/month" edge cases.
-const NEWS_TIME_RANGE_DAYS = { all: null, week: 7, month: 30, quarter: 90, half: 183, year: 365, lastYear:630};
+const NEWS_TIME_RANGE_DAYS = {
+  all: null,
+  week: 7,
+  month: 30,
+  quarter: 90,
+  half: 183,
+  year: 365,
+  lastYear: 630,
+};
 let newsTimeFilter = "all";
 let newsSortOrder = "newest"; // "newest" | "oldest"
 
@@ -3693,10 +3706,13 @@ function updateNewsDetailContent(index) {
   const item = newsDetailList[index];
   if (!item) return;
 
-  animateMachineDetailSwap(document.getElementById("newsDetailBodyWrap"), () => {
-    document.getElementById("newsDetailBodyWrap").innerHTML =
-      newsDetailBodyHtml(item);
-  });
+  animateMachineDetailSwap(
+    document.getElementById("newsDetailBodyWrap"),
+    () => {
+      document.getElementById("newsDetailBodyWrap").innerHTML =
+        newsDetailBodyHtml(item);
+    },
+  );
 }
 
 function openNewsDetailOverlay(newsId) {
@@ -3846,27 +3862,27 @@ function bindNewsPageEvents() {
 /* ============================================================
    VIDEOS PAGE — filterable grid over `videoItems` (see VIDEO DATA)
    ============================================================ */
-let videoSortMode = "default";
+let videoSortMode = "newest"; // must match VIDEO_SORT_OPTIONS[0].key
 let videoViewLayout = "grid"; // "grid" | "list"
 let videosPageEventsBound = false;
 
-/* Grid cards are col-lg-3, so 4 is one full row — the machinery page uses 9
-   for the same reason against its 3-up grid. Deliberately smaller than the
-   8 videos currently in the catalog: any size >= the catalog means the
+/* Grid cards are col-lg-4, so 6 is two full rows — the machinery page uses
+   9 for the same reason against its own 3-up grid. Keep it below the
+   catalog size: any value >= the number of videos means the Show More
    button never appears at all. */
 const VIDEOS_PAGE_SIZE = 6;
 let displayedVideosCount = VIDEOS_PAGE_SIZE;
 
-// Order here is the order in the dropdown; the first entry is the default
-// and acts as the placeholder — "Default Sorting" is the untouched catalog
-// order, so picking it again always gets you back to the authored sequence.
+// Order here is the order in the dropdown; the first entry is what the page
+// opens on. Newest leads because a video library reads newest-first by
+// default, and every item already carries a publishedAt to sort by.
 const VIDEO_SORT_OPTIONS = [
-  { key: "default", en: "Default Sorting", ar: "الترتيب الافتراضي" },
-  { key: "featured", en: "Featured", ar: "المميزة" },
   { key: "newest", en: "Newest", ar: "الأحدث" },
+  { key: "oldest", en: "Oldest", ar: "الأقدم" },
   // No "Most Viewed": nothing counts views any more, so it could only ever
   // have returned catalog order dressed up as a ranking.
   { key: "alpha", en: "A–Z", ar: "أ–ي" },
+  { key: "alphaDesc", en: "Z–A", ar: "ي–أ" },
 ];
 
 /* Titles sort under the language currently on screen, so "A–Z" means the
@@ -3882,14 +3898,14 @@ function compareVideoTitle(a, b) {
 }
 
 const VIDEO_SORTERS = {
-  /* Editorial pick. No video carries `featured: true` yet, so today this is
-     simply the catalog in its authored order; flag an item and it rises. */
-  featured: (a, b) => Number(!!b.featured) - Number(!!a.featured),
-
-  // Items without a publishedAt sort to the end rather than to 1970.
-  newest: (a, b) => videoPublishedTime(b) - videoPublishedTime(a),
+  newest: (a, b) => compareVideoDate(a, b, -1),
+  oldest: (a, b) => compareVideoDate(a, b, 1),
 
   alpha: compareVideoTitle,
+
+  // Same comparator with the operands swapped — one source of truth for how
+  // titles collate, including the Arabic locale handling.
+  alphaDesc: (a, b) => compareVideoTitle(b, a),
 };
 
 function videoPublishedTime(v) {
@@ -3897,10 +3913,23 @@ function videoPublishedTime(v) {
   return Number.isNaN(t) ? -Infinity : t;
 }
 
-function sortVideos(list) {
-  // The placeholder option: catalog order, untouched.
-  if (videoSortMode === "default") return list;
+/* Undated items sort to the end under BOTH date orders. videoPublishedTime
+   returns -Infinity for a missing date, which puts them last under Newest
+   for free but would float them to the very top of Oldest — a missing date
+   means "unknown", not "the beginning of time". Hence the explicit checks
+   before the direction is applied. */
+function compareVideoDate(a, b, direction) {
+  const ta = videoPublishedTime(a);
+  const tb = videoPublishedTime(b);
 
+  if (ta === tb) return 0;
+  if (ta === -Infinity) return 1;
+  if (tb === -Infinity) return -1;
+
+  return direction * (ta - tb);
+}
+
+function sortVideos(list) {
   // Array#sort is stable (ES2019), so items that tie keep catalog order
   // instead of shuffling — that is the tiebreak for featured and newest.
   const sorter = VIDEO_SORTERS[videoSortMode];
@@ -3923,6 +3952,8 @@ function loadVideosPage() {
           <h5 class="sub-title px-3">${getLabel("Video Gallery", "معرض الفيديو")}</h5>
           <h1 class="display-5 mb-3">${getLabel("Explore Our Visual Content", "استكشف محتوانا المرئي")}</h1>
         </div>
+        <div class="videos-featured mb-5" id="videosFeaturedSection"></div>
+
         <div class="videos-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
           <div class="videos-toolbar-left d-flex align-items-center gap-4">
             <div class="videos-view-toggle d-flex gap-4" role="group" aria-label="${getLabel("View layout", "طريقة العرض")}">
@@ -3951,6 +3982,7 @@ function loadVideosPage() {
     </div>
   `;
 
+  renderFeaturedVideos();
   renderVideosGrid();
   bindVideosPageEvents();
 }
@@ -4016,16 +4048,11 @@ function formatVideoAge(publishedAt) {
 }
 
 /* ---------- Card badge ----------
-   One badge slot, two things that can fill it. "Featured" is the editorial
-   pick — the same `featured` flag the Featured sort reads, so a video marked
-   in videos.json both leads the list and says why. "New" is derived from
-   publishedAt rather than stored, because a badge that says "new" has to
-   expire on its own; a field in the data would still be claiming it a year
-   later.
-
-   Featured outranks New: it is a deliberate choice, where New is automatic
-   and every video gets it for free at some point. An item that is neither
-   shows no badge. */
+   Only one thing fills it now: "New", derived from publishedAt rather than
+   stored, because a badge that says "new" has to expire on its own — a field
+   in the data would still be claiming it a year later. Featured videos are
+   surfaced by the carousel above the grid (renderFeaturedVideos) instead of
+   by a badge. An item with no publishedAt never gets badged. */
 const VIDEO_NEW_DAYS = 14;
 
 function isVideoNew(v) {
@@ -4035,9 +4062,162 @@ function isVideoNew(v) {
 }
 
 function getVideoBadge(v) {
-  if (v.featured) return { key: "featured", en: "Featured", ar: "مميز" };
   if (isVideoNew(v)) return { key: "new", en: "New", ar: "جديد" };
   return null;
+}
+
+/* One card definition shared by the featured carousel and the grid below it,
+   so a change to the embed or the badge lands in both places at once. */
+function videoCardHtml(v) {
+  return videoPosterCardHtml(v, { badge: getVideoBadge(v) });
+}
+
+/* ---------- Video poster card ----------
+   Shared by the featured carousel and the library grid, so the two look and
+   behave identically. Deliberately NOT an always-on <iframe>: YouTube's player
+   chrome can't be styled, so a wall of embeds fights the design and each one
+   costs a player load on a page that shows a dozen at a time. The card is the
+   video's own poster frame with the title over a gradient, and the iframe is
+   created only when someone actually clicks (see playVideoCard).
+
+   Thumbnail fallback is handled by resolveVideoThumb below — see its comment,
+   the obvious onerror approach does not work here. */
+/* YouTube serves maxresdefault (1280x720) only for some uploads — 2 of the 4
+   currently featured have none. The catch is that it answers those with HTTP
+   404 *and a valid 120x90 grey placeholder JPEG in the body*, which the
+   browser decodes happily, so `onerror` never fires and the card would show a
+   tiny grey square blown up to full width. Detecting it by size is therefore
+   the only reliable test. hqdefault always exists; it is 4:3 with letterbox
+   bars, which object-fit:cover on the 16:9 card crops straight back off. */
+function resolveVideoThumb(img, youtubeId) {
+  if (img.dataset.thumbFallback) return;
+  if (img.naturalWidth > 200) return;
+
+  img.dataset.thumbFallback = "1";
+  img.src = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
+}
+
+function videoPosterCardHtml(v, { badge = null } = {}) {
+  const title = getLabel(v.titleEn, v.titleAr);
+
+  return `
+    <button type="button" class="video-poster-card" data-video-play data-video-id="${v.id}" data-youtube-id="${v.youtubeId}" aria-label="${getLabel("Play", "تشغيل")}: ${title}">
+      <img
+        src="https://i.ytimg.com/vi/${v.youtubeId}/maxresdefault.jpg"
+        onload="resolveVideoThumb(this, '${v.youtubeId}')"
+        onerror="resolveVideoThumb(this, '${v.youtubeId}')"
+        alt="${title}"
+        class="video-poster-img"
+        loading="lazy">
+      ${badge ? `<span class="video-badge video-badge-${badge.key}"><span class="breaking-badge-dot"></span>${getLabel(badge.en, badge.ar)}</span>` : ""}
+      <span class="video-poster-caption">
+        <span class="video-poster-title">${title}</span>
+        <i class="fa-solid fa-circle-play video-poster-play" aria-hidden="true"></i>
+      </span>
+    </button>
+  `;
+}
+
+// The carousel shows no badge: a card's presence there already says it is a pick.
+function featuredVideoCardHtml(v) {
+  return videoPosterCardHtml(v);
+}
+
+/* Swaps the poster for a real player, autoplaying because the click WAS the
+   play instruction. Replaces the button with a plain div so the now-inert
+   button can't keep taking focus or firing the handler again. */
+function playVideoCard(card) {
+  const youtubeId = card.dataset.youtubeId;
+  if (!youtubeId) return;
+
+  const wrap = document.createElement("div");
+  wrap.className = "video-poster-card is-playing";
+  wrap.dataset.videoId = card.dataset.videoId;
+  wrap.innerHTML = `
+    <iframe
+        src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&modestbranding=1&rel=0"
+        title="${card.getAttribute("aria-label")}"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+    </iframe>
+  `;
+
+  card.replaceWith(wrap);
+}
+
+/* Editor's picks get their own carousel above the library grid — that is what
+   the `featured` flag buys now, in place of the badge it used to add. They are
+   deliberately still present in the grid below: the grid is the full library,
+   and hiding them from it would make them unreachable under A–Z or Oldest.
+
+   No autoplay on purpose. Every slide is a live YouTube embed, so sliding the
+   track out from under someone mid-playback would be hostile. */
+function renderFeaturedVideos() {
+  const section = document.getElementById("videosFeaturedSection");
+  if (!section) return;
+
+  if (window.videosFeaturedSwiperInstance) {
+    window.videosFeaturedSwiperInstance.destroy(true, true);
+    window.videosFeaturedSwiperInstance = null;
+  }
+
+  const featured = videoItems.filter((v) => v.featured);
+
+  // Nothing flagged — render nothing at all rather than an empty heading.
+  if (featured.length === 0) {
+    section.innerHTML = "";
+    return;
+  }
+
+  section.innerHTML = `
+    <div class="section-title mb-3">
+      <h5 class="sub-title mb-0 pb-0">${getLabel("Featured", "المميزة")}</h5>
+    </div>
+
+    <div class="videos-featured-carousel border-bottom pb-4">
+      <div class="swiper videosFeaturedSwiper">
+        <div class="swiper-wrapper">
+          ${featured.map((v) => `<div class="swiper-slide">${featuredVideoCardHtml(v)}</div>`).join("")}
+        </div>
+      </div>
+
+      <div class="videos-featured-prev nav-btn-custom" role="button" tabindex="0" aria-label="${getLabel("Previous", "السابق")}">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <div class="videos-featured-next nav-btn-custom" role="button" tabindex="0" aria-label="${getLabel("Next", "التالي")}">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+    </div>
+  `;
+
+  window.videosFeaturedSwiperInstance = new Swiper(".videosFeaturedSwiper", {
+    /* centeredSlides is what makes the middle card the "active" one, which is
+       the hook the CSS scales up — the two either side stay shrunk. Starting
+       at index 1 means there is a card on both sides from the outset instead
+       of a gap where the first neighbour would be. */
+    slidesPerView: 3,
+    loop: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    centeredSlides: true,
+    initialSlide: featured.length > 2 ? 1 : 0,
+    spaceBetween: 0,
+    slideToClickedSlide: true,
+    watchSlidesProgress: true,
+    rtl: document.documentElement.dir === "rtl",
+    navigation: {
+      nextEl: ".videos-featured-next",
+      prevEl: ".videos-featured-prev",
+    },
+    breakpoints: {
+      0: { slidesPerView: 1.15, spaceBetween: 0 },
+      768: { slidesPerView: 2, spaceBetween: 0 },
+      1200: { slidesPerView: 3, spaceBetween: 0 },
+    },
+  });
 }
 
 function renderVideosGrid() {
@@ -4048,8 +4228,7 @@ function renderVideosGrid() {
 
   // List view is one full-width row per video; grid keeps the 4-up cards.
   grid.classList.toggle("videos-list-view", videoViewLayout === "list");
-  const colClass =
-    videoViewLayout === "list" ? "col-12" : "col-md-6 col-lg-4";
+  const colClass = videoViewLayout === "list" ? "col-12" : "col-md-6 col-lg-4";
 
   if (videoItems.length === 0) {
     renderVideosCount(0, 0);
@@ -4070,29 +4249,7 @@ function renderVideosGrid() {
   renderVideosCount(visible.length, sorted.length);
 
   const cardsHtml = visible
-    .map((v) => {
-      const badge = getVideoBadge(v);
-      return `
-      <div class="${colClass} p-3">
-        <div class="video-card bg-white" data-video-id="${v.id}">
-          <div class="video-embed-wrap">
-            <iframe
-                src="https://www.youtube.com/embed/${v.youtubeId}?modestbranding=1&rel=0"
-                title="${getLabel(v.titleEn, v.titleAr)}"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-                loading="lazy">
-            </iframe>
-          </div>
-
-          <div class="video-card-body px-3 pt-2">
-            <h6 class="fw-semibold pt-2">• ${getLabel(v.titleEn, v.titleAr)}</h6>
-            ${badge ? `<span class="video-badge shadow-none text-danger bg-transparent video-badge-${badge.key}"><span class="breaking-badge-dot bg-danger"></span>${getLabel(badge.en, badge.ar)}</span>` : ""}
-          </div>
-        </div>
-      </div>
-    `;
-    })
+    .map((v) => `<div class="${colClass} p-3">${videoCardHtml(v)}</div>`)
     .join("");
 
   const showMoreHtml = hasMore
@@ -4133,6 +4290,12 @@ function bindVideosPageEvents() {
   videosPageEventsBound = true;
 
   document.addEventListener("click", (e) => {
+    const playCard = e.target.closest("[data-video-play]");
+    if (playCard) {
+      playVideoCard(playCard);
+      return;
+    }
+
     if (e.target.closest("#showMoreVideosBtn")) {
       displayedVideosCount += VIDEOS_PAGE_SIZE;
       renderVideosGrid();
@@ -8652,9 +8815,9 @@ function initializeHomePageSections() {
   // Initialize News Section
   const newsSection = document.getElementById("newsSection");
   if (newsSection) {
-    const sortedNews = [...newsItems].sort(
-      (a, b) => new Date(b.dateRaw) - new Date(a.dateRaw),
-    ).slice(0,6);
+    const sortedNews = [...newsItems]
+      .sort((a, b) => new Date(b.dateRaw) - new Date(a.dateRaw))
+      .slice(0, 6);
 
     // Same markup/classes as the News page's .news-card (see renderNewsGrid)
     // so hover behavior and styling match exactly between the two.
@@ -9250,5 +9413,6 @@ window.scrollToTop = scrollToTop;
 window.goToProfileTab = goToProfileTab;
 window.updateOrderStatus = updateOrderStatus;
 window.openMachineDetailOverlay = openMachineDetailOverlay;
+window.resolveVideoThumb = resolveVideoThumb;
 window.showAppLoader = showAppLoader;
 window.hideAppLoader = hideAppLoader;

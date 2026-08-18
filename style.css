@@ -2234,8 +2234,7 @@ html[dir="rtl"] .nav-btn-custom {
    urgency. Shared with the Videos page's Trending/New badge (.video-badge)
    so the two stay identical; only the placement differs, which is why the
    positioning lives in the rule below rather than in here. */
-.breaking-badge,
-.video-badge {
+.breaking-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -2248,13 +2247,6 @@ html[dir="rtl"] .nav-btn-custom {
   padding: 0.35rem 0.75rem;
   border-radius: 0.2rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-}
-
-.video-badge {
-  position: absolute;
-  bottom: 0.9rem;
-  inset-inline-start: 0.9rem;
-  z-index: 2;
 }
 
 /* News pins its badge over the card image; the video card's sits inline in
@@ -2360,29 +2352,18 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 /* ---------- Videos page ---------- */
-.video-embed-wrap {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: 0.1rem;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-.video-embed-wrap iframe {
+.video-poster-card .video-badge {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
+  top: 0.6rem;
+  inset-inline-start: 0.6rem;
+  z-index: 2;
+  pointer-events: none;
 }
 
-.video-card-body {
-  position: relative;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  height: 6.8rem;
-  background: var(--white);
+/* In list view it overlays the thumbnail rather than the whole row. */
+.videos-list-view .video-poster-card .video-badge {
+  top: 1.1rem;
+  inset-inline-start: 1.1rem;
 }
 
 .video-badge {
@@ -2400,8 +2381,8 @@ html[dir="rtl"] .nav-btn-custom {
   border-radius: 0.2rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
   position: absolute;
-  bottom: .4rem;
-  right: .4rem;
+  bottom: 0.4rem;
+  height: fit-content;
 }
 
 /* Trending / New badge — the look is defined once up in the .breaking-badge
@@ -2472,44 +2453,58 @@ body[data-theme="dark"] .videos-toolbar-left {
   color: #fff;
 }
 
-/* List view: one video per row, embed on the leading side. The grid card's
-   56.25% padding-bottom trick can't do the 16:9 box here — percentage padding
-   resolves against the flex container's width, not the embed's — so the list
-   variant switches to aspect-ratio instead. */
-.videos-list-view .video-card {
+/* List view: thumbnail on the leading side with the title beside it. The card
+   is normally self-contained (title overlaid on the poster), so a full-width
+   16:9 poster per row would be enormous — around 600px tall on desktop.
+   Instead the title is lifted out of the overlay and set as ordinary text:
+   position:static drops it back into flow, and the gradient goes with it. */
+.videos-list-view .video-poster-card {
   display: flex;
   align-items: center;
   gap: 1rem;
+  aspect-ratio: auto;
   background: var(--white);
-  border-radius: 0.4rem;
   padding: 0.75rem;
+  box-shadow: none;
+  border: 1px solid var(--border-color);
 }
 
-.videos-list-view .video-embed-wrap {
-  flex: 0 0 clamp(11rem, 32%, 20rem);
-  padding-bottom: 0;
+.videos-list-view .video-poster-img {
+  flex: 0 0 clamp(10rem, 30%, 18rem);
   height: auto;
   aspect-ratio: 16 / 9;
+  border-radius: 0.35rem;
 }
 
-.videos-list-view .video-card-body {
-  margin-top: 0;
+.videos-list-view .video-poster-caption {
+  position: static;
+  flex: 1;
+  padding: 0;
+  background: none;
+  align-items: center;
+}
+
+.videos-list-view .video-poster-title {
+  color: var(--text-primary);
+  -webkit-line-clamp: 3;
+}
+
+.videos-list-view .video-poster-play {
+  color: var(--primary);
 }
 
 @media (max-width: 575.98px) {
-  /* Too narrow for side-by-side — fall back to the stacked card. */
-  .videos-list-view .video-card {
+  /* Too narrow for side-by-side — stack, title underneath. */
+  .videos-list-view .video-poster-card {
     display: block;
   }
 
-  .videos-list-view .video-embed-wrap {
-    aspect-ratio: auto;
-    padding-bottom: 56.25%;
-    height: 0;
+  .videos-list-view .video-poster-img {
+    width: 100%;
   }
 
-  .videos-list-view .video-card-body {
-    margin-top: 0.5rem;
+  .videos-list-view .video-poster-caption {
+    padding-top: 0.6rem;
   }
 }
 
@@ -3540,3 +3535,196 @@ main,
 body.modal-open {
   overflow: hidden !important;
 }
+
+/* ---------- Featured videos carousel (Videos page) ----------
+   Poster-only cards, no title: the whole card IS the video still. The middle
+   card is the enlarged one — Swiper's centeredSlides makes it
+   .swiper-slide-active, and everything else is scaled down around it rather
+   than the active one being scaled up, so the row never outgrows its track. */
+.videos-featured .swiper {
+  overflow: hidden;
+  padding-block: 1rem;
+}
+
+/* Three selectors deep, not two, and translateZ(0) is kept in the value.
+   Swiper adds .swiper-backface-hidden to the container, and its own
+   `.swiper-backface-hidden .swiper-slide { transform: translateZ(0) }` has
+   the same (0,2,0) specificity as a two-part selector here — and
+   swiper-bundle.min.css is linked AFTER style.css in index.html, so it wins
+   the tie and silently flattens the scale. Going one selector deeper takes
+   the cascade back; re-declaring translateZ(0) keeps the GPU hint that rule
+   was there to provide, since transform replaces rather than composes. */
+.videos-featured .swiper .swiper-slide {
+  transform: translateZ(0) scale(0.84);
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease;
+}
+
+.videos-featured .swiper .swiper-slide-active {
+  transform: translateZ(0) scale(1);
+  opacity: 1;
+}
+
+.video-poster-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0.1rem;
+  overflow: hidden;
+  background: #000;
+  /* aspect-ratio rather than the grid card's padding-bottom trick: these sit
+     in a flex track, where percentage padding resolves against the wrong box. */
+  aspect-ratio: 16 / 9;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.video-poster-img,
+.video-poster-card iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* cover crops hqdefault's 4:3 letterbox bars back to a clean 16:9. */
+.video-poster-img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.video-poster-card:hover .video-poster-img {
+  transform: scale(1.05);
+}
+
+/* Once the real player is in, the poster affordances are gone with it. */
+.video-poster-card.is-playing {
+  cursor: default;
+}
+
+@media (max-width: 767.98px) {
+}
+
+/* Nav buttons sit on the carousel's own edges rather than up in the heading,
+   so they read as controls for the track they overlay.
+
+   Centred with top: calc(50% - half height), NOT translateY(-50%): the global
+   `html[dir="rtl"] .nav-btn-custom { transform: scaleX(-1) }` mirrors the
+   arrow glyphs and would win the cascade over a transform declared here,
+   silently dropping the centring in Arabic. Keeping transform untouched lets
+   both behaviours coexist. */
+.videos-featured-carousel {
+  position: relative;
+}
+
+.videos-featured-carousel .videos-featured-prev,
+.videos-featured-carousel .videos-featured-next {
+  position: absolute;
+  top: calc(50% - 1rem);
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--primary) !important;
+  border: 1px solid var(--primary);
+  transition: ease all 0.25s;
+  backdrop-filter: blur(1px);
+}
+
+.videos-featured-carousel .videos-featured-prev:hover,
+.videos-featured-carousel .videos-featured-next:hover {
+  background: var(--primary);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+  color: var(--white) !important;
+}
+
+/* Logical insets, so prev/next swap sides under html[dir="rtl"]. */
+.videos-featured-carousel .videos-featured-prev {
+  inset-inline-start: 0.75rem;
+}
+
+.videos-featured-carousel .videos-featured-next {
+  inset-inline-end: 0.75rem;
+}
+
+/* Caption bar across the bottom of the poster: title on the leading side,
+   play icon on the trailing one. The gradient and the positioning live here
+   now rather than on the title, so the icon rides the same bar.
+   pointer-events: none keeps the whole card a single click target. */
+.video-poster-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 2.5rem 1rem 0.85rem;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.65) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* text-align: start puts it bottom-left in English, bottom-right in Arabic —
+   and flex order flips the icon to the opposite end for free. */
+.video-poster-title {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: start;
+  /* Two lines max — these titles run long and would otherwise creep up over
+     the whole still. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.video-poster-play {
+  flex: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #fff;
+  transition: var(--transition);
+}
+
+.video-poster-card:hover .video-poster-play {
+  color: var(--primary);
+  transform: scale(1.12);
+}
+
+@media (max-width: 767.98px) {
+  .video-poster-caption {
+    padding: 2rem 0.75rem 0.7rem;
+  }
+
+  .video-poster-title {
+    font-size: 0.82rem;
+  }
+
+  .video-poster-play {
+    font-size: 1.25rem;
+  }
+
+  .videos-featured-carousel .videos-featured-prev {
+    inset-inline-start: 0.35rem;
+  }
+
+  .videos-featured-carousel .videos-featured-next {
+    inset-inline-end: 0.35rem;
+  }
+}
+
+/* Badge pinned over the poster now that the card has no body to sit in. It
+   keeps the solid fill from the shared .breaking-badge rule rather than the
+   transparent treatment it had against a white card — it sits on photography
+   now and has to hold its own against any frame. */
