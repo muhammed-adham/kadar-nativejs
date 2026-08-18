@@ -3542,8 +3542,7 @@ function loadNewsPage() {
     <div class="container-fluid overflow-hidden py-5 bg-light">
       <div class="container">
         <div class="section-title text-center mb-5">
-          <h5 class="sub-title px-3">${getLabel("News", "الأخبار")}</h5>
-          <h1 class="display-5 mb-3">${getLabel("Stay Informed on the Latest Updates", "ابق على اطلاع بأحدث المستجدات")}</h1>
+          <h5 class="sub-title pb-0">${getLabel("Stay Informed on the Latest Updates", "ابق على اطلاع بأحدث المستجدات")}</h5>
           <p class="text-muted mb-0">${getLabel("The latest announcements, milestones, and updates from Kader Factory.", "أحدث الإعلانات والإنجازات والمستجدات من مصنع قادر.")}</p>
         </div>
         <div class="mb-4" id="newsFilterBar"></div>
@@ -3949,8 +3948,9 @@ function loadVideosPage() {
     <div class="container-fluid overflow-hidden py-5 bg-light">
       <div class="container">
         <div class="section-title text-center mb-4">
-          <h5 class="sub-title px-3">${getLabel("Video Gallery", "معرض الفيديو")}</h5>
-          <h1 class="display-5 mb-3">${getLabel("Explore Our Visual Content", "استكشف محتوانا المرئي")}</h1>
+          <h5 class="sub-title pb-0">${getLabel("Watch & Discover", "شاهد واكتشف عالمنا")}</h5>
+          <p class="mb-0">${getLabel("Advanced CNC systems supporting precision manufacturing.", " أنظمة CNC متقدمة تدعم التصنيع الدقيق والمتطور.")}</p>
+
         </div>
         <div class="videos-featured mb-5" id="videosFeaturedSection"></div>
 
@@ -4170,8 +4170,8 @@ function renderFeaturedVideos() {
   }
 
   section.innerHTML = `
-    <div class="section-title mb-3">
-      <h5 class="sub-title mb-0 pb-0">${getLabel("Featured", "المميزة")}</h5>
+    <div class="section-title">
+      <h1 class="display-5 mb-0">${getLabel("Highlights", "أبرز الأحداث")}</h1>
     </div>
 
     <div class="videos-featured-carousel border-bottom pb-4">
