@@ -3869,7 +3869,7 @@ let videosPageEventsBound = false;
    9 for the same reason against its own 3-up grid. Keep it below the
    catalog size: any value >= the number of videos means the Show More
    button never appears at all. */
-const VIDEOS_PAGE_SIZE = 6;
+const VIDEOS_PAGE_SIZE = 9  ;
 let displayedVideosCount = VIDEOS_PAGE_SIZE;
 
 // Order here is the order in the dropdown; the first entry is what the page
@@ -3949,7 +3949,7 @@ function loadVideosPage() {
       <div class="container">
         <div class="section-title text-center mb-4">
           <h5 class="sub-title pb-0">${getLabel("Watch & Discover", "شاهد واكتشف عالمنا")}</h5>
-          <p class="mb-0">${getLabel("Advanced CNC systems supporting precision manufacturing.", " أنظمة CNC متقدمة تدعم التصنيع الدقيق والمتطور.")}</p>
+          <p class="mb-0">${getLabel("Explore our latest videos, events, interviews, and highlights, and get a closer look at the people, activities, and stories behind our company.", " استكشف أحدث فيديوهاتنا وفعالياتنا ومقابلاتنا وأبرز لحظاتنا، وتعرّف عن قرب على الأشخاص والأنشطة والقصص التي تقف وراء شركتنا.")}</p>
 
         </div>
         <div class="videos-featured mb-5" id="videosFeaturedSection"></div>
@@ -4170,8 +4170,16 @@ function renderFeaturedVideos() {
   }
 
   section.innerHTML = `
-    <div class="section-title">
-      <h1 class="display-5 mb-0">${getLabel("Highlights", "أبرز الأحداث")}</h1>
+    <div class="videos-featured-head section-title border-top d-flex align-items-center justify-content-between gap-3 pt-5 mb-3">
+      <h4 class="fw-bold mb-0">${getLabel("Highlights", "أبرز الأحداث")}</h4>
+      <div class="d-flex gap-2">
+          <div class="videos-featured-prev nav-btn-custom" role="button" tabindex="0" aria-label="${getLabel("Previous", "السابق")}">
+            <i class="fas fa-arrow-left"></i>
+          </div>
+          <div class="videos-featured-next nav-btn-custom" role="button" tabindex="0" aria-label="${getLabel("Next", "التالي")}">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+      </div>
     </div>
 
     <div class="videos-featured-carousel border-bottom pb-4">
@@ -4180,29 +4188,54 @@ function renderFeaturedVideos() {
           ${featured.map((v) => `<div class="swiper-slide">${featuredVideoCardHtml(v)}</div>`).join("")}
         </div>
       </div>
-
-      <div class="videos-featured-prev nav-btn-custom" role="button" tabindex="0" aria-label="${getLabel("Previous", "السابق")}">
-        <i class="fas fa-arrow-left"></i>
-      </div>
-      <div class="videos-featured-next nav-btn-custom" role="button" tabindex="0" aria-label="${getLabel("Next", "التالي")}">
-        <i class="fas fa-arrow-right"></i>
-      </div>
     </div>
   `;
 
+  /* Swiper lays out a fixed number of equal lanes and centres the active one
+     assuming every lane is filled. Ask for more lanes than there are slides
+     and the row can never fill: the cards bunch up at the start, the surplus
+     lane sits empty at the end, and the "centred" card is pushed off by
+     exactly one lane. So the view count is capped at how many featured videos
+     actually exist rather than hard-coded.
+
+     Flag a 5th video in videos.json and desktop becomes 5 lanes on its own;
+     flag more than 5 and looping switches itself on too. */
+  const MAX_PER_VIEW = 5;
+
+  /* Minus one, not just capped at the count: if every slide is visible there
+     is nothing left to scroll to, and Swiper quietly becomes a static row —
+     nav buttons stop responding, autoplay has nowhere to go, and the
+     centred-active effect has no travel. Keeping one slide off-track is what
+     makes it behave like a carousel at all. 5 lanes therefore needs 6+
+     featured videos. */
+  const perView = (n) => Math.min(n, Math.max(1, featured.length - 1));
+
+  /* Loop needs at least TWICE the lane count, not merely one spare slide.
+     Swiper fakes the wrap with duplicate slides, and below that threshold its
+     bookkeeping drifts: with 4 slides in 3 lanes it marks slide 2 active
+     while slide 1 is the one physically centred, so the enlarged card and the
+     centred card are different cards. `rewind` is the honest substitute at
+     this size — it jumps back to the first slide at the end, so autoplay
+     still runs indefinitely, just without the seamless wrap. */
+  const canLoop = featured.length >= perView(MAX_PER_VIEW) * 2;
+
   window.videosFeaturedSwiperInstance = new Swiper(".videosFeaturedSwiper", {
-    /* centeredSlides is what makes the middle card the "active" one, which is
-       the hook the CSS scales up — the two either side stay shrunk. Starting
-       at index 1 means there is a card on both sides from the outset instead
-       of a gap where the first neighbour would be. */
-    slidesPerView: 3,
-    loop: true,
+    /* The leading card is the wide landscape one and the rest are portrait —
+       see the .swiper-slide-active rules in style.css for how the two widths
+       are derived from each other. */
+    slidesPerView: perView(MAX_PER_VIEW),
+    /* Off, deliberately: with centring the active slide is the middle one, and
+       we want it first. Swiper marks the LEADING visible slide active when this
+       is false, which is the hook the CSS uses to widen it. */
+    centeredSlides: false,
+    centeredSlidesBounds: !canLoop,
+    loop: canLoop,
+    rewind: !canLoop,
     autoplay: {
       delay: 4000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
-    centeredSlides: true,
     initialSlide: featured.length > 2 ? 1 : 0,
     spaceBetween: 0,
     slideToClickedSlide: true,
@@ -4213,9 +4246,9 @@ function renderFeaturedVideos() {
       prevEl: ".videos-featured-prev",
     },
     breakpoints: {
-      0: { slidesPerView: 1.15, spaceBetween: 0 },
-      768: { slidesPerView: 2, spaceBetween: 0 },
-      1200: { slidesPerView: 3, spaceBetween: 0 },
+      0: { slidesPerView: Math.min(1.15, featured.length), spaceBetween: 0 },
+      768: { slidesPerView: perView(3), spaceBetween: 0 },
+      1200: { slidesPerView: perView(MAX_PER_VIEW), spaceBetween: 0 },
     },
   });
 }
@@ -7725,6 +7758,46 @@ function saveOrders(orders) {
    in-memory defaults above; every run after that reads/writes
    localStorage exclusively, so admin edits persist across reloads.
    ============================================================ */
+/* The saved copy used to be returned wholesale, which meant it SHADOWED the
+   data files: any field added to /data/*.json — or any newly added item —
+   stayed invisible to anyone whose browser had saved a copy earlier. That is
+   not a hypothetical; it hid the entire Highlights carousel, because a store
+   written before videos.json gained `featured` had no flagged items, so the
+   section rendered empty.
+
+   Merging by id instead keeps both halves honest: the data file is the base
+   (so new fields and new records always arrive), stored edits are laid over
+   the top of the item they belong to, and anything that exists only in the
+   store — items the admin added — is appended.
+
+   TRADE-OFF: deleting a record that came from a data file no longer sticks —
+   it reappears on the next load, because the file is the base. Admin-created
+   records still delete permanently. Removing a file-backed item means editing
+   the JSON, or adding a tombstone list here. */
+function mergeContentStore(seedData, storedData) {
+  if (!Array.isArray(seedData) || !Array.isArray(storedData)) return storedData;
+
+  const storedById = new Map(
+    storedData.filter((i) => i && i.id != null).map((i) => [String(i.id), i]),
+  );
+  const seedIds = new Set(
+    seedData.filter((i) => i && i.id != null).map((i) => String(i.id)),
+  );
+
+  // Seed order wins, so reordering the JSON file reorders the site.
+  const merged = seedData.map((seedItem) => {
+    const saved = storedById.get(String(seedItem?.id));
+    return saved ? { ...seedItem, ...saved } : seedItem;
+  });
+
+  // Admin-created records have no counterpart in the file — keep them.
+  const extras = storedData.filter(
+    (i) => i && i.id != null && !seedIds.has(String(i.id)),
+  );
+
+  return [...merged, ...extras];
+}
+
 function loadContentStore(key, seedData) {
   const raw = localStorage.getItem(`cms_${key}`);
   if (raw === null) {
@@ -7732,7 +7805,10 @@ function loadContentStore(key, seedData) {
     return JSON.parse(JSON.stringify(seedData)); // deep clone, avoids aliasing the seed
   }
   try {
-    return JSON.parse(raw);
+    return mergeContentStore(
+      JSON.parse(JSON.stringify(seedData)),
+      JSON.parse(raw),
+    );
   } catch (e) {
     console.error(`Failed to load content store "${key}"`, e);
     return JSON.parse(JSON.stringify(seedData));

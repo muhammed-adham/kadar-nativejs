@@ -3616,40 +3616,10 @@ body.modal-open {
    arrow glyphs and would win the cascade over a transform declared here,
    silently dropping the centring in Arabic. Keeping transform untouched lets
    both behaviours coexist. */
-.videos-featured-carousel {
-  position: relative;
-}
 
-.videos-featured-carousel .videos-featured-prev,
-.videos-featured-carousel .videos-featured-next {
-  position: absolute;
-  top: calc(50% - 1rem);
-  z-index: 3;
-  background: rgba(255, 255, 255, 0.1);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  color: var(--primary) !important;
-  border: 1px solid var(--primary);
-  transition: ease all 0.25s;
-  backdrop-filter: blur(1px);
-}
 
-.videos-featured-carousel .videos-featured-prev:hover,
-.videos-featured-carousel .videos-featured-next:hover {
-  background: var(--primary);
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
-  color: var(--white) !important;
-}
 
-/* Logical insets, so prev/next swap sides under html[dir="rtl"]. */
-.videos-featured-carousel .videos-featured-prev {
-  inset-inline-start: 0.75rem;
-}
 
-.videos-featured-carousel .videos-featured-next {
-  inset-inline-end: 0.75rem;
-}
 
 /* Caption bar across the bottom of the poster: title on the leading side,
    play icon on the trailing one. The gradient and the positioning live here
@@ -3715,16 +3685,141 @@ body.modal-open {
     font-size: 1.25rem;
   }
 
-  .videos-featured-carousel .videos-featured-prev {
-    inset-inline-start: 0.35rem;
-  }
 
-  .videos-featured-carousel .videos-featured-next {
-    inset-inline-end: 0.35rem;
-  }
 }
 
 /* Badge pinned over the poster now that the card has no body to sit in. It
    keeps the solid fill from the shared .breaking-badge rule rather than the
    transparent treatment it had against a white card — it sits on photography
    now and has to hold its own against any frame. */
+
+/* Featured cards are portrait; the library grid stays landscape. Scoped to
+   .videos-featured so the shared .video-poster-card keeps its 16:9 everywhere
+   else.
+
+   Note the source material: YouTube only ever serves 16:9 (maxresdefault) or
+   4:3 (hqdefault) stills — there is no portrait thumbnail to fetch. So a 3:4
+   frame keeps roughly 42% of a 16:9 still's width and object-fit:cover crops
+   the rest away evenly from both sides. object-position is centred because
+   these are wide event shots where the subject is generally mid-frame; set it
+   per-card if a particular still needs biasing. */
+.videos-featured .video-poster-card {
+  aspect-ratio: 3 / 4;
+  /* Capped and centred inside its slide rather than filling it: the track is
+     still 3 slides wide, so shrinking the card here keeps the 3-up layout and
+     the centred-active scaling intact instead of squeezing more cards in. */
+  max-width: 15rem;
+  margin-inline: auto;
+}
+
+/* The caption's fixed top padding was tuned for a 200px-tall landscape card
+   and leaves a needlessly deep gradient on a much taller portrait one. */
+.videos-featured .video-poster-caption {
+  padding-top: 3rem;
+}
+
+
+/* Carousel nav, in the section heading beside the title rather than pinned to
+   the track edges. Static flow, so none of the absolute positioning or
+   vertical centring the old track-edge rules carried is needed — only the
+   look is kept. */
+.videos-featured-head .videos-featured-prev,
+.videos-featured-head .videos-featured-next {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary) !important;
+  border: 1px solid var(--primary);
+  transition: ease all 0.25s;
+  backdrop-filter: blur(1px);
+}
+
+.videos-featured-head .videos-featured-prev:hover,
+.videos-featured-head .videos-featured-next:hover {
+  background: var(--primary);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+  color: var(--white) !important;
+}
+/* Active card goes landscape; its neighbours stay portrait.
+
+   Safe to key off .swiper-slide-active here in a way it was not under
+   slidesPerView:"auto": the lanes are a fixed fraction of the track, so the
+   SLIDE width never changes — only the card's shape inside it. Swiper's
+   measurements are untouched, so there is no width/active feedback loop.
+
+   Consequence of equal lanes: the landscape card is the same width as the
+   portrait ones and therefore SHORTER, not bigger. Making the centre both
+   landscape and larger would need a wider middle lane, which a fixed
+   slidesPerView cannot express. */
+.videos-featured .swiper .swiper-slide {
+  display: flex;
+  align-items: center;
+}
+
+.videos-featured .swiper-slide-active {
+  /* Lifts the overflowing card above its neighbours instead of under them. */
+  z-index: 2;
+}
+
+/* Same height as the portrait cards, but landscape — which means it has to be
+   WIDER than its lane, because at equal lane widths 16:9 would otherwise come
+   out about half as tall.
+
+   199% is not arbitrary: the portraits render at (4/3 x 0.84) = 1.12 lane
+   widths tall, and a 16:9 card of that height is 1.12 x 16/9 = 1.99 lanes
+   wide. The negative inline margins re-centre that overflow on the lane, so
+   it spills equally onto both neighbours rather than pushing the row along.
+   Nothing here touches the SLIDE width, so Swiper still measures a uniform
+   track and the layout cannot drift.
+
+   max-width has to be cleared explicitly — the shared rule caps cards at
+   15rem, which is narrower than this and would silently flatten it. */
+/* Leading card: landscape, same height as the portraits, anchored to the
+   start edge and growing only INWARD.
+
+   Anchoring changes the arithmetic. Centred, the overflow split both ways and
+   f <= .706 was enough. Pinned to the leading edge it all goes one direction,
+   so it has to clear the next card on its own: with portraits at f lanes wide
+   the active needs 1.99f, overflowing (1.99f - 1) lanes, and the neighbour
+   card starts .5 - .42f into its lane. 1.99f - 1 <= .5 - .42f gives f <= .622.
+
+   f = .62 -> active 1.99 x .62 = 123% of a lane, 23% of overflow against the
+   24% of empty margin a 62%-wide portrait leaves. margin-inline-end (not
+   -start) keeps the growth on the trailing side, and being a logical property
+   it flips correctly under RTL so the card still hugs the leading edge. */
+.videos-featured .swiper-slide-active .video-poster-card {
+  aspect-ratio: 16 / 9;
+  flex: none;
+  width: 123%;
+  margin-inline: 0 -23%;
+  max-width: none;
+}
+
+/* Held to 70% of the lane so the widened active card has somewhere to go.
+   Full-lane portraits are what forced the 49% overlap. */
+.videos-featured .swiper-slide:not(.swiper-slide-active) .video-poster-card {
+  width: 62%;
+  max-width: none;
+  margin-inline: auto;
+}
+
+/* Its caption was tuned for a tall card; on a short one the gradient would
+   swallow most of the frame. */
+.videos-featured .swiper-slide-active .video-poster-caption {
+  padding-top: 1.75rem;
+}
+
+/* Below 768px the carousel drops to ~1.15 slides per view, so a lane is nearly
+   the whole track and 199% of it overflows the viewport — measured 475px of
+   card inside a 375px track, clipped on both sides. With only one card visible
+   there is nothing to contrast against anyway, so the active card just stays
+   portrait like the rest. */
+@media (max-width: 767.98px) {
+  .videos-featured .swiper-slide-active .video-poster-card {
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    margin-inline: auto;
+    max-width: 15rem;
+  }
+}

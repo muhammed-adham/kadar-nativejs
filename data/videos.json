@@ -35,7 +35,8 @@
       "titleEn": "The International Glass Show 2023 — Exhibition Coverage",
       "titleAr": "معرض الزجاج الدولي 2023 — تغطية المعرض",
       "youtubeId": "IXPnEaqK81Y",
-      "publishedAt": "2023-11-30"
+      "publishedAt": "2023-11-30",
+      "featured": true
     },
     {
       "id": "v6",
@@ -50,7 +51,8 @@
       "titleEn": "Arab Renewable Energy Company — Arab Organization for Industrialization",
       "titleAr": "الشركة العربية للطاقة المتجددة - الهيئة العربية للتصنيع",
       "youtubeId": "8DBr086HPO0",
-      "publishedAt": "2023-09-13"
+      "publishedAt": "2023-09-13",
+      "featured": true
     },
     {
       "id": "v8",
@@ -72,21 +74,24 @@
       "titleEn": "Engines Factory — Arab Organization for Industrialization",
       "titleAr": "مصنع المحركات - الهيئة العربية للتصنيع",
       "youtubeId": "oovmi47l3gk",
-      "publishedAt": "2023-07-31"
+      "publishedAt": "2023-07-31",
+      "featured": true
     },
     {
       "id": "v11",
       "titleEn": "United Company for Fire Systems — Company Profile",
       "titleAr": "الشركة المتحدة لأنظمة الحرائق — نبذة عن الشركة",
       "youtubeId": "oL_gj1OVdTg",
-      "publishedAt": "2023-06-07"
+      "publishedAt": "2023-06-07",
+      "featured": true
     },
     {
       "id": "v12",
       "titleEn": "Watrex Expo 2023 — Exhibition Coverage, 15–17 May",
       "titleAr": "معرض واتركس 2023 — تغطية المعرض، 15–17 مايو",
       "youtubeId": "eloR8sOqzes",
-      "publishedAt": "2023-05-07"
+      "publishedAt": "2023-05-07",
+      "featured": true
     },
     {
       "id": "v13",
@@ -100,7 +105,8 @@
       "titleEn": "Green Mobility Technology Expo 2022 — Show Highlights",
       "titleAr": "معرض تكنولوجيا التنقل الأخضر 2022 — أبرز اللقطات",
       "youtubeId": "gjCHFsDiOFE",
-      "publishedAt": "2022-11-28"
+      "publishedAt": "2022-11-28",
+      "featured": true
     },
     {
       "id": "v15",
