@@ -1,0 +1,65 @@
+{
+  "_note": "Home page banner slider. Slide order here is the order on screen. Two fields drive the button: categoryId decides WHETHER there is one and which Products filter it lands on (must match a categoryId in categories.json; \"\" means no button), and cta is its label — leave cta empty and it falls back to \"More Details\" / \"المزيد من التفاصيل\" in whichever language is active. Editable in the Admin Dashboard > Home Banner tab; anything saved there is layered over this file, per item, in localStorage.",
+  "slides": [
+    {
+      "id": "slide-0",
+      "titleEn": "",
+      "titleAr": "",
+      "subTitleEn": "",
+      "subTitleAr": "",
+      "textEn": "",
+      "textAr": "",
+      "url": "/images/b-0.webp",
+      "cta": "",
+      "categoryId": ""
+    },
+    {
+      "id": "slide-1",
+      "titleEn": "Technology Centers",
+      "titleAr": "مراكز التكنولوجيا",
+      "subTitleEn": "Diverse Industries, Unified Excellence",
+      "subTitleAr": "صناعات متنوعة، تميز موحد",
+      "textEn": "Explore our state-of-the-art technology centers, equipped with cutting-edge tools and innovations.",
+      "textAr": "اكتشف مراكز التكنولوجيا الحديثة لدينا والمجهزة بأحدث الأدوات والابتكارات.",
+      "url": "/images/cat-9.webp",
+      "cta": "",
+      "categoryId": "vehicle-conversions"
+    },
+    {
+      "id": "slide-2",
+      "titleEn": "Electronic Motorbikes",
+      "titleAr": "المركبات الإلكترونية",
+      "subTitleEn": "Diverse Industries, Unified Excellence",
+      "subTitleAr": "صناعات متنوعة، تميز موحد",
+      "textEn": "Discover our range of eco-friendly electronic motorbikes.",
+      "textAr": "اكتشف مجموعة المركبات الإلكترونية الصديقة للبيئة.",
+      "url": "/images/b-1.webp",
+      "cta": "",
+      "categoryId": "electric-transport"
+    },
+    {
+      "id": "slide-3",
+      "titleEn": "Office Furniture",
+      "titleAr": "أثاث مكتبي",
+      "subTitleEn": "Diverse Industries, Unified Excellence",
+      "subTitleAr": "صناعات متنوعة، تميز موحد",
+      "textEn": "Transform your living spaces with our premium home furniture collection.",
+      "textAr": "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
+      "url": "/images/b-3.webp",
+      "cta": "",
+      "categoryId": "office-furniture"
+    },
+    {
+      "id": "slide-4",
+      "titleEn": "National Bank of Egypt",
+      "titleAr": "مبادرة البنك الأهلي المصري",
+      "subTitleEn": "Furnish Your Home, Your Way",
+      "subTitleAr": "صناعات متنوعة، تميز موحد",
+      "textEn": "Get everything you need for your home with instant financing and hassle-free procedures from NBE.",
+      "textAr": "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
+      "url": "/images/b-2.webp",
+      "cta": "",
+      "categoryId": "furnish-home"
+    }
+  ]
+}

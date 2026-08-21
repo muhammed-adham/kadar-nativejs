@@ -111,76 +111,28 @@ const navigationLinks = [
 ];
 
 /* ============================================================
-   BANNER DATA (home page slider) — managed via the Admin Dashboard
-   Home Banner tab. `let` (not const): CMS add/edit/delete reassigns
-   this array; see CMS_TYPES.banner.
+   BANNER DATA — loaded from /data/banner.json (like newsItems/
+   videoItems/machineryData/productsData). Managed via the Admin
+   Dashboard Home Banner tab; `let` (not const) because CMS
+   add/edit/delete reassigns this array — see CMS_TYPES.banner.
+
+   Two fields drive the button. categoryId decides whether the slide
+   gets one at all and which Products filter it lands on; cta is its
+   label, and an empty cta falls back to "More Details" in whichever
+   language is active. Both are documented in the file's own _note.
    ============================================================ */
-let bannerSlides = [
-  {
-    id: "slide-0",
-    titleEn: "",
-    titleAr: "",
-    subTitleEn: "",
-    subTitleAr: "",
-    textEn: "",
-    textAr: "",
-    url: "/images/b-0.webp",
-    cta: "",
-    path: "",
-  },
-  {
-    id: "slide-1",
-    titleEn: "Technology Centers",
-    titleAr: "مراكز التكنولوجيا",
-    subTitleEn: "Diverse Industries, Unified Excellence",
-    subTitleAr: "صناعات متنوعة، تميز موحد",
-    textEn:
-      "Explore our state-of-the-art technology centers, equipped with cutting-edge tools and innovations.",
-    textAr:
-      "اكتشف مراكز التكنولوجيا الحديثة لدينا والمجهزة بأحدث الأدوات والابتكارات.",
-    url: "/images/cat-9.webp",
-    cta: "",
-    path: "/",
-  },
-  {
-    id: "slide-2",
-    titleEn: "Electronic Motorbikes",
-    titleAr: "المركبات الإلكترونية",
-    subTitleEn: "Diverse Industries, Unified Excellence",
-    subTitleAr: "صناعات متنوعة، تميز موحد",
-    textEn: "Discover our range of eco-friendly electronic motorbikes.",
-    textAr: "اكتشف مجموعة المركبات الإلكترونية الصديقة للبيئة.",
-    url: "/images/b-1.webp",
-    cta: "",
-    path: "/",
-  },
-  {
-    id: "slide-3",
-    titleEn: "Office Furniture",
-    titleAr: "أثاث مكتبي",
-    subTitleEn: "Diverse Industries, Unified Excellence",
-    subTitleAr: "صناعات متنوعة، تميز موحد",
-    textEn:
-      "Transform your living spaces with our premium home furniture collection.",
-    textAr: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
-    url: "/images/b-3.webp",
-    cta: "",
-    path: "/",
-  },
-  {
-    id: "slide-4",
-    titleEn: "National Bank of Egypt",
-    titleAr: "مبادرة البنك الأهلي المصري",
-    subTitleEn: "Furnish Your Home, Your Way",
-    subTitleAr: "صناعات متنوعة، تميز موحد",
-    textEn:
-      "Get everything you need for your home with instant financing and hassle-free procedures from NBE.",
-    textAr: "حوّل مساحات معيشتك مع مجموعة أثاث المنزل الفاخرة لدينا.",
-    url: "/images/b-2.webp",
-    cta: "",
-    path: "/",
-  },
-];
+let bannerSlides = [];
+
+async function loadBannerData() {
+  try {
+    const response = await fetch("/data/banner.json");
+    const data = await response.json();
+    bannerSlides = data.slides || [];
+  } catch (e) {
+    console.error("Failed to load banner.json", e);
+    bannerSlides = [];
+  }
+}
 
 /* ============================================================
    MACHINERY DATA — loaded from /data/machinery.json (like
@@ -1559,6 +1511,30 @@ function closeMegaMenu() {
   if (panel) panel.classList.remove("is-open");
 }
 
+/* Banner CTA target. Deliberately NOT wired through the [data-category-id]
+   convention the mega menu and the home category cards use: TWO separate
+   document-level click handlers match that attribute (bindNavigationEvents
+   and initializeHomePageSections), so a click runs goToProductsWithFilter
+   twice, and the second call — which passes no sub-category — is the one that
+   sticks. Harmless for a category-only link, but it would quietly throw away
+   any sub-category, and it loads the Products page twice either way. An
+   inline onclick matches neither handler and fires exactly once.
+
+   Returns false so the href never runs: it is there for middle-click and for
+   the no-JS case, but setCurrentPage has already pushed "#products" by then,
+   and letting it through would re-enter the router and re-render the page
+   with the pending filter already consumed. */
+function goToBannerTarget(categoryId) {
+  if (categoryId) {
+    goToProductsWithFilter(categoryId);
+  } else {
+    // Legacy slide saved before categoryId existed — still gets its button,
+    // just an unfiltered one. Pick a category for it in the CMS to fix that.
+    setCurrentPage("products");
+  }
+  return false;
+}
+
 /**
  * Initialize slider/carousel
  */
@@ -1587,10 +1563,10 @@ function initializeSlider() {
                     <h1 class="display-1 text-white wow fadeInUp text-capitalize ${getDirectionClass("pb-0", "pb-3")}">${title}</h1>
                     <p class="text-white mx-auto fs-5 wow fadeInUp" style="max-width:36rem;">${text}</p>
                     ${
-                      slide.path
+                      slide.categoryId || slide.path
                         ? `
                         <a href="#products"
-                        onclick="setCurrentPage('${slide.path}')"
+                        onclick="return goToBannerTarget('${slide.categoryId || ""}')"
                         class="btn btn-primary border-secondary text-white py-3 px-5 wow fadeInUp rounded-0">
                             ${slide.cta || getLabel("More Details", "المزيد من التفاصيل")}
                         </a>
@@ -2736,22 +2712,22 @@ function renderProductsGrid(products) {
                             }
 
                         <div class="price-row">
-                            <span class="current-price">
+                            <span class="current-price text-white">
                                 EGP ${product.price}
                             </span>
 
                             ${
                               product.oldPrice
-                                ? `<span class="old-price">EGP ${product.oldPrice}</span>`
+                                ? `<span class="old-price text-white-50">EGP ${product.oldPrice}</span>`
                                 : ""
                             }
                         </div>
                     </div>
-            <span class="badge bg-light text-dark mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
+            <span class="badge bg-primary rounded-0 text-dark mb-2">${getLabel(product.sub_category.en, product.sub_category.ar)}</span>
 
-            <h6 class="card-title mb-1">${getLabel(product.title.en, product.title.ar)}</h6>
+            <h6 class="card-title mb-1 text-white">${getLabel(product.title.en, product.title.ar)}</h6>
 
-            <p class="card-text text-muted small product-desc">
+            <p class="card-text text-white-50 small product-desc">
                 ${getLabel(product.desc.en, product.desc.ar)}
             </p>
         </div>
@@ -6366,7 +6342,7 @@ const CMS_TYPES = {
       textAr: "",
       url: "/images/b-1.webp",
       cta: "",
-      path: "/",
+      categoryId: "",
     }),
     columns: [
       {
@@ -6417,6 +6393,26 @@ const CMS_TYPES = {
         key: "cta",
         label: { en: "Button Label", ar: "نص الزر" },
         type: "text",
+      },
+      {
+        /* Doubles as the on/off switch for the button — leaving it unset is
+           how an image-only slide says it does not want one. Options come
+           from categoriesData so they cannot drift from the filter the
+           Products page actually accepts. Military is listed like any other:
+           goToProductsWithFilter reroutes it to the OTP-gated page. */
+        key: "categoryId",
+        label: {
+          en: "Button Links To (category filter)",
+          ar: "الزر يؤدي إلى (فلتر الفئة)",
+        },
+        type: "select",
+        options: () => [
+          { value: "", label: getLabel("No button", "بدون زر") },
+          ...categoriesData.map((c) => ({
+            value: c.categoryId,
+            label: getLabel(c.name.en, c.name.ar),
+          })),
+        ],
       },
       {
         key: "url",
@@ -7845,10 +7841,17 @@ function mergeContentStore(seedData, storedData) {
   return [...merged, ...extras];
 }
 
+/* The store holds admin EDITS, layered over whatever the data files say.
+   It deliberately does not get written until an edit actually happens: an
+   earlier version saved the seed here on first load, which quietly made the
+   data files dead weight from a visitor's second page view onward — every
+   field was already in the store, so mergeContentStore had a stored value to
+   prefer for all of them and nothing edited in the JSON ever showed up again.
+   That is what made `cta` look broken: the snapshot held cta:"" for every
+   slide, so a label typed into banner.json lost to it. */
 function loadContentStore(key, seedData) {
   const raw = localStorage.getItem(`cms_${key}`);
   if (raw === null) {
-    saveContentStore(key, seedData);
     return JSON.parse(JSON.stringify(seedData)); // deep clone, avoids aliasing the seed
   }
   try {
@@ -7864,6 +7867,35 @@ function loadContentStore(key, seedData) {
 
 function saveContentStore(key, data) {
   localStorage.setItem(`cms_${key}`, JSON.stringify(data));
+}
+
+/* One-time cleanup for browsers that visited before loadContentStore stopped
+   snapshotting the seed. Those stores are a verbatim copy of the data files as
+   they were on that first visit, and while they sit there every later edit to
+   the JSON is silently ignored — clearing localStorage by hand was the only
+   way out, which is not something a visitor would ever think to do.
+
+   Keyed on a stamp rather than on the store contents: comparing against the
+   current seed cannot tell a stale snapshot apart from a deliberate edit that
+   happens to match. Anything saved from the CMS after this runs sets the stamp
+   too, so real edits are never caught by it. Bump the version if a future
+   change to the data files needs the same treatment. */
+const CONTENT_STORE_VERSION = "2";
+
+function discardSeedSnapshots() {
+  try {
+    if (localStorage.getItem("cms_storeVersion") === CONTENT_STORE_VERSION) {
+      return;
+    }
+    Object.keys(localStorage)
+      .filter((k) => k.startsWith("cms_"))
+      .forEach((k) => localStorage.removeItem(k));
+    localStorage.setItem("cms_storeVersion", CONTENT_STORE_VERSION);
+  } catch (e) {
+    // Private-mode / quota failures must not take the whole boot down; the
+    // worst case is the old behaviour, which is what shipped until now.
+    console.error("Could not clear seed snapshots", e);
+  }
 }
 
 // Turns a checkout order into a persisted record and returns it
@@ -9394,10 +9426,12 @@ async function initializeApp() {
       loadMachineryData(),
       loadNewsData(),
       loadVideosData(),
+      loadBannerData(),
     ]);
 
     // Layer the localStorage content store on top of the defaults above,
     // so admin-added/edited/deleted content persists across reloads.
+    discardSeedSnapshots();
     productsData = loadContentStore("products", productsData);
     bannerSlides = loadContentStore("bannerSlides", bannerSlides);
     newsItems = loadContentStore("newsItems", newsItems);
