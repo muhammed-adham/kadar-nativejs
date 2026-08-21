@@ -3537,33 +3537,41 @@ body.modal-open {
 }
 
 /* ---------- Featured videos carousel (Videos page) ----------
-   Poster-only cards, no title: the whole card IS the video still. The middle
-   card is the enlarged one — Swiper's centeredSlides makes it
-   .swiper-slide-active, and everything else is scaled down around it rather
-   than the active one being scaled up, so the row never outgrows its track. */
+   Poster-only cards, no title: the whole card IS the video still. The LEADING
+   card is the enlarged one — with centeredSlides off, Swiper marks the first
+   visible slide .swiper-slide-active, and everything after it is scaled down
+   rather than the active one being scaled up, so the row never outgrows its
+   track.
+
+   Every width below is a percentage of a SLIDE, and the slide width is set by
+   TRACK_LANES + SPACE_BETWEEN in script.js. Changing one without the other is
+   what pulls the cards apart, so the two files cross-reference deliberately. */
 .videos-featured .swiper {
   overflow: hidden;
   padding-block: 1rem;
 }
 
-/* Three selectors deep, not two, and translateZ(0) is kept in the value.
-   Swiper adds .swiper-backface-hidden to the container, and its own
-   `.swiper-backface-hidden .swiper-slide { transform: translateZ(0) }` has
-   the same (0,2,0) specificity as a two-part selector here — and
-   swiper-bundle.min.css is linked AFTER style.css in index.html, so it wins
-   the tie and silently flattens the scale. Going one selector deeper takes
-   the cascade back; re-declaring translateZ(0) keeps the GPU hint that rule
-   was there to provide, since transform replaces rather than composes. */
-.videos-featured .swiper .swiper-slide {
-  transform: translateZ(0) scale(0.84);
-  transition:
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s ease;
+/* Belt and braces on vertical alignment. The slide aspect-ratio below already
+   gives every slide the same height, so there is nothing left to misalign —
+   but Swiper's flex wrapper defaults to align-items:stretch, which top-aligns
+   an auto-height child, and that is what used to leave the hero riding ~27px
+   above its neighbours back when the two had different heights. */
+.videos-featured .swiper .swiper-wrapper {
+  align-items: center;
 }
 
-.videos-featured .swiper .swiper-slide-active {
-  transform: translateZ(0) scale(1);
-  opacity: 1;
+/* The SLIDE fixes the row's height and every card then fills it. That is what
+   lets the active card change shape without changing height: at 101/36 of the
+   slide's own width the height comes out at 4/3 of a portrait card's width, so
+   a portrait filling it is 3:4 and the hero filling it is 16:9 — both fall out
+   of width alone, with no per-card aspect-ratio to flip.
+
+   This replaced a scale(0.84) that used to shrink the non-active slides. The
+   size difference lives entirely in the card widths now, which is what makes
+   the transition animatable: scale, aspect-ratio and margin:auto were all
+   things the old version had to change instantaneously. */
+.videos-featured .swiper .swiper-slide {
+  aspect-ratio: 101 / 36;
 }
 
 .video-poster-card {
@@ -3705,11 +3713,38 @@ body.modal-open {
    per-card if a particular still needs biasing. */
 .videos-featured .video-poster-card {
   aspect-ratio: 3 / 4;
-  /* Capped and centred inside its slide rather than filling it: the track is
-     still 3 slides wide, so shrinking the card here keeps the 3-up layout and
-     the centred-active scaling intact instead of squeezing more cards in. */
+  /* Fallback only, for a .video-poster-card that lands inside .videos-featured
+     outside a slide — in the carousel the rule below overrides all three. */
   max-width: 15rem;
   margin-inline: auto;
+}
+
+/* Height from the slide, shape from the width. Only two properties differ
+   between the hero and a portrait, and both interpolate, so the change of
+   shape is a real animation rather than the three simultaneous jumps it used
+   to be (scale, aspect-ratio, and margin-inline:auto — auto cannot interpolate
+   at all, so the card teleported from flush-left to centred).
+
+   Keep this duration in step with `speed` in script.js: Swiper drives the
+   horizontal translate and CSS drives the reshape, and if the two disagree the
+   row settles before the cards have finished changing size. */
+.videos-featured .swiper .swiper-slide .video-poster-card {
+  height: 100%;
+  aspect-ratio: auto;
+  max-width: none;
+  transition:
+    width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-inline-start 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease;
+}
+
+/* The slide before the hero is parked underneath it — see SPACE_BETWEEN in
+   script.js for why that is unavoidable once the hero sits on the leading edge
+   and three cards fill the track. It is invisible either way at rest; this is
+   about the 0.4s in between, where it would otherwise be seen sliding under
+   the incoming hero. Fading it out turns that into a dissolve. */
+.videos-featured .swiper-slide-prev .video-poster-card {
+  opacity: 0;
 }
 
 /* The caption's fixed top padding was tuned for a 200px-tall landscape card
@@ -3744,14 +3779,15 @@ body.modal-open {
 /* Active card goes landscape; its neighbours stay portrait.
 
    Safe to key off .swiper-slide-active here in a way it was not under
-   slidesPerView:"auto": the lanes are a fixed fraction of the track, so the
-   SLIDE width never changes — only the card's shape inside it. Swiper's
-   measurements are untouched, so there is no width/active feedback loop.
+   slidesPerView:"auto": slidesPerView is a number, so the SLIDE width is a
+   fixed fraction of the track and never changes — only the card's shape inside
+   it does. Swiper's measurements are untouched, so there is no width/active
+   feedback loop. The negative spaceBetween shifts what that fraction WORKS OUT
+   to, but it is still a constant, so the guarantee holds.
 
-   Consequence of equal lanes: the landscape card is the same width as the
-   portrait ones and therefore SHORTER, not bigger. Making the centre both
-   landscape and larger would need a wider middle lane, which a fixed
-   slidesPerView cannot express. */
+   The hero cannot also be TALLER than its neighbours — matching their height
+   and 64/27 of their width is the most it can be, because both cards are laid
+   out inside slides of identical width. */
 .videos-featured .swiper .swiper-slide {
   display: flex;
   align-items: center;
@@ -3762,46 +3798,38 @@ body.modal-open {
   z-index: 2;
 }
 
-/* Same height as the portrait cards, but landscape — which means it has to be
-   WIDER than its lane, because at equal lane widths 16:9 would otherwise come
-   out about half as tall.
+/* Hero: landscape, same height as the portraits, sitting on its slide's
+   leading edge.
 
-   199% is not arbitrary: the portraits render at (4/3 x 0.84) = 1.12 lane
-   widths tall, and a 16:9 card of that height is 1.12 x 16/9 = 1.99 lanes
-   wide. The negative inline margins re-centre that overflow on the lane, so
-   it spills equally onto both neighbours rather than pushing the row along.
-   Nothing here touches the SLIDE width, so Swiper still measures a uniform
-   track and the layout cannot drift.
+   Both widths below are percentages of a SLIDE, which the negative
+   spaceBetween makes 101/27 of a portrait's width — see SPACE_BETWEEN in
+   script.js for where that comes from. In units of a portrait's width c:
 
-   max-width has to be cleared explicitly — the shared rule caps cards at
-   15rem, which is narrower than this and would silently flatten it. */
-/* Leading card: landscape, same height as the portraits, anchored to the
-   start edge and growing only INWARD.
+     portrait  c    / slide (101/27 c) = 27/101 = 26.73%
+     hero      64/27 c / slide         = 64/101 = 63.37%
 
-   Anchoring changes the arithmetic. Centred, the overflow split both ways and
-   f <= .706 was enough. Pinned to the leading edge it all goes one direction,
-   so it has to clear the next card on its own: with portraits at f lanes wide
-   the active needs 1.99f, overflowing (1.99f - 1) lanes, and the neighbour
-   card starts .5 - .42f into its lane. 1.99f - 1 <= .5 - .42f gives f <= .622.
+   The portrait is written as 31.82% rather than 26.73% because non-active
+   slides carry scale(.84) and 26.73 / .84 = 31.82 — the extra is what the
+   scale takes back off. The hero is at scale 1 and needs no such correction.
 
-   f = .62 -> active 1.99 x .62 = 123% of a lane, 23% of overflow against the
-   24% of empty margin a 62%-wide portrait leaves. margin-inline-end (not
-   -start) keeps the growth on the trailing side, and being a logical property
-   it flips correctly under RTL so the card still hugs the leading edge. */
+   No negative margins any more. The hero used to overflow its lane and get
+   pulled back into place; it now fits inside its slide with room to spare, so
+   flex-start alone puts it on the leading edge and RTL flips it for free.
+
+   max-width does still have to be cleared by hand — the shared 15rem cap is
+   narrower than either card here and would silently flatten both. */
 .videos-featured .swiper-slide-active .video-poster-card {
-  aspect-ratio: 16 / 9;
   flex: none;
-  width: 123%;
-  margin-inline: 0 -23%;
-  max-width: none;
+  width: 63.3663%;
+  margin-inline: 0;
 }
 
-/* Held to 70% of the lane so the widened active card has somewhere to go.
-   Full-lane portraits are what forced the 49% overlap. */
+/* 36.6337% is (slide - card) / 2 written out rather than left to margin:auto.
+   Same resting position, but a length instead of a keyword — which is the
+   whole point, because it is what the hero's margin animates against. */
 .videos-featured .swiper-slide:not(.swiper-slide-active) .video-poster-card {
-  width: 62%;
-  max-width: none;
-  margin-inline: auto;
+  width: 26.7327%;
+  margin-inline: 36.6337% 0;
 }
 
 /* Its caption was tuned for a tall card; on a short one the gradient would
@@ -3816,10 +3844,32 @@ body.modal-open {
    there is nothing to contrast against anyway, so the active card just stays
    portrait like the rest. */
 @media (max-width: 767.98px) {
-  .videos-featured .swiper-slide-active .video-poster-card {
+  /* Phones drop back to non-overlapping lanes (spaceBetween 0 in the
+     breakpoint), so a slide is one card slot wide instead of 101/27 of one.
+     Every number tuned for the overlap has to be handed back: the slide stops
+     dictating the height, and the cards go back to sizing themselves. */
+  .videos-featured .swiper .swiper-slide {
+    aspect-ratio: auto;
+  }
+
+  /* Hero and portrait collapse to the same card here, so one rule covers both
+     states — and it has to be THIS selector to do it. Matching on
+     .swiper-slide-active instead would score a class lower than the desktop
+     rule above that sets max-width:none, and lose to it: the cap would go on
+     silently for the active card only, which is how the hero once ended up
+     wider and taller than the card beside it.
+
+     No max-width. One slide per view means the lane already IS the track, so
+     the card fills the width the section gives it. The 15rem cap this used to
+     carry was sized for the days when a sliver of the next card showed
+     alongside; with nothing to share the row with it just left the hero
+     floating in the middle of the screen. Note the section's own gutter is
+     still there either way — this fills the container, not the viewport. */
+  .videos-featured .swiper .swiper-slide .video-poster-card {
+    height: auto;
     aspect-ratio: 3 / 4;
     width: 100%;
+    max-width: none;
     margin-inline: auto;
-    max-width: 15rem;
   }
 }

@@ -4198,15 +4198,39 @@ function renderFeaturedVideos() {
      exactly one lane. So the view count is capped at how many featured videos
      actually exist rather than hard-coded.
 
-     Flag a 5th video in videos.json and desktop becomes 5 lanes on its own;
-     flag more than 5 and looping switches itself on too. */
-  const MAX_PER_VIEW = 5;
+     TWO lanes render THREE cards, which is the whole trick — see SPACE_BETWEEN
+     below. A lane here is a slide box, not a card slot.
+
+     Flag a 3rd video in videos.json and the row fills out on its own; flag 4+
+     and looping switches itself on too. */
+  const TRACK_LANES = 2;
+
+  /* Negative, and that is deliberate. Swiper derives slide width from
+     (track - gap x (lanes - 1)) / lanes and the step between slides from
+     (track + gap) / lanes, so a negative gap makes slides WIDER than their
+     step: they overlap. That decouples the two things this layout needs to set
+     independently — how much room the hero has (slide width) from how far
+     apart the portraits sit (step).
+
+     With equal non-overlapping lanes they are the same number, and that is
+     what forced the old gaps: a hero that matches the portraits' height is
+     2.37x their width (16/9 x 4/3), which only fits beside a neighbour while
+     the portraits stay under ~.52 of a lane — leaving the other .48 as empty
+     band, whatever the lane count. Making the cards bigger just scaled the
+     band up with them.
+
+     Solving for one hero + two portraits + three equal gaps filling the track,
+     in units of a portrait's width c: hero 64/27 c, gap 10/27 c, so the row is
+     46/9 c. Feeding that back through Swiper's two formulas gives exactly 2
+     lanes and a gap of -64/138 of the track. Percent, not px, so it holds at
+     every width. */
+  const SPACE_BETWEEN = "-46.3768%";
 
   /* Minus one, not just capped at the count: if every slide is visible there
      is nothing left to scroll to, and Swiper quietly becomes a static row —
      nav buttons stop responding, autoplay has nowhere to go, and the
      centred-active effect has no travel. Keeping one slide off-track is what
-     makes it behave like a carousel at all. 5 lanes therefore needs 6+
+     makes it behave like a carousel at all. 2 lanes therefore needs 3+
      featured videos. */
   const perView = (n) => Math.min(n, Math.max(1, featured.length - 1));
 
@@ -4216,28 +4240,46 @@ function renderFeaturedVideos() {
      while slide 1 is the one physically centred, so the enlarged card and the
      centred card are different cards. `rewind` is the honest substitute at
      this size — it jumps back to the first slide at the end, so autoplay
-     still runs indefinitely, just without the seamless wrap. */
-  const canLoop = featured.length >= perView(MAX_PER_VIEW) * 2;
+     still runs indefinitely, just without the seamless wrap. At 2 lanes the
+     threshold is 4 featured videos. */
+  const canLoop = featured.length >= perView(TRACK_LANES) * 2;
 
   window.videosFeaturedSwiperInstance = new Swiper(".videosFeaturedSwiper", {
     /* The leading card is the wide landscape one and the rest are portrait —
        see the .swiper-slide-active rules in style.css for how the two widths
        are derived from each other. */
-    slidesPerView: perView(MAX_PER_VIEW),
-    /* Off, deliberately: with centring the active slide is the middle one, and
-       we want it first. Swiper marks the LEADING visible slide active when this
-       is false, which is the hook the CSS uses to widen it. */
+    slidesPerView: perView(TRACK_LANES),
+    /* Off, deliberately: centring would drag the hero into the middle of the
+       track, and it belongs on the leading edge. Swiper marks the LEADING
+       visible slide active when this is false, which is the hook the CSS uses
+       to widen it. */
     centeredSlides: false,
     centeredSlidesBounds: !canLoop,
     loop: canLoop,
+    /* Swiper sizes its loop reserve from slidesPerView, and slidesPerView is 2
+       here — but the overlap means THREE cards are on screen, so at the wrap
+       it ran out of slides to put in the third slot: the row dropped to a hero
+       plus one card and activeIndex stopped advancing. The extra two rebuild
+       the reserve to match what is actually visible. Tied to TRACK_LANES
+       rather than written as 2, so the two move together. */
+    loopAdditionalSlides: TRACK_LANES,
     rewind: !canLoop,
+    /* Matches the transition duration on .video-poster-card in style.css.
+       Swiper animates the horizontal translate and CSS animates the cards
+       changing shape; left at the 300ms default the row would arrive while the
+       hero was still growing. */
+    speed: 400,
     autoplay: {
       delay: 4000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
-    initialSlide: featured.length > 2 ? 1 : 0,
-    spaceBetween: 0,
+    /* 0, not 1: the +1 used to hide that the first slide sat flush against the
+       track edge with nothing before it. The lanes overlap now, so the slide
+       BEFORE the hero is always tucked underneath it and the edge is covered
+       whichever video opens — leaving no reason not to open on the first. */
+    initialSlide: 0,
+    spaceBetween: SPACE_BETWEEN,
     slideToClickedSlide: true,
     watchSlidesProgress: true,
     rtl: document.documentElement.dir === "rtl",
@@ -4246,9 +4288,14 @@ function renderFeaturedVideos() {
       prevEl: ".videos-featured-prev",
     },
     breakpoints: {
-      0: { slidesPerView: Math.min(1.15, featured.length), spaceBetween: 0 },
-      768: { slidesPerView: perView(3), spaceBetween: 0 },
-      1200: { slidesPerView: perView(MAX_PER_VIEW), spaceBetween: 0 },
+      /* Phones get plain non-overlapping lanes: there is no room for a hero
+         beside two portraits, so the media query in style.css drops the whole
+         hero treatment and shows one card at a time. spaceBetween has to be
+         reset to 0 here or the overlap maths would collapse that single card. */
+      0: { slidesPerView: Math.min(1, featured.length), spaceBetween: 0 },
+      /* Restores both base values — a breakpoint merges over what came before
+         it, so leaving spaceBetween out here would keep the phone's 0. */
+      768: { slidesPerView: perView(TRACK_LANES), spaceBetween: SPACE_BETWEEN },
     },
   });
 }
