@@ -3340,7 +3340,7 @@ function renderMilitaryProductCard(p) {
     .join("");
 
   return `
-    <div class="military-product-card bg-white rounded-1">
+    <div class="military-product-card bg-white rounded-0">
       <div class="row g-0 align-items-stretch">
 
         <!-- Image -->
@@ -5242,13 +5242,13 @@ function loadSingleProductPage(productId) {
                     <div class="price-section mt-3">
                         ${p.oldPrice ? `<span class="discount-badge">-${Math.round((1 - p.price / p.oldPrice) * 100)}%</span>` : ""}
                         <div class="price-row">
-                            <span class="current-price">EGP ${p.price}</span>
-                            ${p.oldPrice ? `<span class="old-price">EGP ${p.oldPrice}</span>` : ""}
+                            <span class="current-price text-white">EGP ${p.price}</span>
+                            ${p.oldPrice ? `<span class="old-price text-white-50">EGP ${p.oldPrice}</span>` : ""}
                         </div>
                     </div>
-                    <span class="badge bg-light text-dark mb-2">${getLabel(p.sub_category.en, p.sub_category.ar)}</span>
-                    <h6 class="card-title mb-1">${getLabel(p.title.en, p.title.ar)}</h6>
-                    <p class="card-text text-muted small product-desc">${getLabel(p.desc.en, p.desc.ar)}</p>
+                    <span class="badge bg-primary rounded-0 text-dark mb-2">${getLabel(p.sub_category.en, p.sub_category.ar)}</span>
+                    <h6 class="card-title text-white mb-1">${getLabel(p.title.en, p.title.ar)}</h6>
+                    <p class="card-text text-white-50 small product-desc">${getLabel(p.desc.en, p.desc.ar)}</p>
                 </div>
             </div>
         </div>

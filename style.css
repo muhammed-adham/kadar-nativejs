@@ -2803,7 +2803,7 @@ body[data-theme="dark"] .videos-toolbar-left {
 
 .military-product-card:hover {
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0);
-  outline: 1.5px solid var(--primary) !important;
+  outline: 1.5px solid var(--secondary) !important;
   scale: 0.995;
 }
 
