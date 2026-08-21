@@ -9435,7 +9435,7 @@ async function initializeApp() {
     // Initial Page
     // ============================
 
-    setCurrentPage("videos");
+    setCurrentPage("home");
   } finally {
     hideAppLoader();
   }
