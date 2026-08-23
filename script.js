@@ -8987,6 +8987,20 @@ function initializeHomePageSections() {
   // Products Section state
   let activeProductCategory = "all";
 
+  /* Military is OTP-gated — goToProductsWithFilter routes it to its own access
+     page and loadProductsPage refuses it without requireMilitaryAccess(). This
+     homepage teaser has no gate of its own, so the category is kept out of it
+     entirely: no chip to select, and its products excluded from the pool.
+
+     The pool matters as much as the chip. The grid shows the first 12 of
+     productsData, and the 7 military items happen to sit at indices 20-26
+     today — so they are hidden by array order alone. Reorder the JSON or
+     remove a few products and they would surface under "All" with no gate in
+     front of them. */
+  const HOME_HIDDEN_CATEGORIES = new Set(["military"]);
+  const homeProducts = () =>
+    productsData.filter((p) => !HOME_HIDDEN_CATEGORIES.has(p.categoryId));
+
   const productSection = document.getElementById("productSection");
   if (productSection) {
     productSection.innerHTML = `
@@ -9037,7 +9051,7 @@ function initializeHomePageSections() {
     // Get unique categories from the single unified array
     const uniqueCategories = [
       ...new Map(categoriesData.map((p) => [p.categoryId, p.name])).entries(),
-    ];
+    ].filter(([categoryId]) => !HOME_HIDDEN_CATEGORIES.has(categoryId));
     // uniqueCategories is now: [ [categoryId, {en, ar}], [categoryId, {en, ar}], ... ]
 
     let chipsHtml = `
@@ -9101,10 +9115,11 @@ function initializeHomePageSections() {
     if (!grid) return;
 
     // productsData is now one unified array (not split by language)
+    const pool = homeProducts();
     const filtered =
       activeProductCategory === "all"
-        ? productsData
-        : productsData.filter((p) => p.categoryId === activeProductCategory);
+        ? pool
+        : pool.filter((p) => p.categoryId === activeProductCategory);
 
     const displayedProducts = filtered.slice(0, 12); // Show only the first 12
 
