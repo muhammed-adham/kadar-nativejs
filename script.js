@@ -2122,7 +2122,7 @@ function loadAboutPage() {
                         <img src="/images/_about.webp" class="img-fluid rounded-2 w-100" style="height: 48rem; object-fit: cover;" alt="Who We Are">
                     </div>
                     <div class="col-lg-6">
-                        <h5 class="sub-title text-primary pb-0">${getLabel(aboutContent.subtitle.en, aboutContent.subtitle.ar)}</h5>
+                        <h5 class="sub-title pb-0">${getLabel(aboutContent.subtitle.en, aboutContent.subtitle.ar)}</h5>
                         <h1 class="display-5 fw-bold mb-4">${getLabel(aboutContent.title.en, aboutContent.title.ar)}</h1>
                         ${paragraphsHtml(aboutContent.paragraphs)}
                         <div class="d-flex align-items-center gap-4 mt-4">
@@ -2200,11 +2200,11 @@ function loadAboutPage() {
 
                             <div class="vm-tab-content p-4 p-lg-5 bg-white">
                                 <div class="vm-tab-pane active" data-vm-pane="vision">
-                                    <h5 class="sub-title text-primary px-0">${getLabel(visionMissionContent.vision.eyebrow.en, visionMissionContent.vision.eyebrow.ar)}</h5>
+                                    <h5 class="sub-title px-0">${getLabel(visionMissionContent.vision.eyebrow.en, visionMissionContent.vision.eyebrow.ar)}</h5>
                                     ${paragraphsHtml(visionMissionContent.vision.paragraphs, "fs-5")}
                                 </div>
                                 <div class="vm-tab-pane" data-vm-pane="mission">
-                                    <h5 class="sub-title text-primary px-0">${getLabel(visionMissionContent.mission.eyebrow.en, visionMissionContent.mission.eyebrow.ar)}</h5>
+                                    <h5 class="sub-title px-0">${getLabel(visionMissionContent.mission.eyebrow.en, visionMissionContent.mission.eyebrow.ar)}</h5>
                                     ${paragraphsHtml(visionMissionContent.mission.paragraphs, "fs-5")}
                                 </div>
                             </div>
@@ -4087,8 +4087,8 @@ function videoPosterCardHtml(v, { badge = null } = {}) {
         loading="lazy">
       ${badge ? `<span class="video-badge video-badge-${badge.key}"><span class="breaking-badge-dot"></span>${getLabel(badge.en, badge.ar)}</span>` : ""}
       <span class="video-poster-caption">
-        <span class="video-poster-title">${title}</span>
         <i class="fa-solid fa-circle-play video-poster-play" aria-hidden="true"></i>
+        <span class="video-poster-title">${title}</span>
       </span>
     </button>
   `;
@@ -4102,23 +4102,189 @@ function featuredVideoCardHtml(v) {
 /* Swaps the poster for a real player, autoplaying because the click WAS the
    play instruction. Replaces the button with a plain div so the now-inert
    button can't keep taking focus or firing the handler again. */
+/* The carousel's own autoplay has to yield while a video is playing, and pick
+   up again when that video ends or is paused. A plain <iframe> cannot report
+   either — it is cross-origin — so this is the one place the YouTube IFrame
+   Player API is worth its weight. It is loaded lazily, on the first play, so
+   the page still costs nothing until someone actually watches something. */
+let youTubeApiPromise = null;
+
+function loadYouTubeApi() {
+  if (youTubeApiPromise) return youTubeApiPromise;
+
+  youTubeApiPromise = new Promise((resolve, reject) => {
+    if (window.YT && window.YT.Player) return resolve(window.YT);
+
+    // The API calls one global hook when it is ready; chain rather than clobber
+    // in case anything else has already registered.
+    const previous = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof previous === "function") previous();
+      resolve(window.YT);
+    };
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    tag.onerror = reject;
+    document.head.appendChild(tag);
+  });
+
+  return youTubeApiPromise;
+}
+
+function setCarouselAutoplay(running) {
+  const sw = window.videosFeaturedSwiperInstance;
+  if (!sw || !sw.autoplay) return;
+  if (running) sw.autoplay.start();
+  else sw.autoplay.stop();
+}
+
+/* Only one player at a time. Holds the live wrapper plus the poster it
+   replaced, so the previous video can be torn back down to its card when
+   another is started — swapping the poster back in destroys the iframe, which
+   is what actually stops the audio. */
+let currentVideoPlayback = null;
+
+const VIDEO_PLAYER_ANIM_MS = 320;
+
+/* Growing to the player's height cannot be transitioned directly: the target
+   height comes from aspect-ratio against height:auto, and there is no such
+   thing as a transition to auto. So the element is pinned to its start height,
+   flushed, then pinned to the measured end height with a transition — and the
+   inline heights are cleared afterwards so the card goes back to being sized by
+   CSS and stays responsive.
+
+   The clear runs on transitionend OR a timer, whichever lands first: a cancelled
+   or never-started transition would otherwise leave the card stuck at a fixed
+   pixel height forever. */
+function animateCardHeight(el, fromPx, toPx) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced || Math.abs(fromPx - toPx) < 1) return;
+
+  el.style.height = fromPx + "px";
+  void el.offsetHeight;
+
+  el.style.transition = `height ${VIDEO_PLAYER_ANIM_MS}ms ease`;
+  el.style.height = toPx + "px";
+
+  const clear = () => {
+    el.style.height = "";
+    el.style.transition = "";
+  };
+  el.addEventListener("transitionend", clear, { once: true });
+  setTimeout(clear, VIDEO_PLAYER_ANIM_MS + 80);
+}
+
+/* Puts the previous video's poster back, which removes its iframe and with it
+   the sound. Animates the collapse for symmetry with the way it opened. */
+function stopCurrentVideo() {
+  if (!currentVideoPlayback) return;
+
+  const { wrap, poster, inCarousel, player } = currentVideoPlayback;
+  currentVideoPlayback = null;
+
+  /* Destroying the player (or just removing the iframe with it) is what resets
+     progress — there is no partially-watched state left to come back to. */
+  if (player && typeof player.destroy === "function") {
+    try {
+      player.destroy();
+    } catch (e) {
+      /* already gone with its iframe */
+    }
+  }
+
+  if (inCarousel) setCarouselAutoplay(true);
+
+  // The grid re-renders on sort/layout changes, which detaches the wrapper.
+  // Nothing to restore in that case; the fresh markup already shows a poster.
+  if (!wrap.isConnected) return;
+
+  const from = wrap.getBoundingClientRect().height;
+  wrap.replaceWith(poster);
+  const to = poster.getBoundingClientRect().height;
+  animateCardHeight(poster, from, to);
+}
+
 function playVideoCard(card) {
   const youtubeId = card.dataset.youtubeId;
   if (!youtubeId) return;
 
+  stopCurrentVideo();
+
   const wrap = document.createElement("div");
   wrap.className = "video-poster-card is-playing";
   wrap.dataset.videoId = card.dataset.videoId;
+
+  /* In the library grid and list the card is SUPPOSED to grow on play: the
+     poster runs at 80% width beside its caption, while the player goes full
+     width at 16:9, so the row gets taller. CSS handles that.
+
+     The carousel is the exception. Its slides are fixed-height flex containers,
+     so a card there cannot grow — and left to itself the replacement <div>
+     resolves to a different size than the <button> it replaced (218px vs 518px
+     wide, measured), lurching sideways. Pinning the measured box is what keeps
+     that one steady, so it stays scoped to the carousel rather than applied
+     everywhere. */
+  const inCarousel = !!card.closest(".videosFeaturedSwiper");
+  if (inCarousel) {
+    const box = card.getBoundingClientRect();
+    if (box.width > 0 && box.height > 0) {
+      wrap.style.flex = "0 0 auto";
+      wrap.style.width = box.width + "px";
+      wrap.style.height = box.height + "px";
+      wrap.style.aspectRatio = "auto";
+    }
+  }
+
   wrap.innerHTML = `
     <iframe
-        src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&modestbranding=1&rel=0"
+        src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&modestbranding=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"
         title="${card.getAttribute("aria-label")}"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen>
     </iframe>
   `;
 
+  const from = card.getBoundingClientRect().height;
   card.replaceWith(wrap);
+
+  // Measured AFTER insertion, so it is whatever the stylesheet resolves to.
+  if (!inCarousel) {
+    animateCardHeight(wrap, from, wrap.getBoundingClientRect().height);
+  }
+
+  currentVideoPlayback = { wrap, poster: card, inCarousel, player: null };
+
+  if (!inCarousel) return;
+
+  /* Hold the carousel still for the duration. Stopping autoplay immediately
+     (rather than waiting for the API) means the row cannot slide out from under
+     the video during the moment the script is still loading. */
+  setCarouselAutoplay(false);
+
+  const playback = currentVideoPlayback;
+  loadYouTubeApi()
+    .then((YT) => {
+      // Guard: the viewer may have swiped or started something else while the
+      // API was still downloading, in which case this playback is already over.
+      if (currentVideoPlayback !== playback || !playback.wrap.isConnected) return;
+
+      playback.player = new YT.Player(playback.wrap.querySelector("iframe"), {
+        events: {
+          onStateChange: (e) => {
+            if (currentVideoPlayback !== playback) return;
+            // Paused or finished — the carousel is free to move on again.
+            const done =
+              e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED;
+            setCarouselAutoplay(done);
+          },
+        },
+      });
+    })
+    .catch(() => {
+      // API blocked or offline: fall back to leaving autoplay off until the
+      // viewer navigates, which stopCurrentVideo restores.
+    });
 }
 
 /* Editor's picks get their own carousel above the library grid — that is what
@@ -4256,12 +4422,24 @@ function renderFeaturedVideos() {
        whichever video opens — leaving no reason not to open on the first. */
     initialSlide: 0,
     spaceBetween: SPACE_BETWEEN,
-    slideToClickedSlide: true,
+    /* Off: its hit-test picks the slide under the pointer, which these
+       overlapping slides make wrong. The click handler does it explicitly. */
+    slideToClickedSlide: false,
     watchSlidesProgress: true,
     rtl: document.documentElement.dir === "rtl",
     navigation: {
       nextEl: ".videos-featured-next",
       prevEl: ".videos-featured-prev",
+    },
+    on: {
+      /* Moving the carousel ends the video rather than letting it play on out
+         of view. stopCurrentVideo puts the poster back, which destroys the
+         iframe — so progress resets and it starts from zero next time. */
+      slideChange() {
+        if (currentVideoPlayback && currentVideoPlayback.inCarousel) {
+          stopCurrentVideo();
+        }
+      },
     },
     breakpoints: {
       /* Phones get plain non-overlapping lanes: there is no room for a hero
@@ -4348,6 +4526,35 @@ function bindVideosPageEvents() {
   document.addEventListener("click", (e) => {
     const playCard = e.target.closest("[data-video-play]");
     if (playCard) {
+      /* In the Highlights carousel only the leading card is landscape; the rest
+         are portrait. Playing one of those would swap a 3:4 box for a 16:9
+         player and lurch the row. So a click on a non-leading card promotes it
+         instead — Swiper's slideToClickedSlide brings it to the front, where it
+         becomes landscape and can be played on a second click. */
+      const slide = playCard.closest(".videosFeaturedSwiper .swiper-slide");
+      if (slide && !slide.classList.contains("swiper-slide-active")) {
+        /* Promote it instead of playing — but do the slideTo ourselves rather
+           than leaving it to Swiper.
+
+           slideToClickedSlide picks the slide sitting under the pointer, and in
+           this carousel that is the wrong one: the slides are far wider than the
+           cards and overlap heavily (817px slides carrying ~218px cards), so a
+           card is routinely painted over a NEIGHBOUR slide box. Clicking the
+           second card promoted the third, the third promoted the fourth, and the
+           mismatch was measurable on 3 of every 4 cards. Reading the index off
+           the card's own slide removes the guesswork. */
+        const swiper = window.videosFeaturedSwiperInstance;
+        const loopIndex = Number(slide.dataset.swiperSlideIndex);
+
+        if (swiper && Number.isFinite(loopIndex)) {
+          swiper.slideToLoop(loopIndex);
+        } else if (swiper) {
+          // Not looping: DOM order is the index.
+          swiper.slideTo([...slide.parentElement.children].indexOf(slide));
+        }
+        return;
+      }
+
       playVideoCard(playCard);
       return;
     }
@@ -8646,11 +8853,11 @@ function initializeHomePageSections() {
   if (aboutSection) {
     aboutSection.innerHTML = `
             <div class="container-fluid overflow-hidden pt-5 bg-light" style="width: 100%;">
-                <div class="container bg-light">
+                <div class="container bg-light pb-5 border-bottom">
                     <div class="row g-4">
                         <div class="col-xl-5 order-2 order-md-1 wow fadeInLeft" data-wow-delay="0.1s">
                             <div class="bg-light h-100 rounded-0 overflow-hidden">
-                                <img src="/images/about.webp" class="img-fluid about-img w-100 h-100" style="object-fit:cover;"  alt="About">
+                                <img src="/images/_about.webp" class="img-fluid about-img w-100 h-100" style="object-fit:cover;"  alt="About">
                             </div>
                         </div>
                         <div class="col-xl-7 order-1 order-md-2 wow fadeInRight" data-wow-delay="0.3s">
@@ -8660,7 +8867,7 @@ function initializeHomePageSections() {
                                 ${getLabel(aboutContent.paragraphs[0].en, aboutContent.paragraphs[0].ar)}
                                 <br/>
                                 <br/>
-                                <a class="btn btn-link text-secondary ps-0 pt-0 pb-0" href="/#about" data-discover="true" ;">
+                                <a class="btn btn-link text-secondary ${getDirectionClass("ps-0", "ps-3 pe-0")} pt-0 pb-0" href="/#about" data-discover="true" ;">
                                  ${getLabel("Read More", "اقرأ المزيد")} 
                                 </a>
                             </p>
@@ -8800,8 +9007,8 @@ function initializeHomePageSections() {
                     <!-- Product Grid -->
                     <div class="row g-4" id="productsGrid"></div>
                     
-                    <div class="col-12 text-end p-2" id="viewAllProductsSection">
-                        <a class="btn btn-link border-secondary rounded-0" href="#" onclick="setCurrentPage('products')">
+                    <div class="col-12 ${getDirectionClass("text-end","text-start")} p-2" id="viewAllProductsSection">
+                        <a class="btn btn-link border-secondary rounded-0 ps-3" href="#" onclick="setCurrentPage('products')">
                             ${getLabel("View All", "عرض الكل")}
                         </a>
                     </div>
@@ -9006,9 +9213,9 @@ function initializeHomePageSections() {
 
     newsSection.innerHTML = `
         <div class="container-fluid overflow-hidden bg-light pt-4">
-            <div class="container border-bottom">
+            <div class="container border-bottom pb-4">
 
-                <div class="d-flex align-items-center justify-content-start py-3">
+                <div class="d-flex align-items-center justify-content-between py-3">
                     <div class="section-title mb-0">
                         <h5 class="sub-title mb-0 pe-3 pb-0">${getLabel("News", "الأخبار")}</h5>
                     </div>
@@ -9030,8 +9237,8 @@ function initializeHomePageSections() {
 
                 <div class="news-pagination text-center mt-4"></div>
 
-                <div class="text-end">
-                    <a class="btn btn-link " href="#" onclick="setCurrentPage('news')">
+                <div class="${getDirectionClass("text-end", "text-start")}">
+                    <a class="btn btn-link ${getDirectionClass("", "ps-3")}" href="#" onclick="setCurrentPage('news')">
                         ${getLabel("View All", "عرض الكل")}
                     </a>
                 </div>
@@ -9269,11 +9476,11 @@ function initializeHomePageSections() {
                         <h4 class="mb-4 text-white">
                             ${getLabel(
                               "Looking for reliable industrial manufacturing or machinery rental?",
-                              "تبحث عن حلول موثوقة في التصنيع الصناعي أو تأجير المعدات؟",
+                              "تبحث عن حلول موثوقة في المجال الصناعي أو تأجير المعدات؟",
                             )}
                         </h4>
                         <a href="#" class="btn btn-primary border-secondary rounded-0 py-3 px-5" onclick="setCurrentPage('contact')">
-                            ${getLabel("Request a Quote", "اطلب عرض سعر")}
+                            ${getLabel("Contact Us", "تواصل معنا")}
                         </a>
                     </div>
     

@@ -649,25 +649,15 @@ p {
   position: relative;
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.btn-link:hover {
-  /* background-color: var(--light); */
-  /* border-color: var(--light); */
-  color: var(--primary) !important;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  padding-inline-end: 1.2rem;
 }
 
 .btn-link::after {
   content: "→";
   position: absolute;
   font-size: 1rem;
-  right: -0.2rem;
-  transition: all 0.3s ease;
+  inset-inline-end: -0.2rem;
+  transition: transform 0.3s ease;
 }
 
 .btn-link:hover {
@@ -676,6 +666,20 @@ p {
 
 .btn-link:hover::after {
   transform: translateX(4px);
+}
+
+[dir="rtl"] .btn-link {
+  padding-inline-end: 0;
+  padding-inline-start: 1.2rem;
+}
+
+[dir="rtl"] .btn-link::after {
+  content: "←";
+  transform: translateX(0);
+}
+
+[dir="rtl"] .btn-link:hover::after {
+  transform: translateX(-4px);
 }
 
 .btn-white:hover {
@@ -2360,12 +2364,6 @@ html[dir="rtl"] .nav-btn-custom {
   pointer-events: none;
 }
 
-/* In list view it overlays the thumbnail rather than the whole row. */
-.videos-list-view .video-poster-card .video-badge {
-  top: 1.1rem;
-  inset-inline-start: 1.1rem;
-}
-
 .video-badge {
   display: inline-flex;
   align-items: center;
@@ -2458,54 +2456,8 @@ body[data-theme="dark"] .videos-toolbar-left {
    16:9 poster per row would be enormous — around 600px tall on desktop.
    Instead the title is lifted out of the overlay and set as ordinary text:
    position:static drops it back into flow, and the gradient goes with it. */
-.videos-list-view .video-poster-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  aspect-ratio: auto;
-  background: var(--white);
-  padding: 0.75rem;
-  box-shadow: none;
-  border: 1px solid var(--border-color);
-}
-
-.videos-list-view .video-poster-img {
-  flex: 0 0 clamp(10rem, 30%, 18rem);
-  height: auto;
-  aspect-ratio: 16 / 9;
-  border-radius: 0.35rem;
-}
-
-.videos-list-view .video-poster-caption {
-  position: static;
-  flex: 1;
-  padding: 0;
-  background: none;
-  align-items: center;
-}
-
-.videos-list-view .video-poster-title {
-  color: var(--text-primary);
-  -webkit-line-clamp: 3;
-}
-
-.videos-list-view .video-poster-play {
-  color: var(--primary);
-}
 
 @media (max-width: 575.98px) {
-  /* Too narrow for side-by-side — stack, title underneath. */
-  .videos-list-view .video-poster-card {
-    display: block;
-  }
-
-  .videos-list-view .video-poster-img {
-    width: 100%;
-  }
-
-  .videos-list-view .video-poster-caption {
-    padding-top: 0.6rem;
-  }
 }
 
 /* ---------- Machinery page ---------- */
@@ -3590,12 +3542,16 @@ body.modal-open {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 }
 
+/* The 80% width leaves a fifth of the card free for the caption. Pushing the
+   media to the inline END with an auto start-margin puts it on the right in
+   English and the left in Arabic automatically. */
 .video-poster-img,
 .video-poster-card iframe {
-  width: 100%;
+  width: 80%;
   height: 100%;
   border: 0;
   display: block;
+  margin-inline-start: auto;
 }
 
 /* cover crops hqdefault's 4:3 letterbox bars back to a clean 16:9. */
@@ -3606,11 +3562,6 @@ body.modal-open {
 
 .video-poster-card:hover .video-poster-img {
   transform: scale(1.05);
-}
-
-/* Once the real player is in, the poster affordances are gone with it. */
-.video-poster-card.is-playing {
-  cursor: default;
 }
 
 @media (max-width: 767.98px) {
@@ -3625,30 +3576,48 @@ body.modal-open {
    silently dropping the centring in Arabic. Keeping transform untouched lets
    both behaviours coexist. */
 
-
-
-
-
 /* Caption bar across the bottom of the poster: title on the leading side,
    play icon on the trailing one. The gradient and the positioning live here
    now rather than on the title, so the icon rides the same bar.
    pointer-events: none keeps the whole card a single click target. */
+/* Caption moved from a bottom bar to a column on the leading edge, so the
+   title sits in the space the 80% media leaves and the gradient fades
+   sideways across the image rather than up from the base.
+
+   It spans wider than that free fifth on purpose: text needs to start clear
+   of the image edge, so the panel overlaps the media and the gradient carries
+   it — fully opaque where the text is, transparent by the time it reaches the
+   picture. Gradients have no logical direction, hence the RTL override below;
+   everything else here is direction-agnostic. */
 .video-poster-caption {
   position: absolute;
-  inset-inline: 0;
-  bottom: 0;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  width: 55%;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 2.5rem 1rem 0.85rem;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1rem;
   background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.65) 45%,
+    to right,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 75%,
     transparent 100%
   );
   pointer-events: none;
+}
+
+/* to right / to left is the one thing that cannot be expressed logically. */
+[dir="rtl"] .video-poster-caption {
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 75%,
+    transparent 100%
+  );
 }
 
 /* text-align: start puts it bottom-left in English, bottom-right in Arabic —
@@ -3692,8 +3661,6 @@ body.modal-open {
   .video-poster-play {
     font-size: 1.25rem;
   }
-
-
 }
 
 /* Badge pinned over the poster now that the card has no body to sit in. It
@@ -3752,7 +3719,6 @@ body.modal-open {
 .videos-featured .video-poster-caption {
   padding-top: 3rem;
 }
-
 
 /* Carousel nav, in the section heading beside the title rather than pinned to
    the track edges. Static flow, so none of the absolute positioning or
@@ -3872,4 +3838,78 @@ body.modal-open {
     max-width: none;
     margin-inline: auto;
   }
+}
+
+/* Swapping the poster for the player must not resize the card. The replacement
+   is a plain <div>, so it inherits whatever .video-poster-card resolves to in
+   its context — and any context that made the card something other than a
+   16:9 block used to collapse it: an auto-height flex container gives a lone
+   iframe at height:100% nothing to resolve against, so it fell to zero and the
+   row appeared to shrink. Pinning the shape here makes the swap dimensionally
+   identical wherever it happens. */
+/* Swapping the poster for the player must not move anything. The replacement
+   is a plain <div> carrying .video-poster-card, so it picks up whatever that
+   resolves to in its context and keeps the exact box the poster occupied —
+   16:9 in the grid and list, whatever the carousel rules say in Highlights.
+
+   Deliberately NOT forcing an aspect-ratio here. Pinning 16:9 would reflow any
+   card that is not already 16:9 (the carousel cards are portrait), so the video
+   letterboxes inside the card instead of the card resizing around the video.
+
+   What DID need fixing is the collapse: list view used to make the card an
+   auto-height flex row, which left a lone iframe at height:100% with nothing to
+   resolve against, so it fell to zero. display:block restores a box with a
+   height for the iframe to fill. */
+
+/* List view is the same card as the grid, just one per row: the video fills
+   the full width with its title overlaid. Only the column class differs
+   (col-12 vs col-lg-4), so no card overrides are needed here at all — the
+   previous thumbnail-left/text-right treatment is what made the two views
+   behave differently under playback. */
+.videos-list-view .video-poster-card {
+  max-width: none;
+  height: 18rem;
+}
+
+/* Playing state. Deliberately LAST in the file: .videos-list-view sets a fixed
+   card height at the same (0,2,0) specificity, so order is what lets the
+   player override it.
+
+   The poster runs at 80% width with the caption beside it; a video should not.
+   Going full width and letting 16:9 drive the height grows the card to the
+   shape YouTube actually delivers, instead of squeezing the player into the
+   poster's box. height:auto is what releases the list view's 18rem. */
+.video-poster-card.is-playing {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: none;
+  background: #000;
+  cursor: default;
+}
+
+/* Full-bleed: undo the 80% + end-alignment the poster image uses. */
+.video-poster-card.is-playing iframe {
+  width: 100%;
+  height: 100%;
+  margin-inline-start: 0;
+}
+/* The slides in this carousel are far wider than the cards they carry (817px
+   slides around ~218px cards) and overlap each other heavily. A slide box
+   therefore paints over its neighbours' cards — invisibly, since the slide has
+   no background of its own, but it still swallows the click. That is why some
+   cards were selectable and others did nothing: it depended purely on whether a
+   later sibling slide happened to cover them.
+
+   Slides are pure positioning boxes here, so they take themselves out of
+   hit-testing and the cards opt back in. Dragging still works: Swiper listens on
+   the container, not on individual slides. */
+.videos-featured .swiper .swiper-slide {
+  pointer-events: none;
+}
+
+.videos-featured .swiper .swiper-slide .video-poster-card {
+  pointer-events: auto;
 }
