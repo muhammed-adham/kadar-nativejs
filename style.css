@@ -695,6 +695,14 @@ p {
   background-color: var(--primary);
 }
 
+.btn-outline-secondary{
+  color: var(--secondary);
+}
+
+.btn-outline-secondary:hover{
+background-color: var(--secondary);
+}
+
 .btn-show {
   border: 1px solid black;
 }
@@ -1602,6 +1610,7 @@ html[dir="rtl"] .nav-btn-custom {
 
 .modal-header .btn-close {
   filter: invert(1);
+  margin: 0;
 }
 
 .modal-title {
@@ -2313,6 +2322,16 @@ html[dir="rtl"] .nav-btn-custom {
   transition: background 0.3s ease;
 }
 
+[dir="rtl"] .news-card-content{
+  clip-path: polygon(
+    40px 0,
+    100% 0,
+    100% 100%,
+    0 100%,
+    0 40px
+  );
+}
+
 .news-card:hover .news-card-content {
   background: var(--tertiary);
 }
@@ -2337,6 +2356,11 @@ html[dir="rtl"] .nav-btn-custom {
   margin-top: auto;
   padding-left: 4.6rem !important;
   padding-block: 1.6rem;
+}
+
+[dir="rtl"] .news-card-readmore{
+  padding-left: 1.2rem !important;
+  padding-right: 4.6rem !important;
 }
 
 .news-card:hover .news-card-readmore {
@@ -3912,4 +3936,274 @@ body.modal-open {
 
 .videos-featured .swiper .swiper-slide .video-poster-card {
   pointer-events: auto;
+}
+
+/* ============================================================
+   LEGAL PAGES (terms of service / privacy policy)
+   ============================================================ */
+
+/* Privacy policies carry a revision date; terms here do not, so it is optional. */
+.legal-updated {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.legal-header h1 {
+  letter-spacing: -0.02em;
+}
+
+/* Sidebar index. Sticks below the navbar, which is roughly 6rem tall once
+   the second nav row is counted. */
+.legal-toc {
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  padding-inline-start: 1rem;
+  border-inline-start: 2px solid rgba(0, 48, 73, 0.12);
+}
+
+.legal-toc-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6c757d;
+  margin-bottom: 0.75rem;
+}
+
+.legal-toc-doc {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #003049;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.legal-toc-doc:hover {
+  color: var(--primary);
+}
+
+.legal-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  counter-reset: legal-toc;
+}
+
+.legal-toc-list li {
+  counter-increment: legal-toc;
+  margin-bottom: 0.35rem;
+}
+
+.legal-toc-list a {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #6c757d;
+  text-decoration: none;
+  padding: 0.15rem 0;
+}
+
+.legal-toc-list a:hover {
+  color: var(--bs-primary);
+}
+
+/* --- document body --- */
+
+.legal-doc {
+  scroll-margin-top: 7rem;
+}
+
+.legal-doc-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.legal-doc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  background: rgba(var(--bs-primary-rgb), 0.12);
+  color: var(--secondary);
+  font-size: 1.25rem;
+}
+
+.legal-doc-sub {
+  letter-spacing: 0.08em;
+}
+
+.legal-intro {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #495057;
+  padding: 1.25rem 1.5rem;
+  background: #f8f9fa;
+  border-inline-start: 3px solid var(--secondary);
+  margin-bottom: 2.5rem;
+}
+
+.legal-section {
+  scroll-margin-top: 7rem;
+  margin-bottom: 2.25rem;
+}
+
+.legal-section-title {
+  margin-bottom: 0.9rem;
+  color: #003049;
+}
+
+/* The headings already read "First:", "Second:" — a number here would
+   repeat that, so this is a plain accent instead. */
+.legal-section-mark {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--secondary);
+  transform: translateY(-0.15rem);
+}
+
+.legal-lead,
+.legal-text {
+  line-height: 1.85;
+  color: #495057;
+  margin-bottom: 0.75rem;
+}
+
+.legal-list {
+  margin: 0 0 0.5rem;
+  padding-inline-start: 1.25rem;
+}
+
+.legal-list li {
+  line-height: 1.85;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.legal-list li::marker {
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.legal-note {
+  display: flex;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #495057;
+  background: #f8f9fa;
+  padding: 0.85rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.legal-note i {
+  color: var(--secondary);
+  margin-top: 0.2rem;
+}
+
+.legal-footnote {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.75;
+  color: #003049;
+  background: rgba(var(--bs-primary-rgb), 0.08);
+  padding: 1rem 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0;
+}
+
+.legal-footnote i {
+  color: var(--secondary);
+  margin-top: 0.25rem;
+}
+
+.legal-divider {
+  margin: 3.5rem 0;
+  opacity: 0.15;
+}
+
+.legal-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding: 1.75rem;
+  background: #f8f9fa;
+  border-top: 3px solid var(--primary);
+}
+
+/* --- privacy placeholder --- */
+
+.legal-pending {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: #f8f9fa;
+  border: 1px dashed rgba(0, 48, 73, 0.25);
+}
+
+.legal-pending-icon {
+  font-size: 2.5rem;
+  color: var(--bs-primary);
+  opacity: 0.65;
+}
+
+.legal-pending p {
+  max-width: 34rem;
+  margin-inline: auto;
+  line-height: 1.8;
+}
+
+/* Arabic runs longer per line; a touch more leading keeps it readable. */
+[dir="rtl"] .legal-intro,
+[dir="rtl"] .legal-list li,
+[dir="rtl"] .legal-lead,
+[dir="rtl"] .legal-text {
+  line-height: 2;
+}
+
+@media (max-width: 991.98px) {
+  .legal-intro {
+    font-size: 1rem;
+    padding: 1rem 1.15rem;
+  }
+
+  .legal-contact {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Legal text is the kind of thing people print. */
+@media print {
+  .legal-toc,
+  .legal-contact,
+  #mainNav,
+  #navLinksRow,
+  #mainFooter,
+  .bg-breadcrumb,
+  .scroll-top-btn {
+    display: none !important;
+  }
+
+  .legal-doc {
+    break-inside: avoid;
+  }
+
+  .legal-section {
+    break-inside: avoid;
+  }
 }

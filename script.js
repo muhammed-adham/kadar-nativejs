@@ -50,7 +50,7 @@ const appState = {
 /* ============================================================
    CONTACT PLACEHOLDERS
    ============================================================ */
-const RESERVATION_WHATSAPP = "201556336160";
+const RESERVATION_WHATSAPP = "2015 5633 6160";
 const RESERVATION_EMAIL = "kaderfactory38@gmail.com";
 
 /* ============================================================
@@ -95,8 +95,8 @@ const navigationLinks = [
 
   {
     id: "videos",
-    label_en: "Video Library",
-    label_ar: "معرض الفيديوهات",
+    label_en: "Media",
+    label_ar: "المحتوى الإعلامي",
     path: "#videos",
   },
 
@@ -384,6 +384,799 @@ const policyTabsContent = {
 };
 
 /* ============================================================
+   LEGAL DOCUMENTS (full text — return/exchange + warranty)
+
+   The short summaries on the home page live in policyTabsContent above;
+   these are the full documents its "See Full ..." buttons link to.
+
+   Text supplied by Kader Factory. Keep edits to wording out of the renderer
+   below — change the strings here and both languages stay in step.
+   ============================================================ */
+const legalDocuments = {
+  returns: {
+    id: "returns",
+    icon: "fas fa-retweet",
+    title: {
+      en: "Return and Exchange Policy",
+      ar: "سياسة الاستبدال والاسترجاع",
+    },
+    subtitle: {
+      en: "Kader Factory Products",
+      ar: "منتجات مصنع قادر",
+    },
+    intro: {
+      en: "At Kader Factory, we are committed to achieving the highest levels of customer satisfaction. Therefore, we provide a clear and flexible return and exchange policy that protects customers' rights while ensuring the quality of the products offered.",
+      ar: "حرصاً من مصنع قادر على تحقيق أعلى مستويات رضا العملاء، نلتزم بتقديم سياسة واضحة ومرنة للاستبدال والاسترجاع بما يضمن حقوق العملاء وجودة المنتجات المقدمة.",
+    },
+    sections: [
+      {
+        heading: {
+          en: "First: Return and Exchange Period",
+          ar: "أولاً: مدة الاستبدال والاسترجاع",
+        },
+        ordered: true,
+        items: [
+          {
+            en: "Customers are entitled to return or exchange products within 14 days from the date of purchase, provided that the product is in its original condition and includes all accessories.",
+            ar: "الاستبدال أو الاسترجاع خلال 14 يوماً من تاريخ الشراء، بشرط أن يكون المنتج بحالته الأصلية وبكامل ملحقاته.",
+          },
+          {
+            en: "In the case of a verified manufacturing defect, customers may request a return or exchange within 30 days from the date of purchase, provided that a technical report confirming the defect is submitted.",
+            ar: "في حال وجود عيب صناعي مثبت، يحق للعميل الاستبدال أو الاسترجاع خلال 30 يوماً من تاريخ الشراء، على أن يتم تقديم تقرير فني يثبت العيب.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Second: Return and Exchange Conditions",
+          ar: "ثانياً: شروط الاستبدال والاسترجاع",
+        },
+        items: [
+          {
+            en: "The original purchase invoice must be presented when requesting a return or exchange.",
+            ar: "تقديم فاتورة الشراء الأصلية عند طلب الاستبدال أو الاسترجاع.",
+          },
+          {
+            en: "The product must be in its original condition with all packaging and accessories included.",
+            ar: "أن يكون المنتج بحالته الأصلية وبكامل التغليف والملحقات.",
+          },
+          {
+            en: "Returns or exchanges will not be accepted if damage occurs due to improper transportation, storage, or misuse by the customer.",
+            ar: "لا يُقبل الاستبدال أو الاسترجاع في حال حدوث تلف نتج عن سوء النقل أو التخزين أو سوء استخدام من قِبل العميل.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Third: Non-Returnable Products",
+          ar: "ثالثاً: المنتجات غير القابلة للاسترجاع",
+        },
+        lead: {
+          en: "Certain products cannot be returned for health or operational reasons, including:",
+          ar: "لا يمكن استرجاع بعض المنتجات لأسباب صحية أو تشغيلية، ومنها:",
+        },
+        items: [
+          { en: "Perishable products.", ar: "المنتجات القابلة للتلف." },
+          {
+            en: "Products manufactured or customized specifically upon the customer's request.",
+            ar: "المنتجات المصنعة أو المجهزة خصيصاً بناءً على طلب العميل.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Fourth: Refund Process",
+          ar: "رابعاً: آلية استرداد الأموال",
+        },
+        paragraphs: [
+          {
+            en: "Once the returned product is received and inspected to confirm that it meets the return conditions, the refund request will be approved.",
+            ar: "بعد استلام المنتج وفحصه للتأكد من مطابقته لشروط الاسترجاع، يتم اعتماد طلب الاسترداد.",
+          },
+          {
+            en: "The refund will be processed within 5 to 10 business days.",
+            ar: "على أن تتم إعادة المبلغ خلال 5 إلى 10 أيام عمل.",
+          },
+        ],
+      },
+      {
+        heading: { en: "Fifth: Shipping Fees", ar: "خامساً: رسوم الشحن" },
+        items: [
+          {
+            en: "Shipping fees are non-refundable.",
+            ar: "رسوم الشحن غير قابلة للاسترداد.",
+          },
+          {
+            en: "In case of a return, the return shipping cost will be deducted from the refund amount.",
+            ar: "في حالة الاسترجاع، يتم خصم رسوم إعادة الشحن من قيمة المبلغ المسترد.",
+          },
+        ],
+      },
+      {
+        heading: { en: "Sixth: Refund Method", ar: "سادساً: طريقة رد المبلغ" },
+        lead: {
+          en: "Refunds will be issued using the same payment method used for the original purchase:",
+          ar: "يتم رد المبلغ بنفس وسيلة الدفع الأصلية:",
+        },
+        items: [
+          {
+            en: "Electronic payments (bank cards): within 14 business days after the request is approved.",
+            ar: "الدفع الإلكتروني (بطاقات بنكية): خلال 14 يوم عمل من اعتماد الطلب.",
+          },
+          {
+            en: "Cash payments: the product value will be transferred via bank transfer within 7 business days after the request is approved.",
+            ar: "الدفع النقدي: يتم تحويل قيمة المنتج عبر تحويل بنكي خلال 7 أيام عمل من اعتماد الطلب.",
+          },
+        ],
+      },
+    ],
+    footNote: {
+      en: "If you have any questions regarding the return and exchange policy, please contact our Customer Service Team, and we will be happy to assist you.",
+      ar: "في حال وجود أي استفسارات، يرجى التواصل مع فريق خدمة العملاء، ويسعدنا دائماً خدمتكم.",
+    },
+  },
+
+  warranty: {
+    id: "warranty",
+    icon: "fas fa-shield-alt",
+    title: { en: "Warranty Terms", ar: "شروط الضمان" },
+    subtitle: { en: "Kader Factory Products", ar: "منتجات مصنع قادر" },
+    intro: {
+      en: "Kader Factory is committed to delivering products that meet high-quality standards. This warranty covers defects resulting from manufacturing faults in accordance with the following terms and conditions:",
+      ar: "يحرص مصنع قادر على تقديم منتجات بمعايير جودة عالية، ويغطي الضمان العيوب الناتجة عن عيوب الصناعة وفقاً للشروط التالية:",
+    },
+    sections: [
+      {
+        heading: { en: "First: Warranty Period", ar: "أولاً: مدة الضمان" },
+        items: [
+          {
+            en: "The warranty period shall apply as specified in the warranty certificate or the purchase invoice for each product.",
+            ar: "تسري مدة الضمان وفقاً لما هو محدد في شهادة الضمان أو فاتورة الشراء لكل منتج.",
+          },
+          {
+            en: "The warranty period commences from the purchase date indicated on the invoice.",
+            ar: "تبدأ فترة الضمان من تاريخ الشراء المثبت بالفاتورة.",
+          },
+        ],
+      },
+      {
+        heading: { en: "Second: Scope of Warranty", ar: "ثانياً: نطاق الضمان" },
+        lead: { en: "The warranty covers:", ar: "يشمل الضمان:" },
+        items: [
+          {
+            en: "Malfunctions resulting from manufacturing defects or material faults.",
+            ar: "الأعطال الناتجة عن عيوب تصنيع أو خلل في الخامات.",
+          },
+          {
+            en: "Repair or replacement of defective parts without charging the customer for spare parts or repair labor during the warranty period.",
+            ar: "استبدال أو إصلاح الأجزاء المتضررة دون تحميل العميل تكلفة قطع الغيار أو أجور الإصلاح خلال فترة الضمان.",
+          },
+        ],
+        note: {
+          en: "The appropriate action (repair or replacement) will be determined after the product undergoes an authorized technical inspection.",
+          ar: "ويتم تحديد الإجراء المناسب (إصلاح أو استبدال) بعد الفحص الفني المعتمد.",
+        },
+      },
+      {
+        heading: {
+          en: "Third: Warranty Exclusions",
+          ar: "ثالثاً: ما لا يشمله الضمان",
+        },
+        lead: {
+          en: "The warranty does not cover the following cases:",
+          ar: "لا يغطي الضمان الحالات التالية:",
+        },
+        items: [
+          {
+            en: "Damage resulting from misuse, negligence, or improper storage.",
+            ar: "التلف الناتج عن سوء الاستخدام أو الإهمال أو سوء التخزين.",
+          },
+          {
+            en: "Damage caused by accidents, impacts, or natural disasters.",
+            ar: "التلف الناتج عن الحوادث أو الصدمات أو الكوارث الطبيعية.",
+          },
+          {
+            en: "Malfunctions resulting from installation or operation that does not comply with the product instructions.",
+            ar: "الأعطال الناتجة عن تركيب أو تشغيل غير مطابق لتعليمات التشغيل.",
+          },
+          {
+            en: "Any modification or repair carried out by an unauthorized service provider.",
+            ar: "أي تعديل أو إصلاح تم بواسطة جهة غير معتمدة من المصنع.",
+          },
+          {
+            en: "Consumable parts that deteriorate as a result of normal use.",
+            ar: "الأجزاء الاستهلاكية التي تتعرض للتلف نتيجة الاستخدام الطبيعي.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Fourth: Warranty Eligibility Requirements",
+          ar: "رابعاً: شروط الاستفادة من الضمان",
+        },
+        lead: {
+          en: "To benefit from the warranty, the following conditions must be met:",
+          ar: "للاستفادة من الضمان، يجب استيفاء الشروط التالية:",
+        },
+        items: [
+          {
+            en: "Presenting the original purchase invoice or the official warranty certificate.",
+            ar: "تقديم فاتورة الشراء الأصلية أو شهادة الضمان المعتمدة.",
+          },
+          {
+            en: "The product must not be tampered with, and the serial number must remain intact.",
+            ar: "عدم العبث بالمنتج أو إزالة الرقم التسلسلي.",
+          },
+          {
+            en: "The product must be submitted for inspection at one of the authorized service centers.",
+            ar: "تسليم المنتج للفحص الفني في أحد مراكز الخدمة المعتمدة.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Fifth: Warranty Service Procedure",
+          ar: "خامساً: آلية تنفيذ الضمان",
+        },
+        items: [
+          {
+            en: "The product will be examined within a reasonable period after it is received.",
+            ar: "يتم فحص المنتج خلال فترة زمنية مناسبة من تاريخ الاستلام.",
+          },
+          {
+            en: "If a manufacturing defect is confirmed, the product will be repaired or replaced in accordance with the technical department's assessment.",
+            ar: "في حال ثبوت عيب صناعي، يتم الإصلاح أو الاستبدال وفقاً لتقدير الإدارة الفنية.",
+          },
+          {
+            en: "The warranty does not entitle the customer to any compensation exceeding the value of the product.",
+            ar: "لا يترتب على الضمان أي تعويضات إضافية تتجاوز قيمة المنتج.",
+          },
+        ],
+      },
+    ],
+    footNote: {
+      en: "For any inquiries regarding the warranty or maintenance requests, please contact Customer Service or visit the nearest authorized service center.",
+      ar: "لأي استفسارات متعلقة بالضمان أو طلبات الصيانة، يرجى التواصل مع خدمة العملاء أو أقرب مركز خدمة معتمد.",
+    },
+  },
+
+  /* Standard privacy-policy boilerplate, drafted to match what this site
+     actually does: accounts, Google sign-in, orders, the OTP-gated category,
+     and the browser storage used for session/cart/preferences.
+
+     NOT legal advice. These are commitments made in Kader Factory's name and
+     should be reviewed by counsel — in particular against Egypt's Personal
+     Data Protection Law — before this page is treated as binding. Keep the
+     text here in step with what the site really collects; a policy that
+     describes something the code does not do is worse than none. */
+  privacy: {
+    id: "privacy",
+    icon: "fas fa-user-shield",
+    title: { en: "Privacy Policy", ar: "سياسة الخصوصية" },
+    subtitle: {
+      en: "Kader Factory for Advanced Industries",
+      ar: "مصنع قادر للصناعات المتطورة",
+    },
+    updated: {
+      en: "Last updated: 25 August 2026",
+      ar: "آخر تحديث: 25 أغسطس 2026",
+    },
+    intro: {
+      en: "Your privacy matters to us. This policy explains what personal information we collect when you use this website, how we use it, who we share it with, and the choices available to you.",
+      ar: "خصوصيتك تهمنا. توضح هذه السياسة المعلومات الشخصية التي نجمعها عند استخدامك لهذا الموقع، وكيفية استخدامها، والجهات التي قد نشاركها معها، والخيارات المتاحة لك.",
+    },
+    sections: [
+      {
+        heading: {
+          en: "First: Scope of This Policy",
+          ar: "أولاً: نطاق هذه السياسة",
+        },
+        paragraphs: [
+          {
+            en: "This policy applies to this website and to the services offered through it by Kader Factory for Advanced Industries (\"Kader Factory\", \"we\", \"us\").",
+            ar: "تسري هذه السياسة على هذا الموقع وعلى الخدمات المقدمة من خلاله من قِبل مصنع قادر للصناعات المتطورة (\"مصنع قادر\"، \"نحن\").",
+          },
+          {
+            en: "It does not apply to third-party websites we link to, which are governed by their own privacy policies.",
+            ar: "ولا تسري على مواقع الجهات الخارجية التي قد نضع روابط لها، حيث تخضع تلك المواقع لسياسات الخصوصية الخاصة بها.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Second: Information We Collect",
+          ar: "ثانياً: المعلومات التي نجمعها",
+        },
+        lead: {
+          en: "We collect the following categories of information:",
+          ar: "نقوم بجمع الفئات التالية من المعلومات:",
+        },
+        items: [
+          {
+            en: "<strong>Account information</strong> — the name, email address and phone number you provide when you create an account, or the name and email address shared by Google if you choose to sign in with Google.",
+            ar: "<strong>معلومات الحساب</strong> — الاسم والبريد الإلكتروني ورقم الهاتف التي تقدمها عند إنشاء حساب، أو الاسم والبريد الإلكتروني اللذين تشاركهما جوجل في حال اخترت تسجيل الدخول عبر جوجل.",
+          },
+          {
+            en: "<strong>Order information</strong> — the products you order, your delivery address, contact details and order history.",
+            ar: "<strong>معلومات الطلبات</strong> — المنتجات التي تطلبها وعنوان التوصيل وبيانات التواصل وسجل الطلبات.",
+          },
+          {
+            en: "<strong>Payment information</strong> — payments are processed by our payment providers. We receive confirmation of the transaction and limited details such as the payment method and the last digits of the card. We do not store full card numbers.",
+            ar: "<strong>معلومات الدفع</strong> — تتم معالجة المدفوعات عبر مزودي خدمات الدفع لدينا. ونستلم تأكيد العملية وبيانات محدودة مثل وسيلة الدفع وآخر أرقام البطاقة، ولا نحتفظ بأرقام البطاقات كاملة.",
+          },
+          {
+            en: "<strong>Messages you send us</strong> — the content of enquiries submitted through our contact form, by email, by phone or through WhatsApp.",
+            ar: "<strong>الرسائل التي ترسلها إلينا</strong> — محتوى الاستفسارات المرسلة عبر نموذج التواصل أو البريد الإلكتروني أو الهاتف أو واتساب.",
+          },
+          {
+            en: "<strong>Verification data</strong> — where access to a restricted product category requires verification, we process the contact details used to send and confirm the one-time code.",
+            ar: "<strong>بيانات التحقق</strong> — في حال تطلّب الوصول إلى فئة منتجات مقيّدة إجراء تحقق، نعالج بيانات التواصل المستخدمة لإرسال رمز التحقق لمرة واحدة وتأكيده.",
+          },
+          {
+            en: "<strong>Technical information</strong> — IP address, browser and device type, pages visited and the date and time of your visit, collected automatically as you browse.",
+            ar: "<strong>المعلومات التقنية</strong> — عنوان IP ونوع المتصفح والجهاز والصفحات التي تمت زيارتها وتاريخ ووقت الزيارة، ويتم جمعها تلقائياً أثناء تصفحك للموقع.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Third: How We Use Your Information",
+          ar: "ثالثاً: كيفية استخدام معلوماتك",
+        },
+        lead: {
+          en: "We use your information to:",
+          ar: "نستخدم معلوماتك من أجل:",
+        },
+        items: [
+          {
+            en: "Create and manage your account and keep you signed in.",
+            ar: "إنشاء حسابك وإدارته والحفاظ على تسجيل دخولك.",
+          },
+          {
+            en: "Process, deliver and support your orders, including returns, exchanges and warranty claims.",
+            ar: "معالجة طلباتك وتوصيلها ودعمها، بما في ذلك عمليات الاسترجاع والاستبدال وطلبات الضمان.",
+          },
+          {
+            en: "Respond to your enquiries and provide customer service.",
+            ar: "الرد على استفساراتك وتقديم خدمة العملاء.",
+          },
+          {
+            en: "Send you service messages relating to your account or your orders.",
+            ar: "إرسال رسائل الخدمة المتعلقة بحسابك أو طلباتك.",
+          },
+          {
+            en: "Send you marketing communications where you have asked to receive them. You may unsubscribe at any time.",
+            ar: "إرسال الرسائل التسويقية في حال طلبت تلقيها، ويمكنك إلغاء الاشتراك في أي وقت.",
+          },
+          {
+            en: "Operate, secure and improve the website, and detect and prevent fraud or misuse.",
+            ar: "تشغيل الموقع وتأمينه وتحسينه، واكتشاف الاحتيال أو إساءة الاستخدام ومنعهما.",
+          },
+          {
+            en: "Meet our legal, accounting and regulatory obligations.",
+            ar: "الوفاء بالتزاماتنا القانونية والمحاسبية والتنظيمية.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Fourth: Cookies and Browser Storage",
+          ar: "رابعاً: ملفات تعريف الارتباط والتخزين في المتصفح",
+        },
+        paragraphs: [
+          {
+            en: "This website stores small amounts of data in your browser so that it works properly. This includes your sign-in session, your language and theme preferences, and the contents of your shopping cart.",
+            ar: "يخزّن هذا الموقع قدراً محدوداً من البيانات في متصفحك لتمكينه من العمل بشكل صحيح، ويشمل ذلك جلسة تسجيل الدخول وتفضيلات اللغة والمظهر ومحتويات سلة التسوق.",
+          },
+          {
+            en: "You can clear this data at any time through your browser settings. Doing so will sign you out and reset your preferences.",
+            ar: "يمكنك حذف هذه البيانات في أي وقت من إعدادات المتصفح، وسيؤدي ذلك إلى تسجيل خروجك وإعادة ضبط تفضيلاتك.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Fifth: Sharing Your Information",
+          ar: "خامساً: مشاركة معلوماتك",
+        },
+        lead: {
+          en: "We do not sell your personal information. We share it only with:",
+          ar: "نحن لا نبيع معلوماتك الشخصية، ولا نشاركها إلا مع:",
+        },
+        items: [
+          {
+            en: "<strong>Service providers</strong> acting on our behalf, such as payment processors, delivery and shipping companies, and IT and hosting providers.",
+            ar: "<strong>مزودي الخدمات</strong> الذين يعملون نيابة عنا، مثل مزودي خدمات الدفع وشركات الشحن والتوصيل ومزودي خدمات تقنية المعلومات والاستضافة.",
+          },
+          {
+            en: "<strong>Authorised service centres</strong>, where this is necessary to carry out a warranty or maintenance request.",
+            ar: "<strong>مراكز الخدمة المعتمدة</strong>، عند الضرورة لتنفيذ طلب ضمان أو صيانة.",
+          },
+          {
+            en: "<strong>Authorities or professional advisers</strong>, where we are required to do so by law, or to establish, exercise or defend legal claims.",
+            ar: "<strong>الجهات الرسمية أو المستشارين المهنيين</strong>، عندما يقتضي القانون ذلك، أو لإثبات الحقوق القانونية أو ممارستها أو الدفاع عنها.",
+          },
+        ],
+        note: {
+          en: "Where a service provider is located outside your country, we take steps to ensure your information remains protected.",
+          ar: "في حال كان أحد مزودي الخدمة خارج بلدك، نتخذ الإجراءات اللازمة لضمان استمرار حماية معلوماتك.",
+        },
+      },
+      {
+        heading: {
+          en: "Sixth: How Long We Keep Your Information",
+          ar: "سادساً: مدة الاحتفاظ بمعلوماتك",
+        },
+        paragraphs: [
+          {
+            en: "We keep your personal information only for as long as it is needed for the purposes described in this policy.",
+            ar: "نحتفظ بمعلوماتك الشخصية للمدة اللازمة فقط لتحقيق الأغراض الموضحة في هذه السياسة.",
+          },
+          {
+            en: "Order, invoice and warranty records are kept for as long as required to meet our legal, tax and accounting obligations. Account information is kept while your account remains open.",
+            ar: "ويتم الاحتفاظ بسجلات الطلبات والفواتير والضمان طوال المدة المطلوبة للوفاء بالتزاماتنا القانونية والضريبية والمحاسبية، ويتم الاحتفاظ بمعلومات الحساب طالما ظل حسابك مفعّلاً.",
+          },
+        ],
+      },
+      {
+        heading: { en: "Seventh: Data Security", ar: "سابعاً: أمن البيانات" },
+        paragraphs: [
+          {
+            en: "We apply appropriate technical and organisational measures to protect your information against loss, misuse and unauthorised access.",
+            ar: "نطبّق إجراءات تقنية وتنظيمية مناسبة لحماية معلوماتك من الفقدان وسوء الاستخدام والوصول غير المصرح به.",
+          },
+          {
+            en: "No method of transmission over the internet is completely secure, so we cannot guarantee absolute security. Please keep your account password confidential and do not share it with anyone.",
+            ar: "ولا توجد وسيلة نقل عبر الإنترنت آمنة بشكل كامل، لذا لا يمكننا ضمان الأمان المطلق. يرجى الحفاظ على سرية كلمة مرور حسابك وعدم مشاركتها مع أي شخص.",
+          },
+        ],
+      },
+      {
+        heading: { en: "Eighth: Your Rights", ar: "ثامناً: حقوقك" },
+        lead: {
+          en: "Subject to applicable law, you may:",
+          ar: "وفقاً للقوانين المعمول بها، يحق لك:",
+        },
+        items: [
+          {
+            en: "Request a copy of the personal information we hold about you.",
+            ar: "طلب نسخة من المعلومات الشخصية التي نحتفظ بها عنك.",
+          },
+          {
+            en: "Ask us to correct information that is inaccurate or incomplete.",
+            ar: "طلب تصحيح المعلومات غير الدقيقة أو غير المكتملة.",
+          },
+          {
+            en: "Ask us to delete your information, where there is no legal reason for us to keep it.",
+            ar: "طلب حذف معلوماتك، ما لم يوجد سبب قانوني يلزمنا بالاحتفاظ بها.",
+          },
+          {
+            en: "Object to, or ask us to restrict, certain uses of your information.",
+            ar: "الاعتراض على بعض استخدامات معلوماتك أو طلب تقييدها.",
+          },
+          {
+            en: "Withdraw your consent at any time, where we rely on consent.",
+            ar: "سحب موافقتك في أي وقت، في الحالات التي نعتمد فيها على الموافقة.",
+          },
+          {
+            en: "Unsubscribe from marketing communications.",
+            ar: "إلغاء الاشتراك في الرسائل التسويقية.",
+          },
+        ],
+        note: {
+          en: "To exercise any of these rights, contact us using the details below. We may need to verify your identity before acting on your request.",
+          ar: "لممارسة أي من هذه الحقوق، يرجى التواصل معنا عبر البيانات الموضحة أدناه. وقد نحتاج إلى التحقق من هويتك قبل تنفيذ طلبك.",
+        },
+      },
+      {
+        heading: { en: "Ninth: Children's Privacy", ar: "تاسعاً: خصوصية الأطفال" },
+        paragraphs: [
+          {
+            en: "This website is not directed at children, and we do not knowingly collect personal information from anyone under the age of 18. If you believe a child has provided us with personal information, please contact us and we will delete it.",
+            ar: "هذا الموقع غير موجّه للأطفال، ولا نجمع عن قصد أي معلومات شخصية ممن تقل أعمارهم عن 18 عاماً. وإذا كنت تعتقد أن طفلاً قد زوّدنا بمعلومات شخصية، يرجى التواصل معنا وسنقوم بحذفها.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Tenth: Links to Other Websites",
+          ar: "عاشراً: الروابط إلى مواقع أخرى",
+        },
+        paragraphs: [
+          {
+            en: "Our website may contain links to other websites, including social media platforms and video services. We are not responsible for the privacy practices of those websites, and we encourage you to read their privacy policies.",
+            ar: "قد يحتوي موقعنا على روابط لمواقع أخرى، بما في ذلك منصات التواصل الاجتماعي وخدمات الفيديو. ولسنا مسؤولين عن ممارسات الخصوصية في تلك المواقع، وننصحك بالاطلاع على سياسات الخصوصية الخاصة بها.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Eleventh: Changes to This Policy",
+          ar: "الحادي عشر: التعديلات على هذه السياسة",
+        },
+        paragraphs: [
+          {
+            en: "We may update this policy from time to time. Any changes will be published on this page and the date shown at the top will be updated, so please review it periodically.",
+            ar: "قد نقوم بتحديث هذه السياسة من وقت لآخر. وسيتم نشر أي تغييرات على هذه الصفحة مع تحديث التاريخ الموضح في أعلاها، لذا يرجى مراجعتها بشكل دوري.",
+          },
+        ],
+      },
+      {
+        heading: { en: "Twelfth: Contact Us", ar: "الثاني عشر: التواصل معنا" },
+        lead: {
+          en: "If you have any questions about this policy or about how your information is handled, please contact us:",
+          ar: "إذا كان لديك أي استفسار حول هذه السياسة أو حول كيفية التعامل مع معلوماتك، يرجى التواصل معنا:",
+        },
+        items: [
+          {
+            en: "<strong>Email:</strong> <a href=\"mailto:kaderfactory38@gmail.com\">kaderfactory38@gmail.com</a>",
+            ar: "<strong>البريد الإلكتروني:</strong> <a href=\"mailto:kaderfactory38@gmail.com\">kaderfactory38@gmail.com</a>",
+          },
+          {
+            en: "<strong>Phone / WhatsApp:</strong> <a href=\"tel:+201556336160\" dir=\"ltr\">+20 155 633 6160</a>",
+            ar: "<strong>الهاتف / واتساب:</strong> <a href=\"tel:+201556336160\" dir=\"ltr\">+20 155 633 6160</a>",
+          },
+          {
+            en: "<strong>Address:</strong> 2 El Tayaran St, Nasr City, Cairo, Egypt",
+            ar: "<strong>العنوان:</strong> 2 ش الطيران، مدينة نصر، القاهرة، مصر",
+          },
+        ],
+      },
+    ],
+    footNote: {
+      en: "We are committed to handling your information responsibly and in accordance with applicable data protection laws.",
+      ar: "نلتزم بالتعامل مع معلوماتك بمسؤولية ووفقاً لقوانين حماية البيانات المعمول بها.",
+    },
+  },
+};
+
+/* Anchor ids are derived, not stored, so the table of contents and the
+   sections it points at can never fall out of sync. */
+function legalSectionId(docId, index) {
+  return `legal-${docId}-${index + 1}`;
+}
+
+function legalSectionHtml(doc, section, index) {
+  const listTag = section.ordered ? "ol" : "ul";
+
+  return /*html*/ `
+    <section class="legal-section" id="${legalSectionId(doc.id, index)}">
+      <h3 class="legal-section-title h5 fw-bold d-flex align-items-baseline gap-2">
+        <span class="legal-section-mark" aria-hidden="true"></span>
+        <span>${getLabel(section.heading.en, section.heading.ar)}</span>
+      </h3>
+
+      ${
+        section.lead
+          ? `<p class="legal-lead">${getLabel(section.lead.en, section.lead.ar)}</p>`
+          : ""
+      }
+
+      ${
+        section.items
+          ? `<${listTag} class="legal-list">
+              ${section.items
+                .map(
+                  (item) =>
+                    `<li>${getLabel(item.en, item.ar)}</li>`,
+                )
+                .join("")}
+             </${listTag}>`
+          : ""
+      }
+
+      ${
+        section.paragraphs
+          ? section.paragraphs
+              .map((p) => `<p class="legal-text">${getLabel(p.en, p.ar)}</p>`)
+              .join("")
+          : ""
+      }
+
+      ${
+        section.note
+          ? `<p class="legal-note">
+               <i class="fas fa-info-circle ${getDirectionClass("me-2", "ms-2")}"></i>
+               ${getLabel(section.note.en, section.note.ar)}
+             </p>`
+          : ""
+      }
+    </section>
+  `;
+}
+
+function legalDocHtml(doc) {
+  return /*html*/ `
+    <article class="legal-doc" id="legal-${doc.id}">
+      <header class="legal-doc-head">
+        <span class="legal-doc-icon"><i class="${doc.icon}"></i></span>
+        <div>
+          <h2 class="h3 fw-bold mb-1">${getLabel(doc.title.en, doc.title.ar)}</h2>
+          <p class="text-muted mb-0 small text-uppercase legal-doc-sub">
+            ${getLabel(doc.subtitle.en, doc.subtitle.ar)}
+          </p>
+        </div>
+      </header>
+
+      <p class="legal-intro">${getLabel(doc.intro.en, doc.intro.ar)}</p>
+
+      ${doc.sections.map((s, i) => legalSectionHtml(doc, s, i)).join("")}
+
+      <p class="legal-footnote">
+        <i class="fas fa-headset ${getDirectionClass("me-2", "ms-2")}"></i>
+        ${getLabel(doc.footNote.en, doc.footNote.ar)}
+      </p>
+    </article>
+  `;
+}
+
+/* Sidebar index. Built from the same array the body renders from. */
+function legalTocHtml(docs) {
+  return /*html*/ `
+    <nav class="legal-toc" aria-label="${getLabel("On this page", "في هذه الصفحة")}">
+      <p class="legal-toc-title">${getLabel("On this page", "في هذه الصفحة")}</p>
+      ${docs
+        .map(
+          (doc) => `
+        <a class="legal-toc-doc" href="#legal-${doc.id}">
+          <i class="${doc.icon} ${getDirectionClass("me-2", "ms-2")}"></i>
+          ${getLabel(doc.title.en, doc.title.ar)}
+        </a>
+        <ol class="legal-toc-list">
+          ${doc.sections
+            .map(
+              (section, i) => `
+            <li>
+              <a href="#${legalSectionId(doc.id, i)}">
+                ${getLabel(section.heading.en, section.heading.ar)}
+              </a>
+            </li>`,
+            )
+            .join("")}
+        </ol>`,
+        )
+        .join("")}
+    </nav>
+  `;
+}
+
+/* Makes a legal page's table of contents clickable.
+
+   The entries are in-page anchors, but a bare href="#id" would reach the app
+   hashchange router, which would read "legal-returns-4" as a page name, hide
+   every page and find nothing to show. So this does the scrolling itself and
+   never touches the hash. Delegated, so it survives the list being rebuilt on
+   a language switch. */
+function bindLegalToc(container) {
+  const toc = container.querySelector(".legal-toc");
+  if (!toc) return;
+
+  toc.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    const target = document.getElementById(link.getAttribute("href").slice(1));
+    if (!target) return;
+
+    e.preventDefault();
+    // scroll-margin-top on the targets keeps them clear of the sticky nav.
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
+/* Shared page frame so Terms and Privacy stay visually identical. */
+function legalPageHtml({ pageTitle, tagline, updated, toc, body }) {
+  return /*html*/ `
+    ${createBanner(pageTitle)}
+
+    <div class="container py-5">
+      <div class="legal-header text-${getDirectionClass("start", "end")} mb-5">
+        <h5 class="sub-title p-0">${pageTitle}</h5>
+        <p class="text-muted mb-0">${tagline}</p>
+        ${updated ? `<p class="legal-updated mb-0">${updated}</p>` : ""}
+      </div>
+
+      <div class="row g-4 g-lg-5">
+        <div class="col-lg-4 col-xl-3 d-none d-lg-block">
+          ${toc}
+        </div>
+        <div class="col-lg-8 col-xl-9">
+          ${body}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function loadTermsOfServicePage() {
+  const container = document.getElementById("termsPageContent");
+  if (!container) return;
+
+  const docs = [legalDocuments.returns, legalDocuments.warranty];
+
+  container.innerHTML = legalPageHtml({
+    pageTitle: getLabel("Terms of Service", "الشروط والأحكام"),
+    tagline: getLabel(
+      "The return, exchange and warranty terms that apply to every Kader Factory product.",
+      "شروط الاستبدال والاسترجاع والضمان المطبقة على جميع منتجات مصنع قادر.",
+    ),
+    toc: legalTocHtml(docs),
+    body: `
+      ${docs.map(legalDocHtml).join('<hr class="legal-divider">')}
+
+      <div class="legal-contact">
+        <div>
+          <h3 class="h5 fw-bold mb-1">${getLabel("Still have a question?", "هل لديك استفسار؟")}</h3>
+          <p class="mb-0 text-muted small">
+            ${getLabel(
+              "Our customer service team can walk you through any of the above.",
+              "فريق خدمة العملاء لدينا مستعد لمساعدتك في أي مما سبق.",
+            )}
+          </p>
+        </div>
+        <a href="#contact" class="btn btn-primary rounded-0 px-4 py-2 flex-shrink-0" data-nav-page-id="contact">
+          ${getLabel("Contact Us", "تواصل معنا")}
+        </a>
+      </div>
+    `,
+  });
+
+  bindLegalToc(container);
+
+  /* Deep links from the home page policy tabs ("See Full Return Policy").
+     Consumed once so a later plain visit starts at the top. */
+  if (appState.legalScrollTarget) {
+    const target = document.getElementById(appState.legalScrollTarget);
+    appState.legalScrollTarget = null;
+    if (target) {
+      // Wait for the page swap to finish laying out before measuring.
+      requestAnimationFrame(() =>
+        target.scrollIntoView({ behavior: "smooth", block: "start" }),
+      );
+    }
+  }
+}
+
+/* Privacy Policy — same renderer and frame as the terms page, so the two
+   read as one set. Text lives in legalDocuments.privacy above. */
+function loadPrivacyPolicyPage() {
+  const container = document.getElementById("privacyPageContent");
+  if (!container) return;
+
+  const doc = legalDocuments.privacy;
+
+  container.innerHTML = legalPageHtml({
+    pageTitle: getLabel("Privacy Policy", "سياسة الخصوصية"),
+    tagline: getLabel(
+      "How Kader Factory handles the information you share with us.",
+      "كيف يتعامل مصنع قادر مع المعلومات التي تشاركها معنا.",
+    ),
+    updated: getLabel(doc.updated.en, doc.updated.ar),
+    toc: legalTocHtml([doc]),
+    body: `
+      ${legalDocHtml(doc)}
+
+      <div class="legal-contact">
+        <div>
+          <h3 class="h5 fw-bold mb-1">${getLabel("A question about your data?", "لديك استفسار بشأن بياناتك؟")}</h3>
+          <p class="mb-0 text-muted small">
+            ${getLabel(
+              "Write to us and we will answer directly.",
+              "راسلنا وسنجيبك مباشرة.",
+            )}
+          </p>
+        </div>
+        <a href="#contact" class="btn btn-primary rounded-0 px-4 py-2 flex-shrink-0" data-nav-page-id="contact">
+          ${getLabel("Contact Us", "تواصل معنا")}
+        </a>
+      </div>
+    `,
+  });
+
+  bindLegalToc(container);
+}
+
+/* ============================================================
    PRODUCT DATA (loaded from /data/products.json)
    ============================================================ */
 let productsData = [];
@@ -501,10 +1294,17 @@ function toggleLanguage() {
    ============================================================ */
 const DEMO_ADMIN_EMAIL = "admin@kader-factory.com";
 
+/* Where a session lives is what "Remember me" actually controls:
+   localStorage outlives the browser, sessionStorage dies with the tab.
+   Only ever one of the two holds a session, so the stores cannot disagree. */
+const SESSION_KEY = "user";
+
 // Load the saved session (if any) on app start
 function initializeAuth() {
   try {
-    const saved = localStorage.getItem("user");
+    // Tab-scoped session wins: it is the more recent, more deliberate choice.
+    const saved =
+      sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY);
     appState.user = saved ? JSON.parse(saved) : null;
   } catch (e) {
     console.error("Failed to load user session", e);
@@ -512,18 +1312,704 @@ function initializeAuth() {
   }
 }
 
-// Persist + apply a session, then refresh the nav so it reflects the new role
-function loginUser(user) {
+/* Persist + apply a session, then refresh the nav so it reflects the new role.
+
+   `remember` is deliberately tri-state. true/false come from the sign-in
+   checkbox; leaving it undefined keeps the session wherever it already lives,
+   which is what callers like the profile form want — saving your name should
+   not silently promote a tab-only session to a permanent one. */
+function loginUser(user, remember) {
   appState.user = user;
-  localStorage.setItem("user", JSON.stringify(user));
+
+  let store;
+  if (remember === undefined) {
+    store = sessionStorage.getItem(SESSION_KEY) ? sessionStorage : localStorage;
+  } else {
+    store = remember ? localStorage : sessionStorage;
+  }
+
+  // Clear the other one first so a switch cannot leave a stale copy behind.
+  (store === localStorage ? sessionStorage : localStorage).removeItem(
+    SESSION_KEY,
+  );
+  store.setItem(SESSION_KEY, JSON.stringify(user));
+
   initializeNavigation();
 }
 
 function logout() {
   appState.user = null;
-  localStorage.removeItem("user");
+  localStorage.removeItem(SESSION_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
   initializeNavigation();
   setCurrentPage("home");
+}
+
+/* ============================================================
+   GOOGLE SIGN-IN
+
+   Two paths, picked by whether GOOGLE_CLIENT_ID below is filled in:
+
+   1. Real Google Identity Services. Put the OAuth 2.0 *Web application*
+      client ID from the Google Cloud console into GOOGLE_CLIENT_ID, and add
+      this site's exact origin (scheme + host + port, e.g.
+      "http://localhost:8934") to that client's "Authorised JavaScript
+      origins". Nothing else here has to change. The token flow is used
+      rather than One Tap because the button is custom-styled — Google's own
+      rendered button cannot be restyled to match this page.
+
+   2. A demo account picker, used while the client ID is blank so the button
+      is not a dead end during development. It fabricates a profile locally;
+      Google is never contacted.
+
+   Either way the profile is trusted client-side, which a real deployment
+   must NOT do: the token has to go to a server and be verified against
+   Google's public keys before any session is granted. Same caveat as the
+   rest of this demo auth — see the AUTH SYSTEM notes above.
+   ============================================================ */
+const GOOGLE_CLIENT_ID = "812452391552-uocctoj1jtoibf6587g11knmk50hg8dl.apps.googleusercontent.com";
+const GOOGLE_GSI_SRC = "https://accounts.google.com/gsi/client";
+
+/* One shared load, however many buttons ask for it. */
+let googleIdentityPromise = null;
+function loadGoogleIdentityScript() {
+  if (googleIdentityPromise) return googleIdentityPromise;
+
+  googleIdentityPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = GOOGLE_GSI_SRC;
+    script.async = true;
+    script.onload = resolve;
+    script.onerror = () => {
+      // Let a later click retry rather than caching the failure forever.
+      googleIdentityPromise = null;
+      reject(new Error("Could not reach Google Identity Services"));
+    };
+    document.head.appendChild(script);
+  });
+
+  return googleIdentityPromise;
+}
+
+/* Single exit point for both paths, so the demo and the real flow can never
+   drift apart on how a session is created. */
+function completeGoogleSignIn(profile, remember) {
+  const email = String(profile.email || "").trim();
+  if (!email) return;
+
+  const isAdmin = email.toLowerCase() === DEMO_ADMIN_EMAIL;
+  const fallbackName = email
+    .split("@")[0]
+    .replace(/[._-]+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  loginUser(
+    {
+      name: profile.name || fallbackName,
+      email,
+      phone: "",
+      role: isAdmin ? "admin" : "customer",
+      provider: "google",
+    },
+    remember,
+  );
+
+  setCurrentPage(isAdmin ? "admin" : "profile");
+}
+
+function setGoogleButtonBusy(button, busy) {
+  if (!button) return;
+  button.disabled = busy;
+  button.classList.toggle("disabled", busy);
+}
+
+async function startGoogleAuth(button, remember) {
+  if (!GOOGLE_CLIENT_ID) {
+    openGoogleDemoPicker(remember);
+    return;
+  }
+
+  setGoogleButtonBusy(button, true);
+  try {
+    await loadGoogleIdentityScript();
+
+    google.accounts.oauth2
+      .initTokenClient({
+        client_id: GOOGLE_CLIENT_ID,
+        scope: "openid email profile",
+        callback: async (response) => {
+          setGoogleButtonBusy(button, false);
+
+          if (response.error || !response.access_token) {
+            // Covers the user closing the consent popup — not worth an alert.
+            if (response.error && response.error !== "access_denied") {
+              console.error("Google sign-in failed", response);
+            }
+            return;
+          }
+
+          try {
+            const res = await fetch(
+              "https://www.googleapis.com/oauth2/v3/userinfo",
+              { headers: { Authorization: `Bearer ${response.access_token}` } },
+            );
+            if (!res.ok) throw new Error(`userinfo ${res.status}`);
+            const profile = await res.json();
+            completeGoogleSignIn(profile, remember);
+          } catch (err) {
+            console.error("Google sign-in failed", err);
+            alert(
+              getLabel(
+                "Could not complete Google sign-in. Please try again.",
+                "تعذر إكمال تسجيل الدخول عبر جوجل. يرجى المحاولة مرة أخرى.",
+              ),
+            );
+          }
+        },
+        error_callback: () => setGoogleButtonBusy(button, false),
+      })
+      .requestAccessToken();
+  } catch (err) {
+    setGoogleButtonBusy(button, false);
+    console.error(err);
+    alert(
+      getLabel(
+        "Could not reach Google. Check your connection and try again.",
+        "تعذر الوصول إلى جوجل. تحقق من اتصالك وحاول مرة أخرى.",
+      ),
+    );
+  }
+}
+
+/* Stand-in for Google's account chooser while GOOGLE_CLIENT_ID is blank.
+   Labelled as a demo on screen so it cannot be mistaken for the real thing. */
+function openGoogleDemoPicker(remember) {
+  const accounts = [
+    { name: "Adham Kader", email: "adham.kader@gmail.com" },
+    { name: "Admin", email: DEMO_ADMIN_EMAIL },
+  ];
+
+  const initials = (name) =>
+    name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+
+  const host = document.createElement("div");
+  host.className = "modal fade";
+  host.innerHTML = /*html*/ `
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 26rem;">
+      <div class="modal-content rounded-0">
+        <div class="modal-header border-0 pb-0">
+          <div>
+            <span class="d-flex align-items-center gap-2 fw-semibold">
+              <i class="fab fa-google"></i>
+              ${getLabel("Choose an account", "اختر حساباً")}
+            </span>
+            <small class="text-muted">${getLabel("to continue to Kader Factory", "للمتابعة إلى مصنع قادر")}</small>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body pt-3">
+          <div class="list-group list-group-flush" id="googleDemoAccounts">
+            ${accounts
+              .map(
+                (account) => `
+              <button type="button" class="list-group-item list-group-item-action d-flex align-items-center gap-3 px-2"
+                      data-google-email="${account.email}" data-google-name="${account.name}">
+                <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-semibold"
+                      style="width:2.25rem;height:2.25rem;font-size:.8rem;">${initials(account.name)}</span>
+                <span class="${getDirectionClass("text-start", "text-end")}">
+                  <span class="d-block fw-semibold small">${account.name}</span>
+                  <span class="d-block text-muted small">${account.email}</span>
+                </span>
+              </button>`,
+              )
+              .join("")}
+
+            <button type="button" class="list-group-item list-group-item-action d-flex align-items-center gap-3 px-2"
+                    id="googleDemoOther">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-circle border text-muted"
+                    style="width:2.25rem;height:2.25rem;">
+                <i class="fas fa-user"></i>
+              </span>
+              <span class="small ${getDirectionClass("text-start", "text-end")}">
+                ${getLabel("Use another account", "استخدام حساب آخر")}
+              </span>
+            </button>
+          </div>
+
+          <form id="googleDemoOtherForm" class="d-none mt-3">
+            <label for="googleDemoEmail" class="form-label small fw-semibold">
+              ${getLabel("Email address", "البريد الإلكتروني")}
+            </label>
+            <input type="email" class="form-control rounded-0 py-2" id="googleDemoEmail" required
+                   placeholder="you@example.com">
+            <button type="submit" class="btn btn-primary w-100 rounded-0 mt-3 py-2">
+              ${getLabel("Continue", "متابعة")}
+            </button>
+          </form>
+
+          <p class="alert alert-warning rounded-0 small mt-3 mb-0">
+            <i class="fas fa-flask ${getDirectionClass("me-1", "ms-1")}"></i>
+            ${getLabel(
+              "Demo picker — Google is not contacted. Set GOOGLE_CLIENT_ID in script.js for the real flow.",
+              "قائمة تجريبية — لا يتم الاتصال بجوجل. عيّن GOOGLE_CLIENT_ID في script.js لتفعيل التدفق الحقيقي.",
+            )}
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(host);
+  const modal = new bootstrap.Modal(host);
+
+  // The modal outlives the page swap otherwise, and would leak on every click.
+  host.addEventListener("hidden.bs.modal", () => host.remove());
+
+  host.querySelectorAll("[data-google-email]").forEach((button) => {
+    button.addEventListener("click", () => {
+      modal.hide();
+      completeGoogleSignIn(
+        { name: button.dataset.googleName, email: button.dataset.googleEmail },
+        remember,
+      );
+    });
+  });
+
+  const otherForm = host.querySelector("#googleDemoOtherForm");
+  host.querySelector("#googleDemoOther").addEventListener("click", () => {
+    host.querySelector("#googleDemoAccounts").classList.add("d-none");
+    otherForm.classList.remove("d-none");
+    host.querySelector("#googleDemoEmail").focus();
+  });
+
+  otherForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = host.querySelector("#googleDemoEmail");
+    const email = input.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.classList.add("is-invalid");
+      return;
+    }
+    modal.hide();
+    completeGoogleSignIn({ email }, remember);
+  });
+
+  modal.show();
+}
+
+/* ============================================================
+   PASSWORD RESET (15-minute links)
+
+   Mirrors the OTP gate below: a record per request in localStorage, with an
+   explicit expiry and a one-shot "used" flag.
+
+   NO EMAIL IS SENT. This front end has no server, so there is nothing to send
+   from — the request page shows the generated link on screen instead, plainly
+   labelled as standing in for the email. Wiring this to a real mailer means
+   moving createPasswordResetToken to the backend and posting the address to
+   it; the page flow and the validation below do not need to change.
+
+   The tokens are NOT a security boundary either: they live in the visitor's
+   own localStorage, so anyone with devtools can read or forge one. That is
+   the same footing as the rest of this demo auth (loginUser accepts any
+   password — see AUTH SYSTEM above), and it must not ship as-is.
+   ============================================================ */
+const PASSWORD_RESET_STORAGE_KEY = "passwordResetTokens";
+const PASSWORD_RESET_TTL_MINUTES = 15;
+
+function getPasswordResetTokens() {
+  try {
+    return JSON.parse(localStorage.getItem(PASSWORD_RESET_STORAGE_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function savePasswordResetTokens(tokens) {
+  localStorage.setItem(PASSWORD_RESET_STORAGE_KEY, JSON.stringify(tokens));
+}
+
+function passwordResetStatus(record) {
+  if (!record) return "missing";
+  if (record.used) return "used";
+  if (record.expiresAt < Date.now()) return "expired";
+  return "active";
+}
+
+/* One live token per address: requesting again supersedes the previous link
+   rather than leaving several valid at once. */
+function createPasswordResetToken(email) {
+  const now = Date.now();
+  const normalised = String(email).trim().toLowerCase();
+
+  const tokens = getPasswordResetTokens()
+    .filter((t) => t.email !== normalised)
+    // Housekeeping: drop anything long dead so the key cannot grow forever.
+    .filter((t) => t.expiresAt > now - 24 * 60 * 60 * 1000);
+
+  const record = {
+    token: `prt_${now.toString(36)}_${Math.random().toString(36).slice(2, 12)}`,
+    email: normalised,
+    createdAt: now,
+    expiresAt: now + PASSWORD_RESET_TTL_MINUTES * 60 * 1000,
+    used: false,
+    usedAt: null,
+  };
+
+  tokens.push(record);
+  savePasswordResetTokens(tokens);
+  return record;
+}
+
+function findPasswordResetToken(token) {
+  return getPasswordResetTokens().find((t) => t.token === token) || null;
+}
+
+/* Burns the token so a link cannot be replayed, even within its 15 minutes. */
+function consumePasswordResetToken(token) {
+  const tokens = getPasswordResetTokens().map((t) =>
+    t.token === token ? { ...t, used: true, usedAt: Date.now() } : t,
+  );
+  savePasswordResetTokens(tokens);
+}
+
+function passwordResetLink(token) {
+  return `${location.origin}${location.pathname}#reset-password/${token}`;
+}
+
+function passwordResetMinutesLeft(record) {
+  return Math.max(0, Math.ceil((record.expiresAt - Date.now()) / 60000));
+}
+
+/* Shared shell for the two password-reset screens so they sit alongside the
+   sign-in/sign-up pages visually. Chrome is hidden for these (see
+   pagesWithoutChrome), hence the standalone logo and back link. */
+function authShellHtml({ title, subtitle, body, footer }) {
+  return /*html*/ `
+    <div class="container-fluid p-0">
+      <div class="row g-0 min-vh-100">
+        <div class="col-lg-4 d-none d-lg-flex signup-visual-panel position-relative vh-100">
+          <div class="signup-visual-overlay"></div>
+          <div class="position-relative d-flex align-items-start flex-column justify-content-between p-5">
+            <a href="#home" data-nav-page-id="home">
+              <img src="/images/logo-kader-white.png" alt="KADER" style="max-height: 3.2rem; object-fit:contain;">
+            </a>
+            <div>
+              <h2 class="display-4 fw-bold mb-3 text-primary">${title}</h2>
+              <p class="text-white-50 mb-0" style="max-width: 400px;">${subtitle}</p>
+            </div>
+            <span class="text-white-50 small">${getLabel("© 2026 Kader Factory for Advanced Industries", "© 2026 مصنع قادر للصناعات المتطورة")}</span>
+          </div>
+        </div>
+
+        <div class="col-lg-8 d-flex align-items-center justify-content-center py-5">
+          <div class="w-100 px-4 px-md-5" style="max-width: 440px;">
+            ${body}
+            <div class="text-center mt-4">${footer}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* Step 1 — ask for the address and mint a token.
+
+   Always reports the same outcome whether or not the address is known. Saying
+   "no account with that email" would turn this form into a way to test which
+   addresses are registered. */
+function loadForgotPasswordPage() {
+  const host = document.getElementById("forgotPasswordPageContent");
+  if (!host) return;
+
+  host.innerHTML = authShellHtml({
+    title: getLabel("Forgot your password?", "نسيت كلمة المرور؟"),
+    subtitle: getLabel(
+      "Enter the email on your account and we will send you a link to choose a new password.",
+      "أدخل البريد الإلكتروني المسجل وسنرسل لك رابطاً لاختيار كلمة مرور جديدة.",
+    ),
+    body: /*html*/ `
+      <div class="text-center ${getDirectionClass("text-lg-start", "text-lg-end")} mb-4">
+        <h3 class="fw-bold mb-2">${getLabel("Reset your password", "إعادة تعيين كلمة المرور")}</h3>
+        <p class="text-muted small mb-0">
+          ${getLabel(
+            "The link stays valid for " + PASSWORD_RESET_TTL_MINUTES + " minutes.",
+            "الرابط صالح لمدة " + PASSWORD_RESET_TTL_MINUTES + " دقيقة.",
+          )}
+        </p>
+      </div>
+
+      <form id="forgotPasswordForm" novalidate>
+        <div class="mb-3">
+          <label for="forgotEmail" class="form-label small fw-semibold">${getLabel("Email address", "البريد الإلكتروني")}</label>
+          <input type="email" class="form-control py-3 rounded-0" id="forgotEmail" autocomplete="email" required placeholder="you@example.com">
+          <div class="invalid-feedback" id="forgotEmailError"></div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-3 rounded-0">
+          ${getLabel("Send reset link", "إرسال رابط إعادة التعيين")}
+        </button>
+      </form>
+
+      <div id="forgotPasswordSent" class="d-none mt-4">
+        <div class="alert alert-success rounded-0 mb-3">
+          <i class="fas fa-check-circle ${getDirectionClass("me-2", "ms-2")}"></i>
+          ${getLabel(
+            "If that address has an account, a reset link is on its way.",
+            "إذا كان هذا البريد مسجلاً، فسيصلك رابط إعادة التعيين.",
+          )}
+        </div>
+
+        <div class="alert alert-warning rounded-0 small mb-0">
+          <strong class="d-block mb-1">
+            ${getLabel("Demo build", "نسخة تجريبية")}
+          </strong>
+          
+          <a href="#" id="forgotPasswordLink" class="d-block text-break fw-semibold mb-2"></a>
+        </div>
+      </div>
+    `,
+    footer:
+      '<a href="#login" class="small btn btn-link ps-3 text-decoration-none" data-nav-page-id="login">' +
+      getLabel("Back to sign in", "العودة لتسجيل الدخول") +
+      "</a>",
+  });
+
+  const form = document.getElementById("forgotPasswordForm");
+  const input = document.getElementById("forgotEmail");
+  const error = document.getElementById("forgotEmailError");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = input.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.classList.add("is-invalid");
+      error.textContent = getLabel(
+        "Enter a valid email address",
+        "أدخل بريداً إلكترونياً صحيحاً",
+      );
+      return;
+    }
+    input.classList.remove("is-invalid");
+
+    const record = createPasswordResetToken(email);
+
+    form.classList.add("d-none");
+    document.getElementById("forgotPasswordSent").classList.remove("d-none");
+
+    const link = document.getElementById("forgotPasswordLink");
+    link.textContent = passwordResetLink(record.token);
+    link.href = "#reset-password/" + record.token;
+    link.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      appState.passwordResetToken = record.token;
+      setCurrentPage("reset-password");
+    });
+
+    document.getElementById("forgotPasswordExpiry").textContent = getLabel(
+      "Expires in " + passwordResetMinutesLeft(record) + " minutes.",
+      "ينتهي خلال " + passwordResetMinutesLeft(record) + " دقيقة.",
+    );
+  });
+}
+
+/* Step 2 — the link's destination. The token comes from
+   appState.passwordResetToken, which the hash router fills from
+   "#reset-password/<token>" so a pasted link works on a cold load. */
+function loadResetPasswordPage() {
+  const host = document.getElementById("resetPasswordPageContent");
+  if (!host) return;
+
+  const token = appState.passwordResetToken || "";
+  const record = findPasswordResetToken(token);
+  const status = passwordResetStatus(record);
+
+  /* Anything other than a live token stops here. Missing, expired and used all
+     land on the same screen wording so a bad token cannot be told apart from a
+     real one that lapsed. */
+  if (status !== "active") {
+    const reason = {
+      missing: getLabel(
+        "This reset link is not valid.",
+        "رابط إعادة التعيين هذا غير صالح.",
+      ),
+      expired: getLabel(
+        "This reset link has expired. Links are only valid for " + PASSWORD_RESET_TTL_MINUTES + " minutes.",
+        "انتهت صلاحية هذا الرابط. الروابط صالحة لمدة " + PASSWORD_RESET_TTL_MINUTES + " دقيقة فقط.",
+      ),
+      used: getLabel(
+        "This reset link has already been used.",
+        "تم استخدام رابط إعادة التعيين هذا بالفعل.",
+      ),
+    }[status];
+
+    host.innerHTML = authShellHtml({
+      title: getLabel("Link no longer valid", "الرابط لم يعد صالحاً"),
+      subtitle: getLabel(
+        "Reset links are short-lived and single-use, for your account's safety.",
+        "روابط إعادة التعيين قصيرة الأجل وتُستخدم مرة واحدة، حفاظاً على أمان حسابك.",
+      ),
+      body: /*html*/ `
+        <div class="text-center">
+          <i class="fas fa-unlink text-danger" style="font-size:2.5rem;"></i>
+          <h3 class="fw-bold mt-3 mb-2">${getLabel("Something went wrong", "حدث خطأ ما")}</h3>
+          <p class="text-muted">${reason}</p>
+          <a href="#forgot-password" class="btn btn-primary w-100 py-3 rounded-0 mt-2" data-nav-page-id="forgot-password">
+            ${getLabel("Request a new link", "اطلب رابطاً جديداً")}
+          </a>
+        </div>
+      `,
+      footer:
+        '<a href="#login" class="small text-decoration-none" data-nav-page-id="login">' +
+        getLabel("Back to sign in", "العودة لتسجيل الدخول") +
+        "</a>",
+    });
+    return;
+  }
+
+  host.innerHTML = authShellHtml({
+    title: getLabel("Choose a new password", "اختر كلمة مرور جديدة"),
+    subtitle: getLabel(
+      "Pick something you have not used on this account before.",
+      "اختر كلمة مرور لم تستخدمها من قبل على هذا الحساب.",
+    ),
+    body: /*html*/ `
+      <div class="text-center ${getDirectionClass("text-lg-start", "text-lg-end")} mb-4">
+        <h3 class="fw-bold mb-2">${getLabel("New password", "كلمة مرور جديدة")}</h3>
+        <p class="text-muted small mb-1">${record.email}</p>
+        <p class="small mb-0 fw-semibold text-primary" id="resetCountdown"></p>
+      </div>
+
+      <form id="resetPasswordForm" novalidate>
+        <div class="mb-3">
+          <label for="resetPassword" class="form-label small fw-semibold">${getLabel("New password", "كلمة المرور الجديدة")}</label>
+          <div class="input-group">
+            <input type="password" class="form-control py-3 rounded-0" id="resetPassword" autocomplete="new-password" required>
+            <button class="btn btn-outline-primary position-absolute h-100  ${getDirectionClass("end-0", "start-0")} rounded-0" type="button" id="toggleResetPassword">
+                <i class="far fa-eye-slash"></i>
+            </button>
+          </div>
+          <div class="form-text small">${getLabel("At least 8 characters.", "٨ أحرف على الأقل.")}</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="resetPasswordConfirm" class="form-label small fw-semibold">${getLabel("Confirm password", "تأكيد كلمة المرور")}</label>
+          <input type="password" class="form-control py-3 rounded-0" id="resetPasswordConfirm" autocomplete="new-password" required>
+        </div>
+
+        <div class="alert alert-danger rounded-0 d-none py-2 small" id="resetPasswordError"></div>
+
+        <button type="submit" class="btn btn-primary w-100 py-3 rounded-0">
+          ${getLabel("Set new password", "تعيين كلمة المرور")}
+        </button>
+      </form>
+
+      <div id="resetPasswordDone" class="d-none text-center">
+        <i class="fas fa-check-circle text-success" style="font-size:2.5rem;"></i>
+        <h3 class="fw-bold mt-3 mb-2">${getLabel("Password updated", "تم تحديث كلمة المرور")}</h3>
+        <p class="text-muted">${getLabel("You can sign in with your new password now.", "يمكنك تسجيل الدخول بكلمة المرور الجديدة الآن.")}</p>
+        <a href="#login" class="btn btn-primary w-100 py-3 rounded-0" data-nav-page-id="login">
+          ${getLabel("Go to sign in", "الذهاب لتسجيل الدخول")}
+        </a>
+      </div>
+    `,
+    footer:
+      '<a href="#forgot-password" class="small text-decoration-none" data-nav-page-id="forgot-password">' +
+      getLabel("Request a new link", "اطلب رابطاً جديداً") +
+      "</a>",
+  });
+
+  const toggle = document.getElementById("toggleResetPassword");
+  const pw = document.getElementById("resetPassword");
+  toggle.addEventListener("click", () => {
+    const hidden = pw.type === "password";
+    pw.type = hidden ? "text" : "password";
+    toggle.querySelector("i").className = hidden
+      ? "far fa-eye"
+      : "far fa-eye-slash";
+  });
+
+  /* Live countdown, so the 15 minutes are visible rather than a surprise. The
+     interval clears itself once the element leaves the DOM, which covers the
+     user navigating away mid-countdown. */
+  const countdown = document.getElementById("resetCountdown");
+  const timer = setInterval(tick, 1000);
+
+  function tick() {
+    if (!countdown.isConnected) {
+      clearInterval(timer);
+      return;
+    }
+
+    const left = record.expiresAt - Date.now();
+    if (left <= 0) {
+      clearInterval(timer);
+      loadResetPasswordPage(); // re-renders into the expired state
+      return;
+    }
+
+    const mins = Math.floor(left / 60000);
+    const secs = Math.floor((left % 60000) / 1000);
+    const clock = mins + ":" + String(secs).padStart(2, "0");
+    countdown.textContent = getLabel(
+      "Link expires in " + clock,
+      "ينتهي الرابط خلال " + clock,
+    );
+  }
+  tick();
+
+  document
+    .getElementById("resetPasswordForm")
+    .addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const error = document.getElementById("resetPasswordError");
+      const value = pw.value;
+      const confirmValue = document.getElementById("resetPasswordConfirm").value;
+
+      const fail = (msg) => {
+        error.textContent = msg;
+        error.classList.remove("d-none");
+      };
+
+      if (value.length < 8) {
+        return fail(
+          getLabel(
+            "Password must be at least 8 characters.",
+            "يجب ألا تقل كلمة المرور عن ٨ أحرف.",
+          ),
+        );
+      }
+      if (value !== confirmValue) {
+        return fail(
+          getLabel(
+            "The two passwords do not match.",
+            "كلمتا المرور غير متطابقتين.",
+          ),
+        );
+      }
+
+      // Re-checked on submit: the form may have sat open past the expiry.
+      if (passwordResetStatus(findPasswordResetToken(token)) !== "active") {
+        clearInterval(timer);
+        loadResetPasswordPage();
+        return;
+      }
+
+      error.classList.add("d-none");
+      consumePasswordResetToken(token);
+      clearInterval(timer);
+
+      document.getElementById("resetPasswordForm").classList.add("d-none");
+      countdown.textContent = "";
+      document.getElementById("resetPasswordDone").classList.remove("d-none");
+    });
 }
 
 /* ============================================================
@@ -1025,8 +2511,12 @@ function initializeNavigation() {
    data-bs-toggle="popover" 
    data-bs-trigger="hover"
    data-bs-html="true"
-   title="RESTRICTED ACCESS" 
-   data-bs-content="<strong> AUTHORIZED PERSONNEL ONLY</strong> <br> Military & defense equipment is available to verified government and corporate buyers only.">
+   title=${getLabel("RESTRICTED ACCESS", "مقيد")}
+   data-bs-content="
+   <strong>${getLabel("AUTHORIZED PERSONNEL ONLY", "للجهات المصرح لها فقط")}</strong> 
+   <br> 
+   ${getLabel("Military & defense equipment is available to verified government and corporate buyers only.", " معدات الأمن والدفاع متاحة فقط للجهات الحكومية والشركات المعتمدة التي تم التحقق منها.")}
+   ">
 </i>`
                 : ""
             }
@@ -1076,10 +2566,20 @@ function initializeNavigation() {
     });
   }
 
+  /* Every dropdown here is data-bs-display="static", which tells Bootstrap to
+     skip Popper entirely.
+
+     With Popper, opening a menu writes inline "position/left/top/margin" and
+     then a transform one frame later — so the panel visibly settles a few
+     pixels after it appears. Static leaves the menu wherever CSS puts it, with
+     no inline styles at all and nothing to re-run. Measured: all three land on
+     exactly the same coordinates either way, so this removes the shift without
+     moving anything. */
+
   /* ---- Theme ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
             ${getLabel("Theme", "الوضع")}
         </a>
         <div class="dropdown-menu toggle-menu p-3">
@@ -1099,7 +2599,7 @@ function initializeNavigation() {
   /* ---- Language ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
             ${appState.language === "ar" ? "ع" : "EN"}
         </a>
         <div class="dropdown-menu toggle-menu p-3 ${appState.language === "ar" ? "text-start" : "text-end"}">
@@ -1119,7 +2619,7 @@ function initializeNavigation() {
   /* ---- Account ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
-        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
             <i class="fas fa-user mx-1"></i>
             ${appState.user ? appState.user.name : getLabel("Account", "الحساب")}
         </a>
@@ -1721,9 +3221,9 @@ function initializeFooter() {
                     <div class="collapse footer-collapse" id="footerContact">
                         <div class="footer-item d-flex flex-column pb-4 pb-lg-0">
                             <a href=""><i class="fa fa-map-marker-alt m-2"></i> ${getLabel("2 El Tayaran St, Nasr City", "2 ش الطيران، مدينة نصر")}</a>
-                            <a href="mailto:marketing@kader-factory.com"><i class="fa fa-envelope m-2"></i> marketing@kader-factory</a>
-                            <a href="tel:+201030009248"><i class="fa fa-phone m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
-                            <a href="https://wa.me/201030009248" target="_blank"><i class="fa fa-comment m-2"></i> <span dir="ltr">+2010 3000 9248</span></a>
+                            <a href="mailto:kaderfactory38@gmail.com"><i class="fa fa-envelope m-2"></i>kaderfactory38@gmail.com</a>
+                            <a href="tel:+201030009248"><i class="fa fa-phone m-2"></i> <span dir="ltr">+2015 5633 6160</span></a>
+                            <a href="https://wa.me/201556336160" target="_blank"><i class="fa fa-comment m-2"></i> <span dir="ltr">+2015 5633 6160</span></a>
 
                             <div class="d-flex align-items-center gap-3 justify-content-start ps-2 py-3 border-top border-white border-opacity-25">
                                 ${paymentIconsHtml}
@@ -1828,6 +3328,14 @@ function createBanner(title, subTitle) {
  * Set current page and update display
  */
 function setCurrentPage(pageId, productId) {
+  /* The home policy tabs still link to these as if they were pages; they are
+     sections of the terms page, so send the visitor there and scroll. */
+  if (pageId === "return-policy" || pageId === "warranty-policy") {
+    appState.legalScrollTarget =
+      pageId === "return-policy" ? "legal-returns" : "legal-warranty";
+    pageId = "terms-of-service";
+  }
+
   // Hide all pages
   document.querySelectorAll(".page").forEach((page) => {
     page.style.display = "none";
@@ -1856,7 +3364,13 @@ function setCurrentPage(pageId, productId) {
     window.scrollTo(0, 0);
 
     // Show/hide nav and footer for chrome-free pages (e.g. auth pages)
-    const pagesWithoutChrome = ["register", "login", "military-access"];
+    const pagesWithoutChrome = [
+      "register",
+      "login",
+      "military-access",
+      "forgot-password",
+      "reset-password",
+    ];
     const mainNav = document.getElementById("mainNav");
     const mainFooter = document.getElementById("mainFooter");
     const mainHeader = document.getElementById("navLinksRow");
@@ -1872,7 +3386,15 @@ function setCurrentPage(pageId, productId) {
     }
 
     // Update the URL to reflect the current page (and product, if applicable)
-    if (pageId === "single-product" && productId) {
+    if (pageId === "reset-password" && appState.passwordResetToken) {
+      /* The token belongs in the URL — that is what makes the link a link.
+         Same shape as the single-product case below. */
+      history.pushState(
+        { pageId },
+        "",
+        `#reset-password/${appState.passwordResetToken}`,
+      );
+    } else if (pageId === "single-product" && productId) {
       appState.currentProductId = productId;
       history.pushState(
         { pageId, productId },
@@ -1922,6 +3444,18 @@ function loadPageContent(pageId) {
       break;
     case "military-access":
       loadMilitaryAccessPage();
+      break;
+    case "terms-of-service":
+      loadTermsOfServicePage();
+      break;
+    case "privacy-policy":
+      loadPrivacyPolicyPage();
+      break;
+    case "forgot-password":
+      loadForgotPasswordPage();
+      break;
+    case "reset-password":
+      loadResetPasswordPage();
       break;
     case "contact":
       loadContactPage();
@@ -2840,7 +4374,7 @@ function renderMachineryGrid() {
             <p class="text-white-50 small">${getLabel(p.descEn, p.descAr)}</p>
             ${hoverSpecsHtml}
           </div>
-            <button type="button" class="btn btn-link text-white ps-0 pt-4 align-self-start" data-machine-id="${p.id}">
+            <button type="button" class="btn btn-link text-white ${getDirectionClass("ps-0", "pe-0 ps-3")} pt-4 align-self-start" data-machine-id="${p.id}">
               ${getLabel("Read More", "اقرأ المزيد")}
             </button>
           </div>
@@ -3519,7 +5053,7 @@ function loadNewsPage() {
       <div class="container">
         <div class="section-title text-center mb-5">
           <h5 class="sub-title pb-0">${getLabel("Stay Informed on the Latest Updates", "ابق على اطلاع بأحدث المستجدات")}</h5>
-          <p class="text-muted mb-0">${getLabel("The latest announcements, milestones, and updates from Kader Factory.", "أحدث الإعلانات والإنجازات والمستجدات من مصنع قادر.")}</p>
+          <p class="text-muted mb-0">${getLabel("The latest announcements, milestones, and updates from Kader Factory.", "أحدث الإنجازات والمستجدات من مصنع قادر.")}</p>
         </div>
         <div class="mb-4" id="newsFilterBar"></div>
         <div class="row g-4" id="newsGridContainer"></div>
@@ -3569,7 +5103,7 @@ function renderNewsFilterBar() {
       </div>
     </div>
     <div class="small text-muted mt-2 py-2 border-bottom" id="newsFilterRangeLabel">
-      <i class="far fa-calendar pe-2"></i>${getNewsFilterRangeLabel()}
+      <i class="far fa-calendar ${getDirectionClass("pe-2", "ps-2")}"></i>${getNewsFilterRangeLabel()}
     </div>
   `;
 }
@@ -3610,9 +5144,9 @@ function renderNewsGrid() {
           </div>
           <div class="news-card-content-shadow">
             <div class="p-4 news-card-content">
-              <i class="fa-solid fa-quote-left text-primary border-end border-white border-opacity-25 pe-3"></i>
+              <i class="fa-solid fa-quote-${getDirectionClass("left", "right")} text-primary ${getDirectionClass("border-end pe-3", "border-start ps-3")} border-white border-opacity-25"></i>
               <div class="col-md-10 col-lg-10 news-card-body">
-                <span class="text-white-50 small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
+                <span class="text-white-50 small fw-semibold"><i class="far fa-calendar ${getDirectionClass("pe-1", "ps-1")}"></i>${getLabel(item.dateEn, item.dateAr)}</span>
                 <h5 class="fw-bold text-primary my-2 pb-3 news-card-title">${getLabel(item.titleEn, item.titleAr)}</h5>
                 <p class="text-white small mb-3 news-card-excerpt pt-4">${getLabel(item.excerptEn, item.excerptAr)}</p>
               </div>
@@ -3657,7 +5191,7 @@ let newsDetailList = [];
 
 function newsDetailBodyHtml(item) {
   return `<p class="mb-0 d-flex gap-2">
-  <i class="fa-solid fa-quote-left text-primary pe-2 border-end"></i>
+  <i class="fa-solid fa-quote-${getDirectionClass("left border-end pe-2", "right border-start ps-2")} text-primary"></i>
   ${getLabel(item.excerptEn, item.excerptAr)}
   </p>`;
 }
@@ -3920,7 +5454,7 @@ function loadVideosPage() {
   displayedVideosCount = VIDEOS_PAGE_SIZE;
 
   container.innerHTML = `
-    ${createBanner(getLabel("Video Library", "معرض الفيديوهات"))}
+    ${createBanner(getLabel("Media", "المحتوى الإعلامي"))}
     <div class="container-fluid overflow-hidden py-5 bg-light">
       <div class="container">
         <div class="section-title text-center mb-4">
@@ -4699,7 +6233,7 @@ function loadContactPage() {
                             <h5 class="fw-bolder pb-2">
                                 ${getLabel("Location", "الموقع")}:<br>
                                 <a class="ps-0 btn btn-white text-decoration-underline pt-0" href="https://www.google.com/maps/search/?api=1&query=Kader+Factory+For+Developed+Industries" target="_blank">
-                                    ${getLabel("2 El Tayaran St, Al Golf, Nasr City", "2 شارع الطياران، الجولف، مدينة نصر")}
+                                    ${getLabel("2 El Tayaran St, Nasr City", "2 شارع الطياران، مدينة نصر")}
                                 </a>
                             </h5>
 
@@ -4800,11 +6334,11 @@ function loadRegisterPage() {
                             </p>
                             <div class="d-flex gap-4">
                                 <div>
-                                    <h4 class="fw-bold mb-0">70+</h4>
+                                    <h4 class="fw-bold text-primary mb-0">70+</h4>
                                     <span class="text-white-50 small">${getLabel("Years Experience", "سنوات خبرة")}</span>
                                 </div>
                                 <div>
-                                    <h4 class="fw-bold mb-0">100+</h4>
+                                    <h4 class="fw-bold text-primary mb-0">100+</h4>
                                     <span class="text-white-50 small">${getLabel("Industrial Partners", "شريك صناعي")}</span>
                                 </div>
                             </div>
@@ -4818,7 +6352,7 @@ function loadRegisterPage() {
                 <div class="col-lg-8 d-flex align-items-center justify-content-center py-5">
                     <div class="w-100 px-4 px-md-5" style="max-width: 480px;">
 
-                        <div class="text-center text-lg-start mb-2">
+                        <div class="text-center text-lg-${getDirectionClass("start", "end")} mb-2">
                             <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel("GET STARTED", "ابدأ الآن")}</h5>
                             <h2 class="fw-bold mb-2">${getLabel("Create Your Account", "أنشئ حسابك")}</h2>
                             <p class="text-muted mb-0">
@@ -4830,7 +6364,7 @@ function loadRegisterPage() {
                         </div>
 
                         <form id="signupForm" novalidate>
-                            <div class="row g-3 mb-3">
+                            <div class="row g-3 mb-3 pt-5">
                                 <div class="col-md-6">
                                     <label class="form-label small fw-semibold" for="firstName">${getLabel("First Name", "الاسم الأول")}</label>
                                     <input type="text" class="form-control py-2" id="firstName" required>
@@ -4869,8 +6403,8 @@ function loadRegisterPage() {
                                     <input type="password" class="form-control py-2" id="signupPassword" required>
                                     <div class="invalid-feedback" id="signupPassword-error"></div>
                                     
-                                    <button class="btn btn-outline-primary position-absolute end-0"  type="button" id="togglePassword">
-                                    <i class="far fa-eye"></i>
+                                    <button class="btn btn-outline-primary position-absolute ${getDirectionClass("end-0", "start-0")}"  type="button" id="togglePassword">
+                                    <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
                             </div>
@@ -4901,7 +6435,7 @@ function loadRegisterPage() {
                                 <span class="bg-white px-3 text-muted small">${getLabel("OR", "أو")}</span>
                             </div>
 
-                            <button type="button" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
+                            <button type="button" id="googleSignupBtn" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
                                 <i class="fab fa-google"></i>
                                 ${getLabel("Continue with Google", "المتابعة عبر جوجل")}
                             </button>
@@ -4921,8 +6455,8 @@ function loadRegisterPage() {
     const isPassword = passwordInput.type === "password";
     passwordInput.type = isPassword ? "text" : "password";
     toggleBtn.querySelector("i").className = isPassword
-      ? "far fa-eye-slash"
-      : "far fa-eye";
+      ? "far fa-eye"
+      : "far fa-eye-slash";
   });
 
   // Basic client-side validation feedback
@@ -4939,9 +6473,18 @@ function loadRegisterPage() {
       role: email.toLowerCase() === DEMO_ADMIN_EMAIL ? "admin" : "customer",
     };
 
-    loginUser(user);
+    // No checkbox on this form; creating an account implies staying signed in.
+    loginUser(user, true);
     setCurrentPage(user.role === "admin" ? "admin" : "profile");
   });
+
+  // Signing up through Google implies staying signed in, same as the form.
+  const googleSignupBtn = document.getElementById("googleSignupBtn");
+  if (googleSignupBtn) {
+    googleSignupBtn.addEventListener("click", () =>
+      startGoogleAuth(googleSignupBtn, true),
+    );
+  }
 
   // Validations
   function validateSignupForm() {
@@ -5096,11 +6639,11 @@ function loadLoginPage() {
                             </p>
                             <div class="d-flex gap-4">
                               <div>
-                                <h4 class="fw-bold mb-0">70+</h4>
+                                <h4 class="fw-bold text-primary mb-0">70+</h4>
                                 <span class="text-white-50 small">${getLabel("Years Experience", "سنوات خبرة")}</span>
                               </div>
                             <div>
-                              <h4 class="fw-bold mb-0">100+</h4>
+                              <h4 class="fw-bold text-primary mb-0">100+</h4>
                               <span class="text-white-50 small">${getLabel("Industrial Partners", "شريك صناعي")}</span>
                             </div>
                           </div>
@@ -5113,7 +6656,7 @@ function loadLoginPage() {
                 <div class="col-lg-8 d-flex align-items-center justify-content-center py-5">
                     <div class="w-100 px-4 px-md-5" style="max-width: 440px;">
 
-                        <div class="text-center text-lg-start mb-5">
+                        <div class="text-center ${getDirectionClass("text-lg-start", "text-lg-end")} mb-5">
                             <h5 class="sub-title text-primary px-3 px-lg-0">${getLabel("WELCOME BACK", "مرحباً بعودتك")}</h5>
                             <h2 class="fw-bold mb-2">${getLabel("Sign In to Your Account", "تسجيل الدخول إلى حسابك")}</h2>
                             <p class="text-muted mb-0">
@@ -5134,9 +6677,9 @@ function loadLoginPage() {
                                 <label class="form-label small fw-semibold" for="loginPassword">${getLabel("Password", "كلمة المرور")}</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control py-2" id="loginPassword" required>
-                                    <button class="btn btn-outline-primary position-absolute end-0"  type="button" id="toggleLoginPassword">
+                                    <button class="btn btn-outline-primary position-absolute ${getDirectionClass("end-0", "start-0")}"  type="button" id="toggleLoginPassword">
 
-                                        <i class="far fa-eye"></i>
+                                        <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
                             </div>
@@ -5148,7 +6691,7 @@ function loadLoginPage() {
                                         ${getLabel("Remember me", "تذكرني")}
                                     </label>
                                 </div>
-                                <a href="#" class="small text-primary text-decoration-none" onclick="setCurrentPage('forgot-password')">
+                                <a href="#forgot-password" class="small text-primary text-decoration-none" data-nav-page-id="forgot-password">
                                     ${getLabel("Forgot Password?", "نسيت كلمة المرور؟")}
                                 </a>
                             </div>
@@ -5161,7 +6704,7 @@ function loadLoginPage() {
                                 <span class="bg-white px-3 text-muted small">${getLabel("OR", "أو")}</span>
                             </div>
 
-                            <button type="button" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
+                            <button type="button" id="googleLoginBtn" class="btn btn-outline-secondary w-100 py-3 rounded-0 d-flex align-items-center justify-content-center gap-2">
                                 <i class="fab fa-google"></i>
                                 ${getLabel("Continue with Google", "المتابعة عبر جوجل")}
                             </button>
@@ -5181,8 +6724,8 @@ function loadLoginPage() {
     const isPassword = passwordInput.type === "password";
     passwordInput.type = isPassword ? "text" : "password";
     toggleBtn.querySelector("i").className = isPassword
-      ? "far fa-eye-slash"
-      : "far fa-eye";
+      ? "far fa-eye"
+      : "far fa-eye-slash";
   });
 
   // Form submit
@@ -5213,14 +6756,28 @@ function loadLoginPage() {
       ? "Admin"
       : namePart.replace(/\b\w/g, (c) => c.toUpperCase());
 
-    loginUser({
-      name: displayName,
-      email,
-      phone: "",
-      role: isAdmin ? "admin" : "customer",
-    });
+    loginUser(
+      {
+        name: displayName,
+        email,
+        phone: "",
+        role: isAdmin ? "admin" : "customer",
+      },
+      document.getElementById("rememberMe").checked,
+    );
     setCurrentPage(isAdmin ? "admin" : "profile");
   });
+
+  // Google honours the same "Remember me" choice as the password form.
+  const googleLoginBtn = document.getElementById("googleLoginBtn");
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener("click", () =>
+      startGoogleAuth(
+        googleLoginBtn,
+        document.getElementById("rememberMe").checked,
+      ),
+    );
+  }
 }
 
 /**
@@ -5252,7 +6809,7 @@ function loadMilitaryAccessPage() {
                           <img src="/images/logo-kader-white.png" alt="KADER" style="max-height: 3.2rem; object-fit:contain;">
                         </a>
                         <div>
-                            <h2 class="display-1 fw-bold mb-3 text-primary">${getLabel("Restricted Access", "محتوي مقيد")}</h2>
+                            <h2 class="display-1 fw-bold ${getDirectionClass("pb-3", "pb-5")} text-primary">${getLabel("Restricted Access", "محتوي مقيد")}</h2>
                             <p class="text-white-50 mb-4" style="max-width: 400px;">
                                 ${getLabel(
                                   "Military & defense equipment is available to verified government and corporate buyers only.",
@@ -6734,7 +8291,7 @@ const CMS_TYPES = {
   },
 
   videos: {
-    label: { en: "Videos", ar: "الفيديوهات" },
+    label: { en: "Media", ar: "المحتوى الإعلامي" },
     icon: "fas fa-video",
     idKey: "id",
     getAll: () => videoItems,
@@ -7528,7 +9085,7 @@ const ADMIN_SECTIONS = [
     icon: "fas fa-images",
   },
   { key: "news", en: "News", ar: "الأخبار", icon: "fas fa-newspaper" },
-  { key: "videos", en: "Videos", ar: "الفيديوهات", icon: "fas fa-video" },
+  { key: "videos", en: "Media", ar: "المحتوى الإعلامي", icon: "fas fa-video" },
   { key: "machinery", en: "Machinery", ar: "الآلات", icon: "fas fa-industry" },
   {
     key: "military-otp",
@@ -9209,9 +10766,9 @@ function initializeHomePageSections() {
             </div>
             <div class="news-card-content-shadow">
               <div class="p-4 news-card-content">
-                <i class="fa-solid fa-quote-left text-primary border-end border-white border-opacity-25 pe-3"></i>
+                <i class="fa-solid fa-quote-${getDirectionClass("left", "right")} text-primary ${getDirectionClass("border-end","border-start")} border-white border-opacity-25 ${getDirectionClass("pe-3", "ps-3")}"></i>
                 <div class="col-md-10 col-lg-10 news-card-body">
-                  <span class="text-white-50 small fw-semibold"><i class="far fa-calendar me-1"></i>${getLabel(item.dateEn, item.dateAr)}</span>
+                  <span class="text-white-50 small fw-semibold"><i class="far fa-calendar ${getDirectionClass("pe-1", "ps-1")}"></i>${getLabel(item.dateEn, item.dateAr)}</span>
                   <h5 class="fw-bold text-primary my-2 pb-3 news-card-title">${getLabel(item.titleEn, item.titleAr)}</h5>
                   <p class="text-white small mb-3 news-card-excerpt pt-4">${getLabel(item.excerptEn, item.excerptAr)}</p>
                 </div>
@@ -9323,7 +10880,7 @@ function initializeHomePageSections() {
                             <p class="text-white-50 mb-0" id="activeProjectDesc">${getLabel(machineryData[0].descEn, machineryData[0].descAr)}</p>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-link text-primary border-secondary rounded-0 ps-0 py-0 mb-4" id="activeProjectLink" onclick="openMachineDetailOverlay('${machineryData[0].id}')">
+                            <a href="#" class="btn btn-link text-primary border-secondary rounded-0 ${getDirectionClass("ps-0", "pe-0 ps-3")} py-0 mb-4" id="activeProjectLink" onclick="openMachineDetailOverlay('${machineryData[0].id}')">
                                 ${getLabel("Read More", "اقرأ المزيد")}
                             </a>
                             <div class="d-flex gap-3">
@@ -9691,7 +11248,17 @@ async function initializeApp() {
     // Initial Page
     // ============================
 
-    setCurrentPage("home");
+    /* A reset link is opened cold, from outside the app, so it is the one
+       hash this app has to honour on first load — every other page still
+       starts at home the way it always has. */
+    const initialHash = window.location.hash.substring(1);
+    const [initialPage, initialParam] = initialHash.split("/");
+    if (initialPage === "reset-password") {
+      appState.passwordResetToken = initialParam || "";
+      setCurrentPage("reset-password");
+    } else {
+      setCurrentPage("home");
+    }
   } finally {
     hideAppLoader();
   }
@@ -9745,7 +11312,18 @@ function setupEventListeners() {
   // Handle hash navigation
   window.addEventListener("hashchange", () => {
     const hash = window.location.hash.substring(1);
-    if (hash) setCurrentPage(hash);
+    if (!hash) return;
+
+    /* "reset-password/<token>" carries a payload, so it cannot be handed to
+       setCurrentPage whole the way plain page hashes can. */
+    const [pageId, param] = hash.split("/");
+    if (pageId === "reset-password") {
+      appState.passwordResetToken = param || "";
+      setCurrentPage("reset-password");
+      return;
+    }
+
+    setCurrentPage(hash);
   });
 }
 
