@@ -1,74 +1,199 @@
-/* ============================================================================
-   TABLE OF CONTENTS
-   ============================================================================
-   1.  CSS VARIABLES & ROOT
-   2.  BASE STYLES
-   3.  NAVBAR STYLES
-   4.  CAROUSEL / SLIDER STYLES
-   5.  ABOUT SECTION STYLES
-   6.  BANNER STYLES
-   7.  TYPOGRAPHY
-   8.  BUTTON STYLES
-   9.  CONTAINER STYLES
-   10. CARD STYLES
-   11. CATEGORY / SERVICE ITEM STYLES
-   12. PRODUCTS / SERVICE ITEM STYLES
-   13. PROJECT ITEM STYLES
-   14. TRUSTED SECTION STYLES
-   15. NEWS SECTION STYLES
-   16. COUNTER STYLES
-   17. SIGNUP STYLES
-   18. FORM STYLES
-   19. IMAGE GALLERY STYLES
-   20. SOCIAL SECTION STYLES
-   21. FILTER STYLES
-   22. MODAL STYLES
-   23. PAYMENT SECTION STYLES
-   24. CART PAGE STYLES (also used by checkout order summary)
-   25. CHECKOUT PAGE STYLES
-   26. SINGLE PRODUCT PAGE STYLES
-   27. ACCOUNT & CONTENT PAGES (profile, admin, news, videos, machinery)
-   28. FOOTER STYLES
-   29. UTILITY CLASSES
-   30. RESPONSIVE DESIGN
-   31. PRINT STYLES
-   32. MOBILE TOP BAR / NAV OVERLAYS / MEGA MENU (mobile)
-   33. STICKY POSITIONING FIX
-   ============================================================================ */
+/* ── Contents ────────────────────────────────────────────
+    1. CSS Variables & Root
+         Dark Palette · Dark Palette — Bootstrap Bridge
+    2. Base Styles · Typography
+    3. Navbar Styles · Carousel / Slider Styles
+    4. About Section · Banner · Trusted Section
+       News Section · Counter · Social Section
+    5. Button · Container · Card Styles
+       Category / Service Item · Products / Service Item · Project Item
+       Signup · Form · Image Gallery · Filter · Modal · Payment Section
+    6. Cart Page Styles
+    7. Checkout Page Styles
+         Sticky Order Summary · Payment Method Options · Proof Upload
+         Success State
+    8. Single Product Page Styles
+    9. Account & Content Pages
+         Profile Page · Admin Dashboard · News Page · Videos Page
+         Machinery Page · Military Products Page
+   10. Footer Styles · Scroll To Top Button · App Loading State
+   11. Utility Classes
+   12. Mobile Top Bar · Overlay Header · Main Menu Links · Mega Menu Content
+   13. Sticky Positioning Fix
+   14. Videos Carousel & Playback
+   15. Legal Pages (Terms of Service / Privacy Policy)
+         Document Body · Privacy Placeholder
+   16. Dark Theme — Application
+         Text · Surfaces & Cards · Borders & Dividers · Forms
+         Buttons & Interactive States · Dropdowns, Modals, Overlays
+         Tables & Lists · Semantic · Footer · Legal Pages · Misc
+   17. Responsive
+         (min-width: 768px) · (min-width: 992px)
+         (max-width: 991.98px) · (max-width: 768px) · (max-width: 767.98px)
+         (max-width: 767px) · (max-width: 576px)
+         (prefers-reduced-motion: reduce) · print
+   ──────────────────────────────────────────────────────── */
 
-/* ============================================================
-   CSS VARIABLES & ROOT
-   ============================================================ */
+/* ── CSS Variables & Root ── */
 :root {
-  --primary: #ff6600;
-  --secondary: #003049;
+  --base-primary: #ff6600; /* brand orange */
+  --base-secondary: #003049; /* brand navy   */
+  --base-surface: #ffffff;
+  --base-ink: #333333;
+
+  /* ── Light Theme ── */
+  --primary: var(--base-primary);
+  --secondary: var(--base-secondary);
   --tertiary: #151520;
   --light: #f4f8fb;
   --dark: #2c2c3c;
-  --text-primary: #333333;
+  --text-primary: var(--base-ink);
   --text-secondary: #666666;
-  --white: #ffffff;
-  --white-transparent: #ffffffe7;
+  --white: var(--base-surface);
+  --white-transparent: color-mix(in srgb, var(--base-surface) 90%, transparent);
   --border-color: #eef3f7;
   --transition: all 0.3s ease;
   --disabled: #e9ecef;
+
+  --surface-base: var(--base-surface);
+  --surface-1: var(--base-surface);
+  --surface-2: #f4f8fb;
+  --surface-3: var(--base-surface);
+  --surface-4: #eef3f7;
+
+  --primary-hover: #e65c00;
+  --primary-active: #cc5200;
+  --primary-soft: color-mix(in srgb, var(--base-primary) 12%, transparent);
+  --primary-border: color-mix(in srgb, var(--base-primary) 40%, transparent);
+  --on-accent: var(--base-surface);
+
+  --text-muted: #6c757d;
+  --text-disabled: #9aa0a6;
+
+  --border-subtle: #f1f3f5;
+  --border-strong: #cfd8e0;
+
+  --state-hover: rgba(0, 0, 0, 0.04);
+  --state-active: rgba(0, 0, 0, 0.08);
+  --state-selected: var(--primary-soft);
+  --focus-ring: color-mix(in srgb, var(--base-primary) 35%, transparent);
+  --disabled-text: var(--text-disabled);
+
+  --success: #198754;
+  --success-bg: #d1e7dd;
+  --success-border: #a3cfbb;
+  --warning: #ffc107;
+  --warning-bg: #fff3cd;
+  --warning-border: #ffe69c;
+  --danger: #dc3545;
+  --danger-bg: #f8d7da;
+  --danger-border: #f1aeb5;
+  --info: #0dcaf0;
+  --info-bg: #cff4fc;
+  --info-border: #9eeaf9;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --scrim: rgba(0, 0, 0, 0.5);
 }
+
+/* ── Dark Palette ── */
 
 body[data-theme="dark"] {
-  --primary: #0091db;
-  --secondary: #ffffff;
-  --light: #1a1a2e;
-  --dark: #0f0f1e;
-  --text-primary: #ffffff;
-  --text-secondary: #cccccc;
-  --white: #2c2c3c;
-  --border-color: #404050;
-  --disabled: #e9ecef;
+  --surface-base: #0b1822; /* page ground                              */
+  --surface-1: var(--base-secondary); /* cards, panels — the default surface    | Military + Navigation */
+  --surface-2: #0c1821; /* inputs, table stripes, recessed sections | Page Ground */
+  --surface-3: #1f374c; /* dropdowns, modals, brand-filled states   | ! */
+  --surface-4: #003049; /* selected / highest                       */
+
+  --white: var(--surface-base);
+  --light: var(--surface-2);
+  --dark: var(--surface-base);
+  --tertiary: #071119;
+  --white-transparent: color-mix(in srgb, var(--surface-1) 92%, transparent);
+
+  background-color: var(--surface-base);
+
+  /* --secondary: var(--surface-3); */
+
+  --primary: color-mix(in srgb, var(--base-primary) 86%, var(--base-surface));
+  --primary-hover: #ff9550;
+  --primary-active: #e86a12;
+  --primary-soft: color-mix(in srgb, var(--primary) 16%, transparent);
+  --primary-border: color-mix(in srgb, var(--primary) 42%, transparent);
+  --on-accent: #10202d;
+
+  /* ── Text Ramp ── */
+  --text-primary: #e9eff4; /* 13.9:1 on --surface-1 */
+  --text-secondary: #aec0ce; /*  8.6:1 */
+  --text-muted: #94a8b7; /*  6.6:1 — still passes on --surface-4 */
+  --text-disabled: #647a8b; /* exempt from contrast rules */
+
+  /* ── Borders ── */
+  --border-subtle: #1c3143; /* separation only, deliberately quiet */
+  --border-color: #2a4257; /* default component edge              */
+  --border-strong: #50708c; /* 3:1 — boundaries that carry meaning */
+
+  --state-hover: rgba(255, 255, 255, 0.06);
+  --state-active: rgba(255, 255, 255, 0.11);
+  --state-selected: var(--primary-soft);
+  --focus-ring: color-mix(in srgb, var(--primary) 45%, transparent);
+  --disabled: var(--surface-2);
+  --disabled-text: var(--text-disabled);
+
+  --success: #3fd37f;
+  --success-bg: color-mix(in srgb, #3fd37f 14%, transparent);
+  --success-border: color-mix(in srgb, #3fd37f 38%, transparent);
+  --warning: #f5b942;
+  --warning-bg: color-mix(in srgb, #f5b942 14%, transparent);
+  --warning-border: color-mix(in srgb, #f5b942 38%, transparent);
+  --danger: #ff6b6b;
+  --danger-bg: color-mix(in srgb, #ff6b6b 14%, transparent);
+  --danger-border: color-mix(in srgb, #ff6b6b 38%, transparent);
+  --info: #4cc2f1;
+  --info-bg: color-mix(in srgb, #4cc2f1 14%, transparent);
+  --info-border: color-mix(in srgb, #4cc2f1 38%, transparent);
+
+  --shadow-1:
+    0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --scrim: rgba(4, 10, 15, 0.72);
 }
 
-/* ============================================================
-   BASE STYLES
-   ============================================================ */
+/* ── Dark Palette — Bootstrap Bridge ── */
+
+[data-bs-theme="dark"] {
+  --bs-body-bg: #0b1822;
+  --bs-body-bg-rgb: 11, 24, 34;
+  --bs-body-color: #e9eff4;
+  --bs-body-color-rgb: 233, 239, 244;
+  --bs-emphasis-color: #ffffff;
+  --bs-secondary-color: #94a8b7;
+  --bs-secondary-bg: #182c3e;
+  --bs-tertiary-color: #647a8b;
+  --bs-tertiary-bg: #122232;
+  --bs-heading-color: #e9eff4;
+
+  --bs-border-color: #2a4257;
+  --bs-border-color-translucent: rgba(255, 255, 255, 0.12);
+
+  --bs-primary: #ff7d24;
+  --bs-primary-rgb: 255, 125, 36;
+  --bs-link-color: #ff7d24;
+  --bs-link-color-rgb: 255, 125, 36;
+  --bs-link-hover-color: #ff9550;
+
+  --bs-success: #3fd37f;
+  --bs-success-rgb: 63, 211, 127;
+  --bs-warning: #f5b942;
+  --bs-warning-rgb: 245, 185, 66;
+  --bs-danger: #ff6b6b;
+  --bs-danger-rgb: 255, 107, 107;
+  --bs-info: #4cc2f1;
+  --bs-info-rgb: 76, 194, 241;
+}
+
+/* ── Base Styles ── */
 * {
   margin: 0;
   padding: 0;
@@ -97,9 +222,7 @@ li {
   list-style-position: outside;
 }
 
-/* ============================================================
-   NAVBAR STYLES
-   ============================================================ */
+/* ── Navbar Styles ── */
 .nav-bar {
   background-color: var(--white) !important;
   transition: var(--transition);
@@ -172,10 +295,6 @@ li {
   left: 0 !important;
 }
 
-/* Bootstrap's own .dropdown-menu CSS (LTR-only CDN build) hardcodes
-   text-align: left — a physical property that doesn't flip with dir/
-   direction the way start/end do. Override with the logical value so
-   dropdowns (incl. the mega menu) align correctly in RTL. */
 .dropdown-menu {
   text-align: start;
   width: fit-content;
@@ -210,10 +329,6 @@ li {
   cursor: pointer;
 }
 
-/* Color already follows from .form-check:hover below (it covers the whole
-   row), but text-decoration only targeted the label itself — hovering the
-   input circle didn't underline its label. Input comes before label in the
-   markup, so the general sibling combinator reaches it from there. */
 .form-check-input:hover ~ .form-check-label {
   text-decoration: underline;
 }
@@ -221,12 +336,6 @@ li {
 .form-check:hover {
   color: var(--primary);
 }
-
-/* accent-color alone has no effect here: Bootstrap sets appearance: none
-   on .form-check-input and custom-draws the checked state itself via
-   background-color/border-color (hardcoded to its own blue), so the
-   native accent never gets a chance to paint. Override what it actually
-   draws with instead. */
 
 .form-check-input:checked {
   background-color: var(--primary) !important;
@@ -243,13 +352,6 @@ li {
   box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
-/* Amazon-style cart counter: a tight circular badge sitting right on the
-   icon's corner, not stretched across the icon+label link.
-   Positioned with logical properties (not Bootstrap's start-100/translate-
-   middle utilities, which this CDN's LTR-only build compiles to physical
-   left/right and so never mirror under dir="rtl") so it lands on the
-   correct upper corner in both directions. Transforms don't follow
-   `direction` on their own, hence the explicit [dir="rtl"] override below. */
 .cart-count-badge {
   position: absolute;
   inset-block-start: 55%;
@@ -300,7 +402,6 @@ li {
   color: var(--primary);
   font-weight: 700;
   margin-top: 1.2rem;
-  /* margin-bottom: 0; */
   text-transform: uppercase;
 }
 
@@ -319,13 +420,10 @@ li {
   color: #dc3545 !important;
 }
 
-/* ============================================================
-   CAROUSEL / SLIDER STYLES
-   ============================================================ */
+/* ── Carousel / Slider Styles ── */
 .carousel-header {
   position: relative;
   height: 69dvh !important;
-  /* width: 92vw !important; */
   border-radius: 0;
   overflow: hidden;
   padding: 0;
@@ -363,7 +461,6 @@ li {
   color: var(--white) !important;
 }
 
-/* Remove Swiper's default arrow icon and use Font Awesome instead */
 .swiper .swiper-button-prev::after,
 .swiper .swiper-button-next::after {
   display: none;
@@ -371,14 +468,12 @@ li {
 
 .swiper .swiper-button-prev::before {
   content: "\f053";
-  /* Font Awesome chevron-left */
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
 }
 
 .swiper .swiper-button-next::before {
   content: "\f054";
-  /* Font Awesome chevron-right */
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
 }
@@ -452,15 +547,11 @@ html[dir="rtl"] .swiper-button-prev {
   cursor: pointer;
 }
 
-/* ============================================================
-   ABOUT SECTION STYLES
-   ============================================================ */
-/* Sector cards (What We Manufacture — unchanged) */
+/* ── About Section Styles ── */
 .sector-card-defense {
   background: linear-gradient(135deg, var(--secondary) 0%, #1a2a3d 100%);
 }
 
-/* Vision & Mission tab switcher */
 .vm-tabs-nav {
   background: var(--border-color);
 }
@@ -509,15 +600,12 @@ html[dir="rtl"] .swiper-button-prev {
   }
 }
 
-/* Values: stacked feature rows */
 .value-row-icon {
   flex-shrink: 0;
   width: 56px;
 }
 
-/* ============================================================
-   BANNER STYLES
-   ============================================================ */
+/* ── Banner Styles ── */
 .bg-breadcrumb {
   height: fit-content;
 }
@@ -539,9 +627,7 @@ html[dir="rtl"] .swiper-button-prev {
   color: var(--text-light) !important;
 }
 
-/* ============================================================
-   TYPOGRAPHY
-   ============================================================ */
+/* ── Typography ── */
 .display-5 {
   font-size: 3rem;
   font-weight: 700;
@@ -590,9 +676,7 @@ p {
   margin-bottom: 15px;
 }
 
-/* ============================================================
-   BUTTON STYLES
-   ============================================================ */
+/* ── Button Styles ── */
 .btn {
   border-radius: 3px;
   font-weight: 600;
@@ -613,8 +697,6 @@ p {
 .btn-primary:hover {
   background-color: #e65c00;
   color: #fff;
-  /* color: var(--primary) !important; */
-  /* transform: translateY(-2px); */
 }
 
 .btn-primary:disabled {
@@ -691,7 +773,6 @@ p {
 }
 
 .btn-outline-primary:hover {
-  /* color: var(--secondary); */
   background-color: var(--primary);
 }
 
@@ -707,9 +788,7 @@ background-color: var(--secondary);
   border: 1px solid black;
 }
 
-/* ============================================================
-   CONTAINER STYLES
-   ============================================================ */
+/* ── Container Styles ── */
 .container-fluid {
   background-color: var(--white);
   color: var(--text-primary);
@@ -731,9 +810,7 @@ background-color: var(--secondary);
   background-color: var(--secondary) !important;
 }
 
-/* ============================================================
-   CARD STYLES
-   ============================================================ */
+/* ── Card Styles ── */
 .card {
   background-color: var(--white);
   border: 1px solid var(--border-color);
@@ -756,12 +833,9 @@ background-color: var(--secondary);
   padding: 1.2rem;
   color: var(--text-secondary);
   cursor: pointer !important;
-  /* height: 20rem; */
 }
 
-/* ============================================================
-   CATEGORY / SERVICE ITEM STYLES
-   ============================================================ */
+/* ── Category / Service Item Styles ── */
 .category-card-link {
   text-decoration: none;
   display: block;
@@ -769,7 +843,6 @@ background-color: var(--secondary);
 }
 
 .category-card {
-  /* border-radius: 0.1rem; */
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease all;
@@ -819,8 +892,6 @@ background-color: var(--secondary);
 }
 
 .category-card:hover .category-card-img {
-  /* height: 0%; */
-  /* box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.3); */
   opacity: 0.15;
   filter: blur(3px);
 }
@@ -838,8 +909,6 @@ background-color: var(--secondary);
   height: 0;
   bottom: 0;
   padding-inline: 1.2rem;
-  /* margin-inline-start: 1.2rem; */
-  /* color: var(--secondary); */
   font-size: 0.8rem;
   line-height: 1.4rem;
   transition: all ease 0.3s;
@@ -904,22 +973,19 @@ background-color: var(--secondary);
   opacity: 1;
 }
 
-/* Dark mode support */
 [data-theme="dark"] .category-card {
-  background: #2a2a2a;
+  background: var(--white);
 }
 
 [data-theme="dark"] .category-card-img {
-  background: #3a3a3a;
+  background: color-mix(in srgb, var(--white) 80%, var(--base-surface));
 }
 
 [data-theme="dark"] .category-card-name {
-  color: #f1f1f1;
+  color: var(--text-primary);
 }
 
-/* ============================================================
-   PRODUCTS / SERVICE ITEM STYLES
-   ============================================================ */
+/* ── Products / Service Item Styles ── */
 .categoriesSwiper {
   overflow: visible !important;
   height: fit-content !important;
@@ -997,12 +1063,10 @@ background-color: var(--secondary);
 .current-price {
   font-size: 1.35rem;
   font-weight: 700;
-  /* color: #111; */
 }
 
 .old-price {
   font-size: 0.9rem;
-  /* color: #6c757d; */
   text-decoration: line-through;
 }
 
@@ -1020,9 +1084,7 @@ background-color: var(--secondary);
   font-weight: 600;
 }
 
-/* ============================================================
-   PROJECT ITEM STYLES
-   ============================================================ */
+/* ── Project Item Styles ── */
 
 @keyframes slideInText {
   from {
@@ -1161,9 +1223,7 @@ html[dir="rtl"] .nav-btn-custom {
   z-index: 2;
 }
 
-/* ============================================================
-   TRUSTED SECTION STYLES
-   ============================================================ */
+/* ── Trusted Section Styles ── */
 .trust-logo-card {
   border: 1px solid #dee2e6;
   border-radius: 0.1rem;
@@ -1204,35 +1264,13 @@ html[dir="rtl"] .nav-btn-custom {
   transform: translateY(-4px);
 }
 
-/* Mobile: each block full width, stacks in DOM order (header -> logos -> stats/cta) */
 .trust-header-block,
 .trust-logos-block,
 .trust-stats-block {
   width: 100%;
 }
 
-/* Desktop: restore your original side-by-side proportions */
-@media (min-width: 992px) {
-  .trust-header-block {
-    width: auto;
-    border-inline-end: 1px solid rgba(255, 255, 255, 0.25);
-    padding-inline-end: 1.5rem;
-  }
-
-  .trust-logos-block {
-    width: 50%;
-    border-inline-end: 1px solid rgba(255, 255, 255, 0.25);
-    padding-inline-end: 1.5rem;
-  }
-
-  .trust-stats-block {
-    width: 75%;
-  }
-}
-
-/* ============================================================
-   NEWS SECTION STYLES
-   ============================================================ */
+/* ── News Section Styles ── */
 .card-news {
   transition: all ease 0.2s !important;
   outline: 0px solid var(--border-color) !important;
@@ -1244,9 +1282,7 @@ html[dir="rtl"] .nav-btn-custom {
   box-shadow: none !important;
 }
 
-/* ============================================================
-   COUNTER STYLES
-   ============================================================ */
+/* ── Counter Styles ── */
 .counter-facts {
   background-color: var(--light) !important;
 }
@@ -1296,9 +1332,7 @@ html[dir="rtl"] .nav-btn-custom {
   color: var(--white);
 }
 
-/* ============================================================
-   SIGNUP STYLES
-   ============================================================ */
+/* ── Signup Styles ── */
 .signup-visual-panel {
   background-image: url("/images/b-9.webp");
   background-size: 150%;
@@ -1340,9 +1374,7 @@ html[dir="rtl"] .nav-btn-custom {
   box-shadow: 0 0 0 0.2rem rgba(0, 145, 219, 0.15);
 }
 
-/* ============================================================
-   FORM STYLES
-   ============================================================ */
+/* ── Form Styles ── */
 .form-floating > label {
   color: var(--text-secondary);
 }
@@ -1372,9 +1404,7 @@ html[dir="rtl"] .nav-btn-custom {
   font-weight: 600;
 }
 
-/* ============================================================
-   IMAGE GALLERY STYLES
-   ============================================================ */
+/* ── Image Gallery Styles ── */
 .product-images {
   margin: 30px 0;
 }
@@ -1403,9 +1433,7 @@ html[dir="rtl"] .nav-btn-custom {
   border-color: var(--primary);
 }
 
-/* ============================================================
-   SOCIAL SECTION STYLES
-   ============================================================ */
+/* ── Social Section Styles ── */
 .social-section {
   background-image: url(./images/b-7.webp);
   background-size: cover;
@@ -1420,13 +1448,10 @@ html[dir="rtl"] .nav-btn-custom {
   top: 0;
   left: 0;
   backdrop-filter: blur(0.2rem);
-  /* background: linear-gradient(rgba(0, 0, 0, 0.3)),linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 20%, rgba(0, 0, 0, 0.35) 60%, var(--secondary) 100%); */
   background: linear-gradient(rgba(0, 0, 0, 0.75));
 }
 
-/* ============================================================
-   FILTER STYLES
-   ============================================================ */
+/* ── Filter Styles ── */
 .filter-btn {
   border: 2px solid var(--primary);
   background-color: var(--white);
@@ -1449,9 +1474,9 @@ html[dir="rtl"] .nav-btn-custom {
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
-  border: 1px solid #dee2e6;
-  background: #fff;
-  color: #495057;
+  border: 1px solid var(--border-strong);
+  background: var(--border-color);
+  color: var(--text-primary);
   padding: 0.5rem 1.25rem;
   border-radius: 0.2rem;
   font-size: 0.9rem;
@@ -1576,22 +1601,12 @@ html[dir="rtl"] .nav-btn-custom {
   color: var(--primary);
 }
 
-/* ============================================================
-   MODAL STYLES
-   ============================================================ */
+/* ── Modal Styles ── */
 .modal {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
 }
 
-/* Bootstrap's own fade-in reset (.modal.show .modal-dialog { transform:
-   none }) isn't taking effect here — the dialog stays stuck at its
-   pre-transition translateY(-50px), which crops the top of tall content
-   (like the overlays below) on short viewports. An active CSS transition
-   on a property wins over even !important declarations for that property
-   while it's running, so overriding the end value alone isn't enough —
-   killing the transition itself (transition: none) removes the in-flight
-   state entirely, forcing an instant jump to the final value. */
 .modal.show .modal-dialog {
   transition: none !important;
   transform: none !important;
@@ -1627,26 +1642,20 @@ html[dir="rtl"] .nav-btn-custom {
   background-color: var(--light);
 }
 
-/* ============================================================
-   PAYMENT SECTION STYLES
-   ============================================================ */
+/* ── Payment Section Styles ── */
 .payment-logo {
   height: 100%;
   width: 100%;
   object-fit: contain;
   filter: grayscale(100%) opacity(0.6);
-  transition: filter 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .payment-logo:hover {
   filter: grayscale(0%) opacity(1);
 }
 
-/* ============================================================
-   CART PAGE STYLES
-   Also used by the checkout order summary (.qty-stepper-sm /
-   .qty-btn-sm variants).
-   ============================================================ */
+/* ── Cart Page Styles ── */
 .cart-line-item:last-child {
   border-bottom: none !important;
 }
@@ -1685,10 +1694,7 @@ html[dir="rtl"] .nav-btn-custom {
   font-size: 0.75rem;
 }
 
-/* ============================================================
-   CHECKOUT PAGE STYLES
-   Uses logical properties throughout for RTL safety.
-   ============================================================ */
+/* ── Checkout Page Styles ── */
 
 .checkout-section {
   border: 1px solid var(--bs-border-color);
@@ -1708,16 +1714,12 @@ html[dir="rtl"] .nav-btn-custom {
   flex-shrink: 0;
 }
 
-/* ---------- Sticky order summary ---------- */
+/* ── Sticky Order Summary ── */
 .checkout-summary {
   border: 1px solid var(--bs-border-color);
   position: sticky;
   top: 8rem;
 }
-
-/* NOTE: position:sticky silently fails if ANY parent has overflow:hidden.
-   This site uses .overflow-hidden on container-fluid sections a lot —
-   make sure the checkout page wrapper doesn't have it. */
 
 .checkout-items {
   max-height: 320px;
@@ -1737,7 +1739,7 @@ html[dir="rtl"] .nav-btn-custom {
   min-width: 0; /* lets text-truncate work inside flex children */
 }
 
-/* ---------- Payment method options ---------- */
+/* ── Payment Method Options ── */
 .payment-methods {
   display: flex;
   flex-direction: column;
@@ -1773,7 +1775,7 @@ html[dir="rtl"] .nav-btn-custom {
   flex-shrink: 0;
 }
 
-/* ---------- Proof upload ---------- */
+/* ── Proof Upload ── */
 .proof-upload {
   border: 2px dashed var(--bs-border-color);
   border-radius: 0.75rem;
@@ -1822,7 +1824,7 @@ html[dir="rtl"] .nav-btn-custom {
   color: #dc3545;
 }
 
-/* ---------- Success state ---------- */
+/* ── Success State ── */
 .order-success-icon {
   width: 80px;
   height: 80px;
@@ -1835,16 +1837,7 @@ html[dir="rtl"] .nav-btn-custom {
   font-size: 2rem;
 }
 
-/* ---------- Mobile ---------- */
-@media (max-width: 991.98px) {
-  .checkout-summary {
-    position: static;
-  }
-}
-
-/* ============================================================
-   SINGLE PRODUCT PAGE STYLES
-   ============================================================ */
+/* ── Single Product Page Styles ── */
 .gallery-wrapper {
   height: 460px;
 }
@@ -1891,7 +1884,6 @@ html[dir="rtl"] .nav-btn-custom {
   object-fit: contain;
 }
 
-/* Fullscreen state: same elements, just expanded via fixed positioning */
 .gallery-fullscreen {
   position: fixed !important;
   inset: 0;
@@ -1913,7 +1905,6 @@ html[dir="rtl"] .nav-btn-custom {
   max-height: 85vh;
 }
 
-/* Color / Size selectors */
 .color-swatch {
   width: 36px;
   height: 36px;
@@ -1943,8 +1934,6 @@ html[dir="rtl"] .nav-btn-custom {
 
 .size-option.active {
   border-color: var(--bs-primary);
-  /* background: var(--bs-primary); */
-  /* color: #fff; */
 }
 
 .buy-box {
@@ -1953,7 +1942,6 @@ html[dir="rtl"] .nav-btn-custom {
   background: #fff;
 }
 
-/* Spec groups accordion */
 .spec-chevron {
   transition: transform 0.3s ease;
   font-size: 0.85rem;
@@ -1965,8 +1953,9 @@ html[dir="rtl"] .nav-btn-custom {
 }
 
 .spec-group-toggle h6 {
-  color: #212529;
+  color: var(--text-primary);
 }
+
 
 .input-group #productQty {
   display: flex;
@@ -1980,7 +1969,6 @@ html[dir="rtl"] .nav-btn-custom {
   margin: 0;
 }
 
-/* Related products */
 .product-related-card {
   cursor: pointer;
   transition:
@@ -1993,7 +1981,6 @@ html[dir="rtl"] .nav-btn-custom {
   box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Fullscreen Gallery Overlay */
 .product-gallery-overlay {
   position: fixed;
   inset: 0;
@@ -2024,19 +2011,6 @@ html[dir="rtl"] .nav-btn-custom {
   max-width: 900px;
 }
 
-@media (max-width: 767px) {
-  .galleryOverlayThumbs {
-    display: none !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .galleryOverlaySwiper .swiper-pagination {
-    display: none;
-  }
-}
-
-/* Reservation Modal */
 .reservation-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -2071,12 +2045,9 @@ html[dir="rtl"] .nav-btn-custom {
   cursor: pointer;
 }
 
-/* ============================================================
-   ACCOUNT & CONTENT PAGES
-   Profile, Admin Dashboard, News, Videos, Machinery.
-   ============================================================ */
+/* ── Account & Content Pages ── */
 
-/* ---------- Profile page ---------- */
+/* ── Profile Page ── */
 .profile-avatar {
   width: 72px;
   height: 72px;
@@ -2107,7 +2078,7 @@ html[dir="rtl"] .nav-btn-custom {
   border-color: var(--border-color) !important;
 }
 
-/* ---------- Admin dashboard ---------- */
+/* ── Admin Dashboard ── */
 .admin-kpi-card {
   border: 1px solid var(--border-color);
 }
@@ -2213,7 +2184,7 @@ html[dir="rtl"] .nav-btn-custom {
   background: var(--light);
 }
 
-/* ---------- News page ---------- */
+/* ── News Page ── */
 .news-card {
   transition: all ease 0.3s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -2243,10 +2214,6 @@ html[dir="rtl"] .nav-btn-custom {
   object-fit: cover;
 }
 
-/* CNN-style "breaking" tag — solid red, uppercase, small pulsing dot for
-   urgency. Shared with the Videos page's Trending/New badge (.video-badge)
-   so the two stay identical; only the placement differs, which is why the
-   positioning lives in the rule below rather than in here. */
 .breaking-badge {
   display: inline-flex;
   align-items: center;
@@ -2262,9 +2229,6 @@ html[dir="rtl"] .nav-btn-custom {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 
-/* News pins its badge over the card image; the video card's sits inline in
-   the body next to the category, so it stays in normal flow.
-   inset-inline-start (not left) so it sits correctly in RTL. */
 .breaking-badge {
   position: absolute;
   top: 0.9rem;
@@ -2292,12 +2256,6 @@ html[dir="rtl"] .nav-btn-custom {
   }
 }
 
-/* Per-spec paint order is filter -> clip-path -> mask, so a filter (or
-   box-shadow) on the SAME element as clip-path gets clipped away too —
-   that's why moving the shadow from box-shadow to filter alone didn't fix
-   it. The actual fix: host the filter on this unclipped wrapper instead;
-   drop-shadow reads the alpha silhouette of its (clipped) child content,
-   so the shadow still correctly follows the notched shape. */
 .news-card-content-shadow {
   position: absolute;
   bottom: 0;
@@ -2379,7 +2337,7 @@ html[dir="rtl"] .nav-btn-custom {
   opacity: 1;
 }
 
-/* ---------- Videos page ---------- */
+/* ── Videos Page ── */
 .video-poster-card .video-badge {
   position: absolute;
   top: 0.6rem;
@@ -2407,22 +2365,6 @@ html[dir="rtl"] .nav-btn-custom {
   height: fit-content;
 }
 
-/* Trending / New badge — the look is defined once up in the .breaking-badge
-   rule, which this shares. .video-badge-trending / .video-badge-new are left
-   on the markup as hooks: add a background here to tell the two apart again,
-   otherwise both stay the same red as the News badge. */
-
-/* Hairline dividers between the two view buttons and the count. Drawn as
-   pseudo-elements parked in the middle of the flex gap rather than as a
-   border + padding on each control: .videos-view-btn has a fixed 2.25rem
-   width and centres its icon with flex, so extra inline padding would knock
-   the icon off-centre. Uses inset-inline-start, so the divider lands on the
-   correct side under html[dir="rtl"]. Keep --videos-toolbar-gap in step with
-   the Bootstrap gap utility on the two containers (currently gap-4). */
-/* NOT --border-color here: that token is tuned for borders on white cards
-   (#eef3f7) and the toolbar sits on the tinted bg-light section (#f4f8fb),
-   where it measures 1.05:1 — invisible. A translucent ink tint keeps the
-   hairline visible whatever it is drawn over. */
 .videos-toolbar-left {
   --videos-toolbar-gap: 1.5rem;
   --videos-divider: rgba(0, 0, 0, 0.22);
@@ -2449,7 +2391,6 @@ body[data-theme="dark"] .videos-toolbar-left {
   background: var(--videos-divider);
 }
 
-/* Grid / list toggle in the videos toolbar */
 .videos-view-btn {
   width: 2.25rem;
   height: 2.25rem;
@@ -2475,16 +2416,7 @@ body[data-theme="dark"] .videos-toolbar-left {
   color: #fff;
 }
 
-/* List view: thumbnail on the leading side with the title beside it. The card
-   is normally self-contained (title overlaid on the poster), so a full-width
-   16:9 poster per row would be enormous — around 600px tall on desktop.
-   Instead the title is lifted out of the overlay and set as ordinary text:
-   position:static drops it back into flow, and the gradient goes with it. */
-
-@media (max-width: 575.98px) {
-}
-
-/* ---------- Machinery page ---------- */
+/* ── Machinery Page ── */
 .machinery-card {
   display: flex;
   flex-direction: column;
@@ -2509,9 +2441,6 @@ body[data-theme="dark"] .videos-toolbar-left {
   color: var(--primary) !important;
 }
 
-/* Hidden by default, revealed into the room the shrinking image (above)
-   frees up on hover — a few spec highlights so the extra space is
-   actually used for something, not just empty. */
 .machinery-card-hover-specs {
   list-style: none;
   margin: 0;
@@ -2559,16 +2488,10 @@ body[data-theme="dark"] .videos-toolbar-left {
   object-fit: cover;
 }
 
-/* ---------- Machinery detail overlay (image Swiper inside #overlayModal,
-   title/subtitle + specs animate on change, nav buttons pinned to the
-   bottom of the whole overlay) ---------- */
 .machine-detail-wrap {
   padding: 0.25rem 0.25rem 1rem;
 }
 
-/* Pagination lives above everything, not overlaid on the image like
-   Swiper's default — it's not nested in a .swiper container so it needs
-   position reset back to normal flow. */
 .machine-detail-pagination-top {
   position: static;
   display: flex;
@@ -2577,18 +2500,10 @@ body[data-theme="dark"] .videos-toolbar-left {
   margin-bottom: 3rem;
 }
 
-/* Both detail overlays render their own sliding window of dots
-   (renderWindowedDots in script.js) instead of Swiper's dynamicBullets, so
-   the active bullet keeps the wide-pill shape from
-   .swiper-pagination-bullet-active. Bullets are <button>s here, so they need
-   the alignment + cursor Swiper's own `clickable` markup would have supplied,
-   and `flex: none` so the flex container above can't shrink them away. */
 .detail-pagination-dots {
   align-items: center;
 }
 
-/* Explicit property list rather than inheriting the global `all .3s` — the
-   pill grow/shrink is the whole point here, so it gets its own easing. */
 .detail-pagination-dots .swiper-pagination-bullet {
   cursor: pointer;
   flex: none;
@@ -2600,7 +2515,6 @@ body[data-theme="dark"] .videos-toolbar-left {
     opacity 0.35s ease;
 }
 
-/* Shrunk dot = "the list continues past this end of the window". */
 .detail-pagination-dots .swiper-pagination-bullet-edge {
   transform: scale(0.6);
 }
@@ -2618,13 +2532,6 @@ body[data-theme="dark"] .videos-toolbar-left {
   transform: translateY(6px);
 }
 
-/* Fixed frame on the wrapper, not the <img> — same arrangement as
-   .news-detail-slide-img-wrap below, and for the same reason: `.swiper img`
-   (0,1,1) up at the top of this file forces height:100% and outranks any
-   plain .machine-detail-img (0,1,0) height, so sizing the image directly
-   silently loses and every machine renders at its own aspect ratio. Sizing
-   the wrapper puts the height somewhere that rule can't reach, and 100%
-   then resolves against it. */
 .machine-detail-img-wrap {
   height: 320px;
   overflow: hidden;
@@ -2637,9 +2544,6 @@ body[data-theme="dark"] .videos-toolbar-left {
   object-fit: cover;
 }
 
-/* News detail overlay: title+date ride along with each Swiper slide as a
-   caption on the image itself (left column), matching the News grid
-   card's hover-caption pattern — see .news-card-content-shadow above. */
 .news-detail-slide-img-wrap {
   position: relative;
   height: 420px;
@@ -2682,30 +2586,6 @@ body[data-theme="dark"] .videos-toolbar-left {
   color: var(--text-secondary);
 }
 
-@media (max-width: 767.98px) {
-  .news-detail-slide-img-wrap {
-    height: 220px;
-  }
-
-  .news-detail-caption {
-    padding: 1.75rem 1rem 0.85rem;
-  }
-
-  .news-detail-caption-title {
-    font-size: 1rem;
-  }
-
-  .news-detail-caption-date {
-    font-size: 0.72rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .news-detail-body-wrap {
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-}
-
 .machine-detail-nav-bottom {
   margin-top: 1.5rem;
   padding-top: 1rem;
@@ -2745,31 +2625,7 @@ body[data-theme="dark"] .videos-toolbar-left {
   border-bottom: none;
 }
 
-@media (max-width: 767.98px) {
-  .machine-detail-img-wrap {
-    height: 220px;
-  }
-
-  .machine-detail-specs-wrap {
-    max-height: none;
-  }
-
-  .machine-detail-wrap {
-    padding: 0.1rem 0.1rem 0.5rem;
-  }
-
-  .machine-detail-pagination-top {
-    gap: 0.2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .machine-detail-nav-bottom {
-    margin-top: 1rem;
-    padding-top: 0.5rem;
-  }
-}
-
-/* ---------- Military products page ---------- */
+/* ── Military Products Page ── */
 .military-product-card {
   overflow: hidden;
   outline: 1.5px solid transparent !important;
@@ -2821,13 +2677,6 @@ body[data-theme="dark"] .videos-toolbar-left {
   border-inline-start: 1px solid var(--border-color);
 }
 
-@media (max-width: 767.98px) {
-  .military-card-col {
-    border-inline-start: none;
-    border-top: 1px solid var(--border-color);
-  }
-}
-
 .military-color-dot {
   display: inline-block;
   width: 18px;
@@ -2840,9 +2689,7 @@ body[data-theme="dark"] .videos-toolbar-left {
   font-size: 0.8rem;
 }
 
-/* ============================================================
-   FOOTER STYLES
-   ============================================================ */
+/* ── Footer Styles ── */
 footer {
   background-color: var(secondary) !important;
   color: var(--white);
@@ -2897,29 +2744,11 @@ footer a:hover {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Desktop: force all footer columns fully expanded and static, ignore collapse state */
-@media (min-width: 992px) {
-  .footer-accordion-item {
-    border-bottom: none;
-  }
-  .footer-collapse {
-    display: block !important;
-    height: auto !important;
-  }
-}
-/* ============================================================
-   SCROLL TO TOP BUTTON
-   Markup is #scrollTopBtn in index.html; visibility is driven by
-   initScrollTopButton() in script.js toggling .is-visible.
-   ============================================================ */
+/* ── Scroll To Top Button ── */
 .scroll-top-btn {
   position: fixed;
-  /* Logical properties, so the button parks itself on the correct side
-     under html[dir="rtl"] without a mirrored rule. */
   inset-block-end: 1.5rem;
   inset-inline-end: 1.5rem;
-  /* Above page content, below the mobile nav overlays (1050/1060) and
-     Bootstrap's modal so it can't float over an open dialog. */
   z-index: 1040;
   width: 3rem;
   height: 3rem;
@@ -2932,8 +2761,6 @@ footer a:hover {
   color: #fff;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  /* Starts hidden; visibility (not just opacity) so it can't be tabbed to
-     or clicked while faded out. */
   opacity: 0;
   visibility: hidden;
   transform: translateY(0.75rem);
@@ -2950,41 +2777,20 @@ footer a:hover {
   transform: translateY(0);
 }
 
-/* brightness() rather than a second colour token — --primary flips between
-   the light and dark themes and this stays correct for both. */
 .scroll-top-btn:hover,
 .scroll-top-btn:focus-visible {
   filter: brightness(1.1);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.32);
 }
 
-@media (max-width: 767.98px) {
-  .scroll-top-btn {
-    inset-block-end: 1rem;
-    inset-inline-end: 1rem;
-    width: 2.75rem;
-    height: 2.75rem;
-  }
-}
-
-/* ============================================================
-   APP LOADING STATE
-   Full-screen cover shown from first paint until initializeApp()
-   has finished fetching products/categories/machinery/news.
-   Markup lives in index.html (#appLoader); show/hide is
-   showAppLoader()/hideAppLoader() in script.js.
-   ============================================================ */
+/* ── App Loading State ── */
 .app-loader {
   position: fixed;
   inset: 0;
-  /* Above Bootstrap's modal (1055) so a slow load can't surface behind a
-     dialog that was restored from a hash route. */
   z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* --white flips to #2c2c3c under body[data-theme="dark"], so the cover
-     matches the theme without a second rule. */
   background: var(--white);
   transition: opacity 0.4s ease;
 }
@@ -2994,21 +2800,12 @@ footer a:hover {
   height: auto;
 }
 
-/* hideAppLoader() adds this, then removes the element once the fade ends. */
 .app-loader-hidden {
   opacity: 0;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .app-loader {
-    transition-duration: 0.01ms;
-  }
-}
-
-/* ============================================================
-   UTILITY CLASSES
-   ============================================================ */
+/* ── Utility Classes ── */
 .wow {
   opacity: 0;
   animation: fadeInUp 1s ease-in-out;
@@ -3140,9 +2937,1216 @@ footer a:hover {
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4);
 }
 
-/* ============================================================
-   RESPONSIVE DESIGN
-   ============================================================ */
+/* ── Mobile Top Bar ── */
+.mobile-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #003049;
+}
+
+.mobile-topbar .brand {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.hamburger-btn {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.4rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  color: #f4f4f4;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.nav-overlay.is-open {
+  transform: translateX(0);
+}
+
+#mobileMenu .nav-overlay {
+  z-index: 1050;
+}
+
+#megaMenuOverlay .nav-overlay {
+  z-index: 1060;
+}
+
+[dir="rtl"] .nav-overlay {
+  transform: translateX(-100%);
+}
+
+[dir="rtl"] .nav-overlay.is-open {
+  transform: translateX(0);
+}
+
+/* ── Overlay Header ── */
+.overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex: 0 0 auto;
+  background-color: #003049;
+}
+
+.overlay-title {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.overlay-icon-btn {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.25rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.overlay-icon-btn:active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Main Menu Links ── */
+.overlay-body {
+  padding: 0.5rem 0;
+  flex: 1 1 auto;
+}
+
+.overlay-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1.15rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.overlay-link:active {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.overlay-link .chevron {
+  color: #9aa0a6;
+  font-size: 0.95rem;
+}
+
+[dir="rtl"] .overlay-link .chevron {
+  transform: scaleX(-1);
+}
+
+/* ── Mega Menu Content ── */
+.mega-section {
+  padding: 1.25rem;
+}
+
+.mega-section + .mega-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mega-section h6 {
+  color: var(--primary);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.mega-section a {
+  display: block;
+  padding: 0.6rem 0;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1.05rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mega-section a:last-child {
+  border-bottom: none;
+}
+
+/* ── Sticky Positioning Fix ── */
+html,
+body,
+main,
+.container,
+.container-fluid,
+.row,
+[class*="col-"] {
+  overflow: visible !important;
+}
+
+body.modal-open {
+  overflow: hidden !important;
+}
+
+/* ── Videos Carousel & Playback ── */
+
+.videos-featured .swiper {
+  overflow: hidden;
+  padding-block: 1rem;
+}
+
+.videos-featured .swiper .swiper-wrapper {
+  align-items: center;
+}
+
+.videos-featured .swiper .swiper-slide {
+  aspect-ratio: 101 / 36;
+}
+
+.video-poster-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0.1rem;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.video-poster-img,
+.video-poster-card iframe {
+  width: 80%;
+  height: 100%;
+  border: 0;
+  display: block;
+  margin-inline-start: auto;
+}
+
+.video-poster-img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.video-poster-card:hover .video-poster-img {
+  transform: scale(1.05);
+}
+
+.video-poster-caption {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1rem;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+[dir="rtl"] .video-poster-caption {
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 75%,
+    transparent 100%
+  );
+}
+
+.video-poster-title {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: start;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.video-poster-play {
+  flex: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #fff;
+  transition: var(--transition);
+}
+
+.video-poster-card:hover .video-poster-play {
+  color: var(--primary);
+  transform: scale(1.12);
+}
+
+.videos-featured .video-poster-card {
+  aspect-ratio: 3 / 4;
+  max-width: 15rem;
+  margin-inline: auto;
+}
+
+.videos-featured .swiper .swiper-slide .video-poster-card {
+  height: 100%;
+  aspect-ratio: auto;
+  max-width: none;
+  transition:
+    width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-inline-start 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease;
+}
+
+.videos-featured .swiper-slide-prev .video-poster-card {
+  opacity: 0;
+}
+
+.videos-featured .video-poster-caption {
+  padding-top: 3rem;
+}
+
+.videos-featured-head .videos-featured-prev,
+.videos-featured-head .videos-featured-next {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary) !important;
+  border: 1px solid var(--primary);
+  transition: ease all 0.25s;
+  backdrop-filter: blur(1px);
+}
+
+.videos-featured-head .videos-featured-prev:hover,
+.videos-featured-head .videos-featured-next:hover {
+  background: var(--primary);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+  color: var(--white) !important;
+}
+.videos-featured .swiper .swiper-slide {
+  display: flex;
+  align-items: center;
+}
+
+.videos-featured .swiper-slide-active {
+  z-index: 2;
+}
+
+.videos-featured .swiper-slide-active .video-poster-card {
+  flex: none;
+  width: 63.3663%;
+  margin-inline: 0;
+}
+
+.videos-featured .swiper-slide:not(.swiper-slide-active) .video-poster-card {
+  width: 26.7327%;
+  margin-inline: 36.6337% 0;
+}
+
+.videos-featured .swiper-slide-active .video-poster-caption {
+  padding-top: 1.75rem;
+}
+
+.videos-list-view .video-poster-card {
+  max-width: none;
+  height: 18rem;
+}
+
+.video-poster-card.is-playing {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: none;
+  background: #000;
+  cursor: default;
+}
+
+.video-poster-card.is-playing iframe {
+  width: 100%;
+  height: 100%;
+  margin-inline-start: 0;
+}
+.videos-featured .swiper .swiper-slide {
+  pointer-events: none;
+}
+
+.videos-featured .swiper .swiper-slide .video-poster-card {
+  pointer-events: auto;
+}
+
+/* ── Legal Pages (Terms of Service / Privacy Policy) ── */
+
+.legal-updated {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.legal-header h1 {
+  letter-spacing: -0.02em;
+}
+
+.legal-toc {
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  padding-inline-start: 1rem;
+  border-inline-start: 2px solid var(--border-color);
+}
+
+.legal-toc-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.legal-toc-doc {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--secondary);
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.legal-toc-doc:hover {
+  color: var(--primary);
+}
+
+.legal-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  counter-reset: legal-toc;
+}
+
+.legal-toc-list li {
+  counter-increment: legal-toc;
+  margin-bottom: 0.35rem;
+}
+
+.legal-toc-list a {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.15rem 0;
+}
+
+.legal-toc-list a:hover {
+  color: var(--primary);
+}
+
+/* ── Document Body ── */
+
+.legal-doc {
+  scroll-margin-top: 7rem;
+}
+
+.legal-doc-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.legal-doc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: var(--secondary);
+  font-size: 1.25rem;
+}
+
+.legal-doc-sub {
+  letter-spacing: 0.08em;
+}
+
+.legal-intro {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text-primary);
+  padding: 1.25rem 1.5rem;
+  background: var(--light);
+  border-inline-start: 3px solid var(--secondary);
+  margin-bottom: 2.5rem;
+}
+
+.legal-section {
+  scroll-margin-top: 7rem;
+  margin-bottom: 2.25rem;
+}
+
+.legal-section-title {
+  margin-bottom: 0.9rem;
+  color: var(--secondary);
+}
+
+.legal-section-mark {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--secondary);
+  transform: translateY(-0.15rem);
+}
+
+.legal-lead,
+.legal-text {
+  line-height: 1.85;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.legal-list {
+  margin: 0 0 0.5rem;
+  padding-inline-start: 1.25rem;
+}
+
+.legal-list li {
+  line-height: 1.85;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.legal-list li::marker {
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.legal-note {
+  display: flex;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  background: var(--light);
+  padding: 0.85rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.legal-note i {
+  color: var(--secondary);
+  margin-top: 0.2rem;
+}
+
+.legal-footnote {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.75;
+  color: var(--secondary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  padding: 1rem 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0;
+}
+
+.legal-footnote i {
+  color: var(--secondary);
+  margin-top: 0.25rem;
+}
+
+.legal-divider {
+  margin: 3.5rem 0;
+  opacity: 0.15;
+}
+
+.legal-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding: 1.75rem;
+  background: var(--light);
+  border-top: 3px solid var(--primary);
+}
+
+/* ── Privacy Placeholder ── */
+
+.legal-pending {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: var(--light);
+  border: 1px dashed var(--border-color);
+}
+
+.legal-pending-icon {
+  font-size: 2.5rem;
+  color: var(--primary);
+  opacity: 0.65;
+}
+
+.legal-pending p {
+  max-width: 34rem;
+  margin-inline: auto;
+  line-height: 1.8;
+}
+
+[dir="rtl"] .legal-intro,
+[dir="rtl"] .legal-list li,
+[dir="rtl"] .legal-lead,
+[dir="rtl"] .legal-text {
+  line-height: 2;
+}
+
+/* ── Dark Theme — Application ── */
+
+/* ── Text ── */
+
+body[data-theme="dark"] .text-muted {
+  color: var(--text-muted) !important;
+}
+
+body[data-theme="dark"] .text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+body[data-theme="dark"] .text-dark,
+body[data-theme="dark"] .text-black {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .text-body-secondary {
+  color: var(--text-secondary) !important;
+}
+
+body[data-theme="dark"] h5.sub-title,
+body[data-theme="dark"] .legal-toc-doc,
+body[data-theme="dark"] .legal-section-title,
+body[data-theme="dark"] .vm-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .btn-link {
+  color: var(--primary);
+}
+
+body[data-theme="dark"] .btn-link:hover {
+  color: var(--primary-hover);
+}
+
+body[data-theme="dark"] h5.sub-title::after {
+  background: var(--primary);
+}
+
+/* ── Surfaces & Cards ── */
+
+body[data-theme="dark"] .card {
+  background-color: var(--surface-1);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .card:hover {
+  box-shadow: var(--shadow-2);
+  border-color: var(--border-color);
+}
+
+body[data-theme="dark"] .card-header {
+  background-color: var(--surface-2);
+  border-bottom-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .card-body {
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .card-footer {
+  background-color: var(--surface-2);
+  border-top-color: var(--border-subtle);
+}
+
+body[data-theme="dark"] .container-fluid.bg-white {
+  background-color: var(--surface-base) !important;
+}
+
+body[data-theme="dark"] .bg-body,
+body[data-theme="dark"] .bg-body-tertiary {
+  background-color: var(--surface-1) !important;
+}
+
+body[data-theme="dark"] .payment-logo{
+  filter: invert(.5);
+}
+
+body[data-theme="dark"] .payment-logo:hover{
+    filter: brightness(0) invert(1);
+}
+
+/* ── Borders & Dividers ── */
+
+body[data-theme="dark"] .border,
+body[data-theme="dark"] .border-top,
+body[data-theme="dark"] .border-end,
+body[data-theme="dark"] .border-bottom,
+body[data-theme="dark"] .border-start {
+  border-color: var(--border-color) !important;
+}
+
+body[data-theme="dark"] hr,
+body[data-theme="dark"] .dropdown-divider {
+  border-color: var(--border-color);
+  opacity: 1;
+}
+
+/* ── Forms ── */
+
+body[data-theme="dark"] .form-control,
+body[data-theme="dark"] .form-select,
+body[data-theme="dark"] .input-group-text {
+  background-color: var(--surface-2);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .form-control::placeholder {
+  color: var(--text-disabled);
+}
+
+body[data-theme="dark"] .form-control:hover:not(:disabled),
+body[data-theme="dark"] .form-select:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+body[data-theme="dark"] .form-control:focus,
+body[data-theme="dark"] .form-select:focus,
+body[data-theme="dark"] #signupForm .form-control:focus {
+  background-color: var(--surface-2);
+  border-color: var(--primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 0.2rem var(--focus-ring);
+}
+
+body[data-theme="dark"] .form-control:disabled,
+body[data-theme="dark"] .form-control[readonly],
+body[data-theme="dark"] .form-select:disabled {
+  background-color: var(--surface-base);
+  border-color: var(--border-subtle);
+  color: var(--text-disabled);
+}
+
+body[data-theme="dark"] .form-label,
+body[data-theme="dark"] .form-check-label {
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .form-text {
+  color: var(--text-muted);
+}
+
+body[data-theme="dark"] .form-check-input {
+  background-color: var(--surface-2);
+  border-color: var(--border-strong);
+}
+
+body[data-theme="dark"] .form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+body[data-theme="dark"] .form-check-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem var(--focus-ring);
+}
+
+body[data-theme="dark"] .invalid-feedback {
+  color: var(--danger);
+}
+
+body[data-theme="dark"] .form-control.is-invalid,
+body[data-theme="dark"] .was-validated .form-control:invalid {
+  border-color: var(--danger);
+}
+
+/* ── Buttons & Interactive States ── */
+
+body[data-theme="dark"] .btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-accent);
+}
+
+body[data-theme="dark"] .btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  color: var(--on-accent);
+}
+
+body[data-theme="dark"] .btn-primary:active,
+body[data-theme="dark"] .btn-primary:focus-visible {
+  background-color: var(--primary-active);
+  border-color: var(--primary-active);
+  color: var(--on-accent);
+}
+
+body[data-theme="dark"] .btn-outline-secondary {
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .btn-outline-secondary:hover {
+  background-color: var(--surface-3);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .btn-outline-primary {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+body[data-theme="dark"] .btn-outline-primary:hover {
+  background-color: var(--primary);
+  color: var(--on-accent);
+}
+
+body[data-theme="dark"] .btn:disabled,
+body[data-theme="dark"] .btn.disabled {
+  background-color: var(--disabled);
+  border-color: var(--border-subtle);
+  color: var(--text-disabled);
+  opacity: 1;
+}
+
+body[data-theme="dark"] .btn:focus-visible,
+body[data-theme="dark"] a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+body[data-theme="dark"] .category-card:hover {
+  outline-color: var(--primary);
+}
+
+body[data-theme="dark"] .military-product-card:hover {
+  outline-color: var(--primary) !important;
+}
+
+body[data-theme="dark"] .filter-chip:hover,
+body[data-theme="dark"] .videos-view-btn:hover {
+  border-color: var(--border-strong);
+  background-color: var(--state-hover);
+}
+
+body[data-theme="dark"] .filter-chip.active,
+body[data-theme="dark"] .videos-view-btn.active,
+body[data-theme="dark"] .admin-section-tab.active,
+body[data-theme="dark"] .vm-tab-btn.active {
+  background: var(--surface-4);
+  color: var(--text-primary);
+}
+
+/* ── Dropdowns, Modals, Overlays ── */
+
+body[data-theme="dark"] .dropdown-menu {
+  background-color: var(--surface-3);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-2);
+}
+
+body[data-theme="dark"] .dropdown-item {
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .dropdown-item:hover,
+body[data-theme="dark"] .dropdown-item:focus {
+  background-color: var(--state-hover);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .dropdown-item.active,
+body[data-theme="dark"] .dropdown-item:active {
+  background-color: var(--state-selected);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .modal-content {
+  background-color: var(--surface-1);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-2);
+}
+
+body[data-theme="dark"] .modal-header {
+  background-color: var(--surface-3);
+  border-bottom-color: var(--border-color);
+}
+
+body[data-theme="dark"] .modal-title {
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .modal-body {
+  background: var(--surface-1);
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .modal-footer {
+  background: var(--surface-1);
+  border-top-color: var(--border-color);
+}
+
+body[data-theme="dark"] .modal-backdrop.show {
+  background-color: var(--scrim);
+  opacity: 1;
+}
+
+body[data-theme="dark"] .popover,
+body[data-theme="dark"] .popover-body,
+body[data-theme="dark"] .tooltip-inner {
+  background-color: var(--surface-3);
+  color: var(--text-primary);
+}
+
+/* ── Tables & Lists ── */
+
+body[data-theme="dark"] .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-secondary);
+  --bs-table-border-color: var(--border-subtle);
+  --bs-table-striped-bg: var(--surface-2);
+  --bs-table-striped-color: var(--text-secondary);
+  --bs-table-hover-bg: var(--state-hover);
+  --bs-table-hover-color: var(--text-primary);
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .table > thead {
+  color: var(--text-primary);
+  border-bottom-color: var(--border-color);
+}
+
+body[data-theme="dark"] .list-group-item {
+  background-color: var(--surface-1);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .list-group-item-action:hover {
+  background-color: var(--state-hover);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .list-group-item.active {
+  background-color: var(--state-selected);
+  border-color: var(--primary-border);
+  color: var(--text-primary);
+}
+
+/* ── Semantic ── */
+
+body[data-theme="dark"] .text-success {
+  color: var(--success) !important;
+}
+body[data-theme="dark"] .text-warning {
+  color: var(--warning) !important;
+}
+body[data-theme="dark"] .text-danger {
+  color: var(--danger) !important;
+}
+body[data-theme="dark"] .text-info {
+  color: var(--info) !important;
+}
+
+body[data-theme="dark"] .alert-success {
+  background-color: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success);
+}
+
+body[data-theme="dark"] .alert-warning {
+  background-color: var(--warning-bg);
+  border-color: var(--warning-border);
+  color: var(--warning);
+}
+
+body[data-theme="dark"] .alert-danger {
+  background-color: var(--danger-bg);
+  border-color: var(--danger-border);
+  color: var(--danger);
+}
+
+body[data-theme="dark"] .alert-info,
+body[data-theme="dark"] .alert-primary {
+  background-color: var(--info-bg);
+  border-color: var(--info-border);
+  color: var(--info);
+}
+
+body[data-theme="dark"] .alert-light,
+body[data-theme="dark"] .alert-secondary {
+  background-color: var(--surface-2);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .alert strong,
+body[data-theme="dark"] .alert .fw-semibold {
+  color: inherit;
+}
+
+body[data-theme="dark"] .badge.bg-success {
+  background-color: var(--success) !important;
+  color: var(--on-accent);
+}
+body[data-theme="dark"] .badge.bg-warning {
+  background-color: var(--warning) !important;
+  color: var(--on-accent);
+}
+body[data-theme="dark"] .badge.bg-danger {
+  background-color: var(--danger) !important;
+  color: var(--on-accent);
+}
+body[data-theme="dark"] .badge.bg-info {
+  background-color: var(--info) !important;
+  color: var(--on-accent);
+}
+body[data-theme="dark"] .badge.bg-primary {
+  background-color: var(--primary) !important;
+  color: var(--on-accent);
+}
+body[data-theme="dark"] .badge.bg-light {
+  background-color: var(--surface-4) !important;
+  color: var(--text-primary);
+}
+
+/* ── Footer ── */
+
+body[data-theme="dark"] .footer-item h4 {
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .footer-accordion-item {
+  border-bottom-color: var(--border-color);
+}
+
+body[data-theme="dark"] .copy-rights {
+  border-top-color: var(--border-color);
+}
+
+/* ── Legal Pages ── */
+
+body[data-theme="dark"] .legal-intro,
+body[data-theme="dark"] .legal-note,
+body[data-theme="dark"] .legal-contact,
+body[data-theme="dark"] .legal-pending {
+  background: var(--surface-2);
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .legal-pending {
+  border-color: var(--border-color);
+}
+
+body[data-theme="dark"] .legal-intro {
+  border-inline-start-color: var(--primary);
+}
+
+body[data-theme="dark"] .legal-contact {
+  border-top-color: var(--primary);
+}
+
+body[data-theme="dark"] .legal-footnote {
+  background: var(--primary-soft);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] .legal-lead,
+body[data-theme="dark"] .legal-text,
+body[data-theme="dark"] .legal-list li {
+  color: var(--text-secondary);
+}
+
+body[data-theme="dark"] .legal-toc {
+  border-inline-start-color: var(--border-color);
+}
+
+body[data-theme="dark"] .legal-toc-title,
+body[data-theme="dark"] .legal-toc-list a,
+body[data-theme="dark"] .legal-updated {
+  color: var(--text-muted);
+}
+
+body[data-theme="dark"] .legal-toc-list a:hover,
+body[data-theme="dark"] .legal-toc-doc:hover {
+  color: var(--primary);
+}
+
+body[data-theme="dark"] .legal-divider {
+  border-color: var(--border-color);
+  opacity: 1;
+}
+
+/* ── Misc ── */
+
+body[data-theme="dark"] .app-loader {
+  background-color: var(--surface-base);
+}
+
+body[data-theme="dark"] .scroll-top-btn {
+  background-color: var(--primary);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-1);
+}
+
+body[data-theme="dark"] .scroll-top-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+body[data-theme="dark"] .breadcrumb-item a {
+  color: var(--text-muted);
+}
+
+body[data-theme="dark"] .breadcrumb-item a:hover {
+  color: var(--primary);
+}
+
+body[data-theme="dark"] ::selection {
+  background: var(--primary-soft);
+  color: var(--text-primary);
+}
+
+body[data-theme="dark"] {
+  scrollbar-color: var(--border-strong) var(--surface-base);
+}
+
+body[data-theme="dark"] .text-white {
+  color: var(--text-primary) !important;
+}
+
+body[data-theme="dark"] .text-white-50,
+body[data-theme="dark"] .text-black-50 {
+  color: var(--text-muted) !important;
+}
+
+body[data-theme="dark"] .text-white-75 {
+  color: var(--text-secondary) !important;
+}
+
+body[data-theme="dark"] footer a {
+  color: var(--text-secondary);
+  opacity: 0.85;
+}
+
+body[data-theme="dark"] footer a:hover {
+  color: var(--primary);
+  opacity: 1;
+}
+
+body[data-theme="dark"] .filter-chip:hover{
+  color: var(--text-primary);
+} 
+
+body[data-theme="dark"] .vm-tab-btn.active{
+  background: var(--surface-4) !important;
+}
+
+body[data-theme="dark"] .vm-tab-btn:hover{
+  background: var(--state-hover);
+}
+
+body[data-theme="dark"] .btn-primary,
+body[data-theme="dark"] .badge.bg-primary,
+body[data-theme="dark"] .badge.bg-success,
+body[data-theme="dark"] .badge.bg-warning,
+body[data-theme="dark"] .badge.bg-danger,
+body[data-theme="dark"] .badge.bg-info,
+body[data-theme="dark"] .discount-badge,
+body[data-theme="dark"] .scroll-top-btn {
+  color: var(--on-accent) !important;
+}
+
+body[data-theme="dark"] .copy-rights .text-primary {
+  opacity: 1 !important;
+}
+
+body[data-theme="dark"] .breadcrumb > span.px-2 {
+  opacity: 0.75 !important;
+}
+
+/* ── Responsive ── */
+
+/* ── (min-width: 768px) ── */
+
+@media (min-width: 768px) {
+  .galleryOverlaySwiper .swiper-pagination {
+    display: none;
+  }
+}
+
+/* ── (min-width: 992px) ── */
+
+@media (min-width: 992px) {
+  .trust-header-block {
+    width: auto;
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.25);
+    padding-inline-end: 1.5rem;
+  }
+
+  .trust-logos-block {
+    width: 50%;
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.25);
+    padding-inline-end: 1.5rem;
+  }
+
+  .trust-stats-block {
+    width: 75%;
+  }
+}
+
+@media (min-width: 992px) {
+  .footer-accordion-item {
+    border-bottom: none;
+  }
+  .footer-collapse {
+    display: block !important;
+    height: auto !important;
+  }
+}
 
 @media (min-width: 992px) {
   .dropdown:hover > .dropdown-menu {
@@ -3159,14 +4163,48 @@ footer a:hover {
     transition: 0.25s ease;
   }
 
-  /* Forces the mega menu shut right after a click, overriding the
-     :hover rule above until the mouse actually leaves the nav item */
   .dropdown.mega-closed > .dropdown-menu {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
   }
 }
+
+@media (min-width: 992px) {
+  #mobileTopBar,
+  #mobileMenu,
+  #megaMenuOverlay {
+    display: none;
+  }
+}
+
+/* ── (max-width: 991.98px) ── */
+
+@media (max-width: 991.98px) {
+  .checkout-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 991.98px) {
+  #desktopNav {
+    display: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .legal-intro {
+    font-size: 1rem;
+    padding: 1rem 1.15rem;
+  }
+
+  .legal-contact {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* ── (max-width: 768px) ── */
 
 @media (max-width: 768px) {
   .display-1 {
@@ -3226,12 +4264,10 @@ footer a:hover {
 
   #activeProjectTitle {
     min-height: fit-content;
-    /* reserve space for up to ~1 line at display-5 size, adjust to your font */
   }
 
   #activeProjectDesc {
     min-height: fit-content;
-    /* reserve space for ~2 lines of body text */
   }
 
   .image-thumbnails {
@@ -3246,6 +4282,110 @@ footer a:hover {
     font-size: 1.75rem;
   }
 }
+
+/* ── (max-width: 767.98px) ── */
+
+@media (max-width: 767.98px) {
+  .news-detail-slide-img-wrap {
+    height: 220px;
+  }
+
+  .news-detail-caption {
+    padding: 1.75rem 1rem 0.85rem;
+  }
+
+  .news-detail-caption-title {
+    font-size: 1rem;
+  }
+
+  .news-detail-caption-date {
+    font-size: 0.72rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .news-detail-body-wrap {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .machine-detail-img-wrap {
+    height: 220px;
+  }
+
+  .machine-detail-specs-wrap {
+    max-height: none;
+  }
+
+  .machine-detail-wrap {
+    padding: 0.1rem 0.1rem 0.5rem;
+  }
+
+  .machine-detail-pagination-top {
+    gap: 0.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .machine-detail-nav-bottom {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .military-card-col {
+    border-inline-start: none;
+    border-top: 1px solid var(--border-color);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .scroll-top-btn {
+    inset-block-end: 1rem;
+    inset-inline-end: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .video-poster-caption {
+    padding: 2rem 0.75rem 0.7rem;
+  }
+
+  .video-poster-title {
+    font-size: 0.82rem;
+  }
+
+  .video-poster-play {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .videos-featured .swiper .swiper-slide {
+    aspect-ratio: auto;
+  }
+
+  .videos-featured .swiper .swiper-slide .video-poster-card {
+    height: auto;
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+  }
+}
+
+/* ── (max-width: 767px) ── */
+
+@media (max-width: 767px) {
+  .galleryOverlayThumbs {
+    display: none !important;
+  }
+}
+
+/* ── (max-width: 576px) ── */
 
 @media (max-width: 576px) {
   .navbar-brand img {
@@ -3291,9 +4431,16 @@ footer a:hover {
   }
 }
 
-/* ============================================================
-   PRINT STYLES
-   ============================================================ */
+/* ── (prefers-reduced-motion: reduce) ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* ── print ── */
+
 @media print {
   nav,
   footer,
@@ -3308,886 +4455,6 @@ footer a:hover {
   }
 }
 
-/* ======================================================================
-   MOBILE TOP BAR
-   ====================================================================== */
-.mobile-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  background: #003049;
-}
-
-.mobile-topbar .brand {
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.hamburger-btn {
-  border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 1.4rem;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ======================================================================
-   OVERLAY SHELL — shared by #mobileMenu and #megaMenuOverlay
-   ====================================================================== */
-.nav-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--white);
-  color: #f4f4f4;
-  transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.nav-overlay.is-open {
-  transform: translateX(0);
-}
-
-/* #mobileMenu panel sits below #megaMenuOverlay so the mega menu
-   always slides in on top of the main menu */
-#mobileMenu .nav-overlay {
-  z-index: 1050;
-}
-
-#megaMenuOverlay .nav-overlay {
-  z-index: 1060;
-}
-
-[dir="rtl"] .nav-overlay {
-  transform: translateX(-100%);
-}
-
-[dir="rtl"] .nav-overlay.is-open {
-  transform: translateX(0);
-}
-
-/* ======================================================================
-   OVERLAY HEADER
-   ====================================================================== */
-.overlay-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  flex: 0 0 auto;
-  background-color: #003049;
-}
-
-.overlay-title {
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.overlay-icon-btn {
-  border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 1.25rem;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-}
-
-.overlay-icon-btn:active {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* ======================================================================
-   MAIN MENU LINKS
-   ====================================================================== */
-.overlay-body {
-  padding: 0.5rem 0;
-  flex: 1 1 auto;
-}
-
-.overlay-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.1rem 1.25rem;
-  color: var(--text-primary);
-  text-decoration: none;
-  font-size: 1.15rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.overlay-link:active {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.overlay-link .chevron {
-  color: #9aa0a6;
-  font-size: 0.95rem;
-}
-
-[dir="rtl"] .overlay-link .chevron {
-  transform: scaleX(-1);
-}
-
-/* ======================================================================
-   MEGA MENU CONTENT
-   ====================================================================== */
-.mega-section {
-  padding: 1.25rem;
-}
-
-.mega-section + .mega-section {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.mega-section h6 {
-  color: var(--primary);
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
-}
-
-.mega-section a {
-  display: block;
-  padding: 0.6rem 0;
-  color: var(--text-primary);
-  text-decoration: none;
-  font-size: 1.05rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.mega-section a:last-child {
-  border-bottom: none;
-}
-
-/* ======================================================================
-   RESPONSIVE SWITCH — desktop nav vs mobile top bar
-   ====================================================================== */
-@media (max-width: 991.98px) {
-  #desktopNav {
-    display: none;
-  }
-}
-
-@media (min-width: 992px) {
-  #mobileTopBar,
-  #mobileMenu,
-  #megaMenuOverlay {
-    display: none;
-  }
-}
-
-/* ============================================================
-   STICKY POSITIONING FIX
-   ============================================================ */
-html,
-body,
-main,
-.container,
-.container-fluid,
-.row,
-[class*="col-"] {
-  overflow: visible !important;
-}
-
-/* The blanket "visible" above beats Bootstrap's own .modal-open rule
-   (theirs isn't !important), which is why the page kept scrolling behind
-   an open modal/overlay — body.modal-open has to win that fight back. */
-body.modal-open {
-  overflow: hidden !important;
-}
-
-/* ---------- Featured videos carousel (Videos page) ----------
-   Poster-only cards, no title: the whole card IS the video still. The LEADING
-   card is the enlarged one — with centeredSlides off, Swiper marks the first
-   visible slide .swiper-slide-active, and everything after it is scaled down
-   rather than the active one being scaled up, so the row never outgrows its
-   track.
-
-   Every width below is a percentage of a SLIDE, and the slide width is set by
-   TRACK_LANES + SPACE_BETWEEN in script.js. Changing one without the other is
-   what pulls the cards apart, so the two files cross-reference deliberately. */
-.videos-featured .swiper {
-  overflow: hidden;
-  padding-block: 1rem;
-}
-
-/* Belt and braces on vertical alignment. The slide aspect-ratio below already
-   gives every slide the same height, so there is nothing left to misalign —
-   but Swiper's flex wrapper defaults to align-items:stretch, which top-aligns
-   an auto-height child, and that is what used to leave the hero riding ~27px
-   above its neighbours back when the two had different heights. */
-.videos-featured .swiper .swiper-wrapper {
-  align-items: center;
-}
-
-/* The SLIDE fixes the row's height and every card then fills it. That is what
-   lets the active card change shape without changing height: at 101/36 of the
-   slide's own width the height comes out at 4/3 of a portrait card's width, so
-   a portrait filling it is 3:4 and the hero filling it is 16:9 — both fall out
-   of width alone, with no per-card aspect-ratio to flip.
-
-   This replaced a scale(0.84) that used to shrink the non-active slides. The
-   size difference lives entirely in the card widths now, which is what makes
-   the transition animatable: scale, aspect-ratio and margin:auto were all
-   things the old version had to change instantaneously. */
-.videos-featured .swiper .swiper-slide {
-  aspect-ratio: 101 / 36;
-}
-
-.video-poster-card {
-  position: relative;
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: none;
-  border-radius: 0.1rem;
-  overflow: hidden;
-  background: #000;
-  /* aspect-ratio rather than the grid card's padding-bottom trick: these sit
-     in a flex track, where percentage padding resolves against the wrong box. */
-  aspect-ratio: 16 / 9;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-}
-
-/* The 80% width leaves a fifth of the card free for the caption. Pushing the
-   media to the inline END with an auto start-margin puts it on the right in
-   English and the left in Arabic automatically. */
-.video-poster-img,
-.video-poster-card iframe {
-  width: 80%;
-  height: 100%;
-  border: 0;
-  display: block;
-  margin-inline-start: auto;
-}
-
-/* cover crops hqdefault's 4:3 letterbox bars back to a clean 16:9. */
-.video-poster-img {
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.video-poster-card:hover .video-poster-img {
-  transform: scale(1.05);
-}
-
-@media (max-width: 767.98px) {
-}
-
-/* Nav buttons sit on the carousel's own edges rather than up in the heading,
-   so they read as controls for the track they overlay.
-
-   Centred with top: calc(50% - half height), NOT translateY(-50%): the global
-   `html[dir="rtl"] .nav-btn-custom { transform: scaleX(-1) }` mirrors the
-   arrow glyphs and would win the cascade over a transform declared here,
-   silently dropping the centring in Arabic. Keeping transform untouched lets
-   both behaviours coexist. */
-
-/* Caption bar across the bottom of the poster: title on the leading side,
-   play icon on the trailing one. The gradient and the positioning live here
-   now rather than on the title, so the icon rides the same bar.
-   pointer-events: none keeps the whole card a single click target. */
-/* Caption moved from a bottom bar to a column on the leading edge, so the
-   title sits in the space the 80% media leaves and the gradient fades
-   sideways across the image rather than up from the base.
-
-   It spans wider than that free fifth on purpose: text needs to start clear
-   of the image edge, so the panel overlaps the media and the gradient carries
-   it — fully opaque where the text is, transparent by the time it reaches the
-   picture. Gradients have no logical direction, hence the RTL override below;
-   everything else here is direction-agnostic. */
-.video-poster-caption {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  inset-inline-end: auto;
-  width: 55%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: 0.6rem;
-  padding: 1rem;
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 1) 30%,
-    rgba(0, 0, 0, 0.75) 75%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-/* to right / to left is the one thing that cannot be expressed logically. */
-[dir="rtl"] .video-poster-caption {
-  background: linear-gradient(
-    to left,
-    rgba(0, 0, 0, 1) 30%,
-    rgba(0, 0, 0, 0.75) 75%,
-    transparent 100%
-  );
-}
-
-/* text-align: start puts it bottom-left in English, bottom-right in Arabic —
-   and flex order flips the icon to the opposite end for free. */
-.video-poster-title {
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.35;
-  text-align: start;
-  /* Two lines max — these titles run long and would otherwise creep up over
-     the whole still. */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.video-poster-play {
-  flex: none;
-  font-size: 1.6rem;
-  line-height: 1;
-  color: #fff;
-  transition: var(--transition);
-}
-
-.video-poster-card:hover .video-poster-play {
-  color: var(--primary);
-  transform: scale(1.12);
-}
-
-@media (max-width: 767.98px) {
-  .video-poster-caption {
-    padding: 2rem 0.75rem 0.7rem;
-  }
-
-  .video-poster-title {
-    font-size: 0.82rem;
-  }
-
-  .video-poster-play {
-    font-size: 1.25rem;
-  }
-}
-
-/* Badge pinned over the poster now that the card has no body to sit in. It
-   keeps the solid fill from the shared .breaking-badge rule rather than the
-   transparent treatment it had against a white card — it sits on photography
-   now and has to hold its own against any frame. */
-
-/* Featured cards are portrait; the library grid stays landscape. Scoped to
-   .videos-featured so the shared .video-poster-card keeps its 16:9 everywhere
-   else.
-
-   Note the source material: YouTube only ever serves 16:9 (maxresdefault) or
-   4:3 (hqdefault) stills — there is no portrait thumbnail to fetch. So a 3:4
-   frame keeps roughly 42% of a 16:9 still's width and object-fit:cover crops
-   the rest away evenly from both sides. object-position is centred because
-   these are wide event shots where the subject is generally mid-frame; set it
-   per-card if a particular still needs biasing. */
-.videos-featured .video-poster-card {
-  aspect-ratio: 3 / 4;
-  /* Fallback only, for a .video-poster-card that lands inside .videos-featured
-     outside a slide — in the carousel the rule below overrides all three. */
-  max-width: 15rem;
-  margin-inline: auto;
-}
-
-/* Height from the slide, shape from the width. Only two properties differ
-   between the hero and a portrait, and both interpolate, so the change of
-   shape is a real animation rather than the three simultaneous jumps it used
-   to be (scale, aspect-ratio, and margin-inline:auto — auto cannot interpolate
-   at all, so the card teleported from flush-left to centred).
-
-   Keep this duration in step with `speed` in script.js: Swiper drives the
-   horizontal translate and CSS drives the reshape, and if the two disagree the
-   row settles before the cards have finished changing size. */
-.videos-featured .swiper .swiper-slide .video-poster-card {
-  height: 100%;
-  aspect-ratio: auto;
-  max-width: none;
-  transition:
-    width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    margin-inline-start 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s ease;
-}
-
-/* The slide before the hero is parked underneath it — see SPACE_BETWEEN in
-   script.js for why that is unavoidable once the hero sits on the leading edge
-   and three cards fill the track. It is invisible either way at rest; this is
-   about the 0.4s in between, where it would otherwise be seen sliding under
-   the incoming hero. Fading it out turns that into a dissolve. */
-.videos-featured .swiper-slide-prev .video-poster-card {
-  opacity: 0;
-}
-
-/* The caption's fixed top padding was tuned for a 200px-tall landscape card
-   and leaves a needlessly deep gradient on a much taller portrait one. */
-.videos-featured .video-poster-caption {
-  padding-top: 3rem;
-}
-
-/* Carousel nav, in the section heading beside the title rather than pinned to
-   the track edges. Static flow, so none of the absolute positioning or
-   vertical centring the old track-edge rules carried is needed — only the
-   look is kept. */
-.videos-featured-head .videos-featured-prev,
-.videos-featured-head .videos-featured-next {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--primary) !important;
-  border: 1px solid var(--primary);
-  transition: ease all 0.25s;
-  backdrop-filter: blur(1px);
-}
-
-.videos-featured-head .videos-featured-prev:hover,
-.videos-featured-head .videos-featured-next:hover {
-  background: var(--primary);
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
-  color: var(--white) !important;
-}
-/* Active card goes landscape; its neighbours stay portrait.
-
-   Safe to key off .swiper-slide-active here in a way it was not under
-   slidesPerView:"auto": slidesPerView is a number, so the SLIDE width is a
-   fixed fraction of the track and never changes — only the card's shape inside
-   it does. Swiper's measurements are untouched, so there is no width/active
-   feedback loop. The negative spaceBetween shifts what that fraction WORKS OUT
-   to, but it is still a constant, so the guarantee holds.
-
-   The hero cannot also be TALLER than its neighbours — matching their height
-   and 64/27 of their width is the most it can be, because both cards are laid
-   out inside slides of identical width. */
-.videos-featured .swiper .swiper-slide {
-  display: flex;
-  align-items: center;
-}
-
-.videos-featured .swiper-slide-active {
-  /* Lifts the overflowing card above its neighbours instead of under them. */
-  z-index: 2;
-}
-
-/* Hero: landscape, same height as the portraits, sitting on its slide's
-   leading edge.
-
-   Both widths below are percentages of a SLIDE, which the negative
-   spaceBetween makes 101/27 of a portrait's width — see SPACE_BETWEEN in
-   script.js for where that comes from. In units of a portrait's width c:
-
-     portrait  c    / slide (101/27 c) = 27/101 = 26.73%
-     hero      64/27 c / slide         = 64/101 = 63.37%
-
-   The portrait is written as 31.82% rather than 26.73% because non-active
-   slides carry scale(.84) and 26.73 / .84 = 31.82 — the extra is what the
-   scale takes back off. The hero is at scale 1 and needs no such correction.
-
-   No negative margins any more. The hero used to overflow its lane and get
-   pulled back into place; it now fits inside its slide with room to spare, so
-   flex-start alone puts it on the leading edge and RTL flips it for free.
-
-   max-width does still have to be cleared by hand — the shared 15rem cap is
-   narrower than either card here and would silently flatten both. */
-.videos-featured .swiper-slide-active .video-poster-card {
-  flex: none;
-  width: 63.3663%;
-  margin-inline: 0;
-}
-
-/* 36.6337% is (slide - card) / 2 written out rather than left to margin:auto.
-   Same resting position, but a length instead of a keyword — which is the
-   whole point, because it is what the hero's margin animates against. */
-.videos-featured .swiper-slide:not(.swiper-slide-active) .video-poster-card {
-  width: 26.7327%;
-  margin-inline: 36.6337% 0;
-}
-
-/* Its caption was tuned for a tall card; on a short one the gradient would
-   swallow most of the frame. */
-.videos-featured .swiper-slide-active .video-poster-caption {
-  padding-top: 1.75rem;
-}
-
-/* Below 768px the carousel drops to ~1.15 slides per view, so a lane is nearly
-   the whole track and 199% of it overflows the viewport — measured 475px of
-   card inside a 375px track, clipped on both sides. With only one card visible
-   there is nothing to contrast against anyway, so the active card just stays
-   portrait like the rest. */
-@media (max-width: 767.98px) {
-  /* Phones drop back to non-overlapping lanes (spaceBetween 0 in the
-     breakpoint), so a slide is one card slot wide instead of 101/27 of one.
-     Every number tuned for the overlap has to be handed back: the slide stops
-     dictating the height, and the cards go back to sizing themselves. */
-  .videos-featured .swiper .swiper-slide {
-    aspect-ratio: auto;
-  }
-
-  /* Hero and portrait collapse to the same card here, so one rule covers both
-     states — and it has to be THIS selector to do it. Matching on
-     .swiper-slide-active instead would score a class lower than the desktop
-     rule above that sets max-width:none, and lose to it: the cap would go on
-     silently for the active card only, which is how the hero once ended up
-     wider and taller than the card beside it.
-
-     No max-width. One slide per view means the lane already IS the track, so
-     the card fills the width the section gives it. The 15rem cap this used to
-     carry was sized for the days when a sliver of the next card showed
-     alongside; with nothing to share the row with it just left the hero
-     floating in the middle of the screen. Note the section's own gutter is
-     still there either way — this fills the container, not the viewport. */
-  .videos-featured .swiper .swiper-slide .video-poster-card {
-    height: auto;
-    aspect-ratio: 3 / 4;
-    width: 100%;
-    max-width: none;
-    margin-inline: auto;
-  }
-}
-
-/* Swapping the poster for the player must not resize the card. The replacement
-   is a plain <div>, so it inherits whatever .video-poster-card resolves to in
-   its context — and any context that made the card something other than a
-   16:9 block used to collapse it: an auto-height flex container gives a lone
-   iframe at height:100% nothing to resolve against, so it fell to zero and the
-   row appeared to shrink. Pinning the shape here makes the swap dimensionally
-   identical wherever it happens. */
-/* Swapping the poster for the player must not move anything. The replacement
-   is a plain <div> carrying .video-poster-card, so it picks up whatever that
-   resolves to in its context and keeps the exact box the poster occupied —
-   16:9 in the grid and list, whatever the carousel rules say in Highlights.
-
-   Deliberately NOT forcing an aspect-ratio here. Pinning 16:9 would reflow any
-   card that is not already 16:9 (the carousel cards are portrait), so the video
-   letterboxes inside the card instead of the card resizing around the video.
-
-   What DID need fixing is the collapse: list view used to make the card an
-   auto-height flex row, which left a lone iframe at height:100% with nothing to
-   resolve against, so it fell to zero. display:block restores a box with a
-   height for the iframe to fill. */
-
-/* List view is the same card as the grid, just one per row: the video fills
-   the full width with its title overlaid. Only the column class differs
-   (col-12 vs col-lg-4), so no card overrides are needed here at all — the
-   previous thumbnail-left/text-right treatment is what made the two views
-   behave differently under playback. */
-.videos-list-view .video-poster-card {
-  max-width: none;
-  height: 18rem;
-}
-
-/* Playing state. Deliberately LAST in the file: .videos-list-view sets a fixed
-   card height at the same (0,2,0) specificity, so order is what lets the
-   player override it.
-
-   The poster runs at 80% width with the caption beside it; a video should not.
-   Going full width and letting 16:9 drive the height grows the card to the
-   shape YouTube actually delivers, instead of squeezing the player into the
-   poster's box. height:auto is what releases the list view's 18rem. */
-.video-poster-card.is-playing {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  padding: 0;
-  border: none;
-  background: #000;
-  cursor: default;
-}
-
-/* Full-bleed: undo the 80% + end-alignment the poster image uses. */
-.video-poster-card.is-playing iframe {
-  width: 100%;
-  height: 100%;
-  margin-inline-start: 0;
-}
-/* The slides in this carousel are far wider than the cards they carry (817px
-   slides around ~218px cards) and overlap each other heavily. A slide box
-   therefore paints over its neighbours' cards — invisibly, since the slide has
-   no background of its own, but it still swallows the click. That is why some
-   cards were selectable and others did nothing: it depended purely on whether a
-   later sibling slide happened to cover them.
-
-   Slides are pure positioning boxes here, so they take themselves out of
-   hit-testing and the cards opt back in. Dragging still works: Swiper listens on
-   the container, not on individual slides. */
-.videos-featured .swiper .swiper-slide {
-  pointer-events: none;
-}
-
-.videos-featured .swiper .swiper-slide .video-poster-card {
-  pointer-events: auto;
-}
-
-/* ============================================================
-   LEGAL PAGES (terms of service / privacy policy)
-   ============================================================ */
-
-/* Privacy policies carry a revision date; terms here do not, so it is optional. */
-.legal-updated {
-  font-size: 0.8rem;
-  color: #6c757d;
-  margin-top: 0.5rem;
-  letter-spacing: 0.02em;
-}
-
-.legal-header h1 {
-  letter-spacing: -0.02em;
-}
-
-/* Sidebar index. Sticks below the navbar, which is roughly 6rem tall once
-   the second nav row is counted. */
-.legal-toc {
-  position: sticky;
-  top: 6rem;
-  max-height: calc(100vh - 8rem);
-  overflow-y: auto;
-  padding-inline-start: 1rem;
-  border-inline-start: 2px solid rgba(0, 48, 73, 0.12);
-}
-
-.legal-toc-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #6c757d;
-  margin-bottom: 0.75rem;
-}
-
-.legal-toc-doc {
-  display: block;
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #003049;
-  text-decoration: none;
-  margin-top: 1rem;
-}
-
-.legal-toc-doc:hover {
-  color: var(--primary);
-}
-
-.legal-toc-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 0;
-  counter-reset: legal-toc;
-}
-
-.legal-toc-list li {
-  counter-increment: legal-toc;
-  margin-bottom: 0.35rem;
-}
-
-.legal-toc-list a {
-  display: block;
-  font-size: 0.82rem;
-  line-height: 1.45;
-  color: #6c757d;
-  text-decoration: none;
-  padding: 0.15rem 0;
-}
-
-.legal-toc-list a:hover {
-  color: var(--bs-primary);
-}
-
-/* --- document body --- */
-
-.legal-doc {
-  scroll-margin-top: 7rem;
-}
-
-.legal-doc-head {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.legal-doc-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 3.25rem;
-  height: 3.25rem;
-  border-radius: 50%;
-  background: rgba(var(--bs-primary-rgb), 0.12);
-  color: var(--secondary);
-  font-size: 1.25rem;
-}
-
-.legal-doc-sub {
-  letter-spacing: 0.08em;
-}
-
-.legal-intro {
-  font-size: 1.05rem;
-  line-height: 1.85;
-  color: #495057;
-  padding: 1.25rem 1.5rem;
-  background: #f8f9fa;
-  border-inline-start: 3px solid var(--secondary);
-  margin-bottom: 2.5rem;
-}
-
-.legal-section {
-  scroll-margin-top: 7rem;
-  margin-bottom: 2.25rem;
-}
-
-.legal-section-title {
-  margin-bottom: 0.9rem;
-  color: #003049;
-}
-
-/* The headings already read "First:", "Second:" — a number here would
-   repeat that, so this is a plain accent instead. */
-.legal-section-mark {
-  flex-shrink: 0;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--secondary);
-  transform: translateY(-0.15rem);
-}
-
-.legal-lead,
-.legal-text {
-  line-height: 1.85;
-  color: #495057;
-  margin-bottom: 0.75rem;
-}
-
-.legal-list {
-  margin: 0 0 0.5rem;
-  padding-inline-start: 1.25rem;
-}
-
-.legal-list li {
-  line-height: 1.85;
-  color: #495057;
-  margin-bottom: 0.5rem;
-}
-
-.legal-list li::marker {
-  color: var(--secondary);
-  font-weight: 700;
-}
-
-.legal-note {
-  display: flex;
-  align-items: flex-start;
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: #495057;
-  background: #f8f9fa;
-  padding: 0.85rem 1rem;
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-
-.legal-note i {
-  color: var(--secondary);
-  margin-top: 0.2rem;
-}
-
-.legal-footnote {
-  display: flex;
-  align-items: flex-start;
-  line-height: 1.75;
-  color: #003049;
-  background: rgba(var(--bs-primary-rgb), 0.08);
-  padding: 1rem 1.25rem;
-  margin-top: 2rem;
-  margin-bottom: 0;
-}
-
-.legal-footnote i {
-  color: var(--secondary);
-  margin-top: 0.25rem;
-}
-
-.legal-divider {
-  margin: 3.5rem 0;
-  opacity: 0.15;
-}
-
-.legal-contact {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 3rem;
-  padding: 1.75rem;
-  background: #f8f9fa;
-  border-top: 3px solid var(--primary);
-}
-
-/* --- privacy placeholder --- */
-
-.legal-pending {
-  text-align: center;
-  padding: 3.5rem 1.5rem;
-  background: #f8f9fa;
-  border: 1px dashed rgba(0, 48, 73, 0.25);
-}
-
-.legal-pending-icon {
-  font-size: 2.5rem;
-  color: var(--bs-primary);
-  opacity: 0.65;
-}
-
-.legal-pending p {
-  max-width: 34rem;
-  margin-inline: auto;
-  line-height: 1.8;
-}
-
-/* Arabic runs longer per line; a touch more leading keeps it readable. */
-[dir="rtl"] .legal-intro,
-[dir="rtl"] .legal-list li,
-[dir="rtl"] .legal-lead,
-[dir="rtl"] .legal-text {
-  line-height: 2;
-}
-
-@media (max-width: 991.98px) {
-  .legal-intro {
-    font-size: 1rem;
-    padding: 1rem 1.15rem;
-  }
-
-  .legal-contact {
-    justify-content: center;
-    text-align: center;
-  }
-}
-
-/* Legal text is the kind of thing people print. */
 @media print {
   .legal-toc,
   .legal-contact,

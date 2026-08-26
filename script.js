@@ -1,6 +1,31 @@
-/* ============================================================
-   GLOBAL STATE & CONFIGURATION
-   ============================================================ */
+// ── Contents ────────────────────────────────────────────
+//  1. Global State & Configuration
+//  2. Main App Data
+//       Contact Placeholders · Navigation Links · Clients Data
+//       About Us Data · Social Links · Share Links
+//       Policy Tabs Data · Legal Documents · Product & Category Data
+//  3. Utility Functions
+//  4. Auth System · Google Sign-In · Password Reset
+//  5. Military Access Gate (OTP)
+//  6. Cart System
+//  7. Mega Menu Column Definitions · Main Nav
+//       Mobile Top Bar · Mobile Menu Overlay
+//  8. Slider & Footer
+//  9. Router
+// 10. Pages
+//       About · Products · Machinery · Military Products
+//       News · Videos · Contact · Legal
+//       Register & Login · Military Access · Single Product
+//       Cart · Profile
+// 11. CMS: Content Management · Admin Dashboard
+// 12. Checkout Page
+//       Order & Content Storage · Helpers · Events
+//       Proof Upload · Validation · Order Submission
+// 13. Home Page Sections
+// 14. App Initialization
+// ────────────────────────────────────────────────────────
+
+// ── Global State & Configuration ──
 const appState = {
   currentPage: "home",
   direction: localStorage.getItem("direction") || "ltr",
@@ -10,59 +35,16 @@ const appState = {
   selectedCategory: "",
   selectedSubcategory: "",
   currentProductId: "",
-  user: null, // set by initializeAuth() from localStorage — see AUTH SYSTEM
+  user: null,
 };
 
-/* ============================================================================
-   TABLE OF CONTENTS
-   ============================================================================
-   1.  MAIN APP DATA            — nav/slider/machinery/clients/news/video data,
-                                   about-us/social/share/policy content,
-                                   products.json & categories.json loaders
-   2.  UTILITY FUNCTIONS         — getLabel, getDirectionClass, theme, language
-   3.  AUTH SYSTEM               — demo login/logout, roles (customer/admin)
-   4.  CART SYSTEM               — add/remove/update/clear, badge count
-   5.  MEGA MENU COLUMNS         — builds the Products nav dropdown from data
-   6.  MAIN NAV                  — desktop nav, search, delegated nav events
-   7.  MOBILE NAV                — top bar, slide-in menu, mega menu overlay
-   8.  SLIDER & FOOTER           — home banner slider, site footer, breadcrumb
-   9.  ROUTER                    — setCurrentPage(), loadPageContent()
-   10. ABOUT PAGE
-   11. PRODUCTS PAGE             — filters, grid, pagination
-   12. MACHINERY / NEWS / VIDEOS / CONTACT PAGES
-   13. REGISTER / LOGIN PAGES
-   14. SINGLE PRODUCT PAGE       — gallery, variants, policies, reservation
-   15. CART PAGE                 — editable review step: qty stepper, remove
-   16. PROFILE PAGE              — account info + order history, role-aware
-   17. CMS: CONTENT MANAGEMENT   — generic table+form engine for Products/
-                                   Banner/News/Videos/Machinery (Admin only)
-   18. ADMIN DASHBOARD           — overview KPIs/charts + orders table, plus
-                                   the CMS section tabs above, role-gated
-   19. CHECKOUT PAGE             — forms, payment methods, order submission
-   20. HOME PAGE SECTIONS        — about/categories/products/news/trusted/etc.
-   21. APP INIT & GLOBAL EVENTS  — initializeApp(), setupEventListeners()
-   ============================================================================ */
+// ── Main App Data ──
 
-/* ===============================================================================
-  MAIN APP DATA
-  =============================================================================== */
-
-/* ============================================================
-   CONTACT PLACEHOLDERS
-   ============================================================ */
+// ── Contact Placeholders ──
 const RESERVATION_WHATSAPP = "2015 5633 6160";
 const RESERVATION_EMAIL = "kaderfactory38@gmail.com";
 
-/* ============================================================
-   NAVIGATION LINKS
-   ============================================================
-   The Products entry's megaMenu is EMPTY here on purpose.
-   It gets filled at runtime by buildProductsMegaMenuColumns()
-   in initializeApp(), after categories.json has loaded.
-
-   Do NOT put a hardcoded megaMenu array here — that's what caused
-   the duplicate categories and the missing prefilter.
-   ============================================================ */
+// ── Navigation Links ──
 
 const navigationLinks = [
   { id: "home", label_en: "Home", label_ar: "الصفحة الرئيسية", path: "#home" },
@@ -74,7 +56,7 @@ const navigationLinks = [
     label_en: "Products",
     label_ar: "المنتجات",
     path: "#products",
-    megaMenu: [], // filled in initializeApp() — see note above
+    megaMenu: [],
   },
 
   {
@@ -110,17 +92,6 @@ const navigationLinks = [
   },
 ];
 
-/* ============================================================
-   BANNER DATA — loaded from /data/banner.json (like newsItems/
-   videoItems/machineryData/productsData). Managed via the Admin
-   Dashboard Home Banner tab; `let` (not const) because CMS
-   add/edit/delete reassigns this array — see CMS_TYPES.banner.
-
-   Two fields drive the button. categoryId decides whether the slide
-   gets one at all and which Products filter it lands on; cta is its
-   label, and an empty cta falls back to "More Details" in whichever
-   language is active. Both are documented in the file's own _note.
-   ============================================================ */
 let bannerSlides = [];
 
 async function loadBannerData() {
@@ -134,12 +105,6 @@ async function loadBannerData() {
   }
 }
 
-/* ============================================================
-   MACHINERY DATA — loaded from /data/machinery.json (like
-   productsData/categoriesData below). Renamed from the old
-   "projects" — this is the factory's machine capabilities
-   catalog (CNC lathes, milling machines, etc.), not projects.
-   ============================================================ */
 let machineryData = [];
 
 async function loadMachineryData() {
@@ -153,12 +118,6 @@ async function loadMachineryData() {
   }
 }
 
-/* ============================================================
-   NEWS DATA — loaded from /data/news.json (like productsData/
-   categoriesData/machineryData). Shared by the homepage News
-   section and the full News page, sorted newest-first wherever
-   it's rendered.
-   ============================================================ */
 let newsItems = [];
 
 async function loadNewsData() {
@@ -172,12 +131,6 @@ async function loadNewsData() {
   }
 }
 
-/* ============================================================
-   VIDEO DATA (loaded from /data/videos.json, like productsData
-   and categoriesData above). The file carries both the category
-   list and the videos; per-item `publishedAt` is optional — see the
-   "_note" at the top of videos.json.
-   ============================================================ */
 let videoItems = [];
 
 async function loadVideosData() {
@@ -191,9 +144,7 @@ async function loadVideosData() {
   }
 }
 
-/* ============================================================
-   CLIENTS DATA
-   ============================================================ */
+// ── Clients Data ──
 const clients = [
   { name: "Client 1", logo: "/images/prt-1.webp" },
   { name: "Client 2", logo: "/images/prt-2.webp" },
@@ -204,9 +155,7 @@ const clients = [
   { name: "Client 7", logo: "/images/prt-7.webp" },
 ];
 
-/* ============================================================
-   ABOUT US DATA
-   ============================================================ */
+// ── About Us Data ──
 const aboutContent = {
   subtitle: { en: "About KADER", ar: "عن مصنع قادر" },
   title: { en: "Who We Are", ar: "من نحن" },
@@ -242,9 +191,7 @@ const aboutContent = {
   ],
 };
 
-/* ============================================================
-   SOCIAL LINKS
-   ============================================================ */
+// ── Social Links ──
 const socialLinks = [
   {
     icon: "fab fa-facebook-f",
@@ -263,9 +210,7 @@ const socialLinks = [
   },
 ];
 
-/* ============================================================
-   SHARE LINKS
-   ============================================================ */
+// ── Share Links ──
 const shareLinks = [
   {
     id: "facebook",
@@ -293,11 +238,9 @@ const shareLinks = [
   },
 ];
 
-/* ============================================================
-   POLICY TABS DATA (short version — return / warranty / delivery)
-   ============================================================ */
+// ── Policy Tabs Data ──
+
 const policyTabsContent = {
-  // Return
   returnPolicy: {
     tabLabel: { en: "Return Policy", ar: "سياسة الإرجاع" },
     icon: "fas fa-undo",
@@ -330,7 +273,6 @@ const policyTabsContent = {
     linkPage: "return-policy",
   },
 
-  // Warranty
   warranty: {
     tabLabel: { en: "Warranty", ar: "الضمان" },
     icon: "fas fa-shield-alt",
@@ -352,7 +294,6 @@ const policyTabsContent = {
     linkPage: "warranty-policy",
   },
 
-  // Delivery
   delivery: {
     tabLabel: { en: "Delivery", ar: "التوصيل" },
     icon: "fas fa-truck",
@@ -378,20 +319,13 @@ const policyTabsContent = {
         ar: "سيتواصل معك فريقنا قريبًا لتأكيد موعد التوصيل والعنوان والرسوم بدقة.",
       },
     ],
-    linkLabel: null, // no dedicated page for delivery
+    linkLabel: null,
     linkPage: null,
   },
 };
 
-/* ============================================================
-   LEGAL DOCUMENTS (full text — return/exchange + warranty)
+// ── Legal Documents ──
 
-   The short summaries on the home page live in policyTabsContent above;
-   these are the full documents its "See Full ..." buttons link to.
-
-   Text supplied by Kader Factory. Keep edits to wording out of the renderer
-   below — change the strings here and both languages stay in step.
-   ============================================================ */
 const legalDocuments = {
   returns: {
     id: "returns",
@@ -640,15 +574,7 @@ const legalDocuments = {
     },
   },
 
-  /* Standard privacy-policy boilerplate, drafted to match what this site
-     actually does: accounts, Google sign-in, orders, the OTP-gated category,
-     and the browser storage used for session/cart/preferences.
-
-     NOT legal advice. These are commitments made in Kader Factory's name and
-     should be reviewed by counsel — in particular against Egypt's Personal
-     Data Protection Law — before this page is treated as binding. Keep the
-     text here in step with what the site really collects; a policy that
-     describes something the code does not do is worse than none. */
+// Boilerplate, not legal advice — have counsel review before relying on it.
   privacy: {
     id: "privacy",
     icon: "fas fa-user-shield",
@@ -930,8 +856,6 @@ const legalDocuments = {
   },
 };
 
-/* Anchor ids are derived, not stored, so the table of contents and the
-   sections it points at can never fall out of sync. */
 function legalSectionId(docId, index) {
   return `legal-${docId}-${index + 1}`;
 }
@@ -939,7 +863,7 @@ function legalSectionId(docId, index) {
 function legalSectionHtml(doc, section, index) {
   const listTag = section.ordered ? "ol" : "ul";
 
-  return /*html*/ `
+  return `
     <section class="legal-section" id="${legalSectionId(doc.id, index)}">
       <h3 class="legal-section-title h5 fw-bold d-flex align-items-baseline gap-2">
         <span class="legal-section-mark" aria-hidden="true"></span>
@@ -986,7 +910,7 @@ function legalSectionHtml(doc, section, index) {
 }
 
 function legalDocHtml(doc) {
-  return /*html*/ `
+  return `
     <article class="legal-doc" id="legal-${doc.id}">
       <header class="legal-doc-head">
         <span class="legal-doc-icon"><i class="${doc.icon}"></i></span>
@@ -1010,9 +934,8 @@ function legalDocHtml(doc) {
   `;
 }
 
-/* Sidebar index. Built from the same array the body renders from. */
 function legalTocHtml(docs) {
-  return /*html*/ `
+  return `
     <nav class="legal-toc" aria-label="${getLabel("On this page", "في هذه الصفحة")}">
       <p class="legal-toc-title">${getLabel("On this page", "في هذه الصفحة")}</p>
       ${docs
@@ -1040,145 +963,8 @@ function legalTocHtml(docs) {
   `;
 }
 
-/* Makes a legal page's table of contents clickable.
+// ── Product & Category Data ──
 
-   The entries are in-page anchors, but a bare href="#id" would reach the app
-   hashchange router, which would read "legal-returns-4" as a page name, hide
-   every page and find nothing to show. So this does the scrolling itself and
-   never touches the hash. Delegated, so it survives the list being rebuilt on
-   a language switch. */
-function bindLegalToc(container) {
-  const toc = container.querySelector(".legal-toc");
-  if (!toc) return;
-
-  toc.addEventListener("click", (e) => {
-    const link = e.target.closest('a[href^="#"]');
-    if (!link) return;
-
-    const target = document.getElementById(link.getAttribute("href").slice(1));
-    if (!target) return;
-
-    e.preventDefault();
-    // scroll-margin-top on the targets keeps them clear of the sticky nav.
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-}
-
-/* Shared page frame so Terms and Privacy stay visually identical. */
-function legalPageHtml({ pageTitle, tagline, updated, toc, body }) {
-  return /*html*/ `
-    ${createBanner(pageTitle)}
-
-    <div class="container py-5">
-      <div class="legal-header text-${getDirectionClass("start", "end")} mb-5">
-        <h5 class="sub-title p-0">${pageTitle}</h5>
-        <p class="text-muted mb-0">${tagline}</p>
-        ${updated ? `<p class="legal-updated mb-0">${updated}</p>` : ""}
-      </div>
-
-      <div class="row g-4 g-lg-5">
-        <div class="col-lg-4 col-xl-3 d-none d-lg-block">
-          ${toc}
-        </div>
-        <div class="col-lg-8 col-xl-9">
-          ${body}
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function loadTermsOfServicePage() {
-  const container = document.getElementById("termsPageContent");
-  if (!container) return;
-
-  const docs = [legalDocuments.returns, legalDocuments.warranty];
-
-  container.innerHTML = legalPageHtml({
-    pageTitle: getLabel("Terms of Service", "الشروط والأحكام"),
-    tagline: getLabel(
-      "The return, exchange and warranty terms that apply to every Kader Factory product.",
-      "شروط الاستبدال والاسترجاع والضمان المطبقة على جميع منتجات مصنع قادر.",
-    ),
-    toc: legalTocHtml(docs),
-    body: `
-      ${docs.map(legalDocHtml).join('<hr class="legal-divider">')}
-
-      <div class="legal-contact">
-        <div>
-          <h3 class="h5 fw-bold mb-1">${getLabel("Still have a question?", "هل لديك استفسار؟")}</h3>
-          <p class="mb-0 text-muted small">
-            ${getLabel(
-              "Our customer service team can walk you through any of the above.",
-              "فريق خدمة العملاء لدينا مستعد لمساعدتك في أي مما سبق.",
-            )}
-          </p>
-        </div>
-        <a href="#contact" class="btn btn-primary rounded-0 px-4 py-2 flex-shrink-0" data-nav-page-id="contact">
-          ${getLabel("Contact Us", "تواصل معنا")}
-        </a>
-      </div>
-    `,
-  });
-
-  bindLegalToc(container);
-
-  /* Deep links from the home page policy tabs ("See Full Return Policy").
-     Consumed once so a later plain visit starts at the top. */
-  if (appState.legalScrollTarget) {
-    const target = document.getElementById(appState.legalScrollTarget);
-    appState.legalScrollTarget = null;
-    if (target) {
-      // Wait for the page swap to finish laying out before measuring.
-      requestAnimationFrame(() =>
-        target.scrollIntoView({ behavior: "smooth", block: "start" }),
-      );
-    }
-  }
-}
-
-/* Privacy Policy — same renderer and frame as the terms page, so the two
-   read as one set. Text lives in legalDocuments.privacy above. */
-function loadPrivacyPolicyPage() {
-  const container = document.getElementById("privacyPageContent");
-  if (!container) return;
-
-  const doc = legalDocuments.privacy;
-
-  container.innerHTML = legalPageHtml({
-    pageTitle: getLabel("Privacy Policy", "سياسة الخصوصية"),
-    tagline: getLabel(
-      "How Kader Factory handles the information you share with us.",
-      "كيف يتعامل مصنع قادر مع المعلومات التي تشاركها معنا.",
-    ),
-    updated: getLabel(doc.updated.en, doc.updated.ar),
-    toc: legalTocHtml([doc]),
-    body: `
-      ${legalDocHtml(doc)}
-
-      <div class="legal-contact">
-        <div>
-          <h3 class="h5 fw-bold mb-1">${getLabel("A question about your data?", "لديك استفسار بشأن بياناتك؟")}</h3>
-          <p class="mb-0 text-muted small">
-            ${getLabel(
-              "Write to us and we will answer directly.",
-              "راسلنا وسنجيبك مباشرة.",
-            )}
-          </p>
-        </div>
-        <a href="#contact" class="btn btn-primary rounded-0 px-4 py-2 flex-shrink-0" data-nav-page-id="contact">
-          ${getLabel("Contact Us", "تواصل معنا")}
-        </a>
-      </div>
-    `,
-  });
-
-  bindLegalToc(container);
-}
-
-/* ============================================================
-   PRODUCT DATA (loaded from /data/products.json)
-   ============================================================ */
 let productsData = [];
 
 async function loadProductsData() {
@@ -1192,9 +978,6 @@ async function loadProductsData() {
   }
 }
 
-/* ============================================================
-   CATEGORY DATA (loaded from /data/categories.json)
-   ============================================================ */
 let categoriesData = [];
 
 async function loadCategoriesData() {
@@ -1207,36 +990,22 @@ async function loadCategoriesData() {
     categoriesData = [];
   }
 }
-/* ================================================================================
-  MAIN APP DATA END
-  ================================================================================ */
 
-/* ============================================================
-   UTILITY FUNCTIONS
-   ============================================================ */
+// ── Utility Functions ──
 
-/**
- * Get label based on language
- */
 function getLabel(en, ar) {
   return appState.language === "ar" ? ar : en;
 }
 
-/**
- * Get CSS class for direction
- */
 function getDirectionClass(enClass, arClass) {
   return appState.direction === "rtl" ? arClass : enClass;
 }
 
-/**
- * Set theme to a specific value ("light" | "dark") and refresh the nav
- * so the Theme dropdown's radio reflects the new selection.
- */
 function setTheme(theme) {
   appState.theme = theme;
   localStorage.setItem("theme", theme);
   document.body.setAttribute("data-theme", theme);
+  document.documentElement.setAttribute("data-bs-theme", theme);
   updateLogoBasedOnTheme();
   initializeNavigation();
 }
@@ -1245,9 +1014,6 @@ function toggleTheme() {
   setTheme(appState.theme === "light" ? "dark" : "light");
 }
 
-/**
- * Update logo based on theme
- */
 function updateLogoBasedOnTheme() {
   const logoImg = document.getElementById("logoImg");
   if (logoImg) {
@@ -1259,11 +1025,6 @@ function updateLogoBasedOnTheme() {
   }
 }
 
-/**
- * Set language to a specific value ("en" | "ar") and derive direction from
- * it. A full reload is still the simplest way to re-render every getLabel()
- * string throughout the app in the new language.
- */
 function setLanguage(lang) {
   const newDir = lang === "ar" ? "rtl" : "ltr";
 
@@ -1283,26 +1044,15 @@ function toggleLanguage() {
   setLanguage(appState.language === "ar" ? "en" : "ar");
 }
 
-/* ============================================================
-   AUTH SYSTEM
-   ============================================================
-   DEMO ONLY — there is no real backend, so nothing here is secure:
-   passwords are never checked. Logging in with the email below
-   grants the "admin" role so the Admin Dashboard can be reached;
-   any other email/registration gets the "customer" role.
-   Swap this for a real API call + session cookie/JWT in production.
-   ============================================================ */
+// ── Auth System ──
+
+// DEMO ONLY — passwords are never checked. Not safe to ship.
 const DEMO_ADMIN_EMAIL = "admin@kader-factory.com";
 
-/* Where a session lives is what "Remember me" actually controls:
-   localStorage outlives the browser, sessionStorage dies with the tab.
-   Only ever one of the two holds a session, so the stores cannot disagree. */
-const SESSION_KEY = "user";
+const SESSION_KEY = "admin";
 
-// Load the saved session (if any) on app start
 function initializeAuth() {
   try {
-    // Tab-scoped session wins: it is the more recent, more deliberate choice.
     const saved =
       sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY);
     appState.user = saved ? JSON.parse(saved) : null;
@@ -1312,12 +1062,6 @@ function initializeAuth() {
   }
 }
 
-/* Persist + apply a session, then refresh the nav so it reflects the new role.
-
-   `remember` is deliberately tri-state. true/false come from the sign-in
-   checkbox; leaving it undefined keeps the session wherever it already lives,
-   which is what callers like the profile form want — saving your name should
-   not silently promote a tab-only session to a permanent one. */
 function loginUser(user, remember) {
   appState.user = user;
 
@@ -1328,7 +1072,6 @@ function loginUser(user, remember) {
     store = remember ? localStorage : sessionStorage;
   }
 
-  // Clear the other one first so a switch cannot leave a stale copy behind.
   (store === localStorage ? sessionStorage : localStorage).removeItem(
     SESSION_KEY,
   );
@@ -1345,32 +1088,12 @@ function logout() {
   setCurrentPage("home");
 }
 
-/* ============================================================
-   GOOGLE SIGN-IN
+// ── Google Sign-In ──
 
-   Two paths, picked by whether GOOGLE_CLIENT_ID below is filled in:
-
-   1. Real Google Identity Services. Put the OAuth 2.0 *Web application*
-      client ID from the Google Cloud console into GOOGLE_CLIENT_ID, and add
-      this site's exact origin (scheme + host + port, e.g.
-      "http://localhost:8934") to that client's "Authorised JavaScript
-      origins". Nothing else here has to change. The token flow is used
-      rather than One Tap because the button is custom-styled — Google's own
-      rendered button cannot be restyled to match this page.
-
-   2. A demo account picker, used while the client ID is blank so the button
-      is not a dead end during development. It fabricates a profile locally;
-      Google is never contacted.
-
-   Either way the profile is trusted client-side, which a real deployment
-   must NOT do: the token has to go to a server and be verified against
-   Google's public keys before any session is granted. Same caveat as the
-   rest of this demo auth — see the AUTH SYSTEM notes above.
-   ============================================================ */
+// DEMO — the Google profile is trusted client-side; a server must verify it.
 const GOOGLE_CLIENT_ID = "812452391552-uocctoj1jtoibf6587g11knmk50hg8dl.apps.googleusercontent.com";
 const GOOGLE_GSI_SRC = "https://accounts.google.com/gsi/client";
 
-/* One shared load, however many buttons ask for it. */
 let googleIdentityPromise = null;
 function loadGoogleIdentityScript() {
   if (googleIdentityPromise) return googleIdentityPromise;
@@ -1381,7 +1104,6 @@ function loadGoogleIdentityScript() {
     script.async = true;
     script.onload = resolve;
     script.onerror = () => {
-      // Let a later click retry rather than caching the failure forever.
       googleIdentityPromise = null;
       reject(new Error("Could not reach Google Identity Services"));
     };
@@ -1391,8 +1113,6 @@ function loadGoogleIdentityScript() {
   return googleIdentityPromise;
 }
 
-/* Single exit point for both paths, so the demo and the real flow can never
-   drift apart on how a session is created. */
 function completeGoogleSignIn(profile, remember) {
   const email = String(profile.email || "").trim();
   if (!email) return;
@@ -1441,7 +1161,6 @@ async function startGoogleAuth(button, remember) {
           setGoogleButtonBusy(button, false);
 
           if (response.error || !response.access_token) {
-            // Covers the user closing the consent popup — not worth an alert.
             if (response.error && response.error !== "access_denied") {
               console.error("Google sign-in failed", response);
             }
@@ -1481,8 +1200,6 @@ async function startGoogleAuth(button, remember) {
   }
 }
 
-/* Stand-in for Google's account chooser while GOOGLE_CLIENT_ID is blank.
-   Labelled as a demo on screen so it cannot be mistaken for the real thing. */
 function openGoogleDemoPicker(remember) {
   const accounts = [
     { name: "Adham Kader", email: "adham.kader@gmail.com" },
@@ -1499,7 +1216,7 @@ function openGoogleDemoPicker(remember) {
 
   const host = document.createElement("div");
   host.className = "modal fade";
-  host.innerHTML = /*html*/ `
+  host.innerHTML = `
     <div class="modal-dialog modal-dialog-centered" style="max-width: 26rem;">
       <div class="modal-content rounded-0">
         <div class="modal-header border-0 pb-0">
@@ -1568,7 +1285,6 @@ function openGoogleDemoPicker(remember) {
   document.body.appendChild(host);
   const modal = new bootstrap.Modal(host);
 
-  // The modal outlives the page swap otherwise, and would leak on every click.
   host.addEventListener("hidden.bs.modal", () => host.remove());
 
   host.querySelectorAll("[data-google-email]").forEach((button) => {
@@ -1603,23 +1319,9 @@ function openGoogleDemoPicker(remember) {
   modal.show();
 }
 
-/* ============================================================
-   PASSWORD RESET (15-minute links)
+// ── Password Reset ──
 
-   Mirrors the OTP gate below: a record per request in localStorage, with an
-   explicit expiry and a one-shot "used" flag.
-
-   NO EMAIL IS SENT. This front end has no server, so there is nothing to send
-   from — the request page shows the generated link on screen instead, plainly
-   labelled as standing in for the email. Wiring this to a real mailer means
-   moving createPasswordResetToken to the backend and posting the address to
-   it; the page flow and the validation below do not need to change.
-
-   The tokens are NOT a security boundary either: they live in the visitor's
-   own localStorage, so anyone with devtools can read or forge one. That is
-   the same footing as the rest of this demo auth (loginUser accepts any
-   password — see AUTH SYSTEM above), and it must not ship as-is.
-   ============================================================ */
+// DEMO — no mail server: the reset link is shown on screen instead.
 const PASSWORD_RESET_STORAGE_KEY = "passwordResetTokens";
 const PASSWORD_RESET_TTL_MINUTES = 15;
 
@@ -1642,15 +1344,12 @@ function passwordResetStatus(record) {
   return "active";
 }
 
-/* One live token per address: requesting again supersedes the previous link
-   rather than leaving several valid at once. */
 function createPasswordResetToken(email) {
   const now = Date.now();
   const normalised = String(email).trim().toLowerCase();
 
   const tokens = getPasswordResetTokens()
     .filter((t) => t.email !== normalised)
-    // Housekeeping: drop anything long dead so the key cannot grow forever.
     .filter((t) => t.expiresAt > now - 24 * 60 * 60 * 1000);
 
   const record = {
@@ -1671,7 +1370,6 @@ function findPasswordResetToken(token) {
   return getPasswordResetTokens().find((t) => t.token === token) || null;
 }
 
-/* Burns the token so a link cannot be replayed, even within its 15 minutes. */
 function consumePasswordResetToken(token) {
   const tokens = getPasswordResetTokens().map((t) =>
     t.token === token ? { ...t, used: true, usedAt: Date.now() } : t,
@@ -1687,11 +1385,8 @@ function passwordResetMinutesLeft(record) {
   return Math.max(0, Math.ceil((record.expiresAt - Date.now()) / 60000));
 }
 
-/* Shared shell for the two password-reset screens so they sit alongside the
-   sign-in/sign-up pages visually. Chrome is hidden for these (see
-   pagesWithoutChrome), hence the standalone logo and back link. */
 function authShellHtml({ title, subtitle, body, footer }) {
-  return /*html*/ `
+  return `
     <div class="container-fluid p-0">
       <div class="row g-0 min-vh-100">
         <div class="col-lg-4 d-none d-lg-flex signup-visual-panel position-relative vh-100">
@@ -1719,11 +1414,6 @@ function authShellHtml({ title, subtitle, body, footer }) {
   `;
 }
 
-/* Step 1 — ask for the address and mint a token.
-
-   Always reports the same outcome whether or not the address is known. Saying
-   "no account with that email" would turn this form into a way to test which
-   addresses are registered. */
 function loadForgotPasswordPage() {
   const host = document.getElementById("forgotPasswordPageContent");
   if (!host) return;
@@ -1734,7 +1424,7 @@ function loadForgotPasswordPage() {
       "Enter the email on your account and we will send you a link to choose a new password.",
       "أدخل البريد الإلكتروني المسجل وسنرسل لك رابطاً لاختيار كلمة مرور جديدة.",
     ),
-    body: /*html*/ `
+    body: `
       <div class="text-center ${getDirectionClass("text-lg-start", "text-lg-end")} mb-4">
         <h3 class="fw-bold mb-2">${getLabel("Reset your password", "إعادة تعيين كلمة المرور")}</h3>
         <p class="text-muted small mb-0">
@@ -1819,9 +1509,6 @@ function loadForgotPasswordPage() {
   });
 }
 
-/* Step 2 — the link's destination. The token comes from
-   appState.passwordResetToken, which the hash router fills from
-   "#reset-password/<token>" so a pasted link works on a cold load. */
 function loadResetPasswordPage() {
   const host = document.getElementById("resetPasswordPageContent");
   if (!host) return;
@@ -1830,9 +1517,6 @@ function loadResetPasswordPage() {
   const record = findPasswordResetToken(token);
   const status = passwordResetStatus(record);
 
-  /* Anything other than a live token stops here. Missing, expired and used all
-     land on the same screen wording so a bad token cannot be told apart from a
-     real one that lapsed. */
   if (status !== "active") {
     const reason = {
       missing: getLabel(
@@ -1855,7 +1539,7 @@ function loadResetPasswordPage() {
         "Reset links are short-lived and single-use, for your account's safety.",
         "روابط إعادة التعيين قصيرة الأجل وتُستخدم مرة واحدة، حفاظاً على أمان حسابك.",
       ),
-      body: /*html*/ `
+      body: `
         <div class="text-center">
           <i class="fas fa-unlink text-danger" style="font-size:2.5rem;"></i>
           <h3 class="fw-bold mt-3 mb-2">${getLabel("Something went wrong", "حدث خطأ ما")}</h3>
@@ -1879,7 +1563,7 @@ function loadResetPasswordPage() {
       "Pick something you have not used on this account before.",
       "اختر كلمة مرور لم تستخدمها من قبل على هذا الحساب.",
     ),
-    body: /*html*/ `
+    body: `
       <div class="text-center ${getDirectionClass("text-lg-start", "text-lg-end")} mb-4">
         <h3 class="fw-bold mb-2">${getLabel("New password", "كلمة مرور جديدة")}</h3>
         <p class="text-muted small mb-1">${record.email}</p>
@@ -1935,9 +1619,6 @@ function loadResetPasswordPage() {
       : "far fa-eye-slash";
   });
 
-  /* Live countdown, so the 15 minutes are visible rather than a surprise. The
-     interval clears itself once the element leaves the DOM, which covers the
-     user navigating away mid-countdown. */
   const countdown = document.getElementById("resetCountdown");
   const timer = setInterval(tick, 1000);
 
@@ -1950,7 +1631,7 @@ function loadResetPasswordPage() {
     const left = record.expiresAt - Date.now();
     if (left <= 0) {
       clearInterval(timer);
-      loadResetPasswordPage(); // re-renders into the expired state
+      loadResetPasswordPage();
       return;
     }
 
@@ -1995,7 +1676,6 @@ function loadResetPasswordPage() {
         );
       }
 
-      // Re-checked on submit: the form may have sat open past the expiry.
       if (passwordResetStatus(findPasswordResetToken(token)) !== "active") {
         clearInterval(timer);
         loadResetPasswordPage();
@@ -2012,13 +1692,11 @@ function loadResetPasswordPage() {
     });
 }
 
-/* ============================================================
-   MILITARY ACCESS GATE (OTP)
-   ============================================================ */
+// ── Military Access Gate (OTP) ──
 const MILITARY_OTP_STORAGE_KEY = "militaryOtpCodes";
 const MILITARY_ACCESS_STORAGE_KEY = "militaryAccessGrant";
 const MILITARY_ATTEMPTS_STORAGE_KEY = "militaryOtpAttempts";
-const MILITARY_OTP_TTL_MINUTES = 15;
+const MILITARY_OTP_TTL_MINUTES = 4320;
 const MILITARY_ACCESS_TTL_HOURS = 24;
 const MILITARY_MAX_ATTEMPTS = 5;
 const MILITARY_LOCKOUT_MINUTES = 15;
@@ -2042,9 +1720,6 @@ function militaryOtpStatus(record) {
   return "active";
 }
 
-// Admin: issue a new code for a specific recipient. Returns the plain
-// code once — relay it out-of-band (phone/email/in person). It is not
-// recoverable from here after the admin navigates away from the notice.
 function generateMilitaryOtpCode(recipientName, recipientContact) {
   const now = Date.now();
   const record = {
@@ -2065,7 +1740,6 @@ function generateMilitaryOtpCode(recipientName, recipientContact) {
   return record;
 }
 
-// Admin: invalidate a code before it's used or expires
 function revokeMilitaryOtpCode(id) {
   const codes = getMilitaryOtpCodes().map((c) =>
     c.id === id ? { ...c, revoked: true } : c,
@@ -2090,9 +1764,6 @@ function setMilitaryLockout(state) {
   localStorage.setItem(MILITARY_ATTEMPTS_STORAGE_KEY, JSON.stringify(state));
 }
 
-// Customer: submit a code from the military-access gate page.
-// Returns { ok: true } on success, or { ok: false, reason } where
-// reason is "locked" | "invalid".
 function verifyMilitaryOtpCode(inputCode) {
   const lockout = getMilitaryLockout();
   if (lockout.lockedUntil && lockout.lockedUntil > Date.now()) {
@@ -2125,9 +1796,6 @@ function verifyMilitaryOtpCode(inputCode) {
   return { ok: true };
 }
 
-// codeId links this grant back to the OTP that created it, so revoking
-// an already-used code (see revokeMilitaryOtpCode) also kills the access
-// it granted — see the cross-device caveat on hasMilitaryAccess() below.
 function grantMilitaryAccess(codeId = null) {
   localStorage.setItem(
     MILITARY_ACCESS_STORAGE_KEY,
@@ -2139,11 +1807,6 @@ function grantMilitaryAccess(codeId = null) {
   );
 }
 
-// NOTE — same-device only: this whole gate is localStorage-based with no
-// backend, so "revoking" a code only blocks access in the SAME browser
-// that holds both the code list and the grant (e.g. testing, a shared/
-// kiosk device). It can't reach a different device the customer used to
-// redeem the code — that needs a real server tracking sessions.
 function hasMilitaryAccess() {
   try {
     const grant = JSON.parse(localStorage.getItem(MILITARY_ACCESS_STORAGE_KEY));
@@ -2165,33 +1828,14 @@ function hasMilitaryAccess() {
   }
 }
 
-// Redirect to the OTP gate if the military catalog hasn't been
-// unlocked on this device yet. Called from every entry point into
-// the "military" category (goToProductsWithFilter via loadProductsPage,
-// and the on-page category filter).
 function requireMilitaryAccess() {
   if (hasMilitaryAccess()) return true;
   setCurrentPage("military-access");
   return false;
 }
 
-/* ============================================================
-   CART SYSTEM
-   ============================================================
-   Fixes:
-     1. addToCart used productsData.ar / productsData.en — the OLD split
-        schema. productsData is a unified array now, so productsData.en
-        was undefined and .find() threw, silently killing the click.
-     2. Cart stored a single-language title string, so switching language
-        left old cart items stuck in the previous language. Now stores the
-        full {en,ar} object and resolves via getLabel() at render time.
-     3. updateCartCount only updated the desktop badge — mobile badge
-        (#mobileCartCount) never changed.
-     4. Cart items now also store subCategoryId/categoryId so a cart page
-        can link back or group items without re-looking-up products.
-   ============================================================ */
+// ── Cart System ──
 
-// Initialize cart from localStorage on app load (call inside initializeApp())
 function initializeCart() {
   try {
     const savedCart = localStorage.getItem("cart");
@@ -2203,7 +1847,6 @@ function initializeCart() {
   updateCartCount();
 }
 
-// Save current cart state to localStorage
 function saveCart() {
   try {
     localStorage.setItem("cart", JSON.stringify(appState.cart));
@@ -2212,16 +1855,9 @@ function saveCart() {
   }
 }
 
-/**
- * Add a product to the cart
- * @param {string} productId - product id (string slug, e.g. "trio-max-scooter")
- * @param {number} qty - quantity to add
- * @param {object} options - selected variant info, e.g. { color, size }
- */
 function addToCart(productId, qty = 1, options = {}) {
   if (!appState.cart) appState.cart = [];
 
-  // productsData is a UNIFIED array — no .en / .ar split
   const product = productsData.find((p) => p.id === productId);
   if (!product) {
     console.error("addToCart: product not found", productId);
@@ -2231,7 +1867,6 @@ function addToCart(productId, qty = 1, options = {}) {
   const color = options.color || null;
   const size = options.size || null;
 
-  // Same product + same variant → bump quantity instead of duplicating
   const existingItem = appState.cart.find(
     (item) =>
       item.productId === productId &&
@@ -2244,7 +1879,7 @@ function addToCart(productId, qty = 1, options = {}) {
   } else {
     appState.cart.push({
       productId: product.id,
-      title: product.title, // full {en, ar} — resolve with getLabel() when rendering
+      title: product.title,
       img: product.url,
       price: product.price || 0,
       categoryId: product.categoryId,
@@ -2259,7 +1894,6 @@ function addToCart(productId, qty = 1, options = {}) {
   updateCartCount();
 }
 
-// Remove an item from the cart entirely
 function removeFromCart(productId, color = null, size = null) {
   if (!appState.cart) return;
   appState.cart = appState.cart.filter(
@@ -2274,7 +1908,6 @@ function removeFromCart(productId, color = null, size = null) {
   updateCartCount();
 }
 
-// Update quantity of an existing cart item
 function updateCartItemQty(productId, color, size, newQty) {
   if (!appState.cart) return;
   const item = appState.cart.find(
@@ -2292,26 +1925,22 @@ function updateCartItemQty(productId, color, size, newQty) {
   updateCartCount();
 }
 
-// Empty the cart
 function clearCart() {
   appState.cart = [];
   saveCart();
   updateCartCount();
 }
 
-// Total number of items (sum of quantities)
 function getCartCount() {
   if (!appState.cart) return 0;
   return appState.cart.reduce((sum, item) => sum + item.qty, 0);
 }
 
-// Total price of all items
 function getCartTotal() {
   if (!appState.cart) return 0;
   return appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
-// Update BOTH cart badges (desktop nav + mobile menu)
 function updateCartCount() {
   const count = getCartCount();
 
@@ -2324,9 +1953,7 @@ function updateCartCount() {
 
 let navigationEventsBound = false;
 
-/* ============================================================
-   MEGA MENU COLUMN DEFINITIONS
-   ============================================================ */
+// ── Mega Menu Column Definitions ──
 const MEGA_MENU_COLUMNS = [
   {
     title_en: "Civilian Products",
@@ -2363,7 +1990,6 @@ function buildProductsMegaMenuColumns() {
     return [];
   }
 
-  /* --- Guard 1: no category may appear in more than one column --- */
   const seen = new Set();
   const duplicates = new Set();
   MEGA_MENU_COLUMNS.forEach((col) => {
@@ -2379,7 +2005,6 @@ function buildProductsMegaMenuColumns() {
     );
   }
 
-  /* --- Guard 2: flag IDs that don't exist in categories.json (typos) --- */
   const realIds = new Set(categoriesData.map((c) => c.categoryId));
   const unknown = [...seen].filter((id) => !realIds.has(id));
   if (unknown.length > 0) {
@@ -2389,9 +2014,6 @@ function buildProductsMegaMenuColumns() {
     );
   }
 
-  /* --- Guard 3: flag real categories missing from every column ---
-     "military" is deliberately excluded — it has its own top-level nav
-     link (see navigationLinks) instead of living in the mega menu. */
   const missing = [...realIds].filter(
     (id) => !seen.has(id) && id !== "military",
   );
@@ -2402,7 +2024,6 @@ function buildProductsMegaMenuColumns() {
     );
   }
 
-  /* --- Build columns; claimed set enforces first-column-wins on any dupe --- */
   const claimed = new Set();
 
   const columns = MEGA_MENU_COLUMNS.map((column) => ({
@@ -2411,7 +2032,7 @@ function buildProductsMegaMenuColumns() {
     items: categoriesData
       .filter((cat) => {
         if (!column.categoryIds.includes(cat.categoryId)) return false;
-        if (claimed.has(cat.categoryId)) return false; // already shown in an earlier column
+        if (claimed.has(cat.categoryId)) return false;
         claimed.add(cat.categoryId);
         return true;
       })
@@ -2446,9 +2067,7 @@ function buildProductsMegaMenuColumns() {
   return columns;
 }
 
-/* ============================================================
-   MAIN NAV
-   ============================================================ */
+// ── Main Nav ──
 function initializeNavigation() {
   const navContainer = document.querySelector(".navbar-nav");
   if (!navContainer) return;
@@ -2525,7 +2144,6 @@ function initializeNavigation() {
     }
   });
 
-  /* ---- Initialize Bootstrap popovers for restricted links ---- */
   const popoverTriggerList = document.querySelectorAll(
     '[data-bs-toggle="popover"]',
   );
@@ -2534,7 +2152,6 @@ function initializeNavigation() {
   const topRightControls = document.getElementById("topRightControls");
   if (topRightControls) topRightControls.innerHTML = "";
 
-  /* ---- Desktop search ---- */
   const searchInput = document.getElementById("searchInput");
   const searchDropdown = document.getElementById("searchDropdown");
 
@@ -2566,17 +2183,6 @@ function initializeNavigation() {
     });
   }
 
-  /* Every dropdown here is data-bs-display="static", which tells Bootstrap to
-     skip Popper entirely.
-
-     With Popper, opening a menu writes inline "position/left/top/margin" and
-     then a transform one frame later — so the panel visibly settles a few
-     pixels after it appears. Static leaves the menu wherever CSS puts it, with
-     no inline styles at all and nothing to re-run. Measured: all three land on
-     exactly the same coordinates either way, so this removes the shift without
-     moving anything. */
-
-  /* ---- Theme ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
@@ -2596,7 +2202,6 @@ function initializeNavigation() {
     </div>
   `;
 
-  /* ---- Language ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
@@ -2616,7 +2221,6 @@ function initializeNavigation() {
     </div>
   `;
 
-  /* ---- Account ---- */
   topRightControls.innerHTML += `
     <div class="nav-item dropdown">
         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
@@ -2645,7 +2249,6 @@ function initializeNavigation() {
     </div>
   `;
 
-  /* ---- Cart ---- */
   topRightControls.innerHTML += `
     <a class="nav-link border-${getDirectionClass("start", "end")} p${getDirectionClass("s", "e")}-3" href="#" data-nav-page-id="cart" id="cartBtn">
         <span class="position-relative d-inline-block">
@@ -2662,10 +2265,6 @@ function initializeNavigation() {
   initializeMobileMenu();
 }
 
-/* ============================================================
-   SEARCH — reads real productsData + title:{en,ar}
-   (was reading appState.products / p.name, which don't exist)
-   ============================================================ */
 function getSearchSuggestions(query) {
   const all =
     typeof productsData !== "undefined" && Array.isArray(productsData)
@@ -2679,14 +2278,10 @@ function getSearchSuggestions(query) {
     .map((p) => ({ id: p.id, label: getLabel(p.title.en, p.title.ar) }));
 }
 
-/* ============================================================
-   DELEGATED EVENTS — bound once, survives every innerHTML rebuild
-   ============================================================ */
 function bindNavigationEvents() {
   if (navigationEventsBound) return;
   navigationEventsBound = true;
 
-  /* Theme / language radios in the nav dropdowns */
   document.addEventListener("change", (e) => {
     if (e.target.matches('input[name="themeOption"]')) {
       setTheme(e.target.value);
@@ -2700,14 +2295,10 @@ function bindNavigationEvents() {
     const searchWrapper = document.getElementById("searchWrapper");
     const searchDropdown = document.getElementById("searchDropdown");
 
-    /* Close desktop search dropdown when clicking outside it */
     if (searchWrapper && searchDropdown && !searchWrapper.contains(e.target)) {
       searchDropdown.classList.add("d-none");
     }
 
-    /* Close the desktop mega menu on any click inside it.
-       It's shown via CSS :hover (not Bootstrap's JS toggle), so without
-       this it stays open after navigating — the mouse hasn't moved. */
     const megaMenuPanel = e.target.closest(".dropdown > .mega-menu");
     if (megaMenuPanel) {
       const dropdown = megaMenuPanel.closest(".dropdown");
@@ -2719,13 +2310,11 @@ function bindNavigationEvents() {
       );
     }
 
-    /* Search result → single product page */
     const searchResult = e.target.closest("[data-search-product-id]");
     if (searchResult) {
       e.preventDefault();
       setCurrentPage("single-product", searchResult.dataset.searchProductId);
 
-      // Clear both search inputs/dropdowns — whichever one was used
       const searchInput = document.getElementById("searchInput");
       const mobileSearchInput = document.getElementById("mobileSearchInput");
       const mobileSearchDropdown = document.getElementById(
@@ -2746,7 +2335,6 @@ function bindNavigationEvents() {
       return;
     }
 
-    /* Mega-menu item WITH a category filter */
     const filterLink = e.target.closest("[data-category-id]");
     if (filterLink) {
       e.preventDefault();
@@ -2758,7 +2346,6 @@ function bindNavigationEvents() {
       return;
     }
 
-    /* Plain nav link (incl. "View All Products" — no category attached) */
     const navLink = e.target.closest("[data-nav-page-id]");
     if (navLink) {
       e.preventDefault();
@@ -2767,7 +2354,6 @@ function bindNavigationEvents() {
       return;
     }
 
-    /* Theme / language / logout */
     const actionEl = e.target.closest("[data-action]");
     if (actionEl) {
       e.preventDefault();
@@ -2782,9 +2368,7 @@ function bindNavigationEvents() {
   });
 }
 
-/* ============================================================
-   MOBILE TOP BAR
-   ============================================================ */
+// ── Mobile Top Bar ──
 function initializeMobileTopBar() {
   const mount = document.getElementById("mobileTopBar");
   if (!mount) return;
@@ -2802,9 +2386,7 @@ function initializeMobileTopBar() {
     .addEventListener("click", openMobileMenu);
 }
 
-/* ============================================================
-   MOBILE MENU OVERLAY
-   ============================================================ */
+// ── Mobile Menu Overlay ──
 function initializeMobileMenu() {
   const mount = document.getElementById("mobileMenu");
   if (!mount) return;
@@ -2886,8 +2468,6 @@ function initializeMobileMenu() {
     .getElementById("closeMobileMenuBtn")
     .addEventListener("click", closeMobileMenu);
 
-  /* Mega-menu triggers — stopPropagation so the delegated nav handler
-     below doesn't ALSO fire and navigate away instead of opening the panel */
   mount.querySelectorAll("[data-mega-trigger]").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
@@ -2897,7 +2477,6 @@ function initializeMobileMenu() {
     });
   });
 
-  /* Mobile search */
   const mobileSearchInput = document.getElementById("mobileSearchInput");
   const mobileSearchDropdown = document.getElementById("mobileSearchDropdown");
 
@@ -2943,9 +2522,6 @@ function closeMobileMenu() {
   document.body.style.overflow = "";
 }
 
-/* ============================================================
-   MEGA MENU OVERLAY (mobile)
-   ============================================================ */
 function openMegaMenu(link) {
   const mount = document.getElementById("megaMenuOverlay");
   if (!mount) return;
@@ -2990,8 +2566,6 @@ function openMegaMenu(link) {
 
   const panel = document.getElementById("megaMenuPanel");
 
-  // two frames so the browser registers the starting transform before the
-  // class flip — otherwise there's nothing to transition from
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       panel.classList.add("is-open");
@@ -3011,42 +2585,24 @@ function closeMegaMenu() {
   if (panel) panel.classList.remove("is-open");
 }
 
-/* Banner CTA target. Deliberately NOT wired through the [data-category-id]
-   convention the mega menu and the home category cards use: TWO separate
-   document-level click handlers match that attribute (bindNavigationEvents
-   and initializeHomePageSections), so a click runs goToProductsWithFilter
-   twice, and the second call — which passes no sub-category — is the one that
-   sticks. Harmless for a category-only link, but it would quietly throw away
-   any sub-category, and it loads the Products page twice either way. An
-   inline onclick matches neither handler and fires exactly once.
-
-   Returns false so the href never runs: it is there for middle-click and for
-   the no-JS case, but setCurrentPage has already pushed "#products" by then,
-   and letting it through would re-enter the router and re-render the page
-   with the pending filter already consumed. */
 function goToBannerTarget(categoryId) {
   if (categoryId) {
     goToProductsWithFilter(categoryId);
   } else {
-    // Legacy slide saved before categoryId existed — still gets its button,
-    // just an unfiltered one. Pick a category for it in the CMS to fix that.
     setCurrentPage("products");
   }
   return false;
 }
 
-/**
- * Initialize slider/carousel
- */
+// ── Slider & Footer ──
+
 function initializeSlider() {
   const bannerWrapper = document.getElementById("bannerWrapper");
 
   if (!bannerWrapper) return;
 
-  // Clear existing content
   bannerWrapper.innerHTML = "";
 
-  // Build slides
   bannerSlides.forEach((slide) => {
     const title = getLabel(slide.titleEn, slide.titleAr);
     const subTitle = getLabel(slide.subTitleEn, slide.subTitleAr);
@@ -3079,12 +2635,10 @@ function initializeSlider() {
     bannerWrapper.appendChild(item);
   });
 
-  // Destroy previous instance if it exists (avoids duplicate init on language/theme switch)
   if (window.bannerSwiperInstance) {
     window.bannerSwiperInstance.destroy(true, true);
   }
 
-  // Initialize Swiper AFTER injecting the HTML
   window.bannerSwiperInstance = new Swiper(".bannerSwiper", {
     slidesPerView: 1,
     loop: true,
@@ -3103,15 +2657,12 @@ function initializeSlider() {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
     },
-    keyboard: { enabled: true }, // arrow key navigation
-    a11y: { enabled: true }, // accessibility labels
-    lazy: true, // lazy-load images (add loading="lazy" or use swiper-lazy class)
+    keyboard: { enabled: true },
+    a11y: { enabled: true },
+    lazy: true,
   });
 }
 
-/**
- * Initialize footer
- */
 function initializeFooter() {
   const footer = document.getElementById("mainFooter");
   if (!footer) return;
@@ -3258,7 +2809,6 @@ function initializeFooter() {
     </div>
 `;
 
-  // Rotate chevron icon on expand/collapse
   footer.querySelectorAll(".footer-accordion-toggle").forEach((btn) => {
     const targetId = btn.getAttribute("data-bs-target");
     const target = footer.querySelector(targetId);
@@ -3271,9 +2821,6 @@ function initializeFooter() {
     });
   });
 }
-/**
- * Create banner component
- */
 function createBanner(title, subTitle) {
   const titleLabel = getLabel(title, title);
   const subTitleLabel = subTitle ? getLabel(subTitle, subTitle) : "";
@@ -3324,46 +2871,37 @@ function createBanner(title, subTitle) {
   `;
 }
 
-/**
- * Set current page and update display
- */
+// ── Router ──
+
 function setCurrentPage(pageId, productId) {
-  /* The home policy tabs still link to these as if they were pages; they are
-     sections of the terms page, so send the visitor there and scroll. */
   if (pageId === "return-policy" || pageId === "warranty-policy") {
     appState.legalScrollTarget =
       pageId === "return-policy" ? "legal-returns" : "legal-warranty";
     pageId = "terms-of-service";
   }
 
-  // Hide all pages
   document.querySelectorAll(".page").forEach((page) => {
     page.style.display = "none";
   });
 
-  // Show selected page
   const selectedPage = document.getElementById(`${pageId}-page`);
   if (selectedPage) {
     selectedPage.style.display = "block";
     appState.currentPage = pageId;
 
-    // Update active navigation link
     document.querySelectorAll(".nav-link").forEach((link) => {
       link.classList.remove("active");
     });
     const activeLink = document.getElementById(`nav-${pageId}`);
     if (activeLink) activeLink.classList.add("active");
 
-    //Close Mobile Menu
     document.getElementById("mobileMenuPanel").classList.remove("is-open");
     const panel = document.getElementById("megaMenuPanel");
     if (panel) panel.classList.remove("is-open");
     document.body.style.overflow = "";
 
-    // Scroll to top
     window.scrollTo(0, 0);
 
-    // Show/hide nav and footer for chrome-free pages (e.g. auth pages)
     const pagesWithoutChrome = [
       "register",
       "login",
@@ -3385,10 +2923,7 @@ function setCurrentPage(pageId, productId) {
       if (mainHeader) mainHeader.style.display = "";
     }
 
-    // Update the URL to reflect the current page (and product, if applicable)
     if (pageId === "reset-password" && appState.passwordResetToken) {
-      /* The token belongs in the URL — that is what makes the link a link.
-         Same shape as the single-product case below. */
       history.pushState(
         { pageId },
         "",
@@ -3405,14 +2940,10 @@ function setCurrentPage(pageId, productId) {
       history.pushState({ pageId }, "", `#${pageId}`);
     }
 
-    // Load page-specific content if needed
     loadPageContent(pageId);
   }
 }
 
-/**
- * Load page-specific content
- */
 function loadPageContent(pageId) {
   switch (pageId) {
     case "about":
@@ -3478,14 +3009,13 @@ function loadPageContent(pageId) {
   }
 }
 
-/**
- * Load about page
- */
+// ── About Page ──
+
 function loadAboutPage() {
   const container = document.getElementById("aboutPageContent");
   if (!container) return;
 
-  // ===== Content Data (full text, all paragraphs) =====
+  // ── Content Data (Full Text, All Paragraphs) ──
 
   const sectorsContent = {
     subtitle: {
@@ -3623,7 +3153,7 @@ function loadAboutPage() {
     ],
   };
 
-  // ===== Render =====
+  // ── Render ──
 
   const sectorItemsHtml = (items, textClass, borderClass) =>
     items
@@ -3796,7 +3326,6 @@ function loadAboutPage() {
         </div>
     `;
 
-  // Vision/Mission tab switching
   container.querySelectorAll(".vm-tab-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
       const target = this.dataset.vmTab;
@@ -3814,31 +3343,7 @@ function loadAboutPage() {
   });
 }
 
-/* =============================================================
-   PRODUCTS PAGE START
-   ============================================================= */
-/* ============================================================
-   PRODUCTS PAGE — complete file
-   ============================================================
-   Assumes these already exist in your app (loaded before this file):
-     - productsData     (array, from /data/products.json)
-     - categoriesData   (array, from /data/categories.json)
-     - appState         (global, has appState.language)
-     - getLabel(en, ar)
-     - createBanner(title)
-     - setCurrentPage(pageId, productId)  — your existing router
-
-   Real schema used (no renamed fields):
-     products.json:   id, categoryId, subCategoryId, category:{en,ar},
-                       sub_category:{en,ar}, title:{en,ar}, gallery[],
-                       price, oldPrice, rating, reviewCount, stockQty
-     categories.json: categoryId, name:{en,ar}, subCategories:[
-                         { subCategoryId, name:{en,ar} }
-                       ]
-     NOTE: subCategoryId (products.json) and subCategories (categories.json)
-     are the two additions agreed on earlier — add them to your real JSON
-     files if not already there.
-   ============================================================ */
+// ── Products Page ──
 
 let filterState = { categoryId: null, subCategoryId: null };
 let productsPageEventsBound = false;
@@ -3846,20 +3351,6 @@ let productsPageEventsBound = false;
 const PRODUCTS_PAGE_SIZE = 12;
 let displayedProductsCount = PRODUCTS_PAGE_SIZE;
 
-/**
- * Call this from nav links, category cards, homepage "Explore" buttons, etc.
- * to land on the Products page with a category (and optionally sub-category)
- * already applied.
- *
- * Example: goToProductsWithFilter('plastic')
- * Example: goToProductsWithFilter('plastic', 'plastic-storage-boxes')
- *
- * "military" is special-cased to its own dedicated, OTP-gated page (see
- * MILITARY PRODUCTS PAGE below) instead of the generic Products page —
- * every entry point (top nav link, homepage category card, the access
- * gate's post-verify redirect) already calls this same function, so this
- * one branch is enough to route all of them correctly.
- */
 function goToProductsWithFilter(categoryId, subCategoryId = null) {
   if (categoryId === "military") {
     goToMilitaryPage(subCategoryId);
@@ -3869,9 +3360,6 @@ function goToProductsWithFilter(categoryId, subCategoryId = null) {
   setCurrentPage("products");
 }
 
-/**
- * Load products page
- */
 function loadProductsPage() {
   const container = document.getElementById("productsPageContent");
   if (!container) return;
@@ -3937,9 +3425,6 @@ function loadProductsPage() {
 
   container.innerHTML = productHTML;
 
-  // Apply a pending filter from goToProductsWithFilter() if one was set,
-  // otherwise start with no filters. Consumed once so a later plain
-  // navigation to Products (e.g. via nav link) isn't affected.
   if (appState.pendingProductFilter) {
     filterState = {
       categoryId: appState.pendingProductFilter.categoryId || null,
@@ -3958,9 +3443,6 @@ function loadProductsPage() {
   renderProductsGrid(applyFilters(productsData, filterState));
 }
 
-/* ------------------------------------------------------------
-   PURE FILTER FUNCTION
-   ------------------------------------------------------------ */
 function applyFilters(products, state) {
   return products.filter((p) => {
     if (state.categoryId && p.categoryId !== state.categoryId) return false;
@@ -3970,9 +3452,6 @@ function applyFilters(products, state) {
   });
 }
 
-/* ------------------------------------------------------------
-   EVENT BINDING — delegated on document, bound once
-   ------------------------------------------------------------ */
 function bindProductsPageEvents() {
   if (productsPageEventsBound) return;
   productsPageEventsBound = true;
@@ -4016,18 +3495,12 @@ function bindProductsPageEvents() {
   });
 }
 
-/* ------------------------------------------------------------
-   CATEGORY FILTER
-   ------------------------------------------------------------ */
 function renderCategoryFilter() {
   const targets = [
     document.getElementById("category-filter-container"),
     document.getElementById("category-filter-container-mobile"),
   ].filter(Boolean);
 
-  // "military" is deliberately excluded here — it's a restricted, OTP-gated
-  // category reached only via the mega menu / homepage category section
-  // (see requireMilitaryAccess()), not offered as a filter option here.
   const itemsHtml = categoriesData
     .filter((cat) => cat.categoryId !== "military")
     .map(
@@ -4072,9 +3545,6 @@ function onCategoryFilterChange(categoryId) {
   renderProductsGrid(applyFilters(productsData, filterState));
 }
 
-/* ------------------------------------------------------------
-   SUB-CATEGORY FILTER
-   ------------------------------------------------------------ */
 function renderSubCategoryFilter() {
   const targets = [
     document.getElementById("subcategory-filter-container"),
@@ -4136,9 +3606,6 @@ function onSubCategoryFilterChange(subCategoryId) {
   renderProductsGrid(applyFilters(productsData, filterState));
 }
 
-/* ------------------------------------------------------------
-   ACTIVE FILTER CHIPS
-   ------------------------------------------------------------ */
 function renderActiveFilterChips() {
   const container = document.getElementById("active-filters-container");
   if (!container) return;
@@ -4194,9 +3661,6 @@ function clearAllFilters() {
   renderProductsGrid(applyFilters(productsData, filterState));
 }
 
-/* ------------------------------------------------------------
-   PRODUCTS GRID
-   ------------------------------------------------------------ */
 function renderProductsGrid(products) {
   const container = document.getElementById("products-grid-container");
   const countEl = document.getElementById("results-count");
@@ -4230,7 +3694,7 @@ function renderProductsGrid(products) {
 
   const cardsHtml = visibleProducts
     .map(
-      (product) => /*html*/ `
+      (product) => `
         <div class="col-6 col-md-4 col-xl-4">
                 <div class="card product-card h-100 border-0 " data-product-id="${product.id}">
                     <div class="product-img-wrap bg-light">
@@ -4283,8 +3747,6 @@ function renderProductsGrid(products) {
 
   container.innerHTML = cardsHtml + showMoreHtml;
 
-  // Make each card clickable through to the single product page
-
   container.querySelectorAll(".product-card").forEach((card, i) => {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
@@ -4293,25 +3755,15 @@ function renderProductsGrid(products) {
   });
 }
 
-/* =============================================================
-    PRODUCTS PAGE END
-    ============================================================= */
-
-/* ============================================================
-   MACHINERY PAGE — full catalog over `machineryData` (see
-   MACHINERY DATA above, loaded from /data/machinery.json), with
-   the same "Show More" batching the News and Products pages use.
-   Cards are col-lg-4, so a page size of 9 fills exactly three
-   rows before the button appears.
-   ============================================================ */
 const MACHINERY_PAGE_SIZE = 9;
 let displayedMachineryCount = MACHINERY_PAGE_SIZE;
+
+// ── Machinery Page ──
 
 function loadMachineryPage() {
   const container = document.getElementById("projectsPageContent");
   if (!container) return;
 
-  // Fresh visit starts from the first batch again.
   displayedMachineryCount = MACHINERY_PAGE_SIZE;
 
   container.innerHTML = `
@@ -4331,9 +3783,6 @@ function loadMachineryPage() {
   bindMachineryPageEvents();
 }
 
-/* Separate from loadMachineryPage() so "Show More" can repaint just the card
-   grid — re-running the whole page would rebuild the banner and heading too.
-   Same split as renderNewsGrid() on the News page. */
 function renderMachineryGrid() {
   const grid = document.getElementById("machineryGridContainer");
   if (!grid) return;
@@ -4343,10 +3792,6 @@ function renderMachineryGrid() {
 
   const cardsHtml = visible
     .map((p) => {
-      // Extra spec bullets revealed on hover, once the shrinking image
-      // (see .machinery-card:hover .machinery-card-img) frees up room —
-      // reuses the same spec data shown in the detail overlay instead of
-      // needing a separate "long description" field.
       const hoverSpecItems = (p.specGroups?.[0]?.items || []).slice(0, 3);
       const hoverSpecsHtml = hoverSpecItems.length
         ? `
@@ -4397,11 +3842,6 @@ function renderMachineryGrid() {
   grid.innerHTML = cardsHtml + showMoreHtml;
 }
 
-/* "Read More" opens the shared #overlayModal on a Swiper carousel — one
-   slide per machine, starting at the one clicked — so visitors can swipe
-   or use the arrow/keyboard controls to browse the whole catalog without
-   closing the overlay each time. Reuses the same modal the News page's
-   quick-view uses, just temporarily widened (modal-xl) while open. */
 let machineryPageEventsBound = false;
 
 function bindMachineryPageEvents() {
@@ -4442,9 +3882,6 @@ function machineDetailSpecsHtml(m) {
   return (m.specGroups || []).map(machineSpecGroupHtml).join("");
 }
 
-/* Fades `el` out, swaps its content via `updateFn`, then fades it back in.
-   Used on machine switch so the title/subtitle and spec panel don't just
-   snap to the new machine's content. */
 function animateMachineDetailSwap(el, updateFn) {
   if (!el) return;
   el.classList.add("machine-detail-swap-out");
@@ -4481,33 +3918,12 @@ function updateMachineDetailContent(index) {
   );
 }
 
-/* ---------- Shared windowed pagination dots (both detail overlays) ----------
-   Renders at most DETAIL_DOT_WINDOW bullets and slides that window along as
-   you advance, so a 25-item list doesn't spill 25 dots across the overlay.
-   Swiper's own `dynamicBullets` is the off-the-shelf version of this and was
-   used here first, but it doesn't survive contact with our pagination:
-
-     - its translate math assumes every bullet is exactly one bullet-width
-       wide, which flattens the wide-pill active bullet
-       (.swiper-pagination-bullet-active in style.css); and
-     - it positions bullets by inline `left` offsets inside an inline-flow,
-       overflow:hidden strip, which collapses to zero-width bullets inside
-       .machine-detail-pagination-top's `display: flex`.
-
-   Owning the strip ourselves sidesteps both. Dots at either end of the window
-   are scaled down (.swiper-pagination-bullet-edge) whenever more slides exist
-   past them — that's the "it keeps going" cue. */
 const DETAIL_DOT_WINDOW = 5;
 
 function renderWindowedDots(container, activeIndex, total, itemLabel) {
   if (!container) return;
   const size = Math.min(DETAIL_DOT_WINDOW, total);
 
-  /* Build the bullets once and mutate them from then on. Re-rendering the
-     strip (innerHTML, or Swiper's renderCustom) hands back brand-new
-     elements every slide change, and a fresh element has no previous width
-     to animate from — the .swiper-pagination-bullet transition in style.css
-     silently never fires and the pill snaps between shapes. */
   if (container.children.length !== size) {
     container.innerHTML = Array.from(
       { length: size },
@@ -4515,7 +3931,6 @@ function renderWindowedDots(container, activeIndex, total, itemLabel) {
     ).join("");
   }
 
-  // Center the active dot in the window, clamped at both ends of the list.
   const start = Math.max(
     0,
     Math.min(activeIndex - Math.floor(size / 2), total - size),
@@ -4538,8 +3953,6 @@ function renderWindowedDots(container, activeIndex, total, itemLabel) {
   });
 }
 
-/* Initial paint + click-to-jump. Delegated on the container so the handler
-   survives the dots being rebuilt when the window size changes. */
 function bindWindowedDots(container, swiper, itemLabel) {
   if (!container || !swiper) return;
   renderWindowedDots(
@@ -4554,10 +3967,6 @@ function bindWindowedDots(container, swiper, itemLabel) {
   });
 }
 
-/* A single image Swiper drives the current machine (via pagination dots,
-   the bottom nav buttons, swipe, or keyboard). Title/subtitle (above the
-   image) and the spec panel (right column) aren't swiper slides — they're
-   plain DOM updated on slideChange, faded via animateMachineDetailSwap(). */
 function openMachineDetailOverlay(machineId) {
   const startIndex = machineryData.findIndex((m) => m.id === machineId);
   if (startIndex === -1) return;
@@ -4625,11 +4034,6 @@ function openMachineDetailOverlay(machineId) {
   const modalEl = document.getElementById("overlayModal");
   const modal = new bootstrap.Modal(modalEl);
 
-  // Swiper measures the container's width to position slides — the modal
-  // is still mid fade-in (effectively zero-width) right after show(), so
-  // constructing it immediately silently leaves it stuck on slide 0.
-  // Waiting for "shown.bs.modal" (fires once the transition completes)
-  // fixes that.
   modalEl.addEventListener(
     "shown.bs.modal",
     () => {
@@ -4653,7 +4057,6 @@ function openMachineDetailOverlay(machineId) {
           rtl: document.documentElement.dir === "rtl",
           keyboard: { enabled: true },
           a11y: { enabled: true },
-          // No `pagination` option on purpose — see renderWindowedDots above.
           navigation: {
             nextEl: ".machineDetailNext",
             prevEl: ".machineDetailPrev",
@@ -4679,8 +4082,6 @@ function openMachineDetailOverlay(machineId) {
 
   modal.show();
 
-  // Reset to the default modal size once closed, so the News "Read More"
-  // quick view (same shared modal) goes back to its normal compact width.
   modalEl.addEventListener(
     "hidden.bs.modal",
     () => dialog.classList.remove("modal-xl", "modal-dialog-scrollable"),
@@ -4688,23 +4089,12 @@ function openMachineDetailOverlay(machineId) {
   );
 }
 
-/* ============================================================
-   MILITARY PRODUCTS PAGE
-   ============================================================
-   Its own dedicated page (not the generic Products page) — OTP-
-   gated via requireMilitaryAccess() (see MILITARY ACCESS GATE).
-   Quick sub-category filter tabs, one wide detail-rich card per
-   row (image / title+desc / price+specs / CTA) instead of a
-   grid — these are considered/researched purchases, not impulse
-   buys, so the layout favors scannable detail over density.
-   ============================================================ */
+// ── Military Products Page ──
 let militarySubFilter = "all";
 let militaryPageEventsBound = false;
-const MILITARY_PAGE_SIZE = 5; // smaller than PRODUCTS_PAGE_SIZE — these cards are much taller
+const MILITARY_PAGE_SIZE = 5;
 let displayedMilitaryCount = MILITARY_PAGE_SIZE;
 
-// Call from nav/category entry points — goToProductsWithFilter("military", ...)
-// already forwards here, so this rarely needs to be called directly.
 function goToMilitaryPage(subCategoryId = null) {
   appState.pendingMilitarySubCategory = subCategoryId || "all";
   setCurrentPage("military");
@@ -4744,10 +4134,6 @@ function loadMilitaryPage() {
   startMilitaryAccessWatch();
 }
 
-// Without this, a code revoked WHILE someone is already sitting on this
-// page has no effect until they navigate away and back — nothing else
-// re-checks hasMilitaryAccess() in between. Polls instead of relying on
-// a "storage" event, since that only fires in OTHER tabs, not this one.
 function startMilitaryAccessWatch() {
   stopMilitaryAccessWatch();
   window.militaryAccessWatchInterval = setInterval(() => {
@@ -4962,18 +4348,10 @@ function bindMilitaryPageEvents() {
   });
 }
 
-/* ============================================================
-   NEWS PAGE — full grid over the shared `newsItems` data (see
-   NEWS DATA), with a "Show More" pattern matching the Products
-   page. "Read More" opens the shared #overlayModal for a quick
-   read without a dedicated article route.
-   ============================================================ */
 const NEWS_PAGE_SIZE = 8;
 let displayedNewsCount = NEWS_PAGE_SIZE;
 let newsPageEventsBound = false;
 
-// Rolling windows (days back from now), not calendar boundaries — avoids
-// locale-dependent "start of week/month" edge cases.
 const NEWS_TIME_RANGE_DAYS = {
   all: null,
   week: 7,
@@ -4995,10 +4373,6 @@ function formatNewsDate(date) {
   });
 }
 
-// The visible date span for the selected filter chip. "All" has no fixed
-// window, so it spans the earliest-to-latest dates actually in newsItems;
-// every other option is today back to its rolling window (see
-// NEWS_TIME_RANGE_DAYS) regardless of whether any article falls in it.
 function getNewsFilterRangeLabel() {
   const days = NEWS_TIME_RANGE_DAYS[newsTimeFilter];
   let start, end;
@@ -5016,8 +4390,6 @@ function getNewsFilterRangeLabel() {
   return `${formatNewsDate(start)} – ${formatNewsDate(end)}`;
 }
 
-// A story is "breaking" while it's under a month old — no manual flag,
-// same rolling 30-day window as the "This Month" filter above.
 function isNewsBreaking(item) {
   return (
     new Date(item.dateRaw).getTime() >= Date.now() - 30 * 24 * 60 * 60 * 1000
@@ -5040,6 +4412,8 @@ function applyNewsFilters(items) {
     return newsSortOrder === "newest" ? -diff : diff;
   });
 }
+
+// ── News Page ──
 
 function loadNewsPage() {
   const container = document.getElementById("newsPageContent");
@@ -5174,19 +4548,6 @@ function renderNewsGrid() {
   grid.innerHTML = cardsHtml + showMoreHtml;
 }
 
-/* "Read More" opens the shared #overlayModal on a Swiper carousel, same
-   pattern as the Machinery page's detail overlay (openMachineDetailOverlay
-   above) — one slide per article, starting at the one clicked, so visitors
-   can swipe or use the arrow/keyboard controls to browse without closing
-   the overlay. Reuses the .machine-detail-* chrome classes (wrap,
-   pagination, nav buttons) but NOT .machine-detail-img sizing: title+date
-   are baked into each slide as a caption overlaid on the image itself
-   (like the News grid card's hover caption — see .news-card-content-shadow
-   in style.css), so they ride along with Swiper's own slide transition
-   with no extra JS to keep them in sync. Only the excerpt on the right
-   needs a manual swap on slideChange. Browses through whatever set is
-   currently filtered/sorted on the page, not the full unfiltered
-   newsItems list. */
 let newsDetailList = [];
 
 function newsDetailBodyHtml(item) {
@@ -5272,8 +4633,6 @@ function openNewsDetailOverlay(newsId) {
   const modalEl = document.getElementById("overlayModal");
   const modal = new bootstrap.Modal(modalEl);
 
-  // See openMachineDetailOverlay's comment above — Swiper needs the modal's
-  // fade-in transition to finish before it can measure slide width.
   modalEl.addEventListener(
     "shown.bs.modal",
     () => {
@@ -5293,7 +4652,6 @@ function openNewsDetailOverlay(newsId) {
         rtl: document.documentElement.dir === "rtl",
         keyboard: { enabled: true },
         a11y: { enabled: true },
-        // No `pagination` option on purpose — see renderWindowedDots above.
         navigation: {
           nextEl: ".newsDetailNext",
           prevEl: ".newsDetailPrev",
@@ -5368,35 +4726,20 @@ function bindNewsPageEvents() {
   });
 }
 
-/* ============================================================
-   VIDEOS PAGE — filterable grid over `videoItems` (see VIDEO DATA)
-   ============================================================ */
 let videoSortMode = "newest"; // must match VIDEO_SORT_OPTIONS[0].key
 let videoViewLayout = "grid"; // "grid" | "list"
 let videosPageEventsBound = false;
 
-/* Grid cards are col-lg-4, so 6 is two full rows — the machinery page uses
-   9 for the same reason against its own 3-up grid. Keep it below the
-   catalog size: any value >= the number of videos means the Show More
-   button never appears at all. */
 const VIDEOS_PAGE_SIZE = 9  ;
 let displayedVideosCount = VIDEOS_PAGE_SIZE;
 
-// Order here is the order in the dropdown; the first entry is what the page
-// opens on. Newest leads because a video library reads newest-first by
-// default, and every item already carries a publishedAt to sort by.
 const VIDEO_SORT_OPTIONS = [
   { key: "newest", en: "Newest", ar: "الأحدث" },
   { key: "oldest", en: "Oldest", ar: "الأقدم" },
-  // No "Most Viewed": nothing counts views any more, so it could only ever
-  // have returned catalog order dressed up as a ranking.
   { key: "alpha", en: "A–Z", ar: "أ–ي" },
   { key: "alphaDesc", en: "Z–A", ar: "ي–أ" },
 ];
 
-/* Titles sort under the language currently on screen, so "A–Z" means the
-   alphabet the reader is actually looking at — localeCompare with the Arabic
-   locale orders ا/ب/ت properly, which a plain > comparison does not. */
 function compareVideoTitle(a, b) {
   const locale = appState.language === "ar" ? "ar" : "en";
   return getLabel(a.titleEn, a.titleAr).localeCompare(
@@ -5412,8 +4755,6 @@ const VIDEO_SORTERS = {
 
   alpha: compareVideoTitle,
 
-  // Same comparator with the operands swapped — one source of truth for how
-  // titles collate, including the Arabic locale handling.
   alphaDesc: (a, b) => compareVideoTitle(b, a),
 };
 
@@ -5422,11 +4763,6 @@ function videoPublishedTime(v) {
   return Number.isNaN(t) ? -Infinity : t;
 }
 
-/* Undated items sort to the end under BOTH date orders. videoPublishedTime
-   returns -Infinity for a missing date, which puts them last under Newest
-   for free but would float them to the very top of Oldest — a missing date
-   means "unknown", not "the beginning of time". Hence the explicit checks
-   before the direction is applied. */
 function compareVideoDate(a, b, direction) {
   const ta = videoPublishedTime(a);
   const tb = videoPublishedTime(b);
@@ -5439,11 +4775,11 @@ function compareVideoDate(a, b, direction) {
 }
 
 function sortVideos(list) {
-  // Array#sort is stable (ES2019), so items that tie keep catalog order
-  // instead of shuffling — that is the tiebreak for featured and newest.
   const sorter = VIDEO_SORTERS[videoSortMode];
   return sorter ? [...list].sort(sorter) : list;
 }
+
+// ── Videos Page ──
 
 function loadVideosPage() {
   const container = document.getElementById("videosPageContent");
@@ -5501,68 +4837,10 @@ function renderVideoViewToggle() {
   document.querySelectorAll("[data-video-layout]").forEach((btn) => {
     const isActive = btn.dataset.videoLayout === videoViewLayout;
     btn.classList.toggle("active", isActive);
-    // aria-pressed, not aria-current: these are toggle buttons, and only one
-    // of the pair is on at a time.
     btn.setAttribute("aria-pressed", isActive);
   });
 }
 
-/* ---------- Card metadata ----------
-   Duration and quality used to sit here and have been removed: a YouTube
-   <iframe> is cross-origin, so neither is readable from this page whatever
-   parameters the src carries, and there is no iframe setting that exposes
-   them. (The IFrame Player API can report duration once every embed has been
-   replaced by a scripted player, and even then cannot give a static "1080p".)
-   Upload date is different — it is editorial data like the News page's dates,
-   not something scraped from the player — so it stays, and it is what the
-   "New" badge keys off. */
-
-// Descending, so the first unit the gap clears is the one worth showing.
-const VIDEO_AGE_UNITS = [
-  ["year", 31536000],
-  ["month", 2592000],
-  ["week", 604800],
-  ["day", 86400],
-  ["hour", 3600],
-  ["minute", 60],
-];
-
-/* Intl.RelativeTimeFormat rather than a hand-rolled "2h ago": Arabic has
-   dual and plural forms that a template string gets wrong. */
-function formatVideoAge(publishedAt) {
-  if (!publishedAt) return "";
-  const then = new Date(publishedAt).getTime();
-  if (Number.isNaN(then)) return "";
-
-  const deltaSec = Math.round((then - Date.now()) / 1000);
-  /* numeric:"always" — "auto" swaps in idioms like "last wk." and "yesterday",
-     which read oddly beside "2 days ago" in the same metadata row.
-
-     style: Arabic MUST use "long". CLDR's Arabic *short* forms drop the
-     direction marker, so ar-EG short renders both -3 and +3 months as
-     "خلال ٣ أشهر" ("in 3 months") — a past upload would read as a future one.
-     The long form correctly gives "قبل ٣ أشهر". English short is unambiguous
-     ("3 mo. ago") and stays compact, so it keeps short. */
-  const isArabic = appState.language === "ar";
-  const rtf = new Intl.RelativeTimeFormat(isArabic ? "ar-EG" : "en-US", {
-    numeric: "always",
-    style: isArabic ? "long" : "short",
-  });
-
-  for (const [unit, sec] of VIDEO_AGE_UNITS) {
-    if (Math.abs(deltaSec) >= sec) {
-      return rtf.format(Math.round(deltaSec / sec), unit);
-    }
-  }
-  return rtf.format(deltaSec, "minute");
-}
-
-/* ---------- Card badge ----------
-   Only one thing fills it now: "New", derived from publishedAt rather than
-   stored, because a badge that says "new" has to expire on its own — a field
-   in the data would still be claiming it a year later. Featured videos are
-   surfaced by the carousel above the grid (renderFeaturedVideos) instead of
-   by a badge. An item with no publishedAt never gets badged. */
 const VIDEO_NEW_DAYS = 14;
 
 function isVideoNew(v) {
@@ -5576,29 +4854,10 @@ function getVideoBadge(v) {
   return null;
 }
 
-/* One card definition shared by the featured carousel and the grid below it,
-   so a change to the embed or the badge lands in both places at once. */
 function videoCardHtml(v) {
   return videoPosterCardHtml(v, { badge: getVideoBadge(v) });
 }
 
-/* ---------- Video poster card ----------
-   Shared by the featured carousel and the library grid, so the two look and
-   behave identically. Deliberately NOT an always-on <iframe>: YouTube's player
-   chrome can't be styled, so a wall of embeds fights the design and each one
-   costs a player load on a page that shows a dozen at a time. The card is the
-   video's own poster frame with the title over a gradient, and the iframe is
-   created only when someone actually clicks (see playVideoCard).
-
-   Thumbnail fallback is handled by resolveVideoThumb below — see its comment,
-   the obvious onerror approach does not work here. */
-/* YouTube serves maxresdefault (1280x720) only for some uploads — 2 of the 4
-   currently featured have none. The catch is that it answers those with HTTP
-   404 *and a valid 120x90 grey placeholder JPEG in the body*, which the
-   browser decodes happily, so `onerror` never fires and the card would show a
-   tiny grey square blown up to full width. Detecting it by size is therefore
-   the only reliable test. hqdefault always exists; it is 4:3 with letterbox
-   bars, which object-fit:cover on the 16:9 card crops straight back off. */
 function resolveVideoThumb(img, youtubeId) {
   if (img.dataset.thumbFallback) return;
   if (img.naturalWidth > 200) return;
@@ -5628,19 +4887,10 @@ function videoPosterCardHtml(v, { badge = null } = {}) {
   `;
 }
 
-// The carousel shows no badge: a card's presence there already says it is a pick.
 function featuredVideoCardHtml(v) {
   return videoPosterCardHtml(v);
 }
 
-/* Swaps the poster for a real player, autoplaying because the click WAS the
-   play instruction. Replaces the button with a plain div so the now-inert
-   button can't keep taking focus or firing the handler again. */
-/* The carousel's own autoplay has to yield while a video is playing, and pick
-   up again when that video ends or is paused. A plain <iframe> cannot report
-   either — it is cross-origin — so this is the one place the YouTube IFrame
-   Player API is worth its weight. It is loaded lazily, on the first play, so
-   the page still costs nothing until someone actually watches something. */
 let youTubeApiPromise = null;
 
 function loadYouTubeApi() {
@@ -5649,8 +4899,6 @@ function loadYouTubeApi() {
   youTubeApiPromise = new Promise((resolve, reject) => {
     if (window.YT && window.YT.Player) return resolve(window.YT);
 
-    // The API calls one global hook when it is ready; chain rather than clobber
-    // in case anything else has already registered.
     const previous = window.onYouTubeIframeAPIReady;
     window.onYouTubeIframeAPIReady = () => {
       if (typeof previous === "function") previous();
@@ -5673,24 +4921,10 @@ function setCarouselAutoplay(running) {
   else sw.autoplay.stop();
 }
 
-/* Only one player at a time. Holds the live wrapper plus the poster it
-   replaced, so the previous video can be torn back down to its card when
-   another is started — swapping the poster back in destroys the iframe, which
-   is what actually stops the audio. */
 let currentVideoPlayback = null;
 
 const VIDEO_PLAYER_ANIM_MS = 320;
 
-/* Growing to the player's height cannot be transitioned directly: the target
-   height comes from aspect-ratio against height:auto, and there is no such
-   thing as a transition to auto. So the element is pinned to its start height,
-   flushed, then pinned to the measured end height with a transition — and the
-   inline heights are cleared afterwards so the card goes back to being sized by
-   CSS and stays responsive.
-
-   The clear runs on transitionend OR a timer, whichever lands first: a cancelled
-   or never-started transition would otherwise leave the card stuck at a fixed
-   pixel height forever. */
 function animateCardHeight(el, fromPx, toPx) {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced || Math.abs(fromPx - toPx) < 1) return;
@@ -5709,28 +4943,21 @@ function animateCardHeight(el, fromPx, toPx) {
   setTimeout(clear, VIDEO_PLAYER_ANIM_MS + 80);
 }
 
-/* Puts the previous video's poster back, which removes its iframe and with it
-   the sound. Animates the collapse for symmetry with the way it opened. */
 function stopCurrentVideo() {
   if (!currentVideoPlayback) return;
 
   const { wrap, poster, inCarousel, player } = currentVideoPlayback;
   currentVideoPlayback = null;
 
-  /* Destroying the player (or just removing the iframe with it) is what resets
-     progress — there is no partially-watched state left to come back to. */
   if (player && typeof player.destroy === "function") {
     try {
       player.destroy();
     } catch (e) {
-      /* already gone with its iframe */
     }
   }
 
   if (inCarousel) setCarouselAutoplay(true);
 
-  // The grid re-renders on sort/layout changes, which detaches the wrapper.
-  // Nothing to restore in that case; the fresh markup already shows a poster.
   if (!wrap.isConnected) return;
 
   const from = wrap.getBoundingClientRect().height;
@@ -5749,16 +4976,6 @@ function playVideoCard(card) {
   wrap.className = "video-poster-card is-playing";
   wrap.dataset.videoId = card.dataset.videoId;
 
-  /* In the library grid and list the card is SUPPOSED to grow on play: the
-     poster runs at 80% width beside its caption, while the player goes full
-     width at 16:9, so the row gets taller. CSS handles that.
-
-     The carousel is the exception. Its slides are fixed-height flex containers,
-     so a card there cannot grow — and left to itself the replacement <div>
-     resolves to a different size than the <button> it replaced (218px vs 518px
-     wide, measured), lurching sideways. Pinning the measured box is what keeps
-     that one steady, so it stays scoped to the carousel rather than applied
-     everywhere. */
   const inCarousel = !!card.closest(".videosFeaturedSwiper");
   if (inCarousel) {
     const box = card.getBoundingClientRect();
@@ -5782,7 +4999,6 @@ function playVideoCard(card) {
   const from = card.getBoundingClientRect().height;
   card.replaceWith(wrap);
 
-  // Measured AFTER insertion, so it is whatever the stylesheet resolves to.
   if (!inCarousel) {
     animateCardHeight(wrap, from, wrap.getBoundingClientRect().height);
   }
@@ -5791,23 +5007,17 @@ function playVideoCard(card) {
 
   if (!inCarousel) return;
 
-  /* Hold the carousel still for the duration. Stopping autoplay immediately
-     (rather than waiting for the API) means the row cannot slide out from under
-     the video during the moment the script is still loading. */
   setCarouselAutoplay(false);
 
   const playback = currentVideoPlayback;
   loadYouTubeApi()
     .then((YT) => {
-      // Guard: the viewer may have swiped or started something else while the
-      // API was still downloading, in which case this playback is already over.
       if (currentVideoPlayback !== playback || !playback.wrap.isConnected) return;
 
       playback.player = new YT.Player(playback.wrap.querySelector("iframe"), {
         events: {
           onStateChange: (e) => {
             if (currentVideoPlayback !== playback) return;
-            // Paused or finished — the carousel is free to move on again.
             const done =
               e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED;
             setCarouselAutoplay(done);
@@ -5816,18 +5026,9 @@ function playVideoCard(card) {
       });
     })
     .catch(() => {
-      // API blocked or offline: fall back to leaving autoplay off until the
-      // viewer navigates, which stopCurrentVideo restores.
     });
 }
 
-/* Editor's picks get their own carousel above the library grid — that is what
-   the `featured` flag buys now, in place of the badge it used to add. They are
-   deliberately still present in the grid below: the grid is the full library,
-   and hiding them from it would make them unreachable under A–Z or Oldest.
-
-   No autoplay on purpose. Every slide is a live YouTube embed, so sliding the
-   track out from under someone mid-playback would be hostile. */
 function renderFeaturedVideos() {
   const section = document.getElementById("videosFeaturedSection");
   if (!section) return;
@@ -5839,7 +5040,6 @@ function renderFeaturedVideos() {
 
   const featured = videoItems.filter((v) => v.featured);
 
-  // Nothing flagged — render nothing at all rather than an empty heading.
   if (featured.length === 0) {
     section.innerHTML = "";
     return;
@@ -5867,97 +5067,29 @@ function renderFeaturedVideos() {
     </div>
   `;
 
-  /* Swiper lays out a fixed number of equal lanes and centres the active one
-     assuming every lane is filled. Ask for more lanes than there are slides
-     and the row can never fill: the cards bunch up at the start, the surplus
-     lane sits empty at the end, and the "centred" card is pushed off by
-     exactly one lane. So the view count is capped at how many featured videos
-     actually exist rather than hard-coded.
-
-     TWO lanes render THREE cards, which is the whole trick — see SPACE_BETWEEN
-     below. A lane here is a slide box, not a card slot.
-
-     Flag a 3rd video in videos.json and the row fills out on its own; flag 4+
-     and looping switches itself on too. */
   const TRACK_LANES = 2;
 
-  /* Negative, and that is deliberate. Swiper derives slide width from
-     (track - gap x (lanes - 1)) / lanes and the step between slides from
-     (track + gap) / lanes, so a negative gap makes slides WIDER than their
-     step: they overlap. That decouples the two things this layout needs to set
-     independently — how much room the hero has (slide width) from how far
-     apart the portraits sit (step).
-
-     With equal non-overlapping lanes they are the same number, and that is
-     what forced the old gaps: a hero that matches the portraits' height is
-     2.37x their width (16/9 x 4/3), which only fits beside a neighbour while
-     the portraits stay under ~.52 of a lane — leaving the other .48 as empty
-     band, whatever the lane count. Making the cards bigger just scaled the
-     band up with them.
-
-     Solving for one hero + two portraits + three equal gaps filling the track,
-     in units of a portrait's width c: hero 64/27 c, gap 10/27 c, so the row is
-     46/9 c. Feeding that back through Swiper's two formulas gives exactly 2
-     lanes and a gap of -64/138 of the track. Percent, not px, so it holds at
-     every width. */
   const SPACE_BETWEEN = "-46.3768%";
 
-  /* Minus one, not just capped at the count: if every slide is visible there
-     is nothing left to scroll to, and Swiper quietly becomes a static row —
-     nav buttons stop responding, autoplay has nowhere to go, and the
-     centred-active effect has no travel. Keeping one slide off-track is what
-     makes it behave like a carousel at all. 2 lanes therefore needs 3+
-     featured videos. */
   const perView = (n) => Math.min(n, Math.max(1, featured.length - 1));
 
-  /* Loop needs at least TWICE the lane count, not merely one spare slide.
-     Swiper fakes the wrap with duplicate slides, and below that threshold its
-     bookkeeping drifts: with 4 slides in 3 lanes it marks slide 2 active
-     while slide 1 is the one physically centred, so the enlarged card and the
-     centred card are different cards. `rewind` is the honest substitute at
-     this size — it jumps back to the first slide at the end, so autoplay
-     still runs indefinitely, just without the seamless wrap. At 2 lanes the
-     threshold is 4 featured videos. */
   const canLoop = featured.length >= perView(TRACK_LANES) * 2;
 
   window.videosFeaturedSwiperInstance = new Swiper(".videosFeaturedSwiper", {
-    /* The leading card is the wide landscape one and the rest are portrait —
-       see the .swiper-slide-active rules in style.css for how the two widths
-       are derived from each other. */
     slidesPerView: perView(TRACK_LANES),
-    /* Off, deliberately: centring would drag the hero into the middle of the
-       track, and it belongs on the leading edge. Swiper marks the LEADING
-       visible slide active when this is false, which is the hook the CSS uses
-       to widen it. */
     centeredSlides: false,
     centeredSlidesBounds: !canLoop,
     loop: canLoop,
-    /* Swiper sizes its loop reserve from slidesPerView, and slidesPerView is 2
-       here — but the overlap means THREE cards are on screen, so at the wrap
-       it ran out of slides to put in the third slot: the row dropped to a hero
-       plus one card and activeIndex stopped advancing. The extra two rebuild
-       the reserve to match what is actually visible. Tied to TRACK_LANES
-       rather than written as 2, so the two move together. */
     loopAdditionalSlides: TRACK_LANES,
     rewind: !canLoop,
-    /* Matches the transition duration on .video-poster-card in style.css.
-       Swiper animates the horizontal translate and CSS animates the cards
-       changing shape; left at the 300ms default the row would arrive while the
-       hero was still growing. */
     speed: 400,
     autoplay: {
       delay: 4000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
-    /* 0, not 1: the +1 used to hide that the first slide sat flush against the
-       track edge with nothing before it. The lanes overlap now, so the slide
-       BEFORE the hero is always tucked underneath it and the edge is covered
-       whichever video opens — leaving no reason not to open on the first. */
     initialSlide: 0,
     spaceBetween: SPACE_BETWEEN,
-    /* Off: its hit-test picks the slide under the pointer, which these
-       overlapping slides make wrong. The click handler does it explicitly. */
     slideToClickedSlide: false,
     watchSlidesProgress: true,
     rtl: document.documentElement.dir === "rtl",
@@ -5966,9 +5098,6 @@ function renderFeaturedVideos() {
       prevEl: ".videos-featured-prev",
     },
     on: {
-      /* Moving the carousel ends the video rather than letting it play on out
-         of view. stopCurrentVideo puts the poster back, which destroys the
-         iframe — so progress resets and it starts from zero next time. */
       slideChange() {
         if (currentVideoPlayback && currentVideoPlayback.inCarousel) {
           stopCurrentVideo();
@@ -5976,13 +5105,7 @@ function renderFeaturedVideos() {
       },
     },
     breakpoints: {
-      /* Phones get plain non-overlapping lanes: there is no room for a hero
-         beside two portraits, so the media query in style.css drops the whole
-         hero treatment and shows one card at a time. spaceBetween has to be
-         reset to 0 here or the overlap maths would collapse that single card. */
       0: { slidesPerView: Math.min(1, featured.length), spaceBetween: 0 },
-      /* Restores both base values — a breakpoint merges over what came before
-         it, so leaving spaceBetween out here would keep the phone's 0. */
       768: { slidesPerView: perView(TRACK_LANES), spaceBetween: SPACE_BETWEEN },
     },
   });
@@ -5994,7 +5117,6 @@ function renderVideosGrid() {
 
   renderVideoViewToggle();
 
-  // List view is one full-width row per video; grid keeps the 4-up cards.
   grid.classList.toggle("videos-list-view", videoViewLayout === "list");
   const colClass = videoViewLayout === "list" ? "col-12" : "col-md-6 col-lg-4";
 
@@ -6008,8 +5130,6 @@ function renderVideosGrid() {
     return;
   }
 
-  // Batch after sorting, so "Show More" reveals the next items in whatever
-  // order is currently selected rather than the next entries in the catalog.
   const sorted = sortVideos(videoItems);
   const visible = sorted.slice(0, displayedVideosCount);
   const hasMore = displayedVideosCount < sorted.length;
@@ -6033,8 +5153,6 @@ function renderVideosGrid() {
   grid.innerHTML = cardsHtml + showMoreHtml;
 }
 
-// Reads "Showing 4 of 8 videos" while batched, and settles to a plain total
-// once everything is on screen.
 function renderVideosCount(shown, total) {
   const el = document.getElementById("videosCount");
   if (!el) return;
@@ -6060,30 +5178,14 @@ function bindVideosPageEvents() {
   document.addEventListener("click", (e) => {
     const playCard = e.target.closest("[data-video-play]");
     if (playCard) {
-      /* In the Highlights carousel only the leading card is landscape; the rest
-         are portrait. Playing one of those would swap a 3:4 box for a 16:9
-         player and lurch the row. So a click on a non-leading card promotes it
-         instead — Swiper's slideToClickedSlide brings it to the front, where it
-         becomes landscape and can be played on a second click. */
       const slide = playCard.closest(".videosFeaturedSwiper .swiper-slide");
       if (slide && !slide.classList.contains("swiper-slide-active")) {
-        /* Promote it instead of playing — but do the slideTo ourselves rather
-           than leaving it to Swiper.
-
-           slideToClickedSlide picks the slide sitting under the pointer, and in
-           this carousel that is the wrong one: the slides are far wider than the
-           cards and overlap heavily (817px slides carrying ~218px cards), so a
-           card is routinely painted over a NEIGHBOUR slide box. Clicking the
-           second card promoted the third, the third promoted the fourth, and the
-           mismatch was measurable on 3 of every 4 cards. Reading the index off
-           the card's own slide removes the guesswork. */
         const swiper = window.videosFeaturedSwiperInstance;
         const loopIndex = Number(slide.dataset.swiperSlideIndex);
 
         if (swiper && Number.isFinite(loopIndex)) {
           swiper.slideToLoop(loopIndex);
         } else if (swiper) {
-          // Not looping: DOM order is the index.
           swiper.slideTo([...slide.parentElement.children].indexOf(slide));
         }
         return;
@@ -6100,7 +5202,6 @@ function bindVideosPageEvents() {
     }
 
     const layoutBtn = e.target.closest("[data-video-layout]");
-    // Layout is presentation only — how many are revealed carries over.
     if (layoutBtn && layoutBtn.dataset.videoLayout !== videoViewLayout) {
       videoViewLayout = layoutBtn.dataset.videoLayout;
       renderVideosGrid();
@@ -6110,22 +5211,19 @@ function bindVideosPageEvents() {
   document.addEventListener("change", (e) => {
     if (e.target.matches("#videoSortSelect")) {
       videoSortMode = e.target.value;
-      // Back to the first batch — being 2 batches into the old order means
-      // nothing once the order changes underneath it.
       displayedVideosCount = VIDEOS_PAGE_SIZE;
       renderVideosGrid();
     }
   });
 }
 
-/**
- * Load contact page
- */
+// ── Contact Page ──
+
 function loadContactPage() {
   const container = document.getElementById("contactPageContent");
   if (!container) return;
 
-  // ===== Data =====
+  // ── Data ──
 
   const socialHtml = socialLinks
     .map(
@@ -6199,7 +5297,7 @@ function loadContactPage() {
     )
     .join("");
 
-  // ===== Render =====
+  // ── Render ──
 
   container.innerHTML = `
         ${createBanner(getLabel("Contact Us", "اتصل بنا"))}
@@ -6243,7 +5341,6 @@ function loadContactPage() {
                                     ${socialHtml}
                                 </div>
                             </h5>
-
 
                         </div>
                     </div>
@@ -6289,7 +5386,6 @@ function loadContactPage() {
 
     `;
 
-  // Contact form submit handler
   const form = document.getElementById("contactForm");
   if (form) {
     form.addEventListener("submit", function (e) {
@@ -6299,14 +5395,137 @@ function loadContactPage() {
       const subject = document.getElementById("contactSubject").value;
       const message = document.getElementById("contactMessage").value;
 
-      // Hook your actual contact/API call here
       console.log("Contact form submitted", { name, email, subject, message });
     });
   }
 }
-/**
- * Initialize Sign Up Page
- */
+
+// ── Legal Pages ──
+
+function bindLegalToc(container) {
+  const toc = container.querySelector(".legal-toc");
+  if (!toc) return;
+
+  toc.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    const target = document.getElementById(link.getAttribute("href").slice(1));
+    if (!target) return;
+
+    e.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
+function legalPageHtml({ pageTitle, tagline, updated, toc, body }) {
+  return `
+    ${createBanner(pageTitle)}
+
+    <div class="container py-5">
+      <div class="legal-header text-${getDirectionClass("start", "end")} mb-5">
+        <h5 class="sub-title p-0">${pageTitle}</h5>
+        <p class="text-muted mb-0">${tagline}</p>
+        ${updated ? `<p class="legal-updated mb-0">${updated}</p>` : ""}
+      </div>
+
+      <div class="row g-4 g-lg-5">
+        <div class="col-lg-4 col-xl-3 d-none d-lg-block">
+          ${toc}
+        </div>
+        <div class="col-lg-8 col-xl-9">
+          ${body}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function loadTermsOfServicePage() {
+  const container = document.getElementById("termsPageContent");
+  if (!container) return;
+
+  const docs = [legalDocuments.returns, legalDocuments.warranty];
+
+  container.innerHTML = legalPageHtml({
+    pageTitle: getLabel("Terms of Service", "الشروط والأحكام"),
+    tagline: getLabel(
+      "The return, exchange and warranty terms that apply to every Kader Factory product.",
+      "شروط الاستبدال والاسترجاع والضمان المطبقة على جميع منتجات مصنع قادر.",
+    ),
+    toc: legalTocHtml(docs),
+    body: `
+      ${docs.map(legalDocHtml).join('<hr class="legal-divider">')}
+
+      <div class="legal-contact">
+        <div>
+          <h3 class="h5 fw-bold mb-1">${getLabel("Still have a question?", "هل لديك استفسار؟")}</h3>
+          <p class="mb-0 text-muted small">
+            ${getLabel(
+              "Our customer service team can walk you through any of the above.",
+              "فريق خدمة العملاء لدينا مستعد لمساعدتك في أي مما سبق.",
+            )}
+          </p>
+        </div>
+        <a href="#contact" class="btn btn-primary rounded-0 px-4 py-2 flex-shrink-0" data-nav-page-id="contact">
+          ${getLabel("Contact Us", "تواصل معنا")}
+        </a>
+      </div>
+    `,
+  });
+
+  bindLegalToc(container);
+
+  if (appState.legalScrollTarget) {
+    const target = document.getElementById(appState.legalScrollTarget);
+    appState.legalScrollTarget = null;
+    if (target) {
+      requestAnimationFrame(() =>
+        target.scrollIntoView({ behavior: "smooth", block: "start" }),
+      );
+    }
+  }
+}
+
+function loadPrivacyPolicyPage() {
+  const container = document.getElementById("privacyPageContent");
+  if (!container) return;
+
+  const doc = legalDocuments.privacy;
+
+  container.innerHTML = legalPageHtml({
+    pageTitle: getLabel("Privacy Policy", "سياسة الخصوصية"),
+    tagline: getLabel(
+      "How Kader Factory handles the information you share with us.",
+      "كيف يتعامل مصنع قادر مع المعلومات التي تشاركها معنا.",
+    ),
+    updated: getLabel(doc.updated.en, doc.updated.ar),
+    toc: legalTocHtml([doc]),
+    body: `
+      ${legalDocHtml(doc)}
+
+      <div class="legal-contact">
+        <div>
+          <h3 class="h5 fw-bold mb-1">${getLabel("A question about your data?", "لديك استفسار بشأن بياناتك؟")}</h3>
+          <p class="mb-0 text-muted small">
+            ${getLabel(
+              "Write to us and we will answer directly.",
+              "راسلنا وسنجيبك مباشرة.",
+            )}
+          </p>
+        </div>
+        <a href="#contact" class="btn btn-primary rounded-0 px-4 py-2 flex-shrink-0" data-nav-page-id="contact">
+          ${getLabel("Contact Us", "تواصل معنا")}
+        </a>
+      </div>
+    `,
+  });
+
+  bindLegalToc(container);
+}
+
+// ── Register & Login Pages ──
+
 function loadRegisterPage() {
   const container = document.getElementById("registerPageContent");
   if (!container) return;
@@ -6370,13 +5589,11 @@ function loadRegisterPage() {
                                     <input type="text" class="form-control py-2" id="firstName" required>
                                     <div class="invalid-feedback" id="firstName-error"></div>
 
-
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small fw-semibold" for="lastName">${getLabel("Last Name", "اسم العائلة")}</label>
                                     <input type="text" class="form-control py-2" id="lastName" required>
                                     <div class="invalid-feedback" id="lastName-error"></div>
-
 
                                 </div>
                             </div>
@@ -6386,14 +5603,12 @@ function loadRegisterPage() {
                                 <input type="email" class="form-control py-2" id="signupEmail" required>
                                 <div class="invalid-feedback" id="signupEmail-error"></div>
 
-
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label small fw-semibold" for="signupPhone">${getLabel("Phone Number", "رقم الهاتف")}</label>
                                 <input type="tel" class="form-control py-2" id="signupPhone" dir="ltr" required>
                                 <div class="invalid-feedback" id="signupPhone-error"></div>
-
 
                             </div>
 
@@ -6413,7 +5628,6 @@ function loadRegisterPage() {
                                 <label class="form-label small fw-semibold" for="confirmPassword">${getLabel("Confirm Password", "تأكيد كلمة المرور")}</label>
                                 <input type="password" class="form-control py-2" id="confirmPassword" required>
                                 <div class="invalid-feedback" id="confirmPassword-error"></div>
-
 
                             </div>
 
@@ -6448,7 +5662,6 @@ function loadRegisterPage() {
         </div>
     `;
 
-  // Toggle password visibility
   const toggleBtn = document.getElementById("togglePassword");
   const passwordInput = document.getElementById("signupPassword");
   toggleBtn.addEventListener("click", () => {
@@ -6459,7 +5672,6 @@ function loadRegisterPage() {
       : "far fa-eye-slash";
   });
 
-  // Basic client-side validation feedback
   const form = document.getElementById("signupForm");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -6473,12 +5685,10 @@ function loadRegisterPage() {
       role: email.toLowerCase() === DEMO_ADMIN_EMAIL ? "admin" : "customer",
     };
 
-    // No checkbox on this form; creating an account implies staying signed in.
     loginUser(user, true);
     setCurrentPage(user.role === "admin" ? "admin" : "profile");
   });
 
-  // Signing up through Google implies staying signed in, same as the form.
   const googleSignupBtn = document.getElementById("googleSignupBtn");
   if (googleSignupBtn) {
     googleSignupBtn.addEventListener("click", () =>
@@ -6486,7 +5696,6 @@ function loadRegisterPage() {
     );
   }
 
-  // Validations
   function validateSignupForm() {
     let isValid = true;
 
@@ -6513,10 +5722,8 @@ function loadRegisterPage() {
       if (errorEl) errorEl.textContent = "";
     }
 
-    // Reset all first
     Object.values(fields).forEach((f) => f && clearError(f));
 
-    // First / Last name — required, letters only (basic check)
     if (!fields.firstName.value.trim()) {
       showError(
         fields.firstName,
@@ -6530,7 +5737,6 @@ function loadRegisterPage() {
       );
     }
 
-    // Email — required + valid format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!fields.signupEmail.value.trim()) {
       showError(
@@ -6547,7 +5753,6 @@ function loadRegisterPage() {
       );
     }
 
-    // Phone — required, digits only, reasonable length
     const phoneDigits = fields.signupPhone.value.replace(/\D/g, "");
     if (!phoneDigits) {
       showError(
@@ -6561,7 +5766,6 @@ function loadRegisterPage() {
       );
     }
 
-    // Password — required, min length, at least one number
     const password = fields.signupPassword.value;
     if (!password) {
       showError(
@@ -6586,7 +5790,6 @@ function loadRegisterPage() {
       );
     }
 
-    // Confirm password — must match
     if (!fields.confirmPassword.value) {
       showError(
         fields.confirmPassword,
@@ -6599,7 +5802,6 @@ function loadRegisterPage() {
       );
     }
 
-    // Terms checkbox — must be checked
     if (!fields.agreeTerms.checked) {
       fields.agreeTerms.classList.add("is-invalid");
       isValid = false;
@@ -6611,14 +5813,11 @@ function loadRegisterPage() {
   }
 }
 
-/**
- * Initialize Sign In Page
- */
 function loadLoginPage() {
   const loginPage = document.getElementById("loginPageContent");
   if (!loginPage) return;
 
-  loginPage.innerHTML = /*html*/ `
+  loginPage.innerHTML = `
         <div class="container-fluid p-0">
             <div class="row g-0 min-vh-100">
 
@@ -6717,7 +5916,6 @@ function loadLoginPage() {
         </div>
     `;
 
-  // Toggle password visibility
   const toggleBtn = document.getElementById("toggleLoginPassword");
   const passwordInput = document.getElementById("loginPassword");
   toggleBtn.addEventListener("click", () => {
@@ -6728,7 +5926,6 @@ function loadLoginPage() {
       : "far fa-eye-slash";
   });
 
-  // Form submit
   const form = document.getElementById("loginForm");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -6746,7 +5943,6 @@ function loadLoginPage() {
       return;
     }
 
-    // DEMO: no real password check / backend — see AUTH SYSTEM notes above
     const isAdmin = email.toLowerCase() === DEMO_ADMIN_EMAIL;
     const namePart = email
       .split("@")[0]
@@ -6768,7 +5964,6 @@ function loadLoginPage() {
     setCurrentPage(isAdmin ? "admin" : "profile");
   });
 
-  // Google honours the same "Remember me" choice as the password form.
   const googleLoginBtn = document.getElementById("googleLoginBtn");
   if (googleLoginBtn) {
     googleLoginBtn.addEventListener("click", () =>
@@ -6780,15 +5975,12 @@ function loadLoginPage() {
   }
 }
 
-/**
- * Military Access Gate — OTP-only entry to the "military" category.
- * See MILITARY ACCESS GATE section above for the storage/verify logic.
- */
+// ── Military Access Page ──
+
 function loadMilitaryAccessPage() {
   const container = document.getElementById("militaryAccessPageContent");
   if (!container) return;
 
-  // Already unlocked on this device — skip straight to the catalog
   if (hasMilitaryAccess()) {
     goToProductsWithFilter("military");
     return;
@@ -6797,7 +5989,7 @@ function loadMilitaryAccessPage() {
   const lockout = getMilitaryLockout();
   const isLocked = lockout.lockedUntil && lockout.lockedUntil > Date.now();
 
-  container.innerHTML = /*html*/ `
+  container.innerHTML = `
         <div class="container-fluid p-0">
             <div class="row g-0 min-vh-100">
 
@@ -6847,6 +6039,13 @@ function loadMilitaryAccessPage() {
                                        class="form-control py-2 text-center fw-bold" style="letter-spacing:0.5em; font-size:1.4rem;"
                                        id="militaryOtpInput" ${isLocked ? "disabled" : ""} required>
                                 <div class="invalid-feedback" id="militaryOtpInput-error"></div>
+                                <p class="form-text small mt-2 mb-0" id="militaryOtpHint">
+                                    <i class="fas fa-clock ${getDirectionClass("me-1", "ms-1")}"></i>
+                                    ${getLabel(
+                                      `It expires in ${MILITARY_OTP_TTL_MINUTES / 60} hours and can only be used once.`,
+                                      `ينتهي خلال ${MILITARY_OTP_TTL_MINUTES / 60} ساعة ويُستخدم مرة واحدة فقط.`,
+                                    )}
+                                </p>
                             </div>
 
                             ${
@@ -6912,9 +6111,7 @@ function loadMilitaryAccessPage() {
   });
 }
 
-/**
- * Initialize Single Product Page
- */
+// ── Single Product Page ──
 
 function loadSingleProductPage(productId) {
   const container = document.getElementById("singleProductContent");
@@ -6927,10 +6124,7 @@ function loadSingleProductPage(productId) {
     return;
   }
 
-  // REMOVED — RESERVATION_WHATSAPP / RESERVATION_EMAIL already declared
-  // at the top of your file; no need to redeclare them here.
-
-  // ===== Data — read directly from the JSON, no fallback defaults =====
+  // ── Data — Read Directly From The Json, No Fallback Defaults ──
   const gallery = product.gallery;
   const price = product.price;
   const colors = product.colors;
@@ -6948,7 +6142,7 @@ function loadSingleProductPage(productId) {
     .filter((p) => p.categoryId === product.categoryId && p.id !== product.id)
     .slice(0, 4);
 
-  // ===== Render helpers =====
+  // ── Render Helpers ──
 
   const galleryThumbsHtml = gallery
     .map(
@@ -6979,7 +6173,7 @@ function loadSingleProductPage(productId) {
   const specGroupsHtml = specGroups
     .map(
       (group, i) => `
-        <div class="spec-group-item border-bottom border-black-25">
+        <div class="filter-chip  border-bottom border-black-25">
             <button class="spec-group-toggle d-flex align-items-center justify-content-between w-100 bg-transparent border-0 py-3" type="button" data-bs-toggle="collapse" data-bs-target="#specGroup${i}">
                 <h6 class="fw-bold mb-0">${getLabel(group.titleEn, group.titleAr)}</h6>
                 <i class="fas fa-chevron-down spec-chevron"></i>
@@ -7045,7 +6239,7 @@ function loadSingleProductPage(productId) {
     })
     .join("");
 
-  // ===== Render =====
+  // ── Render ──
   const policyTabButtonsHtml = Object.entries(policyTabsContent)
     .map(
       ([key, tab], i) => `
@@ -7069,7 +6263,7 @@ function loadSingleProductPage(productId) {
               ${
                 tab.linkLabel
                   ? `
-                  <a href="#" class="btn btn-link" onclick="setCurrentPage('${tab.linkPage}')">
+                  <a href="#" class="btn btn-link ${getDirectionClass("", "ps-3 pe-0")}" onclick="setCurrentPage('${tab.linkPage}')">
                       ${getLabel(tab.linkLabel.en, tab.linkLabel.ar)}</i>
                   </a>
               `
@@ -7080,18 +6274,17 @@ function loadSingleProductPage(productId) {
     )
     .join("");
 
-  // ===== Res Section =====
-  // Assumes product has a stockQty field — add this to your product data objects
-  const stockQty = product.stockQty || 20; // fallback default if not set
-  const maxSelectable = Math.min(stockQty, 20); // cap the dropdown length even if stock is huge
+  // ── Res Section ──
+  const stockQty = product.stockQty || 20;
+  const maxSelectable = Math.min(stockQty, 20);
 
   const qtyOptionsHtml = Array.from({ length: maxSelectable }, (_, i) => i + 1)
     .map((n) => `<option value="${n}">${n}</option>`)
     .join("");
 
-  // ===== Render page =====
+  // ── Render Page ──
 
-  container.innerHTML = /*html*/ `
+  container.innerHTML = `
     ${createBanner(getLabel("All Products", "المنتجات"), getLabel("Product", "المنتج"))}
 
         <div class="container-fluid overflow-hidden py-5 bg-light">
@@ -7204,7 +6397,6 @@ function loadSingleProductPage(productId) {
                             ${specGroupsHtml}
                         </div>
 
-
                     </div>
 
                     <!-- Right: Reservation Box -->
@@ -7242,7 +6434,7 @@ function loadSingleProductPage(productId) {
                                     : stockQty <= 10
                                       ? `
                                     <div class="form-text text-danger small mt-1">
-                                        ${getLabel(`Only ${stockQty} left in stock`, `متبقي ${stockQty} فقط في المخزون`)}
+                                        ${getLabel(`Only ${stockQty} left in stock`, `متبقي ${stockQty} فقط`)}
                                     </div>
                                 `
                                       : ""
@@ -7384,11 +6576,7 @@ function loadSingleProductPage(productId) {
         </div>
     `;
 
-  // ===================== Interactions =====================
-  // NOTE: all shared state is declared FIRST, before any handler that
-  // references it. Previously qtySelect / selectedColor / selectedSize
-  // were declared at the bottom, so if anything above them threw, the
-  // Add to Cart / Buy Now handlers hit a TDZ ReferenceError on click.
+  // ── Interactions ──
 
   const qtySelect = container.querySelector("#productQty");
   let selectedColor = getLabel(colors[0].name, colors[0].nameAr);
@@ -7396,8 +6584,6 @@ function loadSingleProductPage(productId) {
 
   const getQty = () => parseInt(qtySelect?.value || "1", 10);
 
-  // --- Related product cards ---
-  // (was: relatedHtml[i].id — relatedHtml is a STRING, not an array)
   container.querySelectorAll(".related-product-card").forEach((card) => {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
@@ -7405,7 +6591,6 @@ function loadSingleProductPage(productId) {
     });
   });
 
-  // --- Add to Cart ---
   const addToCartBtn = container.querySelector("#addToCartBtn");
   if (addToCartBtn) {
     addToCartBtn.addEventListener("click", () => {
@@ -7424,7 +6609,6 @@ function loadSingleProductPage(productId) {
     });
   }
 
-  // --- Buy Now ---
   const buyNowBtn = container.querySelector("#buyNowBtn");
   if (buyNowBtn) {
     buyNowBtn.addEventListener("click", () => {
@@ -7436,7 +6620,6 @@ function loadSingleProductPage(productId) {
     });
   }
 
-  // --- Color swatches ---
   container.querySelectorAll(".color-swatch").forEach((swatch) => {
     swatch.addEventListener("click", function () {
       container
@@ -7447,7 +6630,6 @@ function loadSingleProductPage(productId) {
     });
   });
 
-  // --- Size options ---
   container.querySelectorAll(".size-option").forEach((opt) => {
     opt.addEventListener("click", function () {
       container
@@ -7458,11 +6640,10 @@ function loadSingleProductPage(productId) {
     });
   });
 
-  // --- Spec group chevrons ---
   container.querySelectorAll(".spec-group-toggle").forEach((btn) => {
     const targetId = btn.getAttribute("data-bs-target");
     const target = container.querySelector(targetId);
-    if (!target) return; // defensive: don't throw and abort everything below
+    if (!target) return;
     target.addEventListener("show.bs.collapse", () =>
       btn.querySelector(".spec-chevron").classList.add("rotated"),
     );
@@ -7471,11 +6652,6 @@ function loadSingleProductPage(productId) {
     );
   });
 
-  // --- Gallery swipers ---
-  // NOTE: the inline gallery and the fullscreen overlay must NOT share the
-  // same class — new Swiper(".x") only binds the FIRST match, so the second
-  // one silently never initializes. Rename the overlay's classes in the
-  // markup to .galleryFullscreenSwiper / .galleryFullscreenThumbs.
   const galleryThumbs = new Swiper(".galleryOverlayThumbs", {
     direction: "vertical",
     spaceBetween: 10,
@@ -7504,7 +6680,6 @@ function loadSingleProductPage(productId) {
     thumbs: { swiper: galleryThumbs },
   });
 
-  // --- Fullscreen toggle ---
   const galleryWrapper = document.getElementById("productGalleryWrapper");
   const openGalleryBtn = document.getElementById("openGalleryOverlay");
 
@@ -7535,7 +6710,6 @@ function loadSingleProductPage(productId) {
     });
   }
 
-  // --- Reservation Modal ---
   const reservationBackdrop = document.getElementById(
     "reservationModalBackdrop",
   );
@@ -7617,13 +6791,7 @@ function loadSingleProductPage(productId) {
   }
 }
 
-/* ============================================================
-   CART PAGE
-   ============================================================
-   The review/edit step before checkout. Reuses the existing cart
-   functions (removeFromCart / updateCartItemQty / getCartTotal) —
-   no new cart state is introduced here.
-   ============================================================ */
+// ── Cart Page ──
 let cartPageEventsBound = false;
 
 function loadCartPage() {
@@ -7716,9 +6884,6 @@ function renderCartLineItem(item) {
   `;
 }
 
-/* Delegated qty-stepper / remove handling, scoped to #cartPageContent
-   so it never fires for unrelated [data-product-id] elements elsewhere
-   (e.g. product grid cards) */
 function bindCartPageEvents() {
   if (cartPageEventsBound) return;
   cartPageEventsBound = true;
@@ -7755,13 +6920,7 @@ function bindCartPageEvents() {
   });
 }
 
-/* ============================================================
-   PROFILE PAGE
-   ============================================================
-   Route-guarded: redirects to Login if nobody is signed in.
-   Tabs: Overview (editable account info) + Order History (orders
-   from ORDER STORAGE, filtered to the signed-in user's email).
-   ============================================================ */
+// ── Profile Page ──
 function goToProfileTab(tab) {
   appState.pendingProfileTab = tab;
   setCurrentPage("profile");
@@ -7889,7 +7048,6 @@ function loadProfilePage() {
   bindProfilePageEvents(container);
 }
 
-// Shared by Profile order history + Admin orders table
 function orderStatusBadge(status) {
   const s = ORDER_STATUSES.find((x) => x.key === status) || ORDER_STATUSES[0];
   return `<span class="badge ${s.badgeClass}">${getLabel(s.en, s.ar)}</span>`;
@@ -7933,23 +7091,6 @@ function bindProfilePageEvents(container) {
   }
 }
 
-/* ============================================================
-   CMS: CONTENT MANAGEMENT (Admin Dashboard)
-   ============================================================
-   One generic table + modal-form engine reused across all 5
-   manageable content types instead of five separate CRUD
-   implementations — each type is just a config entry in
-   CMS_TYPES (columns for the list view, fields for the form).
-
-   Each type's live data is the same `let` array used everywhere
-   else on the site (productsData, bannerSlides, newsItems,
-   videoItems, machineryData), persisted via CONTENT STORE — so an
-   edit here is immediately what every public page reads next
-   time it renders.
-   ============================================================ */
-
-// Dotted-path get/set — lets form fields target nested values like
-// "title.en" (products) as easily as flat ones like "titleEn" (news).
 function getByPath(obj, path) {
   return path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
 }
@@ -8090,9 +7231,6 @@ const CMS_TYPES = {
       bannerSlides = arr;
       saveContentStore("bannerSlides", arr);
     },
-    // Unlike News/Videos/Machinery, the home page banner is built once
-    // at app boot and doesn't re-render on navigation — so without this,
-    // a CMS edit wouldn't show up until a full page reload.
     afterChange: () => {
       if (typeof initializeSlider === "function") initializeSlider();
     },
@@ -8159,11 +7297,6 @@ const CMS_TYPES = {
         type: "text",
       },
       {
-        /* Doubles as the on/off switch for the button — leaving it unset is
-           how an image-only slide says it does not want one. Options come
-           from categoriesData so they cannot drift from the filter the
-           Products page actually accepts. Military is listed like any other:
-           goToProductsWithFilter reroutes it to the OTP-gated page. */
         key: "categoryId",
         label: {
           en: "Button Links To (category filter)",
@@ -8232,7 +7365,6 @@ const CMS_TYPES = {
         render: (n) => getLabel(n.dateEn, n.dateAr),
       },
       {
-        // Derived from the date, not editable — see isNewsBreaking().
         label: { en: "Breaking News", ar: "أحدث الأخبار" },
         render: (n) =>
           isNewsBreaking(n)
@@ -8271,8 +7403,6 @@ const CMS_TYPES = {
       },
       { key: "img", label: { en: "Image", ar: "الصورة" }, type: "image" },
     ],
-    // Keep dateEn/dateAr in sync with dateRaw on save — the public News
-    // page displays the formatted labels, not the raw ISO date.
     beforeSave: (item) => {
       const d = new Date(item.dateRaw);
       if (!isNaN(d)) {
@@ -8340,7 +7470,6 @@ const CMS_TYPES = {
         required: true,
       },
       {
-        // Drives the "Newest" sort and the auto-expiring "New" badge.
         key: "publishedAt",
         label: { en: "Published", ar: "تاريخ النشر" },
         type: "date",
@@ -8357,10 +7486,6 @@ const CMS_TYPES = {
       machineryData = arr;
       saveContentStore("machineryData", arr);
     },
-    // specGroups isn't editable through this generic form (it's a nested
-    // array of {title, items[]} — beyond what the simple field types
-    // here support), so CMS-added machines start with none. The overlay
-    // already handles that gracefully (no spec section rendered).
     newItem: () => ({
       id: `machine-${Date.now()}`,
       img: "/images/prj-1.webp",
@@ -8413,13 +7538,6 @@ const CMS_TYPES = {
   },
 };
 
-/* ============================================================
-   ADMIN: MILITARY ACCESS SECTION
-   ============================================================
-   Lets an admin issue OTP codes (15-min expiry, one-time use) for
-   the military-access gate — see MILITARY ACCESS GATE above for the
-   underlying storage/verify functions.
-   ============================================================ */
 function renderMilitaryOtpSection() {
   const container = document.getElementById("adminSectionBody");
   if (!container) return;
@@ -8429,8 +7547,8 @@ function renderMilitaryOtpSection() {
       <h5 class="fw-bold mb-3">${getLabel("Issue Access Code", "إصدار رمز وصول")}</h5>
       <p class="text-muted small mb-3">
         ${getLabel(
-          "Generate a one-time code for a verified military/corporate contact. It expires in 15 minutes and can only be used once — relay it directly to the recipient (phone/email), not over any public channel.",
-          "أصدر رمزاً مؤقتاً لجهة اتصال عسكرية/مؤسسية موثقة. ينتهي خلال 15 دقيقة ويُستخدم مرة واحدة فقط — أرسله مباشرة إلى المستلم (هاتف/بريد إلكتروني) وليس عبر أي قناة عامة.",
+          `Generate a one-time code for a verified military/corporate contact. It expires in ${MILITARY_OTP_TTL_MINUTES / 60} and can only be used once — relay it directly to the recipient (phone/email), not over any public channel.`,
+          `أصدر رمزاً مؤقتاً لجهة اتصال عسكرية/مؤسسية موثقة. ينتهي خلال ${MILITARY_OTP_TTL_MINUTES / 60} ويُستخدم مرة واحدة فقط — أرسله مباشرة إلى المستلم (هاتف/بريد إلكتروني) وليس عبر أي قناة عامة.`,
         )}
       </p>
       <form id="militaryOtpGenerateForm" class="row g-2 align-items-end" novalidate>
@@ -8477,9 +7595,6 @@ function renderMilitaryOtpSection() {
   bindMilitaryOtpFormEvents();
 }
 
-// Expired/revoked codes are already inert — nothing left to revoke, so the
-// button is shown disabled (not hidden) with a reason, instead of just
-// vanishing and leaving the admin guessing why.
 function militaryRevokeActionHtml(code, status) {
   if (status === "active") {
     return `<button type="button" class="btn btn-sm btn-outline-danger military-revoke-btn" data-otp-id="${code.id}">
@@ -8654,6 +7769,8 @@ function bindMilitaryOtpFormEvents() {
 
 let cmsActiveType = null;
 let cmsEditingId = null;
+
+// ── CMS: Content Management ──
 
 function renderCmsSection(typeKey) {
   const type = CMS_TYPES[typeKey];
@@ -8876,24 +7993,10 @@ function saveCmsForm(originalItem) {
   renderCmsSection(cmsActiveType);
 }
 
-/* ============================================================
-   ADMIN DASHBOARD
-   ============================================================
-   Route-guarded: redirects to Login if signed out, or Home if
-   signed in without the "admin" role (see DEMO_ADMIN_EMAIL above
-   for how to reach it). Reads the same ORDER STORAGE as Profile.
-
-   Financial analytics: every KPI + chart reacts to the 7D/30D/All
-   period switcher. KPIs compare against the PRIOR equal-length
-   period (e.g. this week vs last week) — the standard pattern in
-   Stripe/analytics-style dashboards. "All" has no prior window to
-   compare against, so its KPIs show no trend arrow.
-   ============================================================ */
+// ── Admin Dashboard ──
 const ADMIN_PERIOD_DAYS = { "7d": 7, "30d": 30, all: null };
 let adminPeriod = "7d";
 
-// Orders whose `date` falls in the window ending `windowsAgo` periods back.
-// days === null means "all time" (only meaningful for windowsAgo 0).
 function ordersInWindow(orders, days, windowsAgo = 0) {
   if (days == null) return windowsAgo === 0 ? orders : [];
   const dayMs = 86400000;
@@ -8915,14 +8018,12 @@ function countCustomers(orders) {
   ).size;
 }
 
-// % change of current vs previous — null when there's nothing to compare against
 function computeTrendPct(current, previous, hasPreviousWindow) {
   if (!hasPreviousWindow) return null;
   if (previous === 0) return current === 0 ? 0 : 100;
   return Math.round(((current - previous) / previous) * 100);
 }
 
-// Daily revenue buckets for the last `days` days, oldest first
 function groupRevenueByDay(orders, days) {
   const buckets = new Map();
   const today = new Date();
@@ -8988,11 +8089,6 @@ function adminKpiCardHtml(icon, label, value, trendPct) {
   `;
 }
 
-/* ---------- Orders table: status filter, column sort, urgency ----------
-   Urgency is derived purely from "days since order date" vs current
-   status (there's no per-status timestamp history in this demo), so
-   it's a proxy for "how long has this been sitting" rather than a
-   real SLA breach — good enough to spot what needs attention first. */
 let adminStatusFilter = "all";
 let adminSortKey = "date";
 let adminSortDir = "desc"; // "asc" | "desc"
@@ -9009,9 +8105,6 @@ const URGENCY_LABELS = {
   late: { en: "Late", ar: "متأخر", badgeClass: "bg-danger" },
 };
 
-// Hour-level granularity — day-level made every order placed in the last
-// 24h show "0d" regardless of whether it was 5 minutes or 23 hours old,
-// which made the priority column look frozen for anything recent.
 function getOrderUrgency(order) {
   const hours = Math.floor(
     (Date.now() - new Date(order.date).getTime()) / 3600000,
@@ -9022,7 +8115,6 @@ function getOrderUrgency(order) {
   return { level: "ontrack", hours };
 }
 
-// "Just now" / "2h" for anything under a day, "3d" once it's been a while
 function formatElapsed(hours) {
   if (hours < 1) return getLabel("Just now", "الآن");
   if (hours < 24) return getLabel(`${hours}h`, `${hours} س`);
@@ -9327,9 +8419,6 @@ function renderAdminOverview() {
   renderAdminCharts(allOrders, periodOrders, days);
 }
 
-/* ---------- Chart.js rendering — instances stored on window so
-   re-renders (period switch, status change) destroy the old ones
-   first instead of stacking duplicate charts on the same canvas ---------- */
 function renderAdminCharts(allOrders, periodOrders, days) {
   if (typeof Chart === "undefined") return; // CDN blocked/offline — dashboard still works without charts
 
@@ -9459,29 +8548,11 @@ function bindAdminPageEvents() {
   });
 }
 
-/* ============================================================
-   CHECKOUT PAGE
-   ============================================================
-   Business model notes:
-     - Reservation flow lives on the single-product page and only
-       appears when stockQty === 0. Checkout is for in-stock purchases.
-     - Payment methods: InstaPay / bank transfer (proof screenshot),
-       card via gateway redirect (Paymob/Fawry), or cash on delivery.
-
-   SECURITY: there are deliberately NO card number / CVV inputs here.
-   Collecting raw card data in your own form makes you liable for PCI
-   DSS compliance. The "Card" option should redirect to a hosted
-   gateway page (Paymob / Fawry) — see startGatewayPayment() below.
-
-   LIMITATION: wa.me deep links can only pre-fill TEXT. The uploaded
-   screenshot cannot be auto-attached — the customer attaches it in
-   WhatsApp themselves, or you POST it to your backend (see
-   uploadProofToBackend() stub).
-   ============================================================ */
+// ── Checkout Page ──
 
 const CHECKOUT_INSTAPAY_HANDLE = "kaderfactory@instapay"; // TODO: real handle
 const CHECKOUT_BANK_ACCOUNT = "EG00 0000 0000 0000 0000 0000"; // TODO: real IBAN
-const CHECKOUT_SHIPPING_FLAT = 0; // set a flat shipping fee, or 0 for free
+const CHECKOUT_SHIPPING_FLAT = 0;
 
 const EGYPT_GOVERNORATES = [
   { en: "Cairo", ar: "القاهرة" },
@@ -9518,11 +8589,6 @@ let checkoutState = {
   proofFile: null,
 };
 
-/* ============================================================
-   ORDER STORAGE (localStorage) — shared by Profile order history
-   and the Admin Dashboard orders table. Stands in for a real
-   orders table/API in this backend-less demo.
-   ============================================================ */
 const ORDER_STATUSES = [
   {
     key: "pending",
@@ -9545,6 +8611,8 @@ const ORDER_STATUSES = [
   },
 ];
 
+// ── Order & Content Storage ──
+
 function getOrders() {
   try {
     return JSON.parse(localStorage.getItem("orders") || "[]");
@@ -9558,29 +8626,6 @@ function saveOrders(orders) {
   localStorage.setItem("orders", JSON.stringify(orders));
 }
 
-/* ============================================================
-   CONTENT STORE (localStorage) — backs the Admin Dashboard's
-   content-management tabs (Products / Home Banner / News /
-   Videos / Machinery). First run seeds localStorage from the
-   in-memory defaults above; every run after that reads/writes
-   localStorage exclusively, so admin edits persist across reloads.
-   ============================================================ */
-/* The saved copy used to be returned wholesale, which meant it SHADOWED the
-   data files: any field added to /data/*.json — or any newly added item —
-   stayed invisible to anyone whose browser had saved a copy earlier. That is
-   not a hypothetical; it hid the entire Highlights carousel, because a store
-   written before videos.json gained `featured` had no flagged items, so the
-   section rendered empty.
-
-   Merging by id instead keeps both halves honest: the data file is the base
-   (so new fields and new records always arrive), stored edits are laid over
-   the top of the item they belong to, and anything that exists only in the
-   store — items the admin added — is appended.
-
-   TRADE-OFF: deleting a record that came from a data file no longer sticks —
-   it reappears on the next load, because the file is the base. Admin-created
-   records still delete permanently. Removing a file-backed item means editing
-   the JSON, or adding a tombstone list here. */
 function mergeContentStore(seedData, storedData) {
   if (!Array.isArray(seedData) || !Array.isArray(storedData)) return storedData;
 
@@ -9591,13 +8636,11 @@ function mergeContentStore(seedData, storedData) {
     seedData.filter((i) => i && i.id != null).map((i) => String(i.id)),
   );
 
-  // Seed order wins, so reordering the JSON file reorders the site.
   const merged = seedData.map((seedItem) => {
     const saved = storedById.get(String(seedItem?.id));
     return saved ? { ...seedItem, ...saved } : seedItem;
   });
 
-  // Admin-created records have no counterpart in the file — keep them.
   const extras = storedData.filter(
     (i) => i && i.id != null && !seedIds.has(String(i.id)),
   );
@@ -9605,18 +8648,10 @@ function mergeContentStore(seedData, storedData) {
   return [...merged, ...extras];
 }
 
-/* The store holds admin EDITS, layered over whatever the data files say.
-   It deliberately does not get written until an edit actually happens: an
-   earlier version saved the seed here on first load, which quietly made the
-   data files dead weight from a visitor's second page view onward — every
-   field was already in the store, so mergeContentStore had a stored value to
-   prefer for all of them and nothing edited in the JSON ever showed up again.
-   That is what made `cta` look broken: the snapshot held cta:"" for every
-   slide, so a label typed into banner.json lost to it. */
 function loadContentStore(key, seedData) {
   const raw = localStorage.getItem(`cms_${key}`);
   if (raw === null) {
-    return JSON.parse(JSON.stringify(seedData)); // deep clone, avoids aliasing the seed
+    return JSON.parse(JSON.stringify(seedData));
   }
   try {
     return mergeContentStore(
@@ -9633,17 +8668,6 @@ function saveContentStore(key, data) {
   localStorage.setItem(`cms_${key}`, JSON.stringify(data));
 }
 
-/* One-time cleanup for browsers that visited before loadContentStore stopped
-   snapshotting the seed. Those stores are a verbatim copy of the data files as
-   they were on that first visit, and while they sit there every later edit to
-   the JSON is silently ignored — clearing localStorage by hand was the only
-   way out, which is not something a visitor would ever think to do.
-
-   Keyed on a stamp rather than on the store contents: comparing against the
-   current seed cannot tell a stale snapshot apart from a deliberate edit that
-   happens to match. Anything saved from the CMS after this runs sets the stamp
-   too, so real edits are never caught by it. Bump the version if a future
-   change to the data files needs the same treatment. */
 const CONTENT_STORE_VERSION = "2";
 
 function discardSeedSnapshots() {
@@ -9656,13 +8680,10 @@ function discardSeedSnapshots() {
       .forEach((k) => localStorage.removeItem(k));
     localStorage.setItem("cms_storeVersion", CONTENT_STORE_VERSION);
   } catch (e) {
-    // Private-mode / quota failures must not take the whole boot down; the
-    // worst case is the old behaviour, which is what shipped until now.
     console.error("Could not clear seed snapshots", e);
   }
 }
 
-// Turns a checkout order into a persisted record and returns it
 function recordOrder(order) {
   const orders = getOrders();
   const record = {
@@ -9685,16 +8706,12 @@ function updateOrderStatus(orderId, status) {
   if (appState.currentPage === "admin") loadAdminPage();
 }
 
-/* ============================================================
-   ENTRY POINT — call from loadPageContent() case "checkout"
-   ============================================================ */
 function loadCheckoutPage() {
   const container = document.getElementById("checkoutPageContent");
   if (!container) return;
 
   const cart = appState.cart || [];
 
-  // Empty cart → nothing to check out
   if (cart.length === 0) {
     container.innerHTML = `
       ${createBanner(getLabel("Checkout", "إتمام الطلب"))}
@@ -9935,15 +8952,12 @@ function loadCheckoutPage() {
   bindCheckoutEvents();
 }
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
+// ── Helpers ──
 function formatEGP(amount) {
   return `${getLabel("EGP", "ج.م")} ${Number(amount).toLocaleString()}`;
 }
 
 function renderCheckoutItem(item) {
-  // Handles both new {en,ar} titles and legacy string titles from old carts
   const title =
     typeof item.title === "string"
       ? item.title
@@ -9976,9 +8990,7 @@ function renderCheckoutItem(item) {
   `;
 }
 
-/* ============================================================
-   EVENTS
-   ============================================================ */
+// ── Events ──
 let checkoutEventsBound = false;
 
 function bindCheckoutEvents() {
@@ -9986,16 +8998,12 @@ function bindCheckoutEvents() {
   checkoutEventsBound = true;
 
   document.addEventListener("click", (e) => {
-    /* Payment method selection */
     const paymentOption = e.target.closest("[data-payment-option]");
     if (paymentOption) {
       selectPaymentMethod(paymentOption.dataset.paymentOption);
       return;
     }
 
-    /* Order summary: qty stepper / remove item — reload the whole
-       checkout page afterward so totals and the empty-cart state
-       (if the last item was removed) stay correct */
     const summaryRow = e.target.closest(".checkout-items [data-product-id]");
     if (summaryRow) {
       const productId = summaryRow.dataset.productId;
@@ -10026,7 +9034,6 @@ function bindCheckoutEvents() {
       }
     }
 
-    /* Copy InstaPay handle / bank account */
     const copyBtn = e.target.closest("[data-copy-text]");
     if (copyBtn) {
       navigator.clipboard.writeText(copyBtn.dataset.copyText);
@@ -10036,26 +9043,22 @@ function bindCheckoutEvents() {
       return;
     }
 
-    /* Open file picker */
     if (e.target.closest("#proofUploadZone")) {
       document.getElementById("checkoutProof")?.click();
       return;
     }
 
-    /* Remove uploaded proof */
     if (e.target.closest("#removeProofBtn")) {
       e.stopPropagation();
       clearProofFile();
       return;
     }
 
-    /* Place order */
     if (e.target.closest("#placeOrderBtn")) {
       handlePlaceOrder();
       return;
     }
 
-    /* Send via WhatsApp */
     if (e.target.closest("#sendOrderWhatsapp")) {
       handleSendViaWhatsapp();
       return;
@@ -10085,9 +9088,7 @@ function selectPaymentMethod(method) {
   });
 }
 
-/* ============================================================
-   PROOF UPLOAD
-   ============================================================ */
+// ── Proof Upload ──
 function handleProofUpload(file) {
   const errorEl = document.getElementById("proofError");
   const placeholder = document.getElementById("proofPlaceholder");
@@ -10095,7 +9096,7 @@ function handleProofUpload(file) {
 
   if (!file) return;
 
-  const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_SIZE = 5 * 1024 * 1024;
   const ALLOWED = [
     "image/png",
     "image/jpeg",
@@ -10170,9 +9171,7 @@ function showProofError(msg) {
   errorEl.classList.remove("d-none");
 }
 
-/* ============================================================
-   VALIDATION
-   ============================================================ */
+// ── Validation ──
 function validateCheckoutForm() {
   const fields = [
     { id: "checkoutName", test: (v) => v.trim().length >= 2 },
@@ -10204,7 +9203,6 @@ function validateCheckoutForm() {
     }
   });
 
-  // InstaPay requires a receipt
   if (checkoutState.paymentMethod === "instapay" && !checkoutState.proofFile) {
     showProofError(
       getLabel("Please upload your transfer receipt", "يرجى رفع إيصال التحويل"),
@@ -10239,9 +9237,7 @@ function collectCheckoutData() {
   };
 }
 
-/* ============================================================
-   ORDER SUBMISSION
-   ============================================================ */
+// ── Order Submission ──
 function handlePlaceOrder() {
   if (!validateCheckoutForm()) return;
 
@@ -10252,7 +9248,6 @@ function handlePlaceOrder() {
     return;
   }
 
-  // InstaPay or COD → submit to your backend
   submitOrder(order, checkoutState.proofFile);
 }
 
@@ -10267,8 +9262,6 @@ function handleSendViaWhatsapp() {
     "_blank",
   );
 
-  // Reminder: wa.me can't attach the receipt file — the customer must
-  // attach it manually in the WhatsApp chat that just opened.
   if (checkoutState.proofFile) {
     alert(
       getLabel(
@@ -10303,14 +9296,6 @@ function buildOrderMessage(order) {
   );
 }
 
-/* ============================================================
-   BACKEND STUBS — wire these to your server
-   ============================================================ */
-
-/**
- * Sends the order + receipt file to your backend.
- * Replace the fetch URL with your real endpoint.
- */
 async function submitOrder(order, proofFile) {
   const btn = document.getElementById("placeOrderBtn");
   const originalText = btn.innerHTML;
@@ -10322,11 +9307,6 @@ async function submitOrder(order, proofFile) {
     formData.append("order", JSON.stringify(order));
     if (proofFile) formData.append("proof", proofFile);
 
-    // TODO: replace with your real endpoint
-    // const response = await fetch("/api/orders", { method: "POST", body: formData });
-    // if (!response.ok) throw new Error("Order submission failed");
-
-    // Placeholder success path until the backend exists:
     console.log("Order ready to submit:", order, proofFile);
     await new Promise((r) => setTimeout(r, 800));
 
@@ -10346,21 +9326,8 @@ async function submitOrder(order, proofFile) {
   }
 }
 
-/**
- * Redirects to a hosted payment gateway (Paymob / Fawry).
- * Your backend creates the payment intent and returns a redirect URL —
- * card details are entered on the GATEWAY's page, never on yours.
- */
 async function startGatewayPayment(order) {
   try {
-    // TODO: replace with your real endpoint
-    // const res = await fetch("/api/payments/create", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(order),
-    // });
-    // const { redirectUrl } = await res.json();
-    // window.location.href = redirectUrl;
 
     alert(
       getLabel(
@@ -10401,11 +9368,9 @@ function showOrderSuccess(order) {
   `;
 }
 
-/**
- * Initialize home page sections
- */
+// ── Home Page Sections ──
+
 function initializeHomePageSections() {
-  // Initialize About Section
   const aboutSection = document.getElementById("aboutSection");
   if (aboutSection) {
     aboutSection.innerHTML = `
@@ -10454,12 +9419,11 @@ function initializeHomePageSections() {
     }
   });
 
-  // Initialize Categories Section
   const categorySection = document.getElementById("categorySection");
   if (categorySection) {
     const categorySlidesHtml = categoriesData
       .map(
-        (cat) => /*html*/ `
+        (cat) => `
     <div class="swiper-slide">
         <a href="#" class="category-card-link" data-category-id="${cat.categoryId}">
             <div class="category-card">
@@ -10511,7 +9475,6 @@ function initializeHomePageSections() {
         </div>
     `;
 
-    // Initialize Swiper AFTER injecting the HTML
     new Swiper(".categoriesSwiper", {
       slidesPerView: 4,
       grid: {
@@ -10519,7 +9482,7 @@ function initializeHomePageSections() {
         fill: "row", // or 'column' — controls how slides fill the grid
       },
       spaceBetween: 20,
-      loop: true, // note: loop + grid can behave oddly together — see note below
+      loop: true,
       rtl: document.documentElement.dir === "rtl",
       pagination: {
         el: ".swiper-pagination",
@@ -10539,21 +9502,8 @@ function initializeHomePageSections() {
     });
   }
 
-  // Initialize Products Section
-
-  // Products Section state
   let activeProductCategory = "all";
 
-  /* Military is OTP-gated — goToProductsWithFilter routes it to its own access
-     page and loadProductsPage refuses it without requireMilitaryAccess(). This
-     homepage teaser has no gate of its own, so the category is kept out of it
-     entirely: no chip to select, and its products excluded from the pool.
-
-     The pool matters as much as the chip. The grid shows the first 12 of
-     productsData, and the 7 military items happen to sit at indices 20-26
-     today — so they are hidden by array order alone. Reorder the JSON or
-     remove a few products and they would surface under "All" with no gate in
-     front of them. */
   const HOME_HIDDEN_CATEGORIES = new Set(["military"]);
   const homeProducts = () =>
     productsData.filter((p) => !HOME_HIDDEN_CATEGORIES.has(p.categoryId));
@@ -10598,18 +9548,13 @@ function initializeHomePageSections() {
     renderProductsGrid();
   }
 
-  /**
-   * Render filter chips (as Swiper slides) from unique categories in productsData
-   */
   function renderFilterChips() {
     const chipsContainer = document.getElementById("filterChips");
     if (!chipsContainer) return;
 
-    // Get unique categories from the single unified array
     const uniqueCategories = [
       ...new Map(categoriesData.map((p) => [p.categoryId, p.name])).entries(),
     ].filter(([categoryId]) => !HOME_HIDDEN_CATEGORIES.has(categoryId));
-    // uniqueCategories is now: [ [categoryId, {en, ar}], [categoryId, {en, ar}], ... ]
 
     let chipsHtml = `
         <div class="swiper-slide" style="width: auto;">
@@ -10642,9 +9587,6 @@ function initializeHomePageSections() {
     initFilterChipsSwiper();
   }
 
-  /**
-   * Initialize the filter chips Swiper
-   */
   function initFilterChipsSwiper() {
     if (window.filterChipsSwiperInstance) {
       window.filterChipsSwiperInstance.destroy(true, true);
@@ -10661,9 +9603,6 @@ function initializeHomePageSections() {
     });
   }
 
-  /**
-   * Render product grid from productsData, filtered by activeProductCategory
-   */
   function renderProductsGrid() {
     const grid = document.getElementById("productsGrid");
     const emptyState = document.getElementById("emptyState");
@@ -10671,14 +9610,13 @@ function initializeHomePageSections() {
     const countLabel = document.getElementById("productCount");
     if (!grid) return;
 
-    // productsData is now one unified array (not split by language)
     const pool = homeProducts();
     const filtered =
       activeProductCategory === "all"
         ? pool
         : pool.filter((p) => p.categoryId === activeProductCategory);
 
-    const displayedProducts = filtered.slice(0, 12); // Show only the first 12
+    const displayedProducts = filtered.slice(0, 12);
 
     if (countLabel) {
       countLabel.textContent = `${displayedProducts.length} ${getLabel("products", "منتج")}`;
@@ -10696,7 +9634,7 @@ function initializeHomePageSections() {
 
     grid.innerHTML = displayedProducts
       .map(
-        (product) => /*html*/ `
+        (product) => `
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card product-card h-100 border-0 ">
                     <div class="product-img-wrap bg-white border">
@@ -10737,7 +9675,6 @@ function initializeHomePageSections() {
       )
       .join("");
 
-    // Make each card clickable through to the single product page
     grid.querySelectorAll(".product-card").forEach((card, i) => {
       card.style.cursor = "pointer";
       card.addEventListener("click", () => {
@@ -10746,15 +9683,12 @@ function initializeHomePageSections() {
     });
   }
 
-  // Initialize News Section
   const newsSection = document.getElementById("newsSection");
   if (newsSection) {
     const sortedNews = [...newsItems]
       .sort((a, b) => new Date(b.dateRaw) - new Date(a.dateRaw))
       .slice(0, 6);
 
-    // Same markup/classes as the News page's .news-card (see renderNewsGrid)
-    // so hover behavior and styling match exactly between the two.
     const newsSlidesHtml = sortedNews
       .map(
         (item) => `
@@ -10819,15 +9753,11 @@ function initializeHomePageSections() {
         </div>
     `;
 
-    // Destroy old instance if it exists
     if (window.newsSwiperInstance) {
       window.newsSwiperInstance.destroy(true, true);
     }
 
     window.newsSwiperInstance = new Swiper(".newsSwiper", {
-      // No grid/rows here anymore — .news-card is the same tall (40rem)
-      // card used on the News page, so stacking 2 rows like the old short
-      // cards did would make this homepage section nearly twice as tall.
       slidesPerView: 1,
       spaceBetween: 20,
       loop: true,
@@ -10854,8 +9784,6 @@ function initializeHomePageSections() {
     });
   }
 
-  // Initialize Machinery Section (DOM ids kept as "projects*" — this is
-  // display/CSS wiring only, unrelated to the machineryData rename above)
   const projectsSection = document.getElementById("projectsSection");
   if (projectsSection) {
     projectsSection.innerHTML = `
@@ -10916,11 +9844,9 @@ function initializeHomePageSections() {
       const descEl = document.getElementById("activeProjectDesc");
       const linkEl = document.getElementById("activeProjectLink");
 
-      // Swap background image
       document.getElementById("projectsBgImage").style.backgroundImage =
         `url('${activeMachine.img}')`;
 
-      // Update text content
       titleEl.textContent = getLabel(
         activeMachine.titleEn,
         activeMachine.titleAr,
@@ -10931,7 +9857,6 @@ function initializeHomePageSections() {
         `openMachineDetailOverlay('${activeMachine.id}')`,
       );
 
-      // Retrigger slide-in animation
       [titleEl, descEl, linkEl].forEach((el) => {
         el.classList.remove("slide-in-active");
         void el.offsetWidth;
@@ -10974,7 +9899,6 @@ function initializeHomePageSections() {
     renderDots();
   }
 
-  // initialize Trusted Section
   const trustedSection = document.getElementById("trustedSection");
   if (trustedSection) {
     const stats = [
@@ -11061,7 +9985,6 @@ function initializeHomePageSections() {
         `;
   }
 
-  // Initialize Social Section
   const trustSocialSection = document.getElementById("socialSection");
   if (trustSocialSection) {
     const socialHtml = socialLinks
@@ -11095,7 +10018,6 @@ function initializeHomePageSections() {
         `;
   }
 
-  // Initialize Payment Partners Section
   const paymentPartnersSection = document.getElementById(
     "paymentPartnersSection",
   );
@@ -11150,12 +10072,6 @@ function initializeHomePageSections() {
   }
 }
 
-/* ============================================================
-   APP LOADING STATE — #appLoader is in index.html so it covers the
-   page from the first paint, before this file even runs. Kept up
-   until initializeApp() has its data, then faded out and removed.
-   Styles: ".app-loader" in style.css.
-   ============================================================ */
 function showAppLoader() {
   const loader = document.getElementById("appLoader");
   if (loader) loader.classList.remove("app-loader-hidden");
@@ -11167,38 +10083,23 @@ function hideAppLoader() {
 
   loader.classList.add("app-loader-hidden");
 
-  // Drop it from the DOM after the fade so the 1080x1080 GIF stops
-  // animating and repainting behind the page for the rest of the session.
-  // transitionend alone isn't enough — it never fires if the element is
-  // already at opacity 0 or the user has reduced motion on — so a timer
-  // backs it up and whichever lands first wins.
   const remove = () => loader.remove();
   loader.addEventListener("transitionend", remove, { once: true });
   setTimeout(remove, 600);
 }
 
-/**
- * Initialize the application
- */
-async function initializeApp() {
-  // try/finally so a failed fetch or a throw in any init step can't strand
-  // the user behind a loader that never lifts — a broken page is at least
-  // a page they can see and reload.
-  try {
-    // ============================
-    // App Settings
-    // ============================
+// ── App Initialization ──
 
+async function initializeApp() {
+  try {
+    // ── App Settings ──
     document.documentElement.lang = appState.language;
     document.documentElement.dir = appState.direction;
     document.body.setAttribute("data-theme", appState.theme);
+    document.documentElement.setAttribute("data-bs-theme", appState.theme);
     initializeAuth();
 
-    // ============================
-    // UI Components
-    // ============================
-    // Independent endpoints, so fetch them together rather than in series —
-    // this is the stretch the loader is covering.
+    // ── UI Components ──
     await Promise.all([
       loadProductsData(),
       loadCategoriesData(),
@@ -11208,8 +10109,6 @@ async function initializeApp() {
       loadBannerData(),
     ]);
 
-    // Layer the localStorage content store on top of the defaults above,
-    // so admin-added/edited/deleted content persists across reloads.
     discardSeedSnapshots();
     productsData = loadContentStore("products", productsData);
     bannerSlides = loadContentStore("bannerSlides", bannerSlides);
@@ -11217,8 +10116,6 @@ async function initializeApp() {
     videoItems = loadContentStore("videoItems", videoItems);
     machineryData = loadContentStore("machineryData", machineryData);
 
-    // Build the Products mega menu from categoriesData.
-    // MUST be after loadCategoriesData() and before initializeNavigation().
     const productsLink = navigationLinks.find((l) => l.id === "products");
     productsLink.megaMenu = buildProductsMegaMenuColumns();
 
@@ -11226,31 +10123,16 @@ async function initializeApp() {
     initializeSlider();
     initializeFooter();
 
-    // ============================
-    // Pages
-    // ============================
-
+    // ── Pages ──
     initializeHomePageSections();
 
-    // ============================
-    // Theme
-    // ============================
-
+    // ── Theme ──
     updateLogoBasedOnTheme();
 
-    // ============================
-    // Events
-    // ============================
-
+    // ── Events ──
     setupEventListeners();
 
-    // ============================
-    // Initial Page
-    // ============================
-
-    /* A reset link is opened cold, from outside the app, so it is the one
-       hash this app has to honour on first load — every other page still
-       starts at home the way it always has. */
+    // ── Initial Page ──
     const initialHash = window.location.hash.substring(1);
     const [initialPage, initialParam] = initialHash.split("/");
     if (initialPage === "reset-password") {
@@ -11264,11 +10146,7 @@ async function initializeApp() {
   }
 }
 
-/**
- * Setup event listeners
- */
 function setupEventListeners() {
-  // Mobile nav toggler
   const toggler = document.getElementById("navbarToggler");
   const navCollapse = document.getElementById("navbarCollapse");
 
@@ -11278,7 +10156,6 @@ function setupEventListeners() {
     });
   }
 
-  // Home logo click
   const homeLogo = document.getElementById("homeLogo");
   if (homeLogo) {
     homeLogo.addEventListener("click", (e) => {
@@ -11287,8 +10164,6 @@ function setupEventListeners() {
     });
   }
 
-  // Copy-link buttons (product share row) — delegated so it works
-  // for content injected later, and binds exactly once
   document.addEventListener("click", async (e) => {
     const btn = e.target.closest(".copy-link");
     if (!btn) return;
@@ -11299,7 +10174,6 @@ function setupEventListeners() {
     }, 1500);
   });
 
-  // Sticky navbar on scroll
   window.addEventListener("scroll", () => {
     const navbar = document.getElementById("mainNav");
     if (window.scrollY > 45) {
@@ -11309,13 +10183,10 @@ function setupEventListeners() {
     }
   });
 
-  // Handle hash navigation
   window.addEventListener("hashchange", () => {
     const hash = window.location.hash.substring(1);
     if (!hash) return;
 
-    /* "reset-password/<token>" carries a payload, so it cannot be handed to
-       setCurrentPage whole the way plain page hashes can. */
     const [pageId, param] = hash.split("/");
     if (pageId === "reset-password") {
       appState.passwordResetToken = param || "";
@@ -11327,17 +10198,10 @@ function setupEventListeners() {
   });
 }
 
-/**
- * Scroll to top utility
- */
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/* Reveals #scrollTopBtn once the page is scrolled past a screenful.
-   Deliberately not part of setupEventListeners(): this is static chrome with
-   no dependency on the fetched data, so it has no business waiting on — or
-   being taken down by — the data-loading init chain. */
 const SCROLL_TOP_THRESHOLD = 400;
 
 function initScrollTopButton() {
@@ -11349,20 +10213,15 @@ function initScrollTopButton() {
   const sync = () =>
     btn.classList.toggle("is-visible", window.scrollY > SCROLL_TOP_THRESHOLD);
 
-  // passive: the handler only reads scrollY and toggles a class, so it must
-  // never hold up the scroll itself.
   window.addEventListener("scroll", sync, { passive: true });
   btn.addEventListener("click", scrollToTop);
 
-  // Catches a reload that restores a scrolled position.
   sync();
 }
 
-// Initialize app when DOM is ready
 document.addEventListener("DOMContentLoaded", initializeApp);
 document.addEventListener("DOMContentLoaded", initScrollTopButton);
 
-// Expose functions to global scope for inline event handlers
 window.setCurrentPage = setCurrentPage;
 window.toggleTheme = toggleTheme;
 window.toggleLanguage = toggleLanguage;
