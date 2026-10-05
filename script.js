@@ -9635,7 +9635,7 @@ function initializeHomePageSections() {
     grid.innerHTML = displayedProducts
       .map(
         (product) => `
-            <div class="col-6 col-md-4 col-lg-3">
+            <div class="col-12 col-md-4 col-lg-3">
                 <div class="card product-card h-100 border-0 ">
                     <div class="product-img-wrap bg-white border">
                         <img src="${product.url}" class="card-img-top" alt="${getLabel(product.title.en, product.title.ar)}">
